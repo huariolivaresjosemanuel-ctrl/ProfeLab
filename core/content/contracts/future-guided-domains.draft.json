@@ -1,0 +1,84 @@
+{
+  "contractId": "profelab.guided-domains.draft.1",
+  "status": "DRAFT_NOT_INSTALLABLE",
+  "notInstallable": true,
+  "shared": {
+    "guides": [
+      "practical",
+      "teacherGuide",
+      "academic"
+    ],
+    "required": [
+      "contentId",
+      "contentVersion",
+      "sourceClaims",
+      "mediaRights",
+      "safetyReview",
+      "pedagogicalReview"
+    ],
+    "progress": "Private snapshot by stable step ID; no updates overwrite user work"
+  },
+  "domains": {
+    "mini_chef": {
+      "inventoryDomain": "FOOD",
+      "identityPrefix": "food:",
+      "enabledInRuntime": false,
+      "fields": [
+        "ingredients(materialId,amount,unit,allergens,adultPreparation)",
+        "hygiene",
+        "crossContamination",
+        "storageAndColdChain",
+        "expiryAndHandling",
+        "adultOnlyTools",
+        "schoolAuthorization",
+        "voluntaryTasting",
+        "servingsAndMeasures",
+        "documentedHistoryVersusUncertainAccounts"
+      ],
+      "publicationGate": [
+        "foodSafetyReview",
+        "allergenReview",
+        "pedagogicalReview",
+        "mediaRightsReview"
+      ]
+    },
+    "dance": {
+      "inventoryDomain": "EDUCATIONAL",
+      "enabledSeedContent": false,
+      "fields": [
+        "documentedCulturalContext",
+        "communityAndSources",
+        "originalClassroomMovementVersusAuthenticPractice",
+        "licensedAudioVideo",
+        "pulseAndSequence",
+        "physicalSafety",
+        "seatedAlternatives",
+        "noForcedContact",
+        "formativeObservation"
+      ],
+      "publicationGate": [
+        "culturalReview",
+        "physicalSafetyReview",
+        "pedagogicalReview",
+        "mediaRightsReview"
+      ]
+    },
+    "theater_heritage_music": {
+      "enabledSeedContent": false,
+      "fields": [
+        "historicalClaimsWithSources",
+        "originalCreation",
+        "mediaRights",
+        "inclusion",
+        "safety",
+        "teacherGuide",
+        "observableAssessment"
+      ],
+      "publicationGate": [
+        "editorialReview",
+        "communityReviewWhereRelevant",
+        "mediaRightsReview"
+      ]
+    }
+  }
+}

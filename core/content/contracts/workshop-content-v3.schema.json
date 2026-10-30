@@ -1,0 +1,604 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:profelab:workshop-content:3.0",
+  "title": "ProfeLab content V3: compatible V2.1 shape, teaching guides and categories",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "packId",
+    "version",
+    "minimumAppSchema",
+    "items",
+    "contentContractVersion"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 3
+    },
+    "contentContractVersion": {
+      "const": "3.0"
+    },
+    "packId": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]{1,6}\\.[0-9]{1,6}\\.[0-9]{1,6}$"
+    },
+    "minimumAppSchema": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2
+    },
+    "minimumAppVersion": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 180,
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    }
+  },
+  "$defs": {
+    "material": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "unit",
+        "materialKind",
+        "contentOrigin",
+        "distributionApproved"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "synonyms": {
+          "type": "array",
+          "maxItems": 30,
+          "items": {
+            "type": "string"
+          }
+        },
+        "category": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "materialKind": {
+          "enum": [
+            "CONSUMABLE",
+            "REUSABLE",
+            "TOOL"
+          ]
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "materialId",
+              "name",
+              "ratio",
+              "unit",
+              "reason",
+              "source",
+              "verified"
+            ],
+            "properties": {
+              "materialId": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+              },
+              "ratio": {
+                "type": [
+                  "number",
+                  "string"
+                ]
+              },
+              "unit": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "verified": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "contentOrigin": {
+          "enum": [
+            "EDITORIAL_PROFELAB",
+            "USER_AUTHORED"
+          ]
+        },
+        "distributionApproved": {
+          "const": true
+        },
+        "domain": {
+          "const": "EDUCATIONAL"
+        }
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "amount",
+        "unit"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "materialId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "amount": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "unit": {
+          "type": "string"
+        },
+        "materialKind": {
+          "enum": [
+            "CONSUMABLE",
+            "REUSABLE",
+            "TOOL"
+          ]
+        },
+        "contentAmount": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "contentUnit": {
+          "type": "string"
+        }
+      }
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "contentOrigin",
+        "distributionApproved"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "visualTemplate": {
+          "enum": [
+            "DIDACTIC",
+            "CONSTRUCTION",
+            "EXPERIMENT",
+            "CREATIVE",
+            "ACADEMIC"
+          ]
+        },
+        "layoutId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "images": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+          }
+        },
+        "assetImages": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+\\.(png|jpg|jpeg|webp)$"
+          }
+        },
+        "grades": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6
+          }
+        },
+        "materials": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/requirement"
+          }
+        },
+        "steps": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+              },
+              "title": {
+                "type": "string",
+                "maxLength": 4000
+              },
+              "images": {
+                "type": "array",
+                "maxItems": 20,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+                }
+              },
+              "instructionNote": {
+                "type": "string",
+                "maxLength": 10000
+              }
+            }
+          }
+        },
+        "sectionOrder": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "enum": [
+              "purpose",
+              "inquiry",
+              "materials",
+              "preparation",
+              "steps",
+              "classroom",
+              "variants",
+              "safety",
+              "sources",
+              "evidence"
+            ]
+          }
+        },
+        "contentOrigin": {
+          "enum": [
+            "EDITORIAL_PROFELAB",
+            "USER_AUTHORED"
+          ]
+        },
+        "distributionApproved": {
+          "const": true
+        },
+        "teacherGuide": {
+          "$ref": "#/$defs/teacherGuide"
+        },
+        "categoryId": {
+          "enum": [
+            "didactic",
+            "experiment",
+            "creative",
+            "dance",
+            "music",
+            "heritage",
+            "theater",
+            "psychopedagogy"
+          ]
+        },
+        "contentVersion": {
+          "type": "string"
+        },
+        "imageMetadata": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "alt": {
+                "type": "string",
+                "maxLength": 600
+              },
+              "caption": {
+                "type": "string",
+                "maxLength": 1000
+              }
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "template",
+        "sectionOrder",
+        "contentOrigin",
+        "distributionApproved"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "template": {
+          "enum": [
+            "DIDACTIC",
+            "CONSTRUCTION",
+            "EXPERIMENT",
+            "CREATIVE",
+            "ACADEMIC"
+          ]
+        },
+        "sectionOrder": {
+          "type": "array",
+          "maxItems": 12,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "purpose",
+              "inquiry",
+              "materials",
+              "preparation",
+              "steps",
+              "classroom",
+              "variants",
+              "safety",
+              "sources",
+              "evidence"
+            ]
+          }
+        },
+        "contentOrigin": {
+          "enum": [
+            "EDITORIAL_PROFELAB",
+            "USER_AUTHORED"
+          ]
+        },
+        "distributionApproved": {
+          "const": true
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": [
+        "path",
+        "type",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_./-]+$"
+        },
+        "type": {
+          "enum": [
+            "project",
+            "experiment",
+            "material",
+            "layout",
+            "image",
+            "guided_workshop"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}$"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "distributionApproved": {
+          "type": "boolean"
+        },
+        "alt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600
+        },
+        "caption": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "image"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "id",
+              "source",
+              "license",
+              "distributionApproved",
+              "alt"
+            ],
+            "properties": {
+              "distributionApproved": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    "teacherGuide": {
+      "type": "object",
+      "properties": {
+        "introShort": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "introExtended": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "purpose": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "motivation": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "gradeRange": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "participation": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "inclusion": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "grade1to2": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "grade3to4": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "grade5to6": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "feedback": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "close": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "safety": {
+          "type": "string",
+          "maxLength": 20000
+        },
+        "priorKnowledgeQuestions": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        },
+        "teachingSequence": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        },
+        "guidedDemonstration": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        },
+        "reflectiveQuestions": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        },
+        "commonDifficulties": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        },
+        "formativeEvidence": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        },
+        "sources": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "string",
+            "maxLength": 10000
+          }
+        },
+        "version": {
+          "const": 1
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "$comment": "A separate teaching block. No curriculum certification follows from its metadata."
+    }
+  },
+  "$comment": "V3 reuses the V2.1 manifest/items/resources structure. Runtime also reads legacy schemaVersion2. MiniChef/FOOD, audio/video packs and domain-specific blocks remain a future contract; not activated by this schema."
+}

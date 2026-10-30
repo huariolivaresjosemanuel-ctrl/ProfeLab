@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 3,
+  "contentContractVersion": "3.0",
+  "editorialStatus": "PROPOSAL_NOT_CURRICULUM_APPROVED",
+  "guides": [
+    {
+      "contentId": "mat-003",
+      "teacherGuide": {
+        "gradeRange": "adaptar por grado; pendiente de cotejo curricular",
+        "durationMinutesSuggested": 25,
+        "audience": "Primaria",
+        "introShort": "Hoy usaremos este tablero y sus ligas para construir figuras. Antes de empezar, observaremos cómo está preparado y recordaremos las indicaciones de seguridad. ¿Qué figuras conocen? ¿Cómo reconocerían un triángulo? Primero mostraré una figura y escucharé sus explicaciones. Después podrán crear otra, compararla con la de su equipo y contar qué observaron. Podemos explicar con palabras, señalar o dibujar. Al cerrar, elegiremos una característica que nos ayude a reconocer cada figura y comentaremos cómo la descubrimos.",
+        "priorKnowledgeQuestions": [
+          "¿Qué figuras conocen?",
+          "¿Cuántos lados tiene un triángulo?"
+        ],
+        "guidedDemonstration": [
+          "Mostrar geoplano y las ligas de manera segura",
+          "Formar un triángulo y pedir que justifiquen cómo lo reconocen",
+          "Invitar a construir otra figura y comparar sus lados"
+        ],
+        "reflectiveQuestions": [
+          "¿Qué cambió en la figura?",
+          "¿Cómo explicarías tu respuesta a otra persona?"
+        ],
+        "formativeEvidence": [
+          "Explica oralmente una característica observable de su figura",
+          "Construye y compara dos figuras con el material"
+        ],
+        "inclusion": "Adaptar agarre/tamaño de ligas, recursos alternativos, participación cooperativa",
+        "safety": "El adulto fija los clavos, elimina puntas expuestas y revisa bordes y tensión de ligas. El alumnado no clava ni manipula herramientas. Mantener piezas pequeñas fuera del alcance de quien pueda ingerirlas.",
+        "close": "¿Qué figura pudiste crear y qué característica permite reconocerla?",
+        "editableByTeacher": true,
+        "curriculumMappings": [],
+        "sources": [],
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introExtended": "Muestra el geoplano ya preparado y revisado por el adulto. Recupera las figuras que conoce el grupo y registra sus ideas. Forma un triángulo mientras explicas el uso seguro de las ligas. Pide que justifiquen cómo lo reconocen. Propón construir otra figura, comparar lados y compartir distintas estrategias sin imponer una única orientación.",
+        "purpose": "Construir, comparar y describir figuras a partir de características observables; propuesta adaptable al grupo.",
+        "motivation": "Explorar formas presentes en objetos cercanos, sin convertir el dibujo en una prueba de diagnóstico.",
+        "teachingSequence": [
+          "Observar y recuperar saberes previos",
+          "Demostrar la construcción segura de una figura",
+          "Construir y comparar en parejas con roles flexibles",
+          "Explicar una característica y reflexionar sobre la estrategia"
+        ],
+        "participation": "Organizar parejas; alternar construcción y explicación. Ofrecer participación señalando o dibujando.",
+        "commonDifficulties": [
+          "Si se confunde la figura por su orientación, comparar ejemplos girados y pedir que cuenten lados.",
+          "Si cuesta manipular las ligas, ofrecer un tablero mayor o un recurso alternativo de agarre cómodo."
+        ],
+        "grade1to2": "Reconocer, construir y describir figuras sencillas con acompañamiento y lenguaje cotidiano.",
+        "grade3to4": "Comparar características y justificar con ejemplos, dibujos y vocabulario trabajado en clase.",
+        "grade5to6": "Proponer condiciones para construir figuras y discutir estrategias, sin atribuir automáticamente un desempeño curricular.",
+        "feedback": "Describe lo que logró explicar y pregunta qué característica o ejemplo le ayudaría a precisar su idea."
+      }
+    },
+    {
+      "contentId": "exp-001",
+      "teacherGuide": {
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introShort": "Hoy investigaremos esta pregunta: ¿Cómo influye la luz disponible en el crecimiento observado? Compartiremos primero nuestras hipótesis y escucharemos ideas diferentes. Acordaremos qué cambiaremos, qué condiciones mantendremos y qué observaremos. Cada equipo registrará sus propios datos con fechas, dibujos, medidas o fotos autorizadas. No vamos a adelantar una conclusión: al final compararemos las evidencias, reconoceremos las limitaciones y explicaremos qué nuevas preguntas nos quedan. Antes de comenzar revisaremos las acciones que requieren preparación y supervisión del adulto.",
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "guidedDemonstration": [
+          "Sembrar semillas del mismo tipo en recipientes similares.",
+          "Mantener similares agua, sustrato y ambiente; variar luz sin colocar plantas en sitios peligrosos.",
+          "Registrar fecha, altura y aspecto cada varios días.",
+          "Comparar resultados y reconocer otros factores posibles."
+        ],
+        "reflectiveQuestions": [
+          "¿Cómo influye la luz disponible en el crecimiento observado?",
+          "¿Qué dato observado apoya o contradice nuestra hipótesis?",
+          "¿Qué otra condición pudo influir y cómo podríamos revisarla?"
+        ],
+        "formativeEvidence": [
+          "Registra una observación real con fecha y distingue lo observado de una predicción.",
+          "Explica una comparación usando sus datos y reconoce al menos una limitación."
+        ],
+        "safety": "No ubicar plantas en sitios inseguros ni atribuir todo cambio a un único factor. No ingerir materiales ni usar fuego, electricidad de red o sustancias tóxicas.",
+        "close": "¿Qué ocurrió realmente, qué evidencia tenemos y qué no podemos concluir todavía?",
+        "sources": []
+      }
+    },
+    {
+      "contentId": "exp-002",
+      "teacherGuide": {
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introShort": "Hoy investigaremos esta pregunta: ¿Todos los objetos se comportan igual en el agua? Compartiremos primero nuestras hipótesis y escucharemos ideas diferentes. Acordaremos qué cambiaremos, qué condiciones mantendremos y qué observaremos. Cada equipo registrará sus propios datos con fechas, dibujos, medidas o fotos autorizadas. No vamos a adelantar una conclusión: al final compararemos las evidencias, reconoceremos las limitaciones y explicaremos qué nuevas preguntas nos quedan. Antes de comenzar revisaremos las acciones que requieren preparación y supervisión del adulto.",
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "guidedDemonstration": [
+          "Preparar un recipiente poco profundo en una superficie estable.",
+          "Predecir resultados de objetos grandes y seguros.",
+          "Colocar uno a la vez, observar y registrar.",
+          "Comparar predicciones con observaciones."
+        ],
+        "reflectiveQuestions": [
+          "¿Todos los objetos se comportan igual en el agua?",
+          "¿Qué dato observado apoya o contradice nuestra hipótesis?",
+          "¿Qué otra condición pudo influir y cómo podríamos revisarla?"
+        ],
+        "formativeEvidence": [
+          "Registra una observación real con fecha y distingue lo observado de una predicción.",
+          "Explica una comparación usando sus datos y reconoce al menos una limitación."
+        ],
+        "safety": "Supervisión continua; no usar agua profunda, piezas que se puedan tragar ni enchufes cercanos. No ingerir materiales ni usar fuego, electricidad de red o sustancias tóxicas.",
+        "close": "¿Qué ocurrió realmente, qué evidencia tenemos y qué no podemos concluir todavía?",
+        "sources": []
+      }
+    },
+    {
+      "contentId": "exp-003",
+      "teacherGuide": {
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introShort": "Hoy investigaremos esta pregunta: ¿Cómo cambia la sombra de un objeto durante el día? Compartiremos primero nuestras hipótesis y escucharemos ideas diferentes. Acordaremos qué cambiaremos, qué condiciones mantendremos y qué observaremos. Cada equipo registrará sus propios datos con fechas, dibujos, medidas o fotos autorizadas. No vamos a adelantar una conclusión: al final compararemos las evidencias, reconoceremos las limitaciones y explicaremos qué nuevas preguntas nos quedan. Antes de comenzar revisaremos las acciones que requieren preparación y supervisión del adulto.",
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "guidedDemonstration": [
+          "Ubicar un objeto vertical en lugar seguro.",
+          "Registrar el contorno de la sombra en distintos momentos.",
+          "Medir y comparar.",
+          "Explicar el patrón sin mirar directamente al Sol."
+        ],
+        "reflectiveQuestions": [
+          "¿Cómo cambia la sombra de un objeto durante el día?",
+          "¿Qué dato observado apoya o contradice nuestra hipótesis?",
+          "¿Qué otra condición pudo influir y cómo podríamos revisarla?"
+        ],
+        "formativeEvidence": [
+          "Registra una observación real con fecha y distingue lo observado de una predicción.",
+          "Explica una comparación usando sus datos y reconoce al menos una limitación."
+        ],
+        "safety": "Nunca mirar al Sol directamente; supervisión en patio y protección solar. No ingerir materiales ni usar fuego, electricidad de red o sustancias tóxicas.",
+        "close": "¿Qué ocurrió realmente, qué evidencia tenemos y qué no podemos concluir todavía?",
+        "sources": []
+      }
+    },
+    {
+      "contentId": "exp-004",
+      "teacherGuide": {
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introShort": "Hoy investigaremos esta pregunta: ¿Puede el agua desplazarse a través del papel absorbente? Compartiremos primero nuestras hipótesis y escucharemos ideas diferentes. Acordaremos qué cambiaremos, qué condiciones mantendremos y qué observaremos. Cada equipo registrará sus propios datos con fechas, dibujos, medidas o fotos autorizadas. No vamos a adelantar una conclusión: al final compararemos las evidencias, reconoceremos las limitaciones y explicaremos qué nuevas preguntas nos quedan. Antes de comenzar revisaremos las acciones que requieren preparación y supervisión del adulto.",
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "guidedDemonstration": [
+          "Llenar vasos de manera estable.",
+          "Colocar una tira de papel absorbente entre recipientes.",
+          "Registrar tiempos y movimiento visible.",
+          "Comparar con papel de otro ancho si hay condiciones controladas."
+        ],
+        "reflectiveQuestions": [
+          "¿Puede el agua desplazarse a través del papel absorbente?",
+          "¿Qué dato observado apoya o contradice nuestra hipótesis?",
+          "¿Qué otra condición pudo influir y cómo podríamos revisarla?"
+        ],
+        "formativeEvidence": [
+          "Registra una observación real con fecha y distingue lo observado de una predicción.",
+          "Explica una comparación usando sus datos y reconoce al menos una limitación."
+        ],
+        "safety": "Solo colorante apto para uso alimentario y sin ingerir líquidos de la actividad. No ingerir materiales ni usar fuego, electricidad de red o sustancias tóxicas.",
+        "close": "¿Qué ocurrió realmente, qué evidencia tenemos y qué no podemos concluir todavía?",
+        "sources": []
+      }
+    },
+    {
+      "contentId": "exp-005",
+      "teacherGuide": {
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introShort": "Hoy investigaremos esta pregunta: ¿Diferentes tipos de suelo dejan pasar agua a la misma velocidad? Compartiremos primero nuestras hipótesis y escucharemos ideas diferentes. Acordaremos qué cambiaremos, qué condiciones mantendremos y qué observaremos. Cada equipo registrará sus propios datos con fechas, dibujos, medidas o fotos autorizadas. No vamos a adelantar una conclusión: al final compararemos las evidencias, reconoceremos las limitaciones y explicaremos qué nuevas preguntas nos quedan. Antes de comenzar revisaremos las acciones que requieren preparación y supervisión del adulto.",
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "guidedDemonstration": [
+          "Preparar filtros/recipientes iguales por adulto.",
+          "Colocar igual cantidad de material limpio.",
+          "Añadir volúmenes iguales de agua.",
+          "Registrar volumen y tiempo; comparar."
+        ],
+        "reflectiveQuestions": [
+          "¿Diferentes tipos de suelo dejan pasar agua a la misma velocidad?",
+          "¿Qué dato observado apoya o contradice nuestra hipótesis?",
+          "¿Qué otra condición pudo influir y cómo podríamos revisarla?"
+        ],
+        "formativeEvidence": [
+          "Registra una observación real con fecha y distingue lo observado de una predicción.",
+          "Explica una comparación usando sus datos y reconoce al menos una limitación."
+        ],
+        "safety": "No usar tierra contaminada ni beber agua filtrada; orificios hechos por adulto. No ingerir materiales ni usar fuego, electricidad de red o sustancias tóxicas.",
+        "close": "¿Qué ocurrió realmente, qué evidencia tenemos y qué no podemos concluir todavía?",
+        "sources": []
+      }
+    },
+    {
+      "contentId": "exp-006",
+      "teacherGuide": {
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introShort": "Hoy investigaremos esta pregunta: ¿La ubicación modifica la rapidez de evaporación observable? Compartiremos primero nuestras hipótesis y escucharemos ideas diferentes. Acordaremos qué cambiaremos, qué condiciones mantendremos y qué observaremos. Cada equipo registrará sus propios datos con fechas, dibujos, medidas o fotos autorizadas. No vamos a adelantar una conclusión: al final compararemos las evidencias, reconoceremos las limitaciones y explicaremos qué nuevas preguntas nos quedan. Antes de comenzar revisaremos las acciones que requieren preparación y supervisión del adulto.",
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "guidedDemonstration": [
+          "Preparar volúmenes similares en recipientes iguales.",
+          "Colocar en lugares interiores seguros con condiciones distintas.",
+          "Marcar niveles y observar durante días.",
+          "Analizar variables no controladas."
+        ],
+        "reflectiveQuestions": [
+          "¿La ubicación modifica la rapidez de evaporación observable?",
+          "¿Qué dato observado apoya o contradice nuestra hipótesis?",
+          "¿Qué otra condición pudo influir y cómo podríamos revisarla?"
+        ],
+        "formativeEvidence": [
+          "Registra una observación real con fecha y distingue lo observado de una predicción.",
+          "Explica una comparación usando sus datos y reconoce al menos una limitación."
+        ],
+        "safety": "Sin calefactores, fuego ni enchufes próximos; no dejar agua en zonas de paso. No ingerir materiales ni usar fuego, electricidad de red o sustancias tóxicas.",
+        "close": "¿Qué ocurrió realmente, qué evidencia tenemos y qué no podemos concluir todavía?",
+        "sources": []
+      }
+    },
+    {
+      "contentId": "exp-007",
+      "teacherGuide": {
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introShort": "Hoy investigaremos esta pregunta: ¿La forma de doblar papel influye en su resistencia? Compartiremos primero nuestras hipótesis y escucharemos ideas diferentes. Acordaremos qué cambiaremos, qué condiciones mantendremos y qué observaremos. Cada equipo registrará sus propios datos con fechas, dibujos, medidas o fotos autorizadas. No vamos a adelantar una conclusión: al final compararemos las evidencias, reconoceremos las limitaciones y explicaremos qué nuevas preguntas nos quedan. Antes de comenzar revisaremos las acciones que requieren preparación y supervisión del adulto.",
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "guidedDemonstration": [
+          "Formar dos o tres estructuras con el mismo papel.",
+          "Mantener igual distancia de apoyos.",
+          "Colocar cargas grandes, livianas y sin bordes cortantes.",
+          "Registrar y explicar diferencias."
+        ],
+        "reflectiveQuestions": [
+          "¿La forma de doblar papel influye en su resistencia?",
+          "¿Qué dato observado apoya o contradice nuestra hipótesis?",
+          "¿Qué otra condición pudo influir y cómo podríamos revisarla?"
+        ],
+        "formativeEvidence": [
+          "Registra una observación real con fecha y distingue lo observado de una predicción.",
+          "Explica una comparación usando sus datos y reconoce al menos una limitación."
+        ],
+        "safety": "No apilar peso excesivo; prevenir caída sobre manos y pies. No ingerir materiales ni usar fuego, electricidad de red o sustancias tóxicas.",
+        "close": "¿Qué ocurrió realmente, qué evidencia tenemos y qué no podemos concluir todavía?",
+        "sources": []
+      }
+    },
+    {
+      "contentId": "exp-008",
+      "teacherGuide": {
+        "version": 1,
+        "status": "EDITORIAL_PROPOSAL",
+        "introShort": "Hoy investigaremos esta pregunta: ¿La cobertura del suelo afecta el arrastre por agua? Compartiremos primero nuestras hipótesis y escucharemos ideas diferentes. Acordaremos qué cambiaremos, qué condiciones mantendremos y qué observaremos. Cada equipo registrará sus propios datos con fechas, dibujos, medidas o fotos autorizadas. No vamos a adelantar una conclusión: al final compararemos las evidencias, reconoceremos las limitaciones y explicaremos qué nuevas preguntas nos quedan. Antes de comenzar revisaremos las acciones que requieren preparación y supervisión del adulto.",
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "guidedDemonstration": [
+          "Preparar pequeñas pendientes en bandejas iguales.",
+          "Aplicar agua equivalente de forma segura.",
+          "Observar color y sedimentos arrastrados.",
+          "Comparar, registrar y proponer mejoras."
+        ],
+        "reflectiveQuestions": [
+          "¿La cobertura del suelo afecta el arrastre por agua?",
+          "¿Qué dato observado apoya o contradice nuestra hipótesis?",
+          "¿Qué otra condición pudo influir y cómo podríamos revisarla?"
+        ],
+        "formativeEvidence": [
+          "Registra una observación real con fecha y distingue lo observado de una predicción.",
+          "Explica una comparación usando sus datos y reconoce al menos una limitación."
+        ],
+        "safety": "Solo suelo limpio; no usar lodos contaminados; limpiar derrames de inmediato. No ingerir materiales ni usar fuego, electricidad de red o sustancias tóxicas.",
+        "close": "¿Qué ocurrió realmente, qué evidencia tenemos y qué no podemos concluir todavía?",
+        "sources": []
+      }
+    }
+  ]
+}
