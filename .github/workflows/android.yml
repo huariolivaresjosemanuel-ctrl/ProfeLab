@@ -15,11 +15,6 @@ on:
         type: boolean
         default: false
 
-  push:
-    branches:
-      - main
-      - master
-
 permissions:
   contents: read
 
@@ -90,7 +85,7 @@ jobs:
       - name: Publicar APK de prueba
         uses: actions/upload-artifact@v4
         with:
-          name: ProfeLab-H1.1-DEBUG-no-distribuir-${{ github.run_number }}
+          name: ProfeLab-V1.0-DEBUG-no-distribuir-${{ github.run_number }}
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
@@ -99,7 +94,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: informes-H1-${{ github.run_number }}
+          name: informes-V1.0-${{ github.run_number }}
           path: |
             **/build/reports/**
             **/build/test-results/**
@@ -229,8 +224,9 @@ jobs:
       - name: Publicar exclusivamente APK verificada y huellas públicas
         uses: actions/upload-artifact@v4
         with:
-          name: ProfeLab-H1.1-FIRMA-PERMANENTE-${{ github.run_number }}
+          name: ProfeLab-V1.0-FIRMA-PERMANENTE-${{ github.run_number }}
           path: ${{ runner.temp }}/profelab-public-release/
           if-no-files-found: error
           retention-days: 30
+
 
