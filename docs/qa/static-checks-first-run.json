@@ -1,0 +1,12 @@
+{
+  "scope": "Static source/artifact checks only; no Kotlin compilation or Android runtime",
+  "tests_run": 12,
+  "passed": 11,
+  "failures": [
+    {
+      "test": "test_dao_sql_parses_against_entity_columns (__main__.DeliveryChecks.test_dao_sql_parses_against_entity_columns)",
+      "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\Huari\\OneDrive\\Documentos\\ChatGPT\\aplicacion profesores nivel primaria\\ProfeLab\\scripts\\verify_project.py\", line 114, in test_dao_sql_parses_against_entity_columns\n    self.assertEqual(4,db.execute(\"SELECT count(*) FROM sqlite_master WHERE type='table'\").fetchone()[0])\nAssertionError: 4 != 3\n"
+    }
+  ],
+  "errors": []
+}

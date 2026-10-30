@@ -1,0 +1,2321 @@
+[
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "mat-001",
+    "title": "Máquina de sumar con tapas",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "ADULT_PREPARATION",
+      "warnings": [
+        "Las ranuras y pegamentos se preparan por adulto; revisar bordes del cartón"
+      ],
+      "childrenForbiddenActions": [
+        "Cortar con herramienta"
+      ]
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "cartón",
+        "amount": 2,
+        "unit": "planchas"
+      },
+      {
+        "name": "tapas",
+        "amount": 10,
+        "unit": "unidades"
+      },
+      {
+        "name": "pegamento",
+        "amount": 1,
+        "unit": "unidad"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Diseñar dos entradas para las cantidades",
+        "done": false
+      },
+      {
+        "title": "Crear dos canales para colocar tapas",
+        "done": false
+      },
+      {
+        "title": "Probar sumas con cantidades pequeñas",
+        "done": false
+      },
+      {
+        "title": "Pedir explicar cómo llegaron al resultado",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Representar cantidades y justificar el resultado",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Expresa cómo representó y comprobó la suma"
+      },
+      "academic": {
+        "curricularArea": "Matemática",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Atención a cantidad, memoria de trabajo y explicación oral",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Ofrecer grupos más pequeños, objetos mayores y tarjetas visuales",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Expresa cómo representó y comprobó la suma"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "mat-002",
+    "title": "Tarjetas numéricas reutilizables",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "ADULT_PREPARATION",
+      "warnings": [
+        "Corte de tarjetas a cargo de adulto según edad"
+      ],
+      "childrenForbiddenActions": [
+        "Cortar con herramienta"
+      ]
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "cartulina",
+        "amount": 10,
+        "unit": "hojas"
+      },
+      {
+        "name": "plumones",
+        "amount": 2,
+        "unit": "unidades"
+      },
+      {
+        "name": "tijeras",
+        "amount": 1,
+        "unit": "unidad"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Cortar tarjetas iguales",
+        "done": false
+      },
+      {
+        "title": "Escribir cantidades y símbolos",
+        "done": false
+      },
+      {
+        "title": "Plastificar solo si se cuenta con material",
+        "done": false
+      },
+      {
+        "title": "Formar secuencias y operaciones",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Ordenar, comparar y comunicar números",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Ordena tarjetas y explica criterio"
+      },
+      "academic": {
+        "curricularArea": "Matemática",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Memoria de trabajo y secuenciación",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Tarjetas grandes, alto contraste, braille o relieve cuando proceda",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Ordena tarjetas y explica criterio"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "com-001",
+    "title": "Ruleta de sílabas",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "LOW_SUPERVISED",
+      "warnings": [
+        "Montaje y fijación del giro por persona adulta"
+      ],
+      "childrenForbiddenActions": []
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "cartón",
+        "amount": 1,
+        "unit": "plancha"
+      },
+      {
+        "name": "plumones",
+        "amount": 3,
+        "unit": "unidades"
+      },
+      {
+        "name": "encuadernador",
+        "amount": 1,
+        "unit": "unidad"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Dibujar círculo y dividir sectores",
+        "done": false
+      },
+      {
+        "title": "Escribir sílabas",
+        "done": false
+      },
+      {
+        "title": "Colocar flecha móvil",
+        "done": false
+      },
+      {
+        "title": "Relacionar la sílaba con palabras locales",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Combinar sílabas para explorar palabras",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Propone palabras y explica significado"
+      },
+      "academic": {
+        "curricularArea": "Comunicación",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Atención fonológica y flexibilidad de combinaciones",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Apoyos auditivos y dibujos contextualizados",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Propone palabras y explica significado"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "com-002",
+    "title": "Bingo de palabras",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "LOW_SUPERVISED",
+      "warnings": [
+        "Evitar piezas pequeñas sueltas; revisar accesibilidad"
+      ],
+      "childrenForbiddenActions": []
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "papel",
+        "amount": 15,
+        "unit": "hojas"
+      },
+      {
+        "name": "lápices",
+        "amount": 4,
+        "unit": "unidades"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Elegir vocabulario contextualizado",
+        "done": false
+      },
+      {
+        "title": "Armar cartones con palabras",
+        "done": false
+      },
+      {
+        "title": "Crear fichas de lectura",
+        "done": false
+      },
+      {
+        "title": "Jugar y revisar estrategias lectoras",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Reconocer palabras en situaciones comunicativas",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Localiza palabra y comenta pistas utilizadas"
+      },
+      "academic": {
+        "curricularArea": "Comunicación",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Atención selectiva y turnos de interacción",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Texto grande, iconos y ritmo ajustado",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Localiza palabra y comenta pistas utilizadas"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "mat-003",
+    "title": "Geoplano de bandas elásticas",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "ADULT_PREPARATION",
+      "warnings": [
+        "Clavos y martillo son exclusivos de adulto; no entregar herramientas al alumnado"
+      ],
+      "childrenForbiddenActions": [
+        "Cortar con herramienta"
+      ]
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "madera",
+        "amount": 1,
+        "unit": "tablero"
+      },
+      {
+        "name": "clavos",
+        "amount": 25,
+        "unit": "unidades"
+      },
+      {
+        "name": "ligas",
+        "amount": 10,
+        "unit": "unidades"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Lijar el tablero y revisar bordes",
+        "done": false
+      },
+      {
+        "title": "Marcar retícula regular",
+        "done": false
+      },
+      {
+        "title": "Instalar clavos con supervisión adulta",
+        "done": false
+      },
+      {
+        "title": "Construir figuras y discutir perímetros",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Construir y comparar figuras geométricas",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Construye figura y describe características"
+      },
+      "academic": {
+        "curricularArea": "Matemática",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Planificación espacial y ensayo de alternativas",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Geoplano sin puntas, tablero magnético o digital",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Construye figura y describe características"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "tut-001",
+    "title": "Termómetro de emociones",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "LOW_SUPERVISED",
+      "warnings": [
+        "No forzar revelaciones personales ni registrar diagnósticos"
+      ],
+      "childrenForbiddenActions": []
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "cartulina",
+        "amount": 3,
+        "unit": "hojas"
+      },
+      {
+        "name": "plumones",
+        "amount": 4,
+        "unit": "unidades"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Acordar nombres de emociones",
+        "done": false
+      },
+      {
+        "title": "Construir escala con colores",
+        "done": false
+      },
+      {
+        "title": "Crear tarjetas de ejemplos",
+        "done": false
+      },
+      {
+        "title": "Practicar expresión respetuosa",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Expresar y nombrar emociones sin juicio",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Expresa opción voluntaria de estrategia de regulación"
+      },
+      "academic": {
+        "curricularArea": "Tutoría",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Vocabulario socioemocional y autorregulación como práctica",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Permitir dibujo, gesto, símbolos o silencio voluntario",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Expresa opción voluntaria de estrategia de regulación"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "cta-001",
+    "title": "Germinador con botella",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "ADULT_PREPARATION",
+      "warnings": [
+        "Corte de botella exclusivo de adulto, higiene y manejo cuidadoso de semillas"
+      ],
+      "childrenForbiddenActions": [
+        "Cortar con herramienta"
+      ]
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "botellas",
+        "amount": 1,
+        "unit": "unidad"
+      },
+      {
+        "name": "algodón",
+        "amount": 1,
+        "unit": "bolsa"
+      },
+      {
+        "name": "semillas",
+        "amount": 8,
+        "unit": "unidades"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Limpiar y recortar botella con adulto",
+        "done": false
+      },
+      {
+        "title": "Colocar algodón húmedo y semillas",
+        "done": false
+      },
+      {
+        "title": "Registrar cambios diarios",
+        "done": false
+      },
+      {
+        "title": "Comparar humedad y crecimiento",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Registrar cambios en germinación",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Documenta variaciones y diferencia observación de inferencia"
+      },
+      "academic": {
+        "curricularArea": "Ciencia y Tecnología",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Observación sostenida y registro por comparación",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Recipiente accesible y registro con pictogramas",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Documenta variaciones y diferencia observación de inferencia"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "com-003",
+    "title": "Teatro de títeres de papel",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "LOW_SUPERVISED",
+      "warnings": [
+        "Tijeras/herramientas controladas por docente"
+      ],
+      "childrenForbiddenActions": []
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "cartón",
+        "amount": 2,
+        "unit": "planchas"
+      },
+      {
+        "name": "papel",
+        "amount": 10,
+        "unit": "hojas"
+      },
+      {
+        "name": "pegamento",
+        "amount": 1,
+        "unit": "unidad"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Diseñar personajes de cuento original",
+        "done": false
+      },
+      {
+        "title": "Construir escenario reutilizable",
+        "done": false
+      },
+      {
+        "title": "Ensayar diálogo y turnos de habla",
+        "done": false
+      },
+      {
+        "title": "Presentar y autoevaluar claridad del mensaje",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Narrar y coordinar turnos de diálogo",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Narra secuencia y coopera con equipo"
+      },
+      "academic": {
+        "curricularArea": "Comunicación",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Comunicación y cooperación",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Personajes con agarre adaptado y guion visual",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Narra secuencia y coopera con equipo"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "mat-004",
+    "title": "Dominó de fracciones",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "ADULT_PREPARATION",
+      "warnings": [
+        "Cortar cartón por adulto o estudiantes según madurez y supervisión"
+      ],
+      "childrenForbiddenActions": [
+        "Cortar con herramienta"
+      ]
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "cartón",
+        "amount": 2,
+        "unit": "planchas"
+      },
+      {
+        "name": "plumones",
+        "amount": 3,
+        "unit": "unidades"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Diseñar piezas con diagramas originales",
+        "done": false
+      },
+      {
+        "title": "Representar fracciones equivalentes",
+        "done": false
+      },
+      {
+        "title": "Separar piezas y revisar respuestas",
+        "done": false
+      },
+      {
+        "title": "Jugar explicando equivalencias",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Representar fracciones mediante juegos",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Explica equivalencia con apoyo concreto"
+      },
+      "academic": {
+        "curricularArea": "Matemática",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Cambio entre representaciones y razonamiento",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Piezas grandes, ejemplos de contexto y colores contrastantes",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Explica equivalencia con apoyo concreto"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "per-001",
+    "title": "Mapa de mi comunidad",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "LOW_SUPERVISED",
+      "warnings": [
+        "No divulgar domicilios exactos de estudiantes"
+      ],
+      "childrenForbiddenActions": []
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "papel",
+        "amount": 6,
+        "unit": "hojas"
+      },
+      {
+        "name": "plumones",
+        "amount": 3,
+        "unit": "unidades"
+      },
+      {
+        "name": "regla",
+        "amount": 1,
+        "unit": "unidad"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Elegir lugares conocidos sin publicar domicilios",
+        "done": false
+      },
+      {
+        "title": "Dibujar puntos de referencia",
+        "done": false
+      },
+      {
+        "title": "Crear leyenda simple",
+        "done": false
+      },
+      {
+        "title": "Reflexionar sobre rutas seguras",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Representar hitos y servicios de comunidad",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Relaciona elementos del mapa con necesidades comunes"
+      },
+      "academic": {
+        "curricularArea": "Personal Social",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Organización espacial y análisis del entorno",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Mapa táctil, símbolos grandes y descripción oral",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Relaciona elementos del mapa con necesidades comunes"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "arte-001",
+    "title": "Mural de texturas recicladas",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "LOW_SUPERVISED",
+      "warnings": [
+        "Revisar alergias y materiales con puntas o grapas"
+      ],
+      "childrenForbiddenActions": []
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "papel",
+        "amount": 10,
+        "unit": "hojas"
+      },
+      {
+        "name": "cartón",
+        "amount": 2,
+        "unit": "planchas"
+      },
+      {
+        "name": "pegamento",
+        "amount": 1,
+        "unit": "unidad"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Recolectar texturas limpias y seguras",
+        "done": false
+      },
+      {
+        "title": "Explorar diferencias por tacto",
+        "done": false
+      },
+      {
+        "title": "Crear composición grupal",
+        "done": false
+      },
+      {
+        "title": "Compartir decisiones artísticas",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Componer con texturas y materiales reutilizados",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Justifica elecciones artísticas"
+      },
+      "academic": {
+        "curricularArea": "Arte y Cultura",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Exploración sensorial y elección creativa",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Alternativas a estímulos molestos; participación voluntaria",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Justifica elecciones artísticas"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_TALLER_12_ENRIQUECIDO_PEDAGOGIA_V2.json",
+    "id": "cta-002",
+    "title": "Estación de clasificación de residuos",
+    "all_fields_reviewed": [
+      "id",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "difficulty",
+      "objectiveSuggested",
+      "materials",
+      "steps",
+      "source",
+      "gradeMappingOfficial",
+      "image",
+      "approved",
+      "kind",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "contentRights",
+      "thumbnail"
+    ],
+    "safety": {
+      "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+      "riskLevel": "LOW_SUPERVISED",
+      "warnings": [
+        "Solo residuos limpios y seguros: no vidrios ni residuos médicos"
+      ],
+      "childrenForbiddenActions": []
+    },
+    "reviewStatus": null,
+    "materials": [
+      {
+        "name": "cajas",
+        "amount": 3,
+        "unit": "unidades"
+      },
+      {
+        "name": "papel",
+        "amount": 6,
+        "unit": "hojas"
+      },
+      {
+        "name": "plumones",
+        "amount": 3,
+        "unit": "unidades"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Etiquetar tres categorías simples",
+        "done": false
+      },
+      {
+        "title": "Reunir residuos limpios de demostración",
+        "done": false
+      },
+      {
+        "title": "Clasificar y explicar criterios",
+        "done": false
+      },
+      {
+        "title": "Registrar acuerdos de mejora",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Clasificar residuos y proponer mejoras",
+        "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+        "whatToObserve": "Explica por qué eligió una categoría"
+      },
+      "academic": {
+        "curricularArea": "Ciencia y Tecnología",
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "potentialProcesses": "Categorización, argumentación y cooperación",
+        "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+        "evidence": [],
+        "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+      }
+    },
+    "inclusion": {
+      "barrierOriented": true,
+      "suggestedAdjustments": [
+        "Símbolos accesibles y objetos limpios, manejables",
+        "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+      ]
+    },
+    "observation": {
+      "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+      "during": [
+        "Explica por qué eligió una categoría"
+      ],
+      "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+      "rubricTemplateId": "rubrica_observacion_v1",
+      "records": []
+    },
+    "researchQuestion": null,
+    "variables": {
+      "independentVariable": null,
+      "dependentVariable": null,
+      "controlConditions": null
+    }
+  },
+  {
+    "pack": "PACK_EXPERIMENTOS_8_ORIGINALES_V1.json",
+    "id": "exp-001",
+    "title": "¿La luz cambia el crecimiento de una planta?",
+    "all_fields_reviewed": [
+      "id",
+      "type",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "durationNote",
+      "difficulty",
+      "researchQuestion",
+      "hypothesisExample",
+      "independentVariable",
+      "dependentVariable",
+      "controlConditions",
+      "materials",
+      "steps",
+      "recordsTemplate",
+      "analysisPrompts",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "source",
+      "mineduOfficial",
+      "contentRights",
+      "thumbnail",
+      "reviewStatus"
+    ],
+    "safety": {
+      "level": "LOW_SUPERVISED_WITH_CONTROLS",
+      "adultRequired": true,
+      "warnings": [
+        "No ubicar plantas en sitios inseguros ni atribuir todo cambio a un único factor."
+      ],
+      "prohibited": [
+        "fuego",
+        "electricidad de red",
+        "sustancias tóxicas",
+        "ingestión de materiales experimentales"
+      ]
+    },
+    "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD",
+    "materials": [
+      {
+        "name": "semillas",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "recipientes reutilizables",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "sustrato",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "agua",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "regla",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "etiquetas",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Sembrar semillas del mismo tipo en recipientes similares.",
+        "done": false
+      },
+      {
+        "title": "Mantener similares agua, sustrato y ambiente; variar luz sin colocar plantas en sitios peligrosos.",
+        "done": false
+      },
+      {
+        "title": "Registrar fecha, altura y aspecto cada varios días.",
+        "done": false
+      },
+      {
+        "title": "Comparar resultados y reconocer otros factores posibles.",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "whatToObserve": "Distingue predicción de observación y registra datos."
+      },
+      "academic": {
+        "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+        "potentialProcesses": [
+          "atención sostenida",
+          "planificación",
+          "inferencia a partir de observaciones"
+        ],
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "evidence": [],
+        "caution": "No constituye evaluación psicológica."
+      }
+    },
+    "inclusion": {
+      "strategies": [
+        "Tablas con pictogramas",
+        "Registro oral o fotográfico",
+        "Alternativa de medidas y tiempos accesibles"
+      ]
+    },
+    "observation": {
+      "before": "Qué cree que sucederá",
+      "during": "Cómo registra y coopera",
+      "after": "Conclusión y límites de la evidencia"
+    },
+    "researchQuestion": "¿Cómo influye la luz disponible en el crecimiento observado?",
+    "variables": {
+      "independentVariable": "Cantidad de luz recibida",
+      "dependentVariable": "Altura y aspecto de brotes",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ]
+    }
+  },
+  {
+    "pack": "PACK_EXPERIMENTOS_8_ORIGINALES_V1.json",
+    "id": "exp-002",
+    "title": "¿Qué objetos flotan?",
+    "all_fields_reviewed": [
+      "id",
+      "type",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "durationNote",
+      "difficulty",
+      "researchQuestion",
+      "hypothesisExample",
+      "independentVariable",
+      "dependentVariable",
+      "controlConditions",
+      "materials",
+      "steps",
+      "recordsTemplate",
+      "analysisPrompts",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "source",
+      "mineduOfficial",
+      "contentRights",
+      "thumbnail",
+      "reviewStatus"
+    ],
+    "safety": {
+      "level": "LOW_SUPERVISED_WITH_CONTROLS",
+      "adultRequired": true,
+      "warnings": [
+        "Supervisión continua; no usar agua profunda, piezas que se puedan tragar ni enchufes cercanos."
+      ],
+      "prohibited": [
+        "fuego",
+        "electricidad de red",
+        "sustancias tóxicas",
+        "ingestión de materiales experimentales"
+      ]
+    },
+    "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD",
+    "materials": [
+      {
+        "name": "recipiente",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "agua",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "objetos grandes limpios",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "hoja de registro",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Preparar un recipiente poco profundo en una superficie estable.",
+        "done": false
+      },
+      {
+        "title": "Predecir resultados de objetos grandes y seguros.",
+        "done": false
+      },
+      {
+        "title": "Colocar uno a la vez, observar y registrar.",
+        "done": false
+      },
+      {
+        "title": "Comparar predicciones con observaciones.",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "whatToObserve": "Distingue predicción de observación y registra datos."
+      },
+      "academic": {
+        "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+        "potentialProcesses": [
+          "atención sostenida",
+          "planificación",
+          "inferencia a partir de observaciones"
+        ],
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "evidence": [],
+        "caution": "No constituye evaluación psicológica."
+      }
+    },
+    "inclusion": {
+      "strategies": [
+        "Tablas con pictogramas",
+        "Registro oral o fotográfico",
+        "Alternativa de medidas y tiempos accesibles"
+      ]
+    },
+    "observation": {
+      "before": "Qué cree que sucederá",
+      "during": "Cómo registra y coopera",
+      "after": "Conclusión y límites de la evidencia"
+    },
+    "researchQuestion": "¿Todos los objetos se comportan igual en el agua?",
+    "variables": {
+      "independentVariable": "Tipo de objeto",
+      "dependentVariable": "Flota o se hunde",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ]
+    }
+  },
+  {
+    "pack": "PACK_EXPERIMENTOS_8_ORIGINALES_V1.json",
+    "id": "exp-003",
+    "title": "¿La sombra cambia de posición?",
+    "all_fields_reviewed": [
+      "id",
+      "type",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "durationNote",
+      "difficulty",
+      "researchQuestion",
+      "hypothesisExample",
+      "independentVariable",
+      "dependentVariable",
+      "controlConditions",
+      "materials",
+      "steps",
+      "recordsTemplate",
+      "analysisPrompts",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "source",
+      "mineduOfficial",
+      "contentRights",
+      "thumbnail",
+      "reviewStatus"
+    ],
+    "safety": {
+      "level": "LOW_SUPERVISED_WITH_CONTROLS",
+      "adultRequired": true,
+      "warnings": [
+        "Nunca mirar al Sol directamente; supervisión en patio y protección solar."
+      ],
+      "prohibited": [
+        "fuego",
+        "electricidad de red",
+        "sustancias tóxicas",
+        "ingestión de materiales experimentales"
+      ]
+    },
+    "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD",
+    "materials": [
+      {
+        "name": "palo corto fijo",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "tiza",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "regla",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "hoja de observación",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Ubicar un objeto vertical en lugar seguro.",
+        "done": false
+      },
+      {
+        "title": "Registrar el contorno de la sombra en distintos momentos.",
+        "done": false
+      },
+      {
+        "title": "Medir y comparar.",
+        "done": false
+      },
+      {
+        "title": "Explicar el patrón sin mirar directamente al Sol.",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "whatToObserve": "Distingue predicción de observación y registra datos."
+      },
+      "academic": {
+        "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+        "potentialProcesses": [
+          "atención sostenida",
+          "planificación",
+          "inferencia a partir de observaciones"
+        ],
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "evidence": [],
+        "caution": "No constituye evaluación psicológica."
+      }
+    },
+    "inclusion": {
+      "strategies": [
+        "Tablas con pictogramas",
+        "Registro oral o fotográfico",
+        "Alternativa de medidas y tiempos accesibles"
+      ]
+    },
+    "observation": {
+      "before": "Qué cree que sucederá",
+      "during": "Cómo registra y coopera",
+      "after": "Conclusión y límites de la evidencia"
+    },
+    "researchQuestion": "¿Cómo cambia la sombra de un objeto durante el día?",
+    "variables": {
+      "independentVariable": "Momento del día",
+      "dependentVariable": "Longitud/dirección de sombra",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ]
+    }
+  },
+  {
+    "pack": "PACK_EXPERIMENTOS_8_ORIGINALES_V1.json",
+    "id": "exp-004",
+    "title": "Agua que viaja por papel absorbente",
+    "all_fields_reviewed": [
+      "id",
+      "type",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "durationNote",
+      "difficulty",
+      "researchQuestion",
+      "hypothesisExample",
+      "independentVariable",
+      "dependentVariable",
+      "controlConditions",
+      "materials",
+      "steps",
+      "recordsTemplate",
+      "analysisPrompts",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "source",
+      "mineduOfficial",
+      "contentRights",
+      "thumbnail",
+      "reviewStatus"
+    ],
+    "safety": {
+      "level": "LOW_SUPERVISED_WITH_CONTROLS",
+      "adultRequired": true,
+      "warnings": [
+        "Solo colorante apto para uso alimentario y sin ingerir líquidos de la actividad."
+      ],
+      "prohibited": [
+        "fuego",
+        "electricidad de red",
+        "sustancias tóxicas",
+        "ingestión de materiales experimentales"
+      ]
+    },
+    "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD",
+    "materials": [
+      {
+        "name": "vasos",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "agua",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "papel absorbente",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "colorante alimentario opcional",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Llenar vasos de manera estable.",
+        "done": false
+      },
+      {
+        "title": "Colocar una tira de papel absorbente entre recipientes.",
+        "done": false
+      },
+      {
+        "title": "Registrar tiempos y movimiento visible.",
+        "done": false
+      },
+      {
+        "title": "Comparar con papel de otro ancho si hay condiciones controladas.",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "whatToObserve": "Distingue predicción de observación y registra datos."
+      },
+      "academic": {
+        "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+        "potentialProcesses": [
+          "atención sostenida",
+          "planificación",
+          "inferencia a partir de observaciones"
+        ],
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "evidence": [],
+        "caution": "No constituye evaluación psicológica."
+      }
+    },
+    "inclusion": {
+      "strategies": [
+        "Tablas con pictogramas",
+        "Registro oral o fotográfico",
+        "Alternativa de medidas y tiempos accesibles"
+      ]
+    },
+    "observation": {
+      "before": "Qué cree que sucederá",
+      "during": "Cómo registra y coopera",
+      "after": "Conclusión y límites de la evidencia"
+    },
+    "researchQuestion": "¿Puede el agua desplazarse a través del papel absorbente?",
+    "variables": {
+      "independentVariable": "Disposición del papel",
+      "dependentVariable": "Distancia/tiempo de humectación",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ]
+    }
+  },
+  {
+    "pack": "PACK_EXPERIMENTOS_8_ORIGINALES_V1.json",
+    "id": "exp-005",
+    "title": "¿Qué suelo deja pasar más agua?",
+    "all_fields_reviewed": [
+      "id",
+      "type",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "durationNote",
+      "difficulty",
+      "researchQuestion",
+      "hypothesisExample",
+      "independentVariable",
+      "dependentVariable",
+      "controlConditions",
+      "materials",
+      "steps",
+      "recordsTemplate",
+      "analysisPrompts",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "source",
+      "mineduOfficial",
+      "contentRights",
+      "thumbnail",
+      "reviewStatus"
+    ],
+    "safety": {
+      "level": "LOW_SUPERVISED_WITH_CONTROLS",
+      "adultRequired": true,
+      "warnings": [
+        "No usar tierra contaminada ni beber agua filtrada; orificios hechos por adulto."
+      ],
+      "prohibited": [
+        "fuego",
+        "electricidad de red",
+        "sustancias tóxicas",
+        "ingestión de materiales experimentales"
+      ]
+    },
+    "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD",
+    "materials": [
+      {
+        "name": "arena limpia",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "tierra limpia",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "recipientes perforados por adulto",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "agua",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "vasos medidores",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Preparar filtros/recipientes iguales por adulto.",
+        "done": false
+      },
+      {
+        "title": "Colocar igual cantidad de material limpio.",
+        "done": false
+      },
+      {
+        "title": "Añadir volúmenes iguales de agua.",
+        "done": false
+      },
+      {
+        "title": "Registrar volumen y tiempo; comparar.",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "whatToObserve": "Distingue predicción de observación y registra datos."
+      },
+      "academic": {
+        "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+        "potentialProcesses": [
+          "atención sostenida",
+          "planificación",
+          "inferencia a partir de observaciones"
+        ],
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "evidence": [],
+        "caution": "No constituye evaluación psicológica."
+      }
+    },
+    "inclusion": {
+      "strategies": [
+        "Tablas con pictogramas",
+        "Registro oral o fotográfico",
+        "Alternativa de medidas y tiempos accesibles"
+      ]
+    },
+    "observation": {
+      "before": "Qué cree que sucederá",
+      "during": "Cómo registra y coopera",
+      "after": "Conclusión y límites de la evidencia"
+    },
+    "researchQuestion": "¿Diferentes tipos de suelo dejan pasar agua a la misma velocidad?",
+    "variables": {
+      "independentVariable": "Tipo de suelo",
+      "dependentVariable": "Volumen filtrado en periodo comparable",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ]
+    }
+  },
+  {
+    "pack": "PACK_EXPERIMENTOS_8_ORIGINALES_V1.json",
+    "id": "exp-006",
+    "title": "¿Cómo se evapora el agua?",
+    "all_fields_reviewed": [
+      "id",
+      "type",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "durationNote",
+      "difficulty",
+      "researchQuestion",
+      "hypothesisExample",
+      "independentVariable",
+      "dependentVariable",
+      "controlConditions",
+      "materials",
+      "steps",
+      "recordsTemplate",
+      "analysisPrompts",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "source",
+      "mineduOfficial",
+      "contentRights",
+      "thumbnail",
+      "reviewStatus"
+    ],
+    "safety": {
+      "level": "LOW_SUPERVISED_WITH_CONTROLS",
+      "adultRequired": true,
+      "warnings": [
+        "Sin calefactores, fuego ni enchufes próximos; no dejar agua en zonas de paso."
+      ],
+      "prohibited": [
+        "fuego",
+        "electricidad de red",
+        "sustancias tóxicas",
+        "ingestión de materiales experimentales"
+      ]
+    },
+    "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD",
+    "materials": [
+      {
+        "name": "platos poco profundos",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "agua",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "marcador no tóxico",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "medidor",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Preparar volúmenes similares en recipientes iguales.",
+        "done": false
+      },
+      {
+        "title": "Colocar en lugares interiores seguros con condiciones distintas.",
+        "done": false
+      },
+      {
+        "title": "Marcar niveles y observar durante días.",
+        "done": false
+      },
+      {
+        "title": "Analizar variables no controladas.",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "whatToObserve": "Distingue predicción de observación y registra datos."
+      },
+      "academic": {
+        "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+        "potentialProcesses": [
+          "atención sostenida",
+          "planificación",
+          "inferencia a partir de observaciones"
+        ],
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "evidence": [],
+        "caution": "No constituye evaluación psicológica."
+      }
+    },
+    "inclusion": {
+      "strategies": [
+        "Tablas con pictogramas",
+        "Registro oral o fotográfico",
+        "Alternativa de medidas y tiempos accesibles"
+      ]
+    },
+    "observation": {
+      "before": "Qué cree que sucederá",
+      "during": "Cómo registra y coopera",
+      "after": "Conclusión y límites de la evidencia"
+    },
+    "researchQuestion": "¿La ubicación modifica la rapidez de evaporación observable?",
+    "variables": {
+      "independentVariable": "Condición ambiental",
+      "dependentVariable": "Variación del nivel de agua",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ]
+    }
+  },
+  {
+    "pack": "PACK_EXPERIMENTOS_8_ORIGINALES_V1.json",
+    "id": "exp-007",
+    "title": "¿Qué papel resiste más peso?",
+    "all_fields_reviewed": [
+      "id",
+      "type",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "durationNote",
+      "difficulty",
+      "researchQuestion",
+      "hypothesisExample",
+      "independentVariable",
+      "dependentVariable",
+      "controlConditions",
+      "materials",
+      "steps",
+      "recordsTemplate",
+      "analysisPrompts",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "source",
+      "mineduOfficial",
+      "contentRights",
+      "thumbnail",
+      "reviewStatus"
+    ],
+    "safety": {
+      "level": "LOW_SUPERVISED_WITH_CONTROLS",
+      "adultRequired": true,
+      "warnings": [
+        "No apilar peso excesivo; prevenir caída sobre manos y pies."
+      ],
+      "prohibited": [
+        "fuego",
+        "electricidad de red",
+        "sustancias tóxicas",
+        "ingestión de materiales experimentales"
+      ]
+    },
+    "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD",
+    "materials": [
+      {
+        "name": "hojas de papel",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "libros livianos",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "pesos iguales grandes",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "mesa firme",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Formar dos o tres estructuras con el mismo papel.",
+        "done": false
+      },
+      {
+        "title": "Mantener igual distancia de apoyos.",
+        "done": false
+      },
+      {
+        "title": "Colocar cargas grandes, livianas y sin bordes cortantes.",
+        "done": false
+      },
+      {
+        "title": "Registrar y explicar diferencias.",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "whatToObserve": "Distingue predicción de observación y registra datos."
+      },
+      "academic": {
+        "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+        "potentialProcesses": [
+          "atención sostenida",
+          "planificación",
+          "inferencia a partir de observaciones"
+        ],
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "evidence": [],
+        "caution": "No constituye evaluación psicológica."
+      }
+    },
+    "inclusion": {
+      "strategies": [
+        "Tablas con pictogramas",
+        "Registro oral o fotográfico",
+        "Alternativa de medidas y tiempos accesibles"
+      ]
+    },
+    "observation": {
+      "before": "Qué cree que sucederá",
+      "during": "Cómo registra y coopera",
+      "after": "Conclusión y límites de la evidencia"
+    },
+    "researchQuestion": "¿La forma de doblar papel influye en su resistencia?",
+    "variables": {
+      "independentVariable": "Forma del papel",
+      "dependentVariable": "Número de cargas idénticas soportadas",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ]
+    }
+  },
+  {
+    "pack": "PACK_EXPERIMENTOS_8_ORIGINALES_V1.json",
+    "id": "exp-008",
+    "title": "Observamos la erosión con maquetas",
+    "all_fields_reviewed": [
+      "id",
+      "type",
+      "title",
+      "area",
+      "grades",
+      "estimatedMinutes",
+      "durationNote",
+      "difficulty",
+      "researchQuestion",
+      "hypothesisExample",
+      "independentVariable",
+      "dependentVariable",
+      "controlConditions",
+      "materials",
+      "steps",
+      "recordsTemplate",
+      "analysisPrompts",
+      "pedagogy",
+      "inclusion",
+      "safety",
+      "observation",
+      "source",
+      "mineduOfficial",
+      "contentRights",
+      "thumbnail",
+      "reviewStatus"
+    ],
+    "safety": {
+      "level": "LOW_SUPERVISED_WITH_CONTROLS",
+      "adultRequired": true,
+      "warnings": [
+        "Solo suelo limpio; no usar lodos contaminados; limpiar derrames de inmediato."
+      ],
+      "prohibited": [
+        "fuego",
+        "electricidad de red",
+        "sustancias tóxicas",
+        "ingestión de materiales experimentales"
+      ]
+    },
+    "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD",
+    "materials": [
+      {
+        "name": "bandejas",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "suelo limpio",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "agua",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "recipiente graduado",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      },
+      {
+        "name": "vegetación simulada o real",
+        "amount": 1,
+        "unit": "referencial: ajustar"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Preparar pequeñas pendientes en bandejas iguales.",
+        "done": false
+      },
+      {
+        "title": "Aplicar agua equivalente de forma segura.",
+        "done": false
+      },
+      {
+        "title": "Observar color y sedimentos arrastrados.",
+        "done": false
+      },
+      {
+        "title": "Comparar, registrar y proponer mejoras.",
+        "done": false
+      }
+    ],
+    "pedagogy": {
+      "practical": {
+        "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+        "whatToObserve": "Distingue predicción de observación y registra datos."
+      },
+      "academic": {
+        "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+        "potentialProcesses": [
+          "atención sostenida",
+          "planificación",
+          "inferencia a partir de observaciones"
+        ],
+        "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+        "evidence": [],
+        "caution": "No constituye evaluación psicológica."
+      }
+    },
+    "inclusion": {
+      "strategies": [
+        "Tablas con pictogramas",
+        "Registro oral o fotográfico",
+        "Alternativa de medidas y tiempos accesibles"
+      ]
+    },
+    "observation": {
+      "before": "Qué cree que sucederá",
+      "during": "Cómo registra y coopera",
+      "after": "Conclusión y límites de la evidencia"
+    },
+    "researchQuestion": "¿La cobertura del suelo afecta el arrastre por agua?",
+    "variables": {
+      "independentVariable": "Cobertura del terreno",
+      "dependentVariable": "Sedimento arrastrado observable",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ]
+    }
+  }
+]

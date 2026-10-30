@@ -1,0 +1,304 @@
+[
+  {
+    "path": "01_REFERENCIAS_UI/01_INICIO.png",
+    "bytes": 200424,
+    "sha256": "510f601e285ca4b9c0e4c433b1dcc3b222da075269d6e96cb8281dcb6032cf81"
+  },
+  {
+    "path": "01_REFERENCIAS_UI/02_TALLER.png",
+    "bytes": 224956,
+    "sha256": "f0c762fb26b9737be69cbc2faa170a31b84948aaec4ee1cebeb78f7a71ed9669"
+  },
+  {
+    "path": "01_REFERENCIAS_UI/03_SESIONES.png",
+    "bytes": 202252,
+    "sha256": "457e030a88fd6b7cd511eb4d74d283036f4c1eaca11f9fc19f13f25aadccbf6f"
+  },
+  {
+    "path": "01_REFERENCIAS_UI/04_CUADERNO.png",
+    "bytes": 210057,
+    "sha256": "8c98a7668254368419a0811180e4be9107117b7c7a983e22c58423a49d1cd8aa"
+  },
+  {
+    "path": "01_REFERENCIAS_UI/05_BIBLIOTECA.png",
+    "bytes": 217764,
+    "sha256": "1bc640442341a62919744cc1e79361c4dfe0992f5da621b4e3b15dda41414c22"
+  },
+  {
+    "path": "02_DOCUMENTACION/ANALISIS_SCANPRO_OCR_Y_REUTILIZACION.md",
+    "bytes": 4741,
+    "sha256": "dc3948338b6f31d8444ce4718661d14d11266836ae5f41773b137547dde8d110",
+    "headings": [
+      "# Auditoría de referencia técnica — ScanPro de luisferxd09",
+      "## Qué está realmente confirmado",
+      "## Diseño de integración propuesto para ProfeLab",
+      "### Elección inicial recomendada",
+      "### Lo que NO debemos asumir",
+      "### Tareas de Codex antes de reutilizar componentes"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "02_DOCUMENTACION/ARQUITECTURA_Y_DECISIONES.md",
+    "bytes": 6761,
+    "sha256": "838054aef8080f265349b257319e4ae188635a7dd76de5a3a1b6a127dd12307e",
+    "headings": [
+      "# Arquitectura y decisiones — ProfeLab V1.0",
+      "## Decisión inicial recomendada",
+      "## Alternativas evaluadas",
+      "## Requisitos de calidad",
+      "## Referencias oficiales (verificar versiones al implementar)",
+      "## Aislamiento de features, mantenimiento y ampliaciones"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "02_DOCUMENTACION/CONTRATOS_MODULOS_PERMISOS_Y_CONTENIDO.md",
+    "bytes": 11525,
+    "sha256": "089b850a2299bfbc54c58f39febf47090a8296a8f5e857af5eef98ecd923353b",
+    "headings": [
+      "# CONTRATO OBLIGATORIO — Modularidad, catálogo ampliable y permisos Android",
+      "## A. Separar por funcionalidades, no construir un archivo gigante",
+      "### Contratos y dependencias",
+      "## B. Ampliar contenido sin rehacer o borrar la app",
+      "## C. Permisos y capacidades Android por acción",
+      "## D. Aislamiento y actualizaciones seguras",
+      "## E. Pruebas de aceptación adicionales"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "02_DOCUMENTACION/MODELO_DATOS_PROFELAB_V1.md",
+    "bytes": 8469,
+    "sha256": "e511fd351c1edd5b89216ee838a65cc50f957f98ee5251c22c1323a3d66ff8fa",
+    "headings": [
+      "# Modelo de datos ProfeLab V1.0 — contrato conceptual",
+      "## 1. Entidades",
+      "## 2. Reglas de vinculación y operaciones",
+      "## 3. Estados y enumeraciones",
+      "## 4. Datos de ejemplo",
+      "## 5. Contenido incremental y contratos entre módulos (anexo obligatorio)"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "02_DOCUMENTACION/SDD_PROFELAB_V1.md",
+    "bytes": 28639,
+    "sha256": "fbf1034f8e06dc4144363115cedb9ba9447382b0ed1b4da22e4dce380d87aee3",
+    "headings": [
+      "# SDD — ProfeLab V1.0",
+      "## 1. Objetivo y límites",
+      "### 1.1. Principios de producto",
+      "## 2. Usuarios, alcance y vocabulario",
+      "## 3. Navegación global aprobada (según imágenes)",
+      "### 3.1. Cinco referencias visuales obligatorias",
+      "## 4. Requisitos funcionales por módulo",
+      "### M01 — Inicio",
+      "### M02 — Taller: proyectos y material didáctico",
+      "### M03 — Sesiones de aprendizaje",
+      "### M04 — Cuaderno: apuntes, prácticas, ideas, evidencias",
+      "### M05 — Biblioteca documental",
+      "### M06 — Escáner OCR transversal",
+      "### M07 — Organización y pendientes",
+      "### M08 — Perfil, ajustes, seguridad y respaldo",
+      "## 5. Flujos completos y criterios de retorno",
+      "## 6. Catálogo de pantallas, estados y botones",
+      "### A. Cinco pantallas raíz",
+      "### B. Detalles y utilitarios (mínimo)",
+      "### C. Variantes obligatorias",
+      "## 7. Datos, integridad y persistencia",
+      "## 8. Arquitectura técnica propuesta",
+      "## 9. Fuentes curriculares y licencias",
+      "## 10. QA y bloqueo de aceptación",
+      "## 11. Reglas de priorización, hitos y no incluidos",
+      "## 12. Condiciones de aprobación",
+      "## 13. Requisito transversal aprobado — módulos independientes, contenido ampliable y permisos Android",
+      "## ANEXO NUEVO — Biblioteca MINEDU precatalogada y packs originales (29/10/2026)"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "02_DOCUMENTACION/UI_UX_PROFELAB_REFERENCIAS.md",
+    "bytes": 8721,
+    "sha256": "f89007efb83ac7062cb1468b38c265d9ba33c27ed9a86f3e9dfaa85e73280df0",
+    "headings": [
+      "# UI/UX ProfeLab V1 — CONTRATO VISUAL PARA CODEX",
+      "## 1. Imágenes fuente: visual de referencia aprobado",
+      "## 2. Design tokens sugeridos (aproximados a la estética de las imágenes, no muestreados por software)",
+      "## 3. Jerarquía visual y componentes",
+      "## 4. Reglas responsivas",
+      "## 5. Contrato de botones (no dejar «clickables» sin destino)",
+      "### Inicio",
+      "### Taller",
+      "### Sesiones",
+      "### Cuaderno",
+      "### Biblioteca",
+      "## 6. Estados: solo texto real y sin fingir integración",
+      "## 7. Handoff a Codex desde Penpot"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "03_CODEX/ENTRADA_RAPIDA_COPIAR_EN_CODEX.txt",
+    "bytes": 1739,
+    "sha256": "4dc1c776bd87a59ba0e93e6620606282e5b6c0a6febe8412ee164356cf7d8cb6",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "03_CODEX/PROMPT_MAESTRO_CODEX_PROFELAB_V1.md",
+    "bytes": 24115,
+    "sha256": "f9fdf54c654d93c43e31160d74ed8767b3573c960b5b0d3d3a5db4b706f9d65a",
+    "headings": [
+      "# PROMPT MAESTRO PARA CODEX — CONSTRUIR PROFELAB V1.0",
+      "## 0. TU ROL Y CONTRATO DE TRABAJO",
+      "### 0.1 Restricciones absolutas",
+      "## 1. FUENTES OBLIGATORIAS DEL PROYECTO",
+      "## 2. ALCANCE FUNCIONAL: CINCO TABS, TODOS COMPLETOS",
+      "### Inicio",
+      "### Taller",
+      "### Sesiones",
+      "### Cuaderno",
+      "### Biblioteca",
+      "### Herramientas transversales",
+      "## 3. UI/UX APROBADA",
+      "## 4. MOTOR OCR Y DIGITALIZACIÓN",
+      "## 5. CURRÍCULO Y CONTENIDOS",
+      "## 6. ARQUITECTURA Y BASE DE DATOS",
+      "## 7. CONSTRUIR POR HITOS (NO TODO EN UNA ENTREGA OPACA)",
+      "### H0 — Auditoría inicial y trazabilidad",
+      "### H1 — Fundaciones Android e Inicio",
+      "### H2 — Sesiones",
+      "### H3 — Taller",
+      "### H4 — Cuaderno, prácticas, portafolio, grabación de voz",
+      "### H5 — Biblioteca MINEDU y PDF",
+      "### H6 — OCR transversal",
+      "### H7 — Integración y QA final",
+      "## 8. PRUEBAS Y CRITERIOS DE ACEPTACIÓN",
+      "## 9. ENTREGABLES FINALES O POR HITO",
+      "## 10. ORDEN DE EJECUCIÓN INMEDIATO",
+      "## 11. CONDICIONES ADICIONALES IRRENUNCIABLES — MODULARIDAD, CONTENIDO Y PERMISOS",
+      "## 12. ANEXO V1 — FUENTES Y CONTENIDO YA INVESTIGADOS (OBLIGATORIO)"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "04_QA/INSTRUCCIONES_QA.md",
+    "bytes": 1469,
+    "sha256": "c512dd5871b7f6b6099dce2544059626ac46fd2f94e32a87f6803a0b8bb5fc71",
+    "headings": [
+      "# Ejecución QA ProfeLab V1.0",
+      "## Extensión modular, contenidos y permisos"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "04_QA/MATRIZ_QA_PROFELAB_V1.csv",
+    "bytes": 20018,
+    "sha256": "c86b2b062de6933fac50cea9c96bd692faade2dfc63a91830817dd96f06dc94f",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "05_DATOS_EJEMPLO/fixtures_profelab.json",
+    "bytes": 3025,
+    "sha256": "5676ea330e995f163906445f416a10e266f9ce0562916badeea53770f9981373",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "06_FUENTES/CATALOGO_MINEDU_VERIFICADO.json",
+    "bytes": 8536,
+    "sha256": "bef012b0a2b739ed9d0ca83970bff878adc21d81ca1878c48f4ebcdcf040a2b4",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "06_FUENTES/FUENTES_Y_LICENCIAS.md",
+    "bytes": 4727,
+    "sha256": "528fc2e94a74560911de91dbf9c49cb642b0d1c475de264644a0a6a2d758fa2b",
+    "headings": [
+      "# Fuentes, derechos y procedencia — ProfeLab",
+      "## Minedu y currículo peruano",
+      "## Android y OCR",
+      "## Permiso a solicitar al autor de ScanPro (plantilla orientativa)",
+      "## Política sobre muestras",
+      "## Fuentes oficiales Android para permisos, cámara y selector de archivos",
+      "## Catálogo adicional listo para Codex (2026-10-29)"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "06_FUENTES/MINEDU_BIBLIOTECA_E_INTEGRACION.md",
+    "bytes": 5644,
+    "sha256": "ab8e2a6a11bab3e65d63f87e5a4dc9e84138fa605b754804d65611c317f18601",
+    "headings": [
+      "# Inventario de documentos oficiales MINEDU: integración para ProfeLab",
+      "## Protocolo de integración",
+      "## Distinción de uso de archivos",
+      "## Referencias tecnológicas"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "07_SCRIPTS/descargar_minedu.py",
+    "bytes": 4219,
+    "sha256": "81c53237a79200a2506008d0f4152ea14d4cd7a8a1320d38708efb81ac7a0be7",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "08_CONTENIDOS_SEMILLA/LEEME_PACKS.md",
+    "bytes": 1089,
+    "sha256": "f72506e4ca9e1115ecbbb436c35e11f77b7abf8bc010c3453da6b65a6d513097",
+    "headings": [
+      "# Packs iniciales para ProfeLab"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "08_CONTENIDOS_SEMILLA/MAPEO_FUENTES_A_MODULOS.json",
+    "bytes": 3139,
+    "sha256": "4d32d406d6aee4cf60288ba7c59a2b7a089fb3d379826c446cdbef762e7fee36",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "08_CONTENIDOS_SEMILLA/PACK_REFERENCIAS_MINEDU_V1.json",
+    "bytes": 5791,
+    "sha256": "d7ad02230311a1c297f0445827a2243a2688e60077655ce46d1261a7eaefad1e",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "08_CONTENIDOS_SEMILLA/PACK_TALLER_12_PROYECTOS_ORIGINALES.json",
+    "bytes": 14689,
+    "sha256": "5e56b0d2b7c9cd5ab54774c01dc0527fd4819306b25b80510a496dbcd7bf8405",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "README_PRIMERO.md",
+    "bytes": 5505,
+    "sha256": "b3cdc2ad5e63fd593fe33be204bdbce021973b50d13b903a74d022645caa1079",
+    "headings": [
+      "# PROFELAB — ENTREGA DE ESPECIFICACIÓN Y PROMPT COMPLETO PARA CODEX",
+      "## Cómo se usa con Codex",
+      "## Contenido",
+      "## Decisiones ya tomadas",
+      "## Dudas que Codex debe resolver técnicamente (sin pedir que el usuario repita decisiones de producto)",
+      "## QA",
+      "## Integridad",
+      "## Nuevas condiciones obligatorias para Codex",
+      "## Fuentes MINEDU y ScanPro — actualización 29/10/2026"
+    ],
+    "review": "historical_text_read_not_authority"
+  },
+  {
+    "path": "SHA256SUMS.txt",
+    "bytes": 2672,
+    "sha256": "9939e142092526bbad2791ca0c6ed6527eeecec7ae2f7ad56acf3f6ede037f3e",
+    "headings": [],
+    "review": "historical_text_read_not_authority"
+  }
+]

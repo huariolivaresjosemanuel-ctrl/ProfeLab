@@ -1,0 +1,11 @@
+PROFELAB  ·  5 PANTALLAS APROBADAS
+Referencia visual para implementar Kotlin + Compose; no contiene pantallas funcionales
+Inicio
+Taller
+Sesiones
+Cuaderno
+Biblioteca
+Modo visual aprobado: no pegar capturas en el layout final.
+Inicio · Taller · Sesiones · Cuaderno · Biblioteca
+SDD: 46 estados/pantallas; cat. MINEDU: 12 fichas (0 PDFs originales); contenidos: 12 materiales + 8 experimentos; QA: 191 casos.
+Documento de referencia editorial original, creado el 29/10/2026 · Paquete maestro ProfeLab V2

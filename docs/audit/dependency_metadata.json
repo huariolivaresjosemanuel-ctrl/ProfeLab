@@ -1,0 +1,89 @@
+[
+  {
+    "name": "agp",
+    "url": "https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/8.11.1/gradle-8.11.1.pom",
+    "status": "PASS",
+    "bytes": 11994
+  },
+  {
+    "name": "compose_bom",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/compose/compose-bom/2025.10.01/compose-bom-2025.10.01.pom",
+    "status": "PASS",
+    "bytes": 35124
+  },
+  {
+    "name": "room",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/room/room-runtime-android/2.8.5/room-runtime-android-2.8.5.aar",
+    "status": "PASS",
+    "bytes": 572156,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=34\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.1.1\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "compose_ui",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-android/1.9.4/ui-android-1.9.4.aar",
+    "status": "PASS",
+    "bytes": 5735706,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=35\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.6.0\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "compose_material3",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3-android/1.4.0/material3-android-1.4.0.aar",
+    "status": "PASS",
+    "bytes": 5167765,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=35\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.6.0\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "lifecycle",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime-android/2.9.4/lifecycle-runtime-android-2.9.4.aar",
+    "status": "PASS",
+    "bytes": 82853,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=34\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.1.1\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "navigation",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/navigation/navigation-compose-android/2.9.5/navigation-compose-android-2.9.5.aar",
+    "status": "PASS",
+    "bytes": 1114393,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=35\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.6.0\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "activity",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/activity/activity-compose/1.11.0/activity-compose-1.11.0.aar",
+    "status": "PASS",
+    "bytes": 1057910,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=36\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.9.1\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "core",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/core/core-ktx/1.17.0/core-ktx-1.17.0.aar",
+    "status": "PASS",
+    "bytes": 172506,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=36\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.9.1\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "datastore",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/datastore/datastore-preferences-android/1.1.7/datastore-preferences-android-1.1.7.aar",
+    "status": "PASS",
+    "bytes": 16725,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=34\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=1.0.0\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "work",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/work/work-runtime/2.10.5/work-runtime-2.10.5.aar",
+    "status": "PASS",
+    "bytes": 2023394,
+    "aar_metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=35\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=1.0.0\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  {
+    "name": "kotlin",
+    "url": "https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-gradle-plugin/2.2.21/kotlin-gradle-plugin-2.2.21.pom",
+    "status": "PASS",
+    "bytes": 13034
+  },
+  {
+    "name": "ksp",
+    "url": "https://repo.maven.apache.org/maven2/com/google/devtools/ksp/symbol-processing-gradle-plugin/2.2.21-2.0.5/symbol-processing-gradle-plugin-2.2.21-2.0.5.pom",
+    "status": "PASS",
+    "bytes": 1881
+  }
+]

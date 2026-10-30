@@ -1,0 +1,21 @@
+{
+  "keys": [
+    "meta",
+    "profile",
+    "tasks",
+    "sessions",
+    "inventory",
+    "projects",
+    "notes",
+    "library"
+  ],
+  "policy": "Fictitious data preserved outside APK; not seeded",
+  "counts": {
+    "tasks": 3,
+    "sessions": 1,
+    "inventory": 3,
+    "projects": 1,
+    "notes": 1,
+    "library": 0
+  }
+}
