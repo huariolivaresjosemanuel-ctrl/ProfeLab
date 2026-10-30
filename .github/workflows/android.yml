@@ -60,7 +60,7 @@ jobs:
 
       - name: Compilar y ejecutar pruebas
         run: |
-          ./gradlew --no-daemon --stacktrace \
+          ./gradlew --no-daemon --stacktrace --continue \
             :core:model:test \
             :core:security:test \
             testDebugUnitTest \
@@ -100,7 +100,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api: [26, 36]
+        include:
+          - api: 26
+            target: default
+          - api: 36
+            target: google_apis
 
     steps:
       - name: Descargar codigo
@@ -128,16 +132,19 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      - name: Instalar plataforma de compilacion en este runner
+        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
+
       - name: Ejecutar pruebas Android
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api }}
           arch: x86_64
-          target: default
+          target: ${{ matrix.target }}
           disable-animations: true
           script: |
             chmod +x gradlew
-            ./gradlew --no-daemon --stacktrace \
+            ./gradlew --no-daemon --stacktrace --continue \
               :core:database:connectedDebugAndroidTest \
               :app:connectedDebugAndroidTest
 
@@ -151,3 +158,4 @@ jobs:
             **/build/outputs/androidTest-results/**
             **/build/outputs/connected_android_test_additional_output/**
           retention-days: 30
+
