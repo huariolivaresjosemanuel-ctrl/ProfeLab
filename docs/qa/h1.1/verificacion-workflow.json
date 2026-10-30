@@ -1,0 +1,5 @@
+{
+  "checks": "gates, secret references, cleanup, no key generation, allowlist artifact, uncached signing",
+  "status": "PASS",
+  "yaml_action_execution": "NOT_RUN"
+}

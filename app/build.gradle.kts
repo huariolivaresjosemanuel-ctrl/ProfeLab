@@ -4,6 +4,14 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+val permanentSigning = providers.environmentVariable("PROFELAB_SIGN_RELEASE").orNull == "true"
+fun signingEnv(name: String): String = providers.environmentVariable(name).orNull
+    ?.takeIf { it.isNotBlank() } ?: error("Falta configuración de firma: $name")
+val proposedVersionCode = providers.environmentVariable("PROFELAB_VERSION_CODE").orNull?.let {
+    it.toIntOrNull()?.takeIf { value -> value in 2..2100000000 }
+        ?: error("PROFELAB_VERSION_CODE debe ser un entero entre 2 y 2100000000")
+} ?: 2
+
 android {
     namespace = "pe.profelab.app"
     compileSdk = 36
@@ -12,18 +20,38 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         applicationId = "pe.profelab.app"
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0-h1"
+        versionCode = proposedVersionCode
+        versionName = "0.1.1-h1.1"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures { compose = true }
-    buildTypes { release { isMinifyEnabled = false } }
+    signingConfigs {
+        if (permanentSigning) create("permanent") {
+            storeFile = file(signingEnv("PROFELAB_KEYSTORE_PATH"))
+            check(requireNotNull(storeFile).isFile) { "No existe el keystore temporal" }
+            storePassword = signingEnv("PROFELAB_KEYSTORE_PASSWORD")
+            keyAlias = signingEnv("PROFELAB_KEY_ALIAS")
+            keyPassword = signingEnv("PROFELAB_KEY_PASSWORD")
+        }
+    }
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            if (permanentSigning) signingConfig = signingConfigs.getByName("permanent")
+        }
+    }
     packaging { resources.excludes += "/META-INF/{AL2.0,LGPL2.1}" }
 }
 kotlin { jvmToolchain(17) }
+
+gradle.taskGraph.whenReady {
+    if (allTasks.any { it.path in setOf(":app:assembleRelease", ":app:bundleRelease", ":app:packageRelease") }) {
+        check(permanentSigning) { "Release requiere PROFELAB_SIGN_RELEASE=true y configuración de firma completa" }
+    }
+}
 
 dependencies {
     implementation(libs.androidx.core)

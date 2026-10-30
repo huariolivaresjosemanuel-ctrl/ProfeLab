@@ -26,7 +26,7 @@ class DeliveryChecks(unittest.TestCase):
         workflow=read('.github/workflows/android.yml')
         self.assertIn('--continue',workflow)
         self.assertNotIn('continue-on-error',workflow)
-        self.assertEqual(2,workflow.count('sdkmanager "platforms;android-36" "build-tools;35.0.0"'))
+        self.assertEqual(3,workflow.count('sdkmanager "platforms;android-36" "build-tools;35.0.0"'))
         self.assertIn('target: ${{ matrix.target }}',workflow)
         for build in ROOT.rglob('build.gradle.kts'):
             if 'build' not in build.relative_to(ROOT).parts:

@@ -1,0 +1,6 @@
+{
+  "scope": "Python helper with dummy bytes and mocked apksigner/aapt; not actual cryptographic signing",
+  "tests": 11,
+  "PASS": 11,
+  "FAIL": 0
+}

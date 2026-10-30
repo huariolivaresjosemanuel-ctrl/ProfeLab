@@ -1,0 +1,11 @@
+{
+  "source_run": 41002583890,
+  "artifact_id": 12954415207,
+  "apk_sha256": "fac34f13fd8ed6a0ab6b3ab349ddf30f3450b604441b36dab5514908472fac50",
+  "certificate_sha256_v2": [
+    "ed49929e7923b1e1ba8bc4df03429255f39dc578dd7d7468df3ba93f566fa0a5"
+  ],
+  "method": "Read public DER certificates from APK v2 signing block; cryptographic signature not verified here",
+  "private_key_available": false,
+  "installed_apk_identity_confirmed": false
+}
