@@ -3,6 +3,7 @@ package pe.profelab.app
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -10,6 +11,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class NavigationTest {
     @get:Rule val compose=createAndroidComposeRule<MainActivity>()
+    @Before fun enterExistingApp(){compose.dismissWelcomeIfPresent()}
 
     @Test fun allFiveTabsReachRealDestinations() {
         compose.onNodeWithTag("nav_taller").performClick()

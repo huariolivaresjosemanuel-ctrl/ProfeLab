@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestWatcher
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class WorkshopUiTest {
     @get:Rule val compose=createAndroidComposeRule<MainActivity>()
+    @Before fun enterExistingApp(){compose.dismissWelcomeIfPresent()}
     @get:Rule val diagnostics=object:TestWatcher(){
         override fun failed(error:Throwable,description:Description){
             android.util.Log.e("ProfeLab-QA",description.methodName,error)

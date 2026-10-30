@@ -48,7 +48,7 @@ import pe.profelab.feature.library.*
 import pe.profelab.feature.profile.*
 
 @Composable
-fun ProfeApp(graph: AppGraph) {
+fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences()) {
     val context=LocalContext.current
     val nav=rememberNavController()
     val entry by nav.currentBackStackEntryAsState()
@@ -60,7 +60,7 @@ fun ProfeApp(graph: AppGraph) {
         preferencesError="No se pudieron leer las preferencias. Se muestran los valores iniciales."
         emit(UserPreferences())
     } }
-    val prefs by preferencesFlow.collectAsStateWithLifecycle(initialValue=UserPreferences())
+    val prefs by preferencesFlow.collectAsStateWithLifecycle(initialValue=initialPreferences)
     val reminderWarning by graph.reminderWarning.collectAsStateWithLifecycle()
     val message by home.message.collectAsStateWithLifecycle()
     val snackbar=remember { SnackbarHostState() }
@@ -69,13 +69,6 @@ fun ProfeApp(graph: AppGraph) {
     LaunchedEffect(retainedOcrWarning){retainedOcrWarning?.let {snackbar.showSnackbar(it)}}
     val workspace: WorkspaceViewModel=viewModel(factory=modelFactory {WorkspaceViewModel(graph.workspace)})
     val records by workspace.records.collectAsStateWithLifecycle()
-    var personalizationReady by remember {mutableStateOf(false)}
-    var registrationBusy by remember {mutableStateOf(false)}
-    var registrationError by remember {mutableStateOf<String?>(null)}
-    LaunchedEffect(homeState.loading,homeState.profile?.id){if(!homeState.loading){
-        try {graph.transfers.recoverPendingPreferences();graph.preferences.migrateLegacyProfile(homeState.profile);personalizationReady=true}
-        catch(e:CancellationException){throw e}catch(_:Exception){preferencesError="No se pudo recuperar la personalización. Tus trabajos se conservan."}
-    }}
     val workspaceError by workspace.error.collectAsStateWithLifecycle()
     var templates by remember {mutableStateOf<List<WorkRecord>>(emptyList())}
     var sources by remember {mutableStateOf<List<SourceReference>>(emptyList())}
@@ -178,15 +171,7 @@ fun ProfeApp(graph: AppGraph) {
     ) { padding ->
         Box(Modifier.padding(padding).consumeWindowInsets(padding).imePadding()) {
             NavHost(navController=nav,startDestination="home") {
-                composable("home") { HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord,prefs){
-                    if(personalizationReady && !prefs.onboardingCompleted)LocalWelcomeCard(prefs,registrationBusy,registrationError){name,role->
-                        registrationBusy=true;registrationError=null;scope.launch {
-                            try {graph.preferences.setPersonalization(name,role)}
-                            catch(e:CancellationException){throw e}catch(_:Exception){registrationError="No se pudo guardar. Puedes reintentar o seguir usando las pestañas."}
-                            finally{registrationBusy=false}
-                        }
-                    }
-                } }
+                composable("home") { HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord,prefs) }
                 composable("taller") { WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture) }
                 composable("sessions") { SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
                 composable("notebook") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }

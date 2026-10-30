@@ -34,7 +34,8 @@ enum class LocalRole(val label:String,val greeting:String) {
     STUDENT("Estudiante de Educación Primaria","futuro docente"), INTERN("Practicante","practicante")
 }
 data class UserPreferences(val showCompleted: Boolean = false,val displayName:String="",val role:LocalRole=LocalRole.UNSPECIFIED,
-    val onboardingCompleted:Boolean=false,val personalizedGreetings:Boolean=true,val mascotVisible:Boolean=true,val reduceMotion:Boolean=false)
+    val onboardingCompleted:Boolean=false,val personalizedGreetings:Boolean=true,val mascotVisible:Boolean=true,val reduceMotion:Boolean=false,
+    val welcomeIntroSeen:Boolean=false)
 
 object PersonalizationRules {
     fun name(value:String)=value.filterNot {it.isISOControl()}.trim().take(60)

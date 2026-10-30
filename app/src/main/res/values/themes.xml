@@ -5,7 +5,7 @@
         <item name="android:navigationBarColor">#175C47</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:colorAccent">#175C47</item>
-        <item name="android:windowBackground">#FAF7F1</item>
+        <item name="android:windowBackground">#F8F5EE</item>
     </style>
     <style name="Theme.ProfeLab" parent="Theme.ProfeLab.Base" />
 </resources>

@@ -20,7 +20,13 @@ class LocalPreferences(private val store:DataStore<Preferences>):PreferencesRepo
     private val mascot=booleanPreferencesKey("mascot_visible")
     private val motion=booleanPreferencesKey("reduce_motion")
     private val migrated=booleanPreferencesKey("personalization_migrated_v1")
-    override val preferences=store.data.map {p->UserPreferences(p[showCompleted] ?: false,p[displayName].orEmpty(),LocalRole.entries.firstOrNull {it.name==p[role]} ?: LocalRole.UNSPECIFIED,p[completed] ?: false,p[greeting] ?: true,p[mascot] ?: true,p[motion] ?: false)}
+    // Presentation belongs to this installation, not to registration or the portable backup format.
+    private val introSeen=booleanPreferencesKey("welcome_intro_seen_v1")
+    override val preferences=store.data.map {p->UserPreferences(p[showCompleted] ?: false,p[displayName].orEmpty(),LocalRole.entries.firstOrNull {it.name==p[role]} ?: LocalRole.UNSPECIFIED,p[completed] ?: false,p[greeting] ?: true,p[mascot] ?: true,p[motion] ?: false,p[introSeen] ?: false)}
+    override suspend fun completeWelcomeRegistration(name:String,role:LocalRole){store.edit {
+        it[displayName]=PersonalizationRules.name(name);it[this.role]=role.name;it[completed]=true;it[migrated]=true;it[introSeen]=true
+    }}
+    override suspend fun markWelcomeIntroSeen(){store.edit {it[introSeen]=true}}
     override suspend fun setShowCompleted(enabled:Boolean){store.edit {it[showCompleted]=enabled}}
     override suspend fun setPersonalization(name:String,role:LocalRole){store.edit {
         it[displayName]=PersonalizationRules.name(name);it[this.role]=role.name;it[completed]=true;it[migrated]=true

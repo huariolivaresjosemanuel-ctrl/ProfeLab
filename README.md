@@ -1,6 +1,8 @@
 # ProfeLab · actualización de fuentes 1.0.2
 
-Continuación de `main` en `43ff3eead533105006f7da851784cba7ace063a9` (30/10/2026), con Taller V1.0.1 conservado. Proyecto Android real de 16 módulos, cinco pestañas, `pe.profelab.app`, API26+, Kotlin/Compose, Room2 y DataStore. No incluye APK compilada. GitHub se consultó solo mediante lecturas; no se ejecutó Actions ni se hicieron commits o cambios remotos.
+Corrección focalizada de mascota sobre `main` en `ea29cdf16e20a250e7bb1ccdf378e9dfeff9435f` (30/10/2026), con Taller V1.0.1 conservado. Proyecto Android real de 16 módulos, cinco pestañas, `pe.profelab.app`, API26+, Kotlin/Compose, Room2 y DataStore. No incluye APK compilada. GitHub se consultó solo mediante lecturas; no se ejecutó Actions ni se hicieron commits o cambios remotos.
+
+La corrección de mascota no cambia applicationId, versionName/versionCode, firma, Room ni formato portable de backup. El flag local welcome_intro_seen_v1 queda fuera del respaldo, de forma que restaurar muestra una presentación sin pedir registro. La orquestación del emulador se extrae a un único script Bash para corregir el error de sintaxis observado en API26 del run41118429391; API36 falló antes de arrancar. La compilación nueva, pruebas Kotlin/Android y capturas de app siguen NOT_RUN.
 
 ## Estado de esta actualización
 
@@ -8,7 +10,7 @@ Se corrigen en fuentes las firmas JVM no-void de tres tests instrumentados y la 
 
 Incluye Docente «Cómo enseñarlo» junto a Práctico/Académico en las fichas del Taller: guion breve/desarrollado, edición persistente, fallback para fichas sin guion y exportación. Los doce proyectos y ocho experimentos originales conservan sus IDs y contenido. El overlay del Geoplano corresponde a **mat-003**, no mat-001. Los experimentos mantienen observaciones, mediciones y fotos propias; sus ocho portadas siguen pendientes de aprobación, con estado faltante explícito y sin resultados ficticios.
 
-Se ajustan las cinco pantallas Compose hacia los diseños aprobados sin agregar pestañas. Hay registro local opcional, saludo por nombre/rol/hora, ajustes de mascota y movimiento reducido. Concepto C usa el master aprobado sin alterar; solo entrada por opacidad, sin presentar poses o GIF experimentales como animación final.
+Se ajustan las cinco pantallas Compose hacia los diseños aprobados sin agregar pestañas. La bienvenida ahora es un flujo independiente que conserva nombre/rol y diferencia registro de presentación vista. Concepto C usa una figura aislada mediante máscara del original, con RGB conservado, sin la lámina en miniatura ni el antiguo fade. El gesto real de brazo/parpadeo permanece BLOCKED por ausencia de rig aprobado; no se activan poses o GIF experimentales.
 
 El respaldo incluye preferencias de forma aditiva, referencias a medios, borrador OCR con imagen retenida y páginas de lotes OCR pendientes. La restauración fusiona sin sobrescribir IDs existentes y usa un journal Room para recuperar preferencias si DataStore falla. No hay nueva versión de Room ni migración destructiva. Los motores PDF, cámara y reconocimiento ML Kit conservan sus implementaciones; se ajustan almacenamiento/sincronización de borradores OCR.
 

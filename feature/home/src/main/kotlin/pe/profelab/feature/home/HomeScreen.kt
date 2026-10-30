@@ -17,7 +17,7 @@ import pe.profelab.core.ui.*
 fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (TaskFilter) -> Unit,
     openTask: (String) -> Unit, openActivity: () -> Unit, openProfile: () -> Unit,
     complete: (Task,Boolean) -> Unit, retry: () -> Unit, openResource: (EntityRef)->Unit,
-    preferences:UserPreferences=UserPreferences(),welcome:@Composable ()->Unit={}) {
+    preferences:UserPreferences=UserPreferences()) {
     Page {
         if (state.loading) { CircularProgressIndicator(); return@Page }
         if (state.error != null) { ErrorNotice(state.error,retry); return@Page }
@@ -27,12 +27,7 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
                 Text(state.profile?.academicCycle?.let { "$it.º ciclo · Educación Primaria" } ?: "Tu espacio para enseñar y crear",style=MaterialTheme.typography.bodyLarge)
                 Text("Pequeñas ideas, grandes aprendizajes",style=MaterialTheme.typography.bodyMedium,color=ProfeColors.Muted)
             }
-            if (LocalDensity.current.fontScale < 1.4f){
-                if(preferences.mascotVisible && preferences.onboardingCompleted)CanonicalMascot(Modifier.width(86.dp).height(108.dp),preferences.reduceMotion,entrance=true)
-                else DeskPlant(Modifier.size(86.dp))
-            }
         }
-        welcome()
         if (state.profile == null) TextButton(onClick=openProfile) { Text("Configurar mi perfil académico") }
         val progress = HomeRules.progress(state.tasks,state.now.toLocalDate(),state.now.zone)
         Card(onClick={openTasks(TaskFilter.WEEK)},colors=CardDefaults.cardColors(containerColor=ProfeColors.Mint)) {
@@ -82,6 +77,23 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
                 TodayCard(todayTasks,Modifier,complete,openTask) { openTasks(TaskFilter.TODAY) }
             }
         }
+        if(preferences.mascotVisible)Card(colors=CardDefaults.cardColors(containerColor=ProfeColors.Mint)){
+            BoxWithConstraints(Modifier.padding(16.dp)){
+                val text:@Composable ()->Unit={Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
+                    Text("Tu compañera de ProfeLab",style=MaterialTheme.typography.titleMedium)
+                    Text("Tus ideas y pendientes, a tu ritmo.")
+                    TextButton(onClick={openTasks(TaskFilter.ALL)}){Text("Ver mis tareas")}
+                    TextButton(onClick={openSection("taller")}){Text("Ir a mi taller")}
+                }}
+                if(maxWidth>=300.dp && LocalDensity.current.fontScale<1.4f)Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(16.dp)){
+                    CanonicalMascot(Modifier.width(112.dp).height(174.dp),preferences.reduceMotion)
+                    Box(Modifier.weight(1f)){text()}
+                }else Column(verticalArrangement=Arrangement.spacedBy(12.dp)){
+                    CanonicalMascot(Modifier.fillMaxWidth().height(180.dp),preferences.reduceMotion);text()
+                }
+            }
+        }
+
     }
 }
 

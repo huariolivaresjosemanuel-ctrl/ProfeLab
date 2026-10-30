@@ -9,6 +9,7 @@ import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.flow.first
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,6 +20,7 @@ import java.io.File
 @RunWith(AndroidJUnit4::class)
 class MainScreensCaptureTest {
     @get:Rule val compose=createAndroidComposeRule<MainActivity>()
+    @Before fun enterExistingApp(){compose.dismissWelcomeIfPresent()}
     @Test fun captureTheFiveApprovedRootSections(){
         val graph=ApplicationProvider.getApplicationContext<ProfeApplication>().graph
         val output=File(requireNotNull(InstrumentationRegistry.getInstrumentation().context.getExternalFilesDir(null)),"visual").apply {mkdirs()}

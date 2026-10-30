@@ -171,8 +171,13 @@ class DeliveryChecks(unittest.TestCase):
     def test_ci_is_read_only_and_generates_apk_and_reports(self):
         workflow=read('.github/workflows/android.yml')
         self.assertIn('contents: read',workflow); self.assertIn('persist-credentials: false',workflow)
+        runner=read('scripts/run_android_checks.sh')
+        self.assertIn('script: bash scripts/run_android_checks.sh',workflow)
         for expected in ['assembleDebug','lintDebug','connectedDebugAndroidTest','app-debug.apk','workflow_dispatch']:
-            self.assertIn(expected,workflow)
+            self.assertIn(expected,workflow+runner)
+        self.assertIn(':core:database:connectedDebugAndroidTest :app:connectedDebugAndroidTest',runner)
+        self.assertIn('exit \"$status\"',runner)
+        self.assertNotIn('git push',runner)
         self.assertNotIn('contents: write',workflow)
         self.assertNotIn('git push',workflow)
         self.assertNotRegex(workflow,r'(?m)^\s+(push|pull_request|schedule|workflow_run):')
