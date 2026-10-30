@@ -1,5 +1,5 @@
 5bde833a1cb9b266f89f79e41b40595164d34bb09b388537e9f05355a256a36e  .gitattributes
-20a8235b9cf5af24c83009cc149833a9029bcf410a15273cf302c3f765c35f72  .github/workflows/android.yml
+d5e7b267ce9a4254a5dc5d511be931aeabb95ea516fc65b19d90d111bd2c41bb  .github/workflows/android.yml
 95fa943107932d39ba9f460ae2d1776701c79d29830b834d29940fa300e53877  .gitignore
 07861f6ef4d4b999c8523da42a4f8712e39e8f84519951eab36f5fe60ac89398  ARCHIVOS_A_ELIMINAR.csv
 db0ea77ca3c6da17455685f12f578f15070193df8944c718fb2a5c963b780698  ARCHIVOS_A_RETIRAR.csv
@@ -170,7 +170,7 @@ a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c  core/ui/src/ma
 72a33ab55a97542f664ec5c95c7f5339151e77bc1a23ce2a65692f10a830bca6  core/ui/src/main/assets/brand/concept_c_individual.provenance.json
 da2a999ac3ffcc4d9f5e8ce116b05c797a8671518e9919ea7d8ee5d8104acdfc  core/ui/src/main/assets/brand/concept_c_original.png
 020220ab1d17a5685f0bc9ec2f51ca6b12912e8982cd04405218947cd01528ab  core/ui/src/main/kotlin/pe/profelab/core/ui/AssistantBindings.kt
-c22e6903427a3f478ee68b4c867c009c4f76ff5508cc651513a9d700a0cadad3  core/ui/src/main/kotlin/pe/profelab/core/ui/AssistantPanel.kt
+c26e886bc8bc163494c391a6a84203f8e2199b1a705afa6cb17f95ecc71f5bf9  core/ui/src/main/kotlin/pe/profelab/core/ui/AssistantPanel.kt
 cb9eaf356c7e24a4bc54d8d3712cdbfb3f2cc0cf6b8b75174ca4b4e1e9528063  core/ui/src/main/kotlin/pe/profelab/core/ui/BrandArt.kt
 00f5e29188ffaa57fc0a934be9e39faaa4780e3ef6e8378d3cb38788ef3339d7  core/ui/src/main/kotlin/pe/profelab/core/ui/CanonicalMascot.kt
 f3cf9dd4f86880c6eef389cf3c06610ffc41f20ba42705c22c76d24e295a1933  core/ui/src/main/kotlin/pe/profelab/core/ui/Components.kt

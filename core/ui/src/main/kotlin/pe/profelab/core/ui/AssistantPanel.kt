@@ -36,7 +36,7 @@ fun AssistantPanel(advice:AssistantAdvice,error:String?,busy:Boolean,onAction:(A
         }
         Text("Puedes volver a mostrarla desde Perfil → Mostrar mascota.",style=MaterialTheme.typography.bodySmall)
     }}
-    val body:@Composable ()->Unit={BoxWithConstraints(Modifier.testTag("assistant-panel").heightIn(max=if(tablet)780.dp else 700.dp).verticalScroll(rememberScrollState()).padding(20.dp)){
+    val body:@Composable ()->Unit={Box(Modifier.testTag("assistant-panel").heightIn(max=if(tablet)780.dp else 700.dp).verticalScroll(rememberScrollState()).padding(20.dp)){
         if(tablet)Row(horizontalArrangement=Arrangement.spacedBy(24.dp),verticalAlignment=Alignment.Top){CanonicalMascot(Modifier.weight(.7f).height(360.dp),fullBody=true);Box(Modifier.weight(1.3f)){text()}}
         else Column(verticalArrangement=Arrangement.spacedBy(16.dp)){CanonicalMascot(Modifier.fillMaxWidth().height(220.dp),fullBody=true);text()}
     }}
