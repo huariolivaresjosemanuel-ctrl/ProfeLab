@@ -9,6 +9,11 @@ on:
         required: true
         type: boolean
         default: true
+      signed_release:
+        description: Generar APK de actualización con la clave permanente del usuario
+        required: true
+        type: boolean
+        default: false
 
   push:
     branches:
@@ -53,7 +58,20 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Verificar estructura y datos
-        run: python3 scripts/verify_project.py
+        env:
+          SIGNED_REQUEST: ${{ inputs.signed_release }}
+          EMULATOR_REQUEST: ${{ inputs.run_emulator }}
+        run: |
+          if [ "$SIGNED_REQUEST" = "true" ] && [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            echo "La entrega firmada se genera exclusivamente desde main."
+            exit 1
+          fi
+          if [ "$SIGNED_REQUEST" = "true" ] && [ "$EMULATOR_REQUEST" != "true" ]; then
+            echo "La entrega firmada requiere activar las pruebas Android."
+            exit 1
+          fi
+          python3 scripts/verify_project.py
+          python3 -m unittest discover -s scripts -p 'test_signing.py' -v
 
       - name: Permitir ejecucion de Gradle
         run: chmod +x gradlew
@@ -72,7 +90,7 @@ jobs:
       - name: Publicar APK de prueba
         uses: actions/upload-artifact@v4
         with:
-          name: ProfeLab-H1-debug-${{ github.run_number }}
+          name: ProfeLab-H1.1-DEBUG-no-distribuir-${{ github.run_number }}
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
@@ -155,3 +173,64 @@ jobs:
             **/build/outputs/androidTest-results/**
             **/build/outputs/connected_android_test_additional_output/**
           retention-days: 30
+
+  signed-release:
+    name: APK con firma permanente del usuario
+    if: github.event_name == 'workflow_dispatch' && inputs.signed_release
+    needs: [build, android-tests]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PROFELAB_SIGNING_CERT_SHA256: ${{ vars.PROFELAB_SIGNING_CERT_SHA256 }}
+      PROFELAB_LAST_DISTRIBUTED_VERSION_CODE: ${{ vars.PROFELAB_LAST_DISTRIBUTED_VERSION_CODE }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+      - name: Instalar plataforma y herramientas de firma
+        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-disabled: true
+      - name: Número de actualización y rutas temporales
+        run: |
+          echo "PROFELAB_VERSION_CODE=$((1000 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
+          echo "PROFELAB_KEYSTORE_PATH=$RUNNER_TEMP/profelab-signing/release.keystore" >> "$GITHUB_ENV"
+          echo "PROFELAB_APKSIGNER=$ANDROID_HOME/build-tools/35.0.0/apksigner" >> "$GITHUB_ENV"
+          echo "PROFELAB_AAPT=$ANDROID_HOME/build-tools/35.0.0/aapt" >> "$GITHUB_ENV"
+      - name: Validar configuración y reconstruir clave temporal
+        env:
+          PROFELAB_KEYSTORE_BASE64: ${{ secrets.PROFELAB_KEYSTORE_BASE64 }}
+          PROFELAB_KEYSTORE_PASSWORD: ${{ secrets.PROFELAB_KEYSTORE_PASSWORD }}
+          PROFELAB_KEY_ALIAS: ${{ secrets.PROFELAB_KEY_ALIAS }}
+          PROFELAB_KEY_PASSWORD: ${{ secrets.PROFELAB_KEY_PASSWORD }}
+        run: python3 scripts/signing.py prepare
+      - name: Compilar release con firma estable y ejecutar lint release
+        env:
+          PROFELAB_SIGN_RELEASE: 'true'
+          PROFELAB_KEYSTORE_PASSWORD: ${{ secrets.PROFELAB_KEYSTORE_PASSWORD }}
+          PROFELAB_KEY_ALIAS: ${{ secrets.PROFELAB_KEY_ALIAS }}
+          PROFELAB_KEY_PASSWORD: ${{ secrets.PROFELAB_KEY_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon --no-configuration-cache :app:lintRelease :app:assembleRelease
+      - name: Verificar firma y certificado esperado antes de publicar
+        run: python3 scripts/signing.py verify --apk app/build/outputs/apk/release/app-release.apk --output "$RUNNER_TEMP/profelab-public-release"
+      - name: Eliminar clave temporal
+        if: always()
+        run: python3 scripts/signing.py cleanup
+      - name: Publicar exclusivamente APK verificada y huellas públicas
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProfeLab-H1.1-FIRMA-PERMANENTE-${{ github.run_number }}
+          path: ${{ runner.temp }}/profelab-public-release/
+          if-no-files-found: error
+          retention-days: 30
+
