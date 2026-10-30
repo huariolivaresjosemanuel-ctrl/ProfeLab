@@ -7,6 +7,31 @@ def read(path): return (ROOT/path).read_text(encoding='utf-8')
 def rows(path): return list(csv.DictReader((ROOT/path).open(encoding='utf-8-sig',newline='')))
 
 class DeliveryChecks(unittest.TestCase):
+    def test_api26_theme_and_versioned_navigation_bar(self):
+        base=ET.fromstring(read('app/src/main/res/values/themes.xml'))
+        styles={s.attrib['name']:s for s in base.findall('style')}
+        self.assertEqual('Theme.ProfeLab.Base',styles['Theme.ProfeLab'].attrib['parent'])
+        for item in base.findall('.//item'):
+            self.assertNotEqual('android:windowLightNavigationBar',item.attrib['name'])
+        common={i.attrib['name']:i.text for i in styles['Theme.ProfeLab.Base'].findall('item')}
+        self.assertEqual('#175C47',common['android:navigationBarColor'])
+        modern=ET.fromstring(read('app/src/main/res/values-v27/themes.xml')).find('style')
+        self.assertEqual('Theme.ProfeLab',modern.attrib['name'])
+        self.assertEqual('Theme.ProfeLab.Base',modern.attrib['parent'])
+        items={i.attrib['name']:i.text for i in modern.findall('item')}
+        self.assertEqual('true',items['android:windowLightNavigationBar'])
+        self.assertEqual('#FAF7F1',items['android:navigationBarColor'])
+
+    def test_validation_stays_enabled_and_emulator_sdk_is_explicit(self):
+        workflow=read('.github/workflows/android.yml')
+        self.assertIn('--continue',workflow)
+        self.assertNotIn('continue-on-error',workflow)
+        self.assertEqual(2,workflow.count('sdkmanager "platforms;android-36" "build-tools;35.0.0"'))
+        self.assertIn('target: ${{ matrix.target }}',workflow)
+        for build in ROOT.rglob('build.gradle.kts'):
+            if 'build' not in build.relative_to(ROOT).parts:
+                self.assertNotIn('abortOnError = false',build.read_text(encoding='utf-8'))
+
     def test_sixteen_modules_and_acyclic_dependency_graph(self):
         modules=re.findall(r'include\("(:[^\"]+)"\)',read('settings.gradle.kts'))
         self.assertEqual(16,len(modules))

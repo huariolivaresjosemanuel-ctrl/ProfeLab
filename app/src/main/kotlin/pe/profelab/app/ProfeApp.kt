@@ -2,6 +2,7 @@ package pe.profelab.app
 
 import android.content.Intent
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsNone
@@ -90,7 +91,7 @@ fun ProfeApp(graph: AppGraph) {
                     LibraryScreen(state,vm::reload) { url ->
                         try {
                             require(ContentPolicy.isOfficialSource(url))
-                            context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(url)))
+                            context.startActivity(Intent(Intent.ACTION_VIEW,url.toUri()))
                         } catch (_: Exception) { scope.launch { snackbar.showSnackbar("No se pudo abrir la fuente. Comprueba que tienes un navegador disponible.") } }
                     }
                 }

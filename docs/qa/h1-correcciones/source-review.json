@@ -1,0 +1,440 @@
+{
+  "base": "589bbd9dc09746a05383efc88d89963e079b2483",
+  "files_reviewed": [
+    {
+      "path": ".github/workflows/android.yml",
+      "base_git_sha": "f08ff3f11ccba75d96c148f1dc21d7541ce63b6b",
+      "current_sha256": "748f35642c3f7722fca1eec9a47de09605323c18bdc05e3cf904d00baa010866"
+    },
+    {
+      "path": "app/build.gradle.kts",
+      "base_git_sha": "2431ccb20e0a0a365a94f7a6962e2c1e72e53e20",
+      "current_sha256": "c419f78659a565b8f1b58af7bc94e0b64456c40b0e5438405cb1321deff1287d"
+    },
+    {
+      "path": "app/src/androidTest/kotlin/pe/profelab/app/NavigationTest.kt",
+      "base_git_sha": "41cf6d01faf3a96642ec67d24aab0627790534a8",
+      "current_sha256": "b07bd7422f12744e559cc3d04776c1ad2c91f55a2b1f48f9355ec94414bede9b"
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "base_git_sha": "e090adc0067e22891b95013b4645ff00d863d2dd",
+      "current_sha256": "c66f4646a86668d706b8e36b9c535449d2f13f5bd42ff9d1db7f3a7e63dfa4bd"
+    },
+    {
+      "path": "app/src/main/kotlin/pe/profelab/app/AppGraph.kt",
+      "base_git_sha": "4a397d7a475ee3dcca4341710661c39843f5cd7d",
+      "current_sha256": "57ff44edd18bfb342d0106d9d220feca7ae69066b85d125874def8bed729825b"
+    },
+    {
+      "path": "app/src/main/kotlin/pe/profelab/app/MainActivity.kt",
+      "base_git_sha": "107572a4692ded9a0b8ad6f4e64ff0763da9d00f",
+      "current_sha256": "ed3c474fbc1e018f9abf0068b59b5978a8b899b11d8c53353593013cf6020324"
+    },
+    {
+      "path": "app/src/main/kotlin/pe/profelab/app/NavigationBar.kt",
+      "base_git_sha": "1583a6c124aebd4819985c979d09e2b654bfe040",
+      "current_sha256": "97d9e39bf39c9481019fff179f85df7fc736c890453b907f70d4b7a1538b3367"
+    },
+    {
+      "path": "app/src/main/kotlin/pe/profelab/app/ProfeApp.kt",
+      "base_git_sha": "4407403e812b585f4d426c26dca3277d86e0d093",
+      "current_sha256": "714af55815677c6e3adb2721ebc74a4ab2c212a0fb185c8b3feba9e28c293f65"
+    },
+    {
+      "path": "app/src/main/kotlin/pe/profelab/app/ProfeApplication.kt",
+      "base_git_sha": "d7f85ef5cef8d27b67c5ecce9ded93bdd0cb277d",
+      "current_sha256": "0112e3250be53c6adde5f36b03c64c54d6426a2ab4e2a1a14e9b6c014e0bd105"
+    },
+    {
+      "path": "app/src/main/kotlin/pe/profelab/app/reminders/LocalReminders.kt",
+      "base_git_sha": "4037dc97a22d2b10a34d7f60534729d298eebdc5",
+      "current_sha256": "c067b399d51704c269cc01fe6002d99541e64b27b2577e1320a559e50b9d7077"
+    },
+    {
+      "path": "app/src/main/kotlin/pe/profelab/app/reminders/TaskReminderWorker.kt",
+      "base_git_sha": "5d39221a9868f261f27ae6e4aeb0960716ff941a",
+      "current_sha256": "b47374ef6e882e78f928791fef7b9741a39727a18f8566dc6ed176ebd8c574aa"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_notification.xml",
+      "base_git_sha": "dc29acb9305fbbcd0db0b03ecf6f71c63aa05584",
+      "current_sha256": "71693d46def896b08b4cf7c7c60b1835dea2f9fec0582951a9920c27d3e30d12"
+    },
+    {
+      "path": "app/src/main/res/drawable/ic_profelab.xml",
+      "base_git_sha": "2bc888c46962dff7691bc48eea33331c72e99099",
+      "current_sha256": "4b2d6903fd37a3d6d0e102e5b753e8de4cb1930a2805abc389a617e790b7beae"
+    },
+    {
+      "path": "app/src/main/res/values/strings.xml",
+      "base_git_sha": "8546df49bc8dd074959c622c7db5183cc79b2c02",
+      "current_sha256": "b69b8feadbfdc146fe6bbdd6aab07bc292c1e42c0a866948ccb043542b66f981"
+    },
+    {
+      "path": "app/src/main/res/values/themes.xml",
+      "base_git_sha": "0632921f3c89479e9a373d7f9e7f8ae052c3fe2e",
+      "current_sha256": "69e000bd634eb84cdf5945cbcd89401c071e7776ba9c1a7e19ddb8e9030650d5"
+    },
+    {
+      "path": "app/src/main/res/xml/data_extraction_rules.xml",
+      "base_git_sha": "061447a18848bea2bee8b3f1410ede175c88fd59",
+      "current_sha256": "f2f358d89c06fa712f6887b9bac1d9859b8843ec79f614084d32029efb76db5c"
+    },
+    {
+      "path": "build.gradle.kts",
+      "base_git_sha": "1ff73dfedf14375a5883d03174ed78dd86388218",
+      "current_sha256": "2d0f9daef09c5071f3ed61f9f6cb9cdaec948fa256348fa3327facf9d9b32640"
+    },
+    {
+      "path": "core/content/build.gradle.kts",
+      "base_git_sha": "e2fc0f8e91bfe7cff00735e5a19db7737c07531a",
+      "current_sha256": "c85eae2f545c92d7f6bee750a8f1a35026a0c1c9e7e498c268dcd6b99a9ed0f2"
+    },
+    {
+      "path": "core/content/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "core/content/src/main/kotlin/pe/profelab/core/content/BundledSourceCatalog.kt",
+      "base_git_sha": "e6b15d5e629ae2882838374cee4b99e20833b0ce",
+      "current_sha256": "07577512acda20d1ed450ae6482751d841e6bdecb88a58539e29a639e5e1eb5e"
+    },
+    {
+      "path": "core/database/build.gradle.kts",
+      "base_git_sha": "d05806dae55bf6889062114f75d2dba14e9b7a91",
+      "current_sha256": "57b7dbca528f699a8be86776d133a5813145ac3a4b48040acb232b1de0161662"
+    },
+    {
+      "path": "core/database/src/androidTest/kotlin/pe/profelab/core/database/PersistenceTest.kt",
+      "base_git_sha": "05f32eb82737fe82f221c080f1ea8304b7d48c4d",
+      "current_sha256": "b496df51eb17776b99ce5ebda04438f086664fed961e45dfb0f74cf65e396a1e"
+    },
+    {
+      "path": "core/database/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "core/database/src/main/kotlin/pe/profelab/core/database/Entities.kt",
+      "base_git_sha": "41b47f65ff62fa9e98a562dd70f8600d644dc997",
+      "current_sha256": "a0d2d24fff8dff72dc3c664ac0ed02f63a31c843b25bb5d26de328188e0eb88a"
+    },
+    {
+      "path": "core/database/src/main/kotlin/pe/profelab/core/database/LocalPreferences.kt",
+      "base_git_sha": "dec76ead0bfc7199e2a58d04edcc09286c31fce5",
+      "current_sha256": "8025e799c40b689677b64b20e7b2b7bc669e1e38e9664c2ae4a20fe2dd065460"
+    },
+    {
+      "path": "core/database/src/main/kotlin/pe/profelab/core/database/LocalRepository.kt",
+      "base_git_sha": "814a8c8b546f634c18969bc086d18168733865f3",
+      "current_sha256": "a029e310d9ab732de04d63b5b8c8dfbbd7207e3600abacab828d0c0366b511df"
+    },
+    {
+      "path": "core/database/src/main/kotlin/pe/profelab/core/database/ProfeDao.kt",
+      "base_git_sha": "9b2e3f0d7c56172c8415403cd52678293f6ac159",
+      "current_sha256": "b07eb70e560fe8678d503d34cac84b6b5e5a50c65433fa7abfd8124bd9706101"
+    },
+    {
+      "path": "core/database/src/main/kotlin/pe/profelab/core/database/ProfeDatabase.kt",
+      "base_git_sha": "4e6e7e4eb0de077c0b7de1d919b9a8c19b88a1ee",
+      "current_sha256": "e429c6159a8ad8656984c13b548233ad1b534adfa4b49a9c6b1015c532e3a8cc"
+    },
+    {
+      "path": "core/files/build.gradle.kts",
+      "base_git_sha": "4454398e5f85aa39c1894b847775f6b6967f09c7",
+      "current_sha256": "aa84bb2b476fc76ed22dc36a0354b47ee37b338f35d1e221736b947a43e0e880"
+    },
+    {
+      "path": "core/files/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "core/files/src/main/kotlin/pe/profelab/core/files/PrivateFiles.kt",
+      "base_git_sha": "b5c55f8843f74c5ba56c44d6db72babb8f357469",
+      "current_sha256": "0b09ef0c50956efb2233bb1b2688a93d755e26c983cca818b000cf63a430a53a"
+    },
+    {
+      "path": "core/model/build.gradle.kts",
+      "base_git_sha": "99ad66475683450101ab7add177f7edc40ecdaee",
+      "current_sha256": "45278fbad7d6187327fecd05b5d8a07f45ac93a431f9314b9ef24ef65c36eefd"
+    },
+    {
+      "path": "core/model/src/main/kotlin/pe/profelab/core/model/FeatureContracts.kt",
+      "base_git_sha": "c716603dff1e6597ab41f69a9bf209d0033a3f79",
+      "current_sha256": "1bb28000dfe788c177d6ffe084fc3cc3c1f1cf53d15f3dff3060aed806262a69"
+    },
+    {
+      "path": "core/model/src/main/kotlin/pe/profelab/core/model/HomeRules.kt",
+      "base_git_sha": "67cc7da9a459cd70d4f71c1311df6a1d3a160f1f",
+      "current_sha256": "1913b5368e89fa7792bbacb13a6e27dee297823ea364f1de670e8b46e0da5589"
+    },
+    {
+      "path": "core/model/src/main/kotlin/pe/profelab/core/model/Models.kt",
+      "base_git_sha": "df1f9ef1c57f0006dd3c81930ecb91e9e5a23e7d",
+      "current_sha256": "11723130c21653d64585d320229e84caf8dd1f8318b5016927f447a6f1d7610e"
+    },
+    {
+      "path": "core/model/src/main/kotlin/pe/profelab/core/model/Repositories.kt",
+      "base_git_sha": "6dc2c0cab6cf2a217a844b217b58616ee824d60f",
+      "current_sha256": "fd8f677cbb2c7c7deda66447a5c775b231cc38c400120c448108a34dfeb6c772"
+    },
+    {
+      "path": "core/model/src/test/kotlin/pe/profelab/core/model/HomeRulesTest.kt",
+      "base_git_sha": "b6c512b403a6af55475db64899be7dab7427d6ca",
+      "current_sha256": "5ff6415922493624c89578308e2c05ce911632d375eb3d4eb1ff552ec7e00942"
+    },
+    {
+      "path": "core/security/build.gradle.kts",
+      "base_git_sha": "27d983444db33db53d291eccb19425c803f71fd4",
+      "current_sha256": "1b530098a9dfcb9717ce6630842c7cbe646e36700c495bfe84de1c4d4b9b3667"
+    },
+    {
+      "path": "core/security/src/main/kotlin/pe/profelab/core/security/ContentPolicy.kt",
+      "base_git_sha": "69df87ee102e49f5a0bba9aae8164449551c86e4",
+      "current_sha256": "973c0ccea04d618be2744b829206d8a61f79b1e98632b6345c66df7258f8a2ba"
+    },
+    {
+      "path": "core/security/src/test/kotlin/pe/profelab/core/security/ContentPolicyTest.kt",
+      "base_git_sha": "3ce9fdf3543bb2219289b33504001972f535399a",
+      "current_sha256": "43f7397a7d33deb44470e014ed6869e4db51fe8e482b548655c5bc048442cb04"
+    },
+    {
+      "path": "core/ui/build.gradle.kts",
+      "base_git_sha": "7a0293088a62eebf1678c10371483b6b781375a6",
+      "current_sha256": "42a9f395786fa178822f7b08d1e459694076da9487ef8e2c4363cf48f86a687f"
+    },
+    {
+      "path": "core/ui/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "core/ui/src/main/kotlin/pe/profelab/core/ui/BrandArt.kt",
+      "base_git_sha": "71755dd25060aa6ba9f0216dcb7844ed6c6c3b20",
+      "current_sha256": "cb9eaf356c7e24a4bc54d8d3712cdbfb3f2cc0cf6b8b75174ca4b4e1e9528063"
+    },
+    {
+      "path": "core/ui/src/main/kotlin/pe/profelab/core/ui/Components.kt",
+      "base_git_sha": "fb0914a2893993cb72250d072b9632c91dc1c12f",
+      "current_sha256": "5331d97d9052fd8523426321dd00520bd43a682caf70c8467afc7e538436d0db"
+    },
+    {
+      "path": "core/ui/src/main/kotlin/pe/profelab/core/ui/Theme.kt",
+      "base_git_sha": "b4f7ff026d2b65ac71a4e967139710d5d9409c68",
+      "current_sha256": "265ff4a10e5e3c04314cce9143a164f5e05e05b5e6a2ae04f28a0e0ee054c192"
+    },
+    {
+      "path": "feature/capture/build.gradle.kts",
+      "base_git_sha": "0a733e8dfbdd472843dfdc56d783bba4e643020e",
+      "current_sha256": "c7d536aa7636cd71ff163b4d1deb0fdcbd86971e01f09f49d98254c808f7f6ca"
+    },
+    {
+      "path": "feature/capture/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/capture/src/main/kotlin/pe/profelab/feature/capture/CaptureFeature.kt",
+      "base_git_sha": "befcd12097031982e179135ed6a353f565a9fd5b",
+      "current_sha256": "3af7be25a7c7cef96f1f85efd8334028fce187b40af7f1b2a127c775db18a498"
+    },
+    {
+      "path": "feature/home/build.gradle.kts",
+      "base_git_sha": "f39d3d34b1d9d10744931969f884d624cd87ac55",
+      "current_sha256": "d41071fb7720c23824e176dc03bcbb684ef6041c020a9919ac93e90e8d6e8ff0"
+    },
+    {
+      "path": "feature/home/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/home/src/main/kotlin/pe/profelab/feature/home/ActivityScreen.kt",
+      "base_git_sha": "6d93b0c2c05c8b971cd76d69e1c5a0f312f323fb",
+      "current_sha256": "6ed5aaa03009e038ea3478354fa0982ffd1235e1f3b24b067ad9c091965ef9d9"
+    },
+    {
+      "path": "feature/home/src/main/kotlin/pe/profelab/feature/home/HomeScreen.kt",
+      "base_git_sha": "5d07db9525f7aa2ee116ff0b54582a29bc05f483",
+      "current_sha256": "63dd7c84a83f882a565d421c58d1f9add807769eecdf2d93b4d10fbf2d806e6a"
+    },
+    {
+      "path": "feature/home/src/main/kotlin/pe/profelab/feature/home/HomeViewModel.kt",
+      "base_git_sha": "40b7f4a1d7a624f8ae6f1b932855b68e592ae9f3",
+      "current_sha256": "7b0780d5632cadbb85322dd0550368a1fd5ee5cc380e48db3290f0b1aa3d5ba3"
+    },
+    {
+      "path": "feature/home/src/main/kotlin/pe/profelab/feature/home/TaskEditorScreen.kt",
+      "base_git_sha": "1ccd8238542f4afb089cc3edb21e95c08fb5a24e",
+      "current_sha256": "b63dc61180e443122ffbc091008683d8e64a3dc7da3e34a48305697c2ffc6de3"
+    },
+    {
+      "path": "feature/home/src/main/kotlin/pe/profelab/feature/home/TaskEditorViewModel.kt",
+      "base_git_sha": "7684fc0b47998137dc68ef78999bf9b81bdf2ecb",
+      "current_sha256": "aba193447341478a904db21be7f89e3f41d0879bcb41fa0b1bbebef994a2cb7d"
+    },
+    {
+      "path": "feature/home/src/main/kotlin/pe/profelab/feature/home/TaskListScreen.kt",
+      "base_git_sha": "165c6aa76ea9a086e4dafa7d7e32e732d8b17aa6",
+      "current_sha256": "eb5a333f66f49727cf8cfcbd8b84272dbfa456d2ed7cd7344da8e78a75c454ba"
+    },
+    {
+      "path": "feature/home/src/main/kotlin/pe/profelab/feature/home/TaskRow.kt",
+      "base_git_sha": "0184f1c24fc33691532ae2b35a5ecf9f6fd0ea97",
+      "current_sha256": "ebb91ba155b4f23d97b9f387924bff6b7315e6f6232f3b883011fd62d052ce8d"
+    },
+    {
+      "path": "feature/library/build.gradle.kts",
+      "base_git_sha": "9b6a7ce2ef55c0d62bcd607070fd51eb01a667ad",
+      "current_sha256": "4be31acfce09dfea2da69d626ddb3d9c65ac78c06ca50f6c01f3d2caca9e5c31"
+    },
+    {
+      "path": "feature/library/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/library/src/main/kotlin/pe/profelab/feature/library/LibraryScreen.kt",
+      "base_git_sha": "20d2654b5cdd15be668b637ee7febebe6c402085",
+      "current_sha256": "5b27961eb3d34a355d626554f4cb68f7b676c6b937220217e10882e38cc5550a"
+    },
+    {
+      "path": "feature/library/src/main/kotlin/pe/profelab/feature/library/LibraryViewModel.kt",
+      "base_git_sha": "8c3a53924926b44fc6f460a363ba797c25140d88",
+      "current_sha256": "ab3bf0f44234eee48450d41f65e580133362be39c75df0fd5817f655703f1ad1"
+    },
+    {
+      "path": "feature/notebook/build.gradle.kts",
+      "base_git_sha": "42fef908eccd021b5ca395ad8fae06d7dcc5cd96",
+      "current_sha256": "469f714b1cd01396fd4c9a1ac3d1cb161a95162cd7232849ae1fc88ac5d5d59a"
+    },
+    {
+      "path": "feature/notebook/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/notebook/src/main/kotlin/pe/profelab/feature/notebook/NotebookScreen.kt",
+      "base_git_sha": "69d40ea5eae5bee61c77c68a47d09757524f963a",
+      "current_sha256": "6e0189a4272dd71a0774d8d36b846ea2f5f0c942a5b3b8dd5e2c011d376c7143"
+    },
+    {
+      "path": "feature/ocr/build.gradle.kts",
+      "base_git_sha": "a59a07c9897ee4d5a5f9f357dcd4c710c6b505e3",
+      "current_sha256": "d78a9fd1c079e237b7f2269a26728d943a7c5e06b874cf94c65e4782b269b4bd"
+    },
+    {
+      "path": "feature/ocr/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/ocr/src/main/kotlin/pe/profelab/feature/ocr/OcrFeature.kt",
+      "base_git_sha": "8fb2d2c5d9ecbc7cebe095e4de7588a6e60b976e",
+      "current_sha256": "f027709ce4c863dc73575a348d1f97e156ae29a76290e129b9d9d893353e22f9"
+    },
+    {
+      "path": "feature/pdf/build.gradle.kts",
+      "base_git_sha": "5083200c0f33ab58b41f461bb7ec3c4b17420652",
+      "current_sha256": "898231f5ba31a93bca654db05f5735bdabef679f4332b3e35c9c38426b800351"
+    },
+    {
+      "path": "feature/pdf/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/pdf/src/main/kotlin/pe/profelab/feature/pdf/PdfFeature.kt",
+      "base_git_sha": "dc44d1536cbbab1aa6ebb3ab1f314dcde1adabb9",
+      "current_sha256": "183f454b69d8ff839ea56fc6c2d231387dabecf7982490939d92dc28d1b64293"
+    },
+    {
+      "path": "feature/profile/build.gradle.kts",
+      "base_git_sha": "ad74839fe81727835c5d0f427ee14f272d338632",
+      "current_sha256": "ba3e9c827d23e0fe102b93be48a1fcbbbe0935fcf0e49ecc4ecafd320d930554"
+    },
+    {
+      "path": "feature/profile/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/profile/src/main/kotlin/pe/profelab/feature/profile/AboutScreen.kt",
+      "base_git_sha": "7f648b6543701737838fc8d7ec189a72fa32751b",
+      "current_sha256": "582fcc5364d8fc99bcd058d75375704a96bbd12bfade26b833d921bf6b5cc68d"
+    },
+    {
+      "path": "feature/profile/src/main/kotlin/pe/profelab/feature/profile/ProfileScreen.kt",
+      "base_git_sha": "dacba96d766c3ca6ff83600a5174d5fb756aa9a3",
+      "current_sha256": "e9e42c2dee039e27be6e7a8289f729b89978e09818699ff1f1c9c62683725f65"
+    },
+    {
+      "path": "feature/profile/src/main/kotlin/pe/profelab/feature/profile/ProfileViewModel.kt",
+      "base_git_sha": "2fe05974e47fdd4a6cf705bd34d8cbe65716942a",
+      "current_sha256": "9a6502fcfb9a7261668a27b4a095b73d91169c7d2916d04a574e3ea38fd9f6b4"
+    },
+    {
+      "path": "feature/sessions/build.gradle.kts",
+      "base_git_sha": "5195ca92e836b4dff7607948c184da08e3c302a9",
+      "current_sha256": "3417e4395a6542232d74b233fe5e67082bb616ed1f1ba7ff8b87781b1be63bf3"
+    },
+    {
+      "path": "feature/sessions/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/sessions/src/main/kotlin/pe/profelab/feature/sessions/SessionsScreen.kt",
+      "base_git_sha": "1092c6278c6a8c94344ea7bc51359b555b5601f3",
+      "current_sha256": "3112b2b970e24e6ec33b389c989c90298a26dcf215bae15bae559849da9d48bd"
+    },
+    {
+      "path": "feature/taller/build.gradle.kts",
+      "base_git_sha": "6ca0bb04486664be8d306a47aa09fcddddfe3c7c",
+      "current_sha256": "1f196c8d1cfe14e1dcbce202476ea4c8d89027c7833dd41fb77a4b7f861a778c"
+    },
+    {
+      "path": "feature/taller/src/main/AndroidManifest.xml",
+      "base_git_sha": "fb3a0f6f849b3d4d4a99be949f1a4ae7ee5a9832",
+      "current_sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "feature/taller/src/main/kotlin/pe/profelab/feature/taller/TallerScreen.kt",
+      "base_git_sha": "9fc0084e8d7b54780e7478205d039b38ef2c7f36",
+      "current_sha256": "53db63c19ae1022db78f1cfbaf725e746c238fc2de5b57856e123f3173450ccf"
+    },
+    {
+      "path": "gradle.properties",
+      "base_git_sha": "6e69c84cfcd2ec29a5215b4b41ec3aa641e41dcc",
+      "current_sha256": "c82afa55703fd4a96cace9c092ff9e56b2e882d2224ad38eea608f12ee584c1f"
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "base_git_sha": "8dac035c24e8b2a1e1faf53a12b1df4e6a088022",
+      "current_sha256": "0ed6c898fd0cdfe59879eb9796ac2ce3b89b3972e95610964f835c8845d0e13c"
+    },
+    {
+      "path": "gradle/wrapper/gradle-wrapper.properties",
+      "base_git_sha": "720235385dbe93dda2d9913fff510d4c25d7397f",
+      "current_sha256": "7dfc55e161460dd0b6adace89a19085f8d1383b02fc03f21fef2869f405239a8"
+    },
+    {
+      "path": "scripts/verify_inventory.py",
+      "base_git_sha": "659053c3791ab07779eecb663513bdc3097d1177",
+      "current_sha256": "3d98f1f1eec4a2b315cd35f5380dd0aa5368541e944594accc86c329a7b67f6d"
+    },
+    {
+      "path": "scripts/verify_project.py",
+      "base_git_sha": "3f0419e4995d21149c70887f3fd2bc5be9ac02b6",
+      "current_sha256": "9c7b445dee6e7bad8a2106e067eb4d224751b5ea5e5a1be12ad349e85c80999b"
+    },
+    {
+      "path": "settings.gradle.kts",
+      "base_git_sha": "c7cfc7572911c4878d8c0e91d3784b71009e6061",
+      "current_sha256": "90ea58fb75b45913ee89f2357ea5df356abaf5779bd733d78d89ef73a2dc0430"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.automirrored.outlined.Article
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -22,7 +23,7 @@ val topDestinations=listOf(
     TopDestination("home","Inicio",Icons.Outlined.Home),
     TopDestination("taller","Taller",Icons.Outlined.Brush),
     TopDestination("sessions","Sesiones",Icons.Outlined.Groups),
-    TopDestination("notebook","Cuaderno",Icons.Outlined.Article),
+    TopDestination("notebook","Cuaderno",Icons.AutoMirrored.Outlined.Article),
     TopDestination("library","Biblioteca",Icons.AutoMirrored.Outlined.MenuBook),
 )
 @Composable
