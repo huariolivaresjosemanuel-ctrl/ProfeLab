@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 2,
+  "contentContractVersion": "2.1",
+  "projectFiles": [
+    "projects.json"
+  ],
+  "experimentFiles": [
+    "experiments.json"
+  ],
+  "materialFiles": [
+    "materials_v2.json"
+  ],
+  "layoutFiles": [
+    "layouts_v2.json"
+  ]
+}

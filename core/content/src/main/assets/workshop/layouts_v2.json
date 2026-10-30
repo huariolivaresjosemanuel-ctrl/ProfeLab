@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 2,
+  "layouts": [
+    {
+      "id": "bundled:didactic",
+      "title": "Material didáctico",
+      "template": "DIDACTIC",
+      "sectionOrder": [
+        "purpose",
+        "inquiry",
+        "materials",
+        "preparation",
+        "steps",
+        "classroom",
+        "variants",
+        "safety",
+        "sources",
+        "evidence"
+      ],
+      "contentOrigin": "EDITORIAL_PROFELAB",
+      "distributionApproved": true
+    },
+    {
+      "id": "bundled:construction",
+      "title": "Guía de construcción",
+      "template": "CONSTRUCTION",
+      "sectionOrder": [
+        "purpose",
+        "materials",
+        "preparation",
+        "steps",
+        "classroom",
+        "variants",
+        "safety",
+        "sources",
+        "evidence"
+      ],
+      "contentOrigin": "EDITORIAL_PROFELAB",
+      "distributionApproved": true
+    },
+    {
+      "id": "bundled:experiment",
+      "title": "Indagación científica",
+      "template": "EXPERIMENT",
+      "sectionOrder": [
+        "purpose",
+        "inquiry",
+        "materials",
+        "preparation",
+        "steps",
+        "evidence",
+        "classroom",
+        "variants",
+        "safety",
+        "sources"
+      ],
+      "contentOrigin": "EDITORIAL_PROFELAB",
+      "distributionApproved": true
+    },
+    {
+      "id": "bundled:creative",
+      "title": "Proyecto creativo",
+      "template": "CREATIVE",
+      "sectionOrder": [
+        "purpose",
+        "materials",
+        "steps",
+        "variants",
+        "classroom",
+        "preparation",
+        "safety",
+        "sources",
+        "evidence"
+      ],
+      "contentOrigin": "EDITORIAL_PROFELAB",
+      "distributionApproved": true
+    },
+    {
+      "id": "bundled:academic",
+      "title": "Actividad académica",
+      "template": "ACADEMIC",
+      "sectionOrder": [
+        "purpose",
+        "sources",
+        "classroom",
+        "materials",
+        "steps",
+        "variants",
+        "preparation",
+        "safety",
+        "evidence"
+      ],
+      "contentOrigin": "EDITORIAL_PROFELAB",
+      "distributionApproved": true
+    }
+  ]
+}

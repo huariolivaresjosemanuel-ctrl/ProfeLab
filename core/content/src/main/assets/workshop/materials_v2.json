@@ -1,0 +1,456 @@
+{
+  "schemaVersion": 2,
+  "contentContractVersion": "2.1",
+  "materials": [
+    {
+      "id": "local:edbce914-409a-36a7-b3e2-e527fbe4349b",
+      "name": "agua",
+      "synonyms": [],
+      "category": "Líquidos",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:ddb2ffcb-d5bd-3c0b-8400-c5f14c41b166",
+      "name": "algodón",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "bolsa",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:058bb379-5c50-3036-96d8-de5956d9c94c",
+      "name": "arena limpia",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:9f99dd8f-2850-3961-b470-e2c4d241f413",
+      "name": "bandejas",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:7f2f2d5e-93f9-32e8-97a4-2bb8eb96a358",
+      "name": "botellas",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:9770a707-f70d-33ed-be97-af85afc3a713",
+      "name": "cajas",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidades",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:ef95afcf-2719-3574-9044-62d0882f3b7a",
+      "name": "cartulina",
+      "synonyms": [],
+      "category": "Papel y cartón",
+      "unit": "hojas",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:babbac19-9bc6-3d29-9642-c7bea764fea9",
+      "name": "cartón",
+      "synonyms": [],
+      "category": "Papel y cartón",
+      "unit": "planchas",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:d6a2f01e-65c5-3f17-946e-57ea7c4db0e5",
+      "name": "clavos",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidades",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:3cec0c8a-d8f4-3d9c-b527-33c17d2648c7",
+      "name": "colorante alimentario opcional",
+      "synonyms": [],
+      "category": "Arte",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:efaf1391-838b-3931-a74e-4f99472870fe",
+      "name": "encuadernador",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:ca25a2ba-b37e-3735-93a3-45103e378bfa",
+      "name": "etiquetas",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:d8abc029-9474-38d2-9818-56cba7f48f6b",
+      "name": "hoja de observación",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:2315984d-4eef-3522-ae74-08c004476540",
+      "name": "hoja de registro",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:34e38620-702b-3e51-867e-45786b9b86e8",
+      "name": "hojas de papel",
+      "synonyms": [],
+      "category": "Papel y cartón",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:a5e3cda1-1c68-39c9-be4d-1c2bbca50b79",
+      "name": "libros livianos",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:527fddbd-978a-3a29-9ac6-da0a8db001a9",
+      "name": "ligas",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidades",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:03d1dcbd-339c-3135-b2c9-fc1e1a947a69",
+      "name": "lápices",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidades",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:2433f6a5-33fb-365e-b55f-459b4a89c68a",
+      "name": "madera",
+      "synonyms": [],
+      "category": "Madera",
+      "unit": "tablero",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:85099b8a-0c18-3b25-a2fc-581d8a5db41c",
+      "name": "marcador no tóxico",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:e5326ed2-867e-35cb-9a3c-4cc1f586245d",
+      "name": "medidor",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:8beb0313-7935-3395-a92b-b9ec567dce61",
+      "name": "mesa firme",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:91518b95-c9a7-33af-9406-601ec26136fd",
+      "name": "objetos grandes limpios",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:ff15da17-2548-30a9-8b3a-b8bc77d0000d",
+      "name": "palo corto fijo",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:acbf61dc-603a-375f-b841-d5bfd5ca928f",
+      "name": "papel",
+      "synonyms": [],
+      "category": "Papel y cartón",
+      "unit": "hojas",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:dc3e8b06-7ac4-3464-a8f8-bb7187fba62b",
+      "name": "papel absorbente",
+      "synonyms": [],
+      "category": "Papel y cartón",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:5f916678-30da-3eba-a28e-5be91756edb4",
+      "name": "pegamento",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:259ebf05-d185-348d-b1c5-07042329a63e",
+      "name": "pesos iguales grandes",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:7bae8548-93f8-396b-be7f-4d8ce8f86b4a",
+      "name": "platos poco profundos",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:3e659403-cd9e-35d0-aa61-387486ab6d62",
+      "name": "plumones",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidades",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:aebe1983-92da-3f52-8704-69a9a9e1b065",
+      "name": "recipiente",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:cf0db6bc-757c-3c4d-b2e3-fd59e663f9cc",
+      "name": "recipiente graduado",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:12da2563-e138-3ed4-b353-8050244026dd",
+      "name": "recipientes perforados por adulto",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:25742783-dccf-3bca-acf6-a7612220f308",
+      "name": "recipientes reutilizables",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "REUSABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:4914eb81-47a0-38e6-a66d-0d1774348931",
+      "name": "regla",
+      "synonyms": [],
+      "category": "Herramientas",
+      "unit": "unidad",
+      "materialKind": "TOOL",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:55af5b74-3ba7-30ec-9fdd-a203a5926ae7",
+      "name": "semillas",
+      "synonyms": [],
+      "category": "Naturales",
+      "unit": "unidades",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:cb97f2b6-a9b9-3ddc-a66f-3a13c48a4672",
+      "name": "suelo limpio",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:137e193a-e3be-3701-a036-68b758b0d3b4",
+      "name": "sustrato",
+      "synonyms": [],
+      "category": "Naturales",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:d2cd6fef-d08f-3b72-a021-8cc694982d1b",
+      "name": "tapas",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidades",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:66f7c2ef-9dd4-31c7-846e-db48abc18e30",
+      "name": "tierra limpia",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:476d98da-c449-35a0-b17e-51772bcdaa62",
+      "name": "tijeras",
+      "synonyms": [],
+      "category": "Herramientas",
+      "unit": "unidad",
+      "materialKind": "TOOL",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:74ba83be-07da-3cdd-88a4-bbad2f52d096",
+      "name": "tiza",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:8e84c781-b034-34d2-ab6e-11ff14812558",
+      "name": "vasos",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:ae4e8f3a-4dff-3aac-b303-dcc096a873b5",
+      "name": "vasos medidores",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    },
+    {
+      "id": "local:85339851-2d9f-34f9-b25d-a6c9a61c59b3",
+      "name": "vegetación simulada o real",
+      "synonyms": [],
+      "category": "Otros",
+      "unit": "unidad",
+      "materialKind": "CONSUMABLE",
+      "warnings": [],
+      "source": "Nombres de las 20 fichas originales; clasificación organizativa ProfeLab, revisar seguridad por actividad."
+    }
+  ]
+}
