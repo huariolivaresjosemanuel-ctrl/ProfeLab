@@ -1,0 +1,47 @@
+﻿ID,FUNCION,MODULO,PANTALLA,ENTIDAD_CONTRATO,PRUEBAS,HITO,ESTADO,ESTADO_H1_1
+UI-001,"Mostrar datos reales, progresos y pendientes",home,Home,Profile/Task,QA-003..006,H1,Implementado; ejecución pendiente,HEREDADO_H1; sin modificación funcional; validación en dispositivo pendiente
+UI-002,Editar ciclo universitario independiente de grado escolar,profile,Perfil académico,Profile/Draft,QA-004,H1,Implementado; ejecución pendiente,HEREDADO_H1; sin modificación funcional; validación en dispositivo pendiente
+UI-003,Abrir tareas futuras y fecha,home,Próximas entregas,Task,QA-007,H1,Implementado; ejecución pendiente,HEREDADO_H1; sin modificación funcional; validación en dispositivo pendiente
+UI-004,Guardar/editar/recordar offline,home,Nueva tarea,Task/Draft,"QA-006,QA-083,QA-102",H1,Implementado; ejecución pendiente,HEREDADO_H1; sin modificación funcional; validación en dispositivo pendiente
+UI-005,Abrir objeto original por ID,home,Actividad reciente,ActivityEvent/EntityRef,QA-008,H1,Eventos tareas/perfil; resto por hito,HEREDADO_H1; sin modificación funcional; validación en dispositivo pendiente
+UI-006,Lista filtrable e inventario,taller,Explorar Taller,ProjectTemplate/InventoryEntry,QA-033,H2,Solo raíz y estados H1,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-007,"Guía, cantidades, pasos, modos práctico/académico",taller,Ficha de material,ProjectTemplate/UserProject,"QA-127,QA-153",H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-008,"Pregunta, hipótesis, controles, tabla y resultados",taller,Ficha de experimento,ExperimentRun,QA-156..158,H2,Pendiente; seguridad editorial sin validar,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-009,Crear desde cero y auto-guardar,taller,Nueva idea,UserProject/Draft,QA-167..168,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-010,Editar y comprobar checklist,taller,Editor de pasos,Step,QA-027,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-011,Unidades y cantidades correctas,taller,Inventario,InventoryEntry/MaterialRequirement,QA-159..162,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-012,Consolidar materiales faltantes,taller,Lista de compras,MaterialShortage,QA-161,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-013,Ver ambos sin destruir estado,taller,Modo práctico/académico,UserProject,QA-153..155,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-014,Elegir barreras y alternativas,taller,Adaptaciones,UserProject,QA-165,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-015,Exponer riesgos y preparación adulta,taller,Ficha seguridad,ProjectTemplate/ReviewStatus,QA-163..164,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-016,Antes/durante/después y fotos opcionales,taller,Observación,Observation/Evidence,"QA-166,QA-178",H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-017,"Criterios, niveles y comentarios editables",taller,Rúbrica,Observation/Rubric,QA-166,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-018,Citas verificadas y pendientes identificadas,taller,Fuentes,ClaimCitation/SourceReference,QA-154,H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-019,Buscar/editar/duplicar/exportar,taller,Mis creaciones,UserProject,"QA-168,QA-173",H2,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-020,Filtrar grado área fecha estado,sessions,Listado,Session,"QA-014,QA-022",H3,Solo raíz y estado H1,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-021,Editor con objetivos y criterios,sessions,Nueva sesión,Session/Draft,QA-014..021,H3,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-022,Inicio/Desarrollo/Cierre y duración,sessions,Plan de clase,SessionMoment,QA-018..019,H3,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-023,Vínculos estables por ID,sessions,Elegir recursos,SessionResource/EntityRef,"QA-025,QA-169",H3,Contratos; implementación pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-024,"Borrador imprimible, preview y compartir",sessions,Exportar sesión,Session/ExportJob,QA-023,H3,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-025,Apuntes/Prácticas/Ideas y portafolio,notebook,Listado,Note,QA-037..038,H4,Solo raíz y selección de categoría H1,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-026,"Texto, etiquetas, adjuntos, autosave",notebook,Editor nota,Note/Draft,"QA-037,QA-015",H4,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-027,Pedir micrófono y guardar audio local,notebook,Grabación,VoiceMemo,QA-041..043,H4,Pendiente; no transcripción falsa,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-028,"Abrir cámara, recortar, OCR, revisar",capture/ocr,Foto/OCR,OcrDraft/Attachment,QA-056..068,H6,Contratos; implementación pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-029,Registrar evidencias y observaciones,notebook,Práctica/reflexión,Practice/Observation,QA-039,H4,Destino Prácticas real; editor pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-030,"Agrupar evidencias, preview y PDF",notebook,Portafolio,Portfolio/Evidence,"QA-044..045,QA-179",H4,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-031,Filtros documentos y estado local,library,Catálogo,SourceReference/Document,"QA-115,QA-175",H1/H5,12 referencias reales y búsqueda H1; PDF/favoritos H5,HEREDADO_H1; sin modificación funcional; validación en dispositivo pendiente
+UI-032,SAF y copia privada elegida,library,Documentos propios,Document/DocumentSource,"QA-046,QA-176",H5,Contrato; importación pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-033,Leer ahora o Guardar en Biblioteca,pdf,Abrir con,DocumentRef,"QA-135,QA-137",H5,Contrato; intent no anunciado en H1,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-034,Recibir PDF y dar elección,pdf,Compartir a,DocumentRef,"QA-136,QA-138",H5,Contrato; intent no anunciado en H1,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-035,"Zoom, miniaturas, ir página, reanudar",pdf,Lector PDF,DocumentProgress,"QA-139..141,QA-148",H5,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-036,Marcas guardadas en capa de anotaciones,pdf,Resaltar/Subrayar,PdfAnnotation,QA-142..143,H5,Modelo/contrato; motor pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-037,"Dedo/stylus, borrar, undo/redo",pdf,Lápiz/Goma,PdfAnnotation/Revision,QA-144..147,H5,Modelo/contrato; motor pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-038,Vincular doc/página/posición,pdf,Nota PDF,PdfAnnotation,QA-148,H5,Modelo/contrato; editor pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-039,Índice texto o OCR revisado,pdf,Marcador/Buscar,Bookmark/TextIndex,QA-151..152,H5/H6,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-040,Nuevo PDF con anotaciones y preview,pdf,Exportar anotado,Document/ExportJob,QA-149,H5,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-041,FileProvider y chooser Android,pdf,Compartir PDF,Document/ShareGrant,QA-150,H5,Pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-042,"Pedir permiso, flash, enfoque",capture,Escáner cámara,Attachment/CaptureResult,QA-180..182,H6,Contrato; cámara no habilitada,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-043,Imagen y texto lado a lado para corregir,ocr,Revisión OCR,OcrDraft,"QA-056,QA-063,QA-152",H6,Contrato; OCR no habilitado,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-044,Validar permisos/versiones/licencias/paths,core:content,Importar pack,ContentPack/ProjectTemplate,QA-170..174,H2,Catálogo fijo H1; importador pendiente,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-045,Backup/restore transaccional,profile/core:database/core:files,Copias seguridad,BackupJob/Manifest,"QA-070..074,QA-113",H7,Contrato; backup/migraciones futuras pendientes,PENDIENTE_HITO_APROBADO; no implementado en H1.1
+UI-046,"Preferencias modo, accesibilidad, licencias",profile,Ajustes,Profile/UserPreferences,"QA-076..079,QA-084",H1/H7,Perfil/preferencia/créditos H1; opciones restantes H7,HEREDADO_H1; sin modificación funcional; validación en dispositivo pendiente
