@@ -85,7 +85,7 @@ jobs:
       - name: Publicar APK de prueba
         uses: actions/upload-artifact@v4
         with:
-          name: ProfeLab-V1.0-DEBUG-no-distribuir-${{ github.run_number }}
+          name: ProfeLab-V1.0.2-DEBUG-no-distribuir-${{ github.run_number }}
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 30
@@ -94,7 +94,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: informes-V1.0-${{ github.run_number }}
+          name: informes-V1.0.2-${{ github.run_number }}
           path: |
             **/build/reports/**
             **/build/test-results/**
@@ -124,6 +124,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 0
 
       - name: Configurar Java 17
         uses: actions/setup-java@v4
@@ -156,7 +157,17 @@ jobs:
           arch: x86_64
           target: ${{ matrix.target }}
           disable-animations: true
-          script: chmod +x gradlew && ./gradlew --no-daemon --stacktrace --continue :core:database:connectedDebugAndroidTest :app:connectedDebugAndroidTest
+          script: |
+            set +e
+            bash scripts/check_android_upgrade.sh
+            result=$?
+            if [ "$result" -eq 0 ]; then
+              PROFELAB_VERSION_CODE=6 ./gradlew --no-daemon --stacktrace --continue :core:database:connectedDebugAndroidTest :app:connectedDebugAndroidTest
+              result=$?
+            fi
+            mkdir -p app/build/reports/androidTests/visual
+            adb pull /sdcard/Android/data/pe.profelab.app.test/files/visual/. app/build/reports/androidTests/visual/ || echo "No se recuperaron capturas; revisar la prueba y los logs."
+            exit "$result"
 
       - name: Guardar resultados Android
         if: always()
@@ -224,7 +235,7 @@ jobs:
       - name: Publicar exclusivamente APK verificada y huellas públicas
         uses: actions/upload-artifact@v4
         with:
-          name: ProfeLab-V1.0-FIRMA-PERMANENTE-${{ github.run_number }}
+          name: ProfeLab-V1.0.2-FIRMA-PERMANENTE-${{ github.run_number }}
           path: ${{ runner.temp }}/profelab-public-release/
           if-no-files-found: error
           retention-days: 30
