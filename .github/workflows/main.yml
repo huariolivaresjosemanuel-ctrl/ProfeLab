@@ -1,0 +1,103 @@
+name: ProfeLab Android
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_emulator:
+        description: Ejecutar también las pruebas Android en emulador
+        required: true
+        type: boolean
+        default: true
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: profelab-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Instalar SDK en el runner de GitHub
+        run: sdkmanager 'platforms;android-36' 'build-tools;35.0.0'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Verificar estructura y datos
+        run: python3 scripts/verify_project.py
+      - name: Permitir ejecución del wrapper
+        run: chmod +x gradlew
+      - name: Compilar, lint y pruebas unitarias
+        run: ./gradlew --no-daemon --stacktrace :core:model:test :core:security:test testDebugUnitTest lintDebug :app:assembleDebug :app:assembleDebugAndroidTest :core:database:assembleDebugAndroidTest
+      - name: Publicar APK de prueba
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProfeLab-H1-debug-${{ github.run_number }}
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publicar evidencia y esquemas Room
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informes-H1-${{ github.run_number }}
+          path: |
+            **/build/reports/**
+            **/build/test-results/**
+            core/database/schemas/**
+            docs/qa/static-checks.json
+          retention-days: 30
+
+  android-tests:
+    if: github.event_name == 'workflow_dispatch' && inputs.run_emulator
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [26, 36]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Habilitar aceleración KVM del runner
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Pruebas de persistencia y UI
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: default
+          disable-animations: true
+          script: chmod +x gradlew && ./gradlew --no-daemon --stacktrace :core:database:connectedDebugAndroidTest :app:connectedDebugAndroidTest
+      - name: Guardar resultados Android
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-api-${{ matrix.api }}-${{ github.run_number }}
+          path: |
+            **/build/reports/androidTests/**
+            **/build/outputs/androidTest-results/**
+            **/build/outputs/connected_android_test_additional_output/**
+          retention-days: 30
