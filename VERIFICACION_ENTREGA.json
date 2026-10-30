@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "at_utc": "2026-10-30T16:30:45.346426+00:00",
+  "scope": "ZIP integrity and byte-exact source overlay, not Android compilation/runtime",
+  "base_commit": "81efabe5e12e0427eaeceedd68bba11b514a1e3b",
+  "base_files": 302,
+  "new": 22,
+  "replaced": 15,
+  "delete": 1,
+  "unchanged": 286,
+  "resulting_project_files": 323,
+  "checks": {
+    "zip_crc": "PASS",
+    "unique_safe_paths": "PASS",
+    "zip_exact_staging_bytes": "PASS",
+    "sha256_manifest": "PASS",
+    "source_action_inventory": "PASS",
+    "overlay_reconstructs_complete_working_project": "PASS",
+    "new_test_count_matches_sources": "PASS"
+  },
+  "new_tests_written_not_run": {
+    "app/src/androidTest/kotlin/pe/profelab/app/WorkshopContentPackTest.kt": 2,
+    "app/src/androidTest/kotlin/pe/profelab/app/WorkshopPersistenceTest.kt": 4,
+    "app/src/androidTest/kotlin/pe/profelab/app/WorkshopUiTest.kt": 2,
+    "core/model/src/test/kotlin/pe/profelab/core/model/WorkshopRulesTest.kt": 18
+  },
+  "android_compilation": "BLOCKED",
+  "android_functional_tests": "NOT_RUN",
+  "visual_device_acceptance": "NOT_RUN"
+}

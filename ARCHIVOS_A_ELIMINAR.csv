@@ -1,0 +1,2 @@
+﻿clasificacion,ruta_repositorio,git_blob_sha1_base,razon,precaucion
+ELIMINAR,feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopData.kt,9dc1a14dca8770efbdf3d593099d978cc4b63ec1,Editor antiguo con separadores | reemplazado por WorkshopMaterialForms + WorkshopCodec,Eliminar solo este archivo fuente después de copiar los nuevos; nunca borrar datos ni documentos privados
