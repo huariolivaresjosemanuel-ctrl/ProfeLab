@@ -24,11 +24,13 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalDensity
 
 @Composable
 fun NotebookWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(String)->Unit,export:(WorkRecord)->Unit,capture:(String)->Unit,initialId:String?=null,initialSection:String="Apuntes") {
     var section by rememberSaveable {mutableStateOf(initialSection)};var selected by rememberSaveable(initialId){mutableStateOf(initialId)}
     var query by rememberSaveable {mutableStateOf("")};var portfolio by rememberSaveable {mutableStateOf(false)}
+    var newestFirst by rememberSaveable {mutableStateOf(true)}
     var remove by remember {mutableStateOf<WorkRecord?>(null)}
     val current=all.find {it.id==selected};val context=LocalContext.current
     var recorder by remember {mutableStateOf<MediaRecorder?>(null)};var audioId by remember {mutableStateOf<String?>(null)}
@@ -69,20 +71,38 @@ fun NotebookWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(Stri
             Button(onClick={val r=WorkRecord(saved?.id ?: newId(),"portfolio","Mi portafolio",JSONObject().put("links",JSONArray(chosen.toList())).put("exportImages",includeImages).toString(),System.currentTimeMillis());save(r);export(r)}){Text("Guardar portafolio / vista previa")}
         }
     } else Page {
-        PageTitle("Cuaderno","Notas, prácticas y reflexiones")
-        Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){
-            SoftCard("Nueva nota","Escribe y organiza tus ideas",Icons.Outlined.NoteAdd,ProfeColors.Mint,Modifier.weight(1f)){newNote()}
-            SoftCard(if(recorder==null)"Grabar voz" else "Detener audio","Conserva tu voz en el dispositivo",Icons.Outlined.Mic,ProfeColors.Coral,Modifier.weight(1f)){if(recorder!=null)stopAudio()else if(ContextCompat.checkSelfPermission(context,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)startAudio()else permission.launch(Manifest.permission.RECORD_AUDIO)}
-            SoftCard("Foto / OCR","Captura apuntes y documentos",Icons.Outlined.PhotoCamera,ProfeColors.Blue,Modifier.weight(1f)){val n=newNote();capture(n.id)}
+        SectionHeading("Cuaderno","Notas, prácticas y reflexiones",Icons.Outlined.NoteAdd)
+        BoxWithConstraints {
+            val voice:()->Unit={if(recorder!=null)stopAudio()else if(ContextCompat.checkSelfPermission(context,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)startAudio()else permission.launch(Manifest.permission.RECORD_AUDIO)}
+            if(maxWidth>=300.dp && LocalDensity.current.fontScale<1.4f)Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){
+                ActionTile("Nueva nota","Escribe tus ideas",Icons.Outlined.NoteAdd,ProfeColors.Mint,Modifier.weight(1f)){newNote()}
+                ActionTile(if(recorder==null)"Grabar voz" else "Detener audio","Audio local",Icons.Outlined.Mic,ProfeColors.Coral,Modifier.weight(1f),voice)
+                ActionTile("Foto / OCR","Captura tus apuntes",Icons.Outlined.PhotoCamera,ProfeColors.Blue,Modifier.weight(1f)){val n=newNote();capture(n.id)}
+            }else Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
+                SoftCard("Nueva nota","Escribe y organiza tus ideas",Icons.Outlined.NoteAdd,ProfeColors.Mint){newNote()}
+                SoftCard(if(recorder==null)"Grabar voz"else "Detener audio","Conserva tu voz en el dispositivo",Icons.Outlined.Mic,ProfeColors.Coral,onClick=voice)
+                SoftCard("Foto / OCR","Captura apuntes y documentos",Icons.Outlined.PhotoCamera,ProfeColors.Blue){val n=newNote();capture(n.id)}
+            }
         }
         Text("Audio local, sin transcripción. Al enviar la app al fondo se detiene y guarda la toma.",style=MaterialTheme.typography.bodySmall)
         audioError?.let {ErrorNotice(it)}
         ChoiceRow(listOf("Apuntes","Prácticas","Ideas"),section){section=it}
         OutlinedTextField(query,{query=it},label={Text("Buscar texto o etiquetas")},modifier=Modifier.fillMaxWidth())
-        val shown=all.filter {it.kind=="note" && !it.archived && JSONObject(it.json).optString("noteType","Apuntes")==section && (it.title.contains(query,true)||it.json.contains(query,true))}
-        shown.forEach {r->Card(onClick={selected=r.id},colors=CardDefaults.cardColors(containerColor=ProfeColors.Paper)){ListItem(headlineContent={Text(r.title.ifBlank {"Borrador sin título"})},supportingContent={Text(JSONObject(r.json).optString("body").take(160))})}}
+        val filtered=all.filter {it.kind=="note" && !it.archived && JSONObject(it.json).optString("noteType","Apuntes")==section && (it.title.contains(query,true)||it.json.contains(query,true))}
+        val shown=if(newestFirst)filtered.sortedByDescending {it.updatedAt}else filtered.sortedBy {it.updatedAt}
+        Row(Modifier.fillMaxWidth()){Text("Mis notas",style=MaterialTheme.typography.titleMedium,modifier=Modifier.weight(1f));TextButton(onClick={newestFirst=!newestFirst}){Text(if(newestFirst)"Más recientes"else "Más antiguas")}}
+        shown.forEachIndexed {index,r->val data=JSONObject(r.json);Card(onClick={selected=r.id},colors=CardDefaults.cardColors(containerColor=if(index==0)ProfeColors.Mint else ProfeColors.Cream)){
+            Column(Modifier.fillMaxWidth().padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)){
+                Row(horizontalArrangement=Arrangement.spacedBy(10.dp)){Icon(Icons.Outlined.NoteAdd,null,tint=ProfeColors.Green);Text(r.title.ifBlank {"Borrador sin título"},style=if(index==0)MaterialTheme.typography.titleLarge else MaterialTheme.typography.titleMedium,modifier=Modifier.weight(1f))}
+                val metadata=listOf(data.optString("date"),data.optString("school"),data.optString("schoolGrade").let {if(it.isBlank())""else "$it.º Primaria"}).filter {it.isNotBlank()}
+                if(metadata.isNotEmpty())Text(metadata.joinToString(" · "),style=MaterialTheme.typography.bodySmall,color=ProfeColors.Muted)
+                Text(data.optString("body").take(if(index==0)280 else 160).ifBlank {"Continúa escribiendo este borrador"})
+                val tags=data.optString("tags").split(',').map {it.trim()}.filter {it.isNotBlank()}.take(8)
+                if(tags.isNotEmpty())Text(tags.joinToString("  ·  "),style=MaterialTheme.typography.labelLarge,color=ProfeColors.Green)
+            }
+        }}
         if(shown.isEmpty())InfoCard("$section · sin notas","Añade una nota para conservar tu reflexión.")
-        Button(onClick={portfolio=true}){Text("Portafolio / agregar evidencias")}
+        SoftCard("Portafolio","Organiza tus notas, evidencias y reflexiones",Icons.Outlined.Folder,ProfeColors.Mint){portfolio=true}
     }
     remove?.let {r->AlertDialog(onDismissRequest={remove=null},title={Text("¿Archivar la nota?")},confirmButton={TextButton(onClick={archive(r.id);selected=null;remove=null}){Text("Archivar")}},dismissButton={TextButton(onClick={remove=null}){Text("Cancelar")}})}
 }

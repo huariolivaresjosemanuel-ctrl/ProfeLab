@@ -24,6 +24,7 @@ internal fun WorkshopCatalog(all:List<WorkRecord>,templates:List<WorkRecord>,cat
     var difficulty by rememberSaveable {mutableStateOf("Todas")};var availability by rememberSaveable {mutableStateOf("Todos")}
     var onlyFavorites by rememberSaveable {mutableStateOf(false)};var material by rememberSaveable {mutableStateOf("")}
     var minutes by rememberSaveable {mutableStateOf("")};var safety by rememberSaveable {mutableStateOf("Todos")}
+    var category by rememberSaveable {mutableStateOf("Todas")}
     val personal=all.filter {it.kind in setOf("project","experiment") && !it.archived}
     val sources=(templates+all.filter {it.kind in setOf("catalog_project","catalog_experiment") && !it.archived}).distinctBy {it.id}
     val candidates=if(section=="Mis ideas")personal else sources.filter {if(section=="Experimentos")it.kind.contains("experiment")else !it.kind.contains("experiment")}
@@ -31,6 +32,7 @@ internal fun WorkshopCatalog(all:List<WorkRecord>,templates:List<WorkRecord>,cat
     val favorites=all.filter {it.kind=="favorite" && !it.archived}.map {it.id.removePrefix("favorite:")}.toSet()
     fun matches(r:WorkRecord):Boolean {val j=JSONObject(r.json);val a=results.getValue(r.id)
         return (r.title+" "+j.optString("objectiveSuggested")+" "+j.optString("researchQuestion")).contains(query,true) &&
+        (category=="Todas" || j.optString("categoryId",if(r.kind.contains("experiment"))"experiment"else "didactic")==category) &&
         (grade=="Todos" || WorkshopCodec.strings(j.opt("grades")).contains(grade) || j.optString("grade")==grade) &&
         (area=="Todas" || j.optString("area")==area) && (difficulty=="Todas" || j.optString("difficulty").contains(difficulty,true)) &&
         (!onlyFavorites || r.id in favorites) && WorkshopCodec.materials(j,catalog).any {it.name.contains(material,true)}.let {it || material.isBlank()} &&
@@ -42,10 +44,12 @@ internal fun WorkshopCatalog(all:List<WorkRecord>,templates:List<WorkRecord>,cat
     val progress=personal.filter {r->val s=JSONObject(r.json).optJSONArray("steps");s!=null && s.length()>0 && (0 until s.length()).any {s.optJSONObject(it)?.optBoolean("done")==true} && !(0 until s.length()).all {s.optJSONObject(it)?.optBoolean("done")==true}}
     val complete=personal.count {r->val s=JSONObject(r.json).optJSONArray("steps");s!=null && s.length()>0 && (0 until s.length()).all {s.optJSONObject(it)?.optBoolean("done")==true}}
     val featured=shown.firstOrNull()
-    WorkshopPage("Mi taller","Crea materiales didácticos, paso a paso",trailing={Button(onClick={create(section=="Experimentos")}){Icon(Icons.Outlined.Add,null);Text(if(section=="Experimentos")"Nuevo experimento"else "Nuevo proyecto")}}){
+    WorkshopPage("Mi taller","Crea materiales didácticos, paso a paso",screenTag="workshop-catalog",trailing={Button(onClick={create(section=="Experimentos")}){Icon(Icons.Outlined.Add,null);Text(if(section=="Experimentos")"Nuevo experimento"else "Nuevo proyecto")}}){
         item("search"){Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(8.dp)){OutlinedTextField(query,{query=it},placeholder={Text("Buscar proyectos, materiales o temas…")},leadingIcon={Icon(Icons.Outlined.Search,null)},modifier=Modifier.weight(1f),singleLine=true);IconButton(onClick={showFilters=!showFilters}){Icon(Icons.Outlined.Tune,"Filtros del catálogo")}}}
         item("sections"){WorkshopChoices(listOf("Materiales didácticos","Experimentos","Mis ideas"),section,onSection)}
         if(showFilters)item("filters"){WorkshopCard("Filtrar proyectos",WorkshopColors.Paper){
+            val categories=sources.map {JSONObject(it.json).optString("categoryId",if(it.kind.contains("experiment"))"experiment"else "didactic")}.distinct()
+            if(categories.size>1){Text("Tipo de actividad");val labels=pe.profelab.core.content.WorkshopCategories.labels;WorkshopChoices(listOf("Todas")+categories.map {labels[it] ?: it},labels[category] ?: category){label->category=if(label=="Todas")"Todas"else categories.first {labels[it]==label || it==label}}}
             Text("Área");WorkshopChoices(listOf("Todas")+sources.map {JSONObject(it.json).optString("area")}.filter {it.isNotBlank()}.distinct(),area){area=it}
             Text("Grado de Primaria");WorkshopChoices(listOf("Todos","1","2","3","4","5","6"),grade){grade=it}
             Text("Dificultad");WorkshopChoices(listOf("Todas","Fácil","Media"),difficulty){difficulty=it}
@@ -54,7 +58,7 @@ internal fun WorkshopCatalog(all:List<WorkRecord>,templates:List<WorkRecord>,cat
             OutlinedTextField(minutes,{minutes=it},label={Text("Duración máxima en minutos")},modifier=Modifier.fillMaxWidth())
             OutlinedTextField(material,{material=it},label={Text("Material necesario")},modifier=Modifier.fillMaxWidth())
             Row(verticalAlignment=Alignment.CenterVertically){Checkbox(onlyFavorites,{onlyFavorites=it});Text("Solo favoritos")}
-            TextButton(onClick={query="";grade="Todos";area="Todas";difficulty="Todas";availability="Todos";safety="Todos";minutes="";material="";onlyFavorites=false}){Text("Limpiar filtros")}
+            TextButton(onClick={query="";grade="Todos";area="Todas";difficulty="Todas";availability="Todos";safety="Todos";minutes="";material="";category="Todas";onlyFavorites=false}){Text("Limpiar filtros")}
         }}
         item("counts"){Column {Text("${sources.count {results[it.id]?.complete==true}} con materiales completos · ${progress.size} en progreso · $complete completados",style=MaterialTheme.typography.bodySmall);TextButton(onClick=shopping){Icon(Icons.Outlined.ShoppingCart,null);Text("Mi lista de compras")}}}
         if(featured!=null && section!="Mis ideas")item("featured"){ProjectHero(featured,results.getValue(featured.id),featured.id in favorites,{open(featured.id)},{favorite(featured)})}
@@ -100,7 +104,7 @@ private fun ProjectHero(r:WorkRecord,a:WorkshopAssessment,favorite:Boolean,open:
     val j=JSONObject(r.json)
     WorkshopCard("Proyecto destacado",WorkshopColors.Paper){
         BoxWithConstraints {
-            val picture:@Composable (Modifier)->Unit={modifier->WorkshopPicture(projectImages(r).firstOrNull(),modifier.aspectRatio(1f))}
+            val picture:@Composable (Modifier)->Unit={modifier->WorkshopPicture(projectImages(r).firstOrNull(),modifier.aspectRatio(1f),missingMessage=j.optString("imageMissingDescription","Sin imagen disponible"))}
             val text:@Composable ColumnScope.()->Unit={Text(r.title,style=MaterialTheme.typography.titleLarge,fontWeight=FontWeight.Bold);Text(j.optString("objectiveSuggested",j.optString("researchQuestion")),style=MaterialTheme.typography.bodyMedium);ProjectMetadata(j);CoverageBadge(a);Row {Button(onClick=open,modifier=Modifier.weight(1f).testTag("workshop-open:${r.id}")){Text("Ver guía")};IconButton(onClick=toggle){Icon(if(favorite)Icons.Outlined.BookmarkAdded else Icons.Outlined.BookmarkBorder,if(favorite)"Quitar favorito"else "Guardar favorito")}}}
             if(maxWidth>=300.dp && androidx.compose.ui.platform.LocalDensity.current.fontScale<1.4f)Row(horizontalArrangement=Arrangement.spacedBy(14.dp)){picture(Modifier.weight(1f));Column(Modifier.weight(1.25f),verticalArrangement=Arrangement.spacedBy(8.dp),content=text)}
             else Column(verticalArrangement=Arrangement.spacedBy(12.dp)){picture(Modifier.fillMaxWidth());text()}
@@ -112,7 +116,7 @@ internal fun ProjectMetadata(j:JSONObject){Text(listOf(j.optString("area"),Works
 @Composable
 private fun ProjectSmallCard(r:WorkRecord,a:WorkshopAssessment,favorite:Boolean,open:()->Unit,toggle:()->Unit){
     Card(onClick=open,colors=CardDefaults.cardColors(containerColor=WorkshopColors.Paper),shape=MaterialTheme.shapes.large,modifier=Modifier.testTag("workshop-card:${r.id}")){Column(Modifier.padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
-        WorkshopPicture(projectImages(r).firstOrNull(),Modifier.fillMaxWidth().aspectRatio(1.3f))
+        WorkshopPicture(projectImages(r).firstOrNull(),Modifier.fillMaxWidth().aspectRatio(1.3f),missingMessage=JSONObject(r.json).optString("imageMissingDescription","Sin imagen disponible"))
         Text(r.title.ifBlank {"Borrador sin título"},fontWeight=FontWeight.SemiBold);ProjectMetadata(JSONObject(r.json));CoverageBadge(a)
         Row(verticalAlignment=Alignment.CenterVertically){TextButton(onClick=open,modifier=Modifier.weight(1f)){Text("Ver guía")};IconButton(onClick=toggle){Icon(if(favorite)Icons.Outlined.BookmarkAdded else Icons.Outlined.BookmarkBorder,"Alternar favorito")}}
     }}

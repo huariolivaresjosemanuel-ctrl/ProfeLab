@@ -47,13 +47,18 @@ internal fun projectImages(record:WorkRecord):List<WorkshopImage>{
     val id=j.optString("originImageId").ifBlank {j.optString("forkedFromTemplateId").ifBlank {record.id}}
     if(id.matches(Regex("(?:mat|com|cta|per|arte|tut)-[0-9]{3}")))list+=WorkshopImage("$id.png",true,"Ilustración conceptual original; no foto del procedimiento")
     WorkshopCodec.strings(j.opt("assetImages")).filter {it.matches(Regex("[a-zA-Z0-9_-]+\\.(?:png|jpg|jpeg|webp)"))}.forEach {list+=WorkshopImage(it,true,"Imagen editorial incluida con la aplicación; consulta sus fuentes")}
-    WorkshopCodec.strings(j.opt("imageFileIds")).filter {it.matches(Regex("[a-zA-Z0-9-]+"))}.forEach {list+=WorkshopImage(it,label="Imagen del paquete; consulta sus fuentes")}
+    WorkshopCodec.strings(j.opt("imageFileIds")).filter {it.matches(Regex("[a-zA-Z0-9-]+"))}.forEach {list+=installedWorkshopImage(j,it)}
     val attachments=j.optJSONArray("attachments")
     if(attachments!=null)for(i in 0 until attachments.length()){val a=attachments.optJSONObject(i) ?: continue;val file=a.optString("id");if(a.optString("mime").startsWith("image/") && file.matches(Regex("[a-zA-Z0-9-]+")))list+=WorkshopImage(file,label="Fotografía o boceto propio; revisa su privacidad")}
     return list.distinctBy {it.asset to it.id}
 }
+internal fun installedWorkshopImage(data:JSONObject,id:String):WorkshopImage {
+    val metadata=data.optJSONObject("imageMetadataByFileId")?.optJSONObject(id)
+    val alt=metadata?.optString("alt").orEmpty().ifBlank {"Imagen del paquete; consulta sus fuentes"}
+    return WorkshopImage(id,label=listOf(alt,metadata?.optString("caption").orEmpty()).filter {it.isNotBlank()}.joinToString(" · "))
+}
 @Composable
-internal fun WorkshopPicture(ref:WorkshopImage?,modifier:Modifier=Modifier,large:Boolean=false){
+internal fun WorkshopPicture(ref:WorkshopImage?,modifier:Modifier=Modifier,large:Boolean=false,missingMessage:String="Sin imagen disponible"){
     val context=LocalContext.current;var expanded by remember {mutableStateOf(false)};var retry by remember {mutableIntStateOf(0)}
     val loaded by produceState(PictureState(loading=ref!=null),ref,large,retry){
         value=PictureState(withContext(Dispatchers.IO){ref?.let {loadWorkshopBitmap(context,it,if(large)1200 else 400)}},false)
@@ -63,7 +68,7 @@ internal fun WorkshopPicture(ref:WorkshopImage?,modifier:Modifier=Modifier,large
         val b=bitmap
         if(b!=null)Image(b.asImageBitmap(),ref?.label ?: "Imagen del proyecto",Modifier.fillMaxSize().clickable {expanded=true},contentScale=ContentScale.Fit)
         else if(loaded.loading)CircularProgressIndicator(Modifier.padding(20.dp))
-        else Column(Modifier.padding(12.dp)){Icon(Icons.Outlined.Image,null);Text(if(ref==null)"Sin imagen disponible"else "Imagen no disponible",style=MaterialTheme.typography.bodySmall);if(ref!=null)TextButton(onClick={retry++}){Text("Reintentar")}}
+        else Column(Modifier.padding(12.dp)){Icon(Icons.Outlined.Image,null);Text(if(ref==null)missingMessage else "Imagen no disponible",style=MaterialTheme.typography.bodySmall);if(ref!=null)TextButton(onClick={retry++}){Text("Reintentar")}}
     }
     if(expanded && ref!=null)Dialog(onDismissRequest={expanded=false}){
         Surface(shape=MaterialTheme.shapes.large){Column(Modifier.padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){

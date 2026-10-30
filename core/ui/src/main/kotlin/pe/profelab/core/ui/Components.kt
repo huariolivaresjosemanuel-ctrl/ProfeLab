@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -35,6 +38,23 @@ fun PageTitle(title: String, subtitle: String? = null, back: (() -> Unit)? = nul
         Column(Modifier.weight(1f)) {
             Text(title,style=MaterialTheme.typography.headlineSmall)
             if (subtitle != null) Text(subtitle,style=MaterialTheme.typography.bodyMedium,color=ProfeColors.Muted)
+        }
+    }
+}
+@Composable
+fun SectionHeading(title:String,subtitle:String,icon:ImageVector){
+    Row(Modifier.fillMaxWidth().testTag("section-$title"),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(14.dp)){
+        Column(Modifier.weight(1f)){Text(title,style=MaterialTheme.typography.headlineLarge);Text(subtitle,style=MaterialTheme.typography.bodyLarge,color=ProfeColors.Muted)}
+        if(LocalDensity.current.fontScale<1.4f)Surface(color=ProfeColors.Mint,shape=MaterialTheme.shapes.large){Icon(icon,null,Modifier.padding(18.dp).size(44.dp),tint=ProfeColors.Green)}
+    }
+}
+@Composable
+fun ActionTile(title:String,subtitle:String,icon:ImageVector,color:Color,modifier:Modifier=Modifier,onClick:()->Unit){
+    Card(onClick=onClick,modifier=modifier,colors=CardDefaults.cardColors(containerColor=color)){
+        Column(Modifier.fillMaxWidth().padding(12.dp),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(8.dp)){
+            Icon(icon,null,Modifier.size(34.dp),tint=ProfeColors.Green)
+            Text(title,style=MaterialTheme.typography.titleMedium,textAlign=TextAlign.Center)
+            Text(subtitle,style=MaterialTheme.typography.bodySmall,textAlign=TextAlign.Center,color=ProfeColors.Muted)
         }
     }
 }

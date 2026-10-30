@@ -11,12 +11,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 object ProfeColors {
-    val Green = Color(0xFF175C47)
-    val Ink = Color(0xFF23352E)
-    val Cream = Color(0xFFFAF7F1)
-    val Mint = Color(0xFFE1EEE6)
-    val Coral = Color(0xFFFBE5DD)
-    val Blue = Color(0xFFDFECF4)
+    val Green = Color(0xFF135B46)
+    val Ink = Color(0xFF1D3035)
+    val Cream = Color(0xFFF8F5EE)
+    val Mint = Color(0xFFE7EEE3)
+    val Coral = Color(0xFFF4D5C9)
+    val Blue = Color(0xFFD9EAF2)
     val Paper = Color(0xFFFFF0D8)
     val Muted = Color(0xFF55665E)
 }
@@ -24,6 +24,7 @@ object ProfeColors {
 fun ProfeTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = lightColorScheme(primary=ProfeColors.Green, onPrimary=Color.White,
+            secondary=ProfeColors.Green,onSecondary=Color.White,secondaryContainer=ProfeColors.Mint,onSecondaryContainer=ProfeColors.Ink,
             primaryContainer=ProfeColors.Mint, onPrimaryContainer=ProfeColors.Ink,
             background=ProfeColors.Cream, onBackground=ProfeColors.Ink,
             surface=ProfeColors.Cream, onSurface=ProfeColors.Ink, surfaceVariant=ProfeColors.Mint,

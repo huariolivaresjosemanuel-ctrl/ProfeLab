@@ -16,18 +16,23 @@ import pe.profelab.core.ui.*
 @Composable
 fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (TaskFilter) -> Unit,
     openTask: (String) -> Unit, openActivity: () -> Unit, openProfile: () -> Unit,
-    complete: (Task,Boolean) -> Unit, retry: () -> Unit, openResource: (EntityRef)->Unit) {
+    complete: (Task,Boolean) -> Unit, retry: () -> Unit, openResource: (EntityRef)->Unit,
+    preferences:UserPreferences=UserPreferences(),welcome:@Composable ()->Unit={}) {
     Page {
         if (state.loading) { CircularProgressIndicator(); return@Page }
         if (state.error != null) { ErrorNotice(state.error,retry); return@Page }
         Row(verticalAlignment=Alignment.CenterVertically) {
             Column(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(8.dp)) {
-                Text("${HomeRules.greeting(state.now.hour)}, ${state.profile?.name?.takeIf { it.isNotBlank() } ?: "profe"}",style=MaterialTheme.typography.headlineSmall)
+                Text(PersonalizationRules.greeting(state.now.hour,preferences,state.profile?.name.orEmpty()),style=MaterialTheme.typography.headlineSmall)
                 Text(state.profile?.academicCycle?.let { "$it.º ciclo · Educación Primaria" } ?: "Tu espacio para enseñar y crear",style=MaterialTheme.typography.bodyLarge)
                 Text("Pequeñas ideas, grandes aprendizajes",style=MaterialTheme.typography.bodyMedium,color=ProfeColors.Muted)
             }
-            if (LocalDensity.current.fontScale < 1.4f) DeskPlant(Modifier.size(86.dp))
+            if (LocalDensity.current.fontScale < 1.4f){
+                if(preferences.mascotVisible && preferences.onboardingCompleted)CanonicalMascot(Modifier.width(86.dp).height(108.dp),preferences.reduceMotion,entrance=true)
+                else DeskPlant(Modifier.size(86.dp))
+            }
         }
+        welcome()
         if (state.profile == null) TextButton(onClick=openProfile) { Text("Configurar mi perfil académico") }
         val progress = HomeRules.progress(state.tasks,state.now.toLocalDate(),state.now.zone)
         Card(onClick={openTasks(TaskFilter.WEEK)},colors=CardDefaults.cardColors(containerColor=ProfeColors.Mint)) {
@@ -45,7 +50,7 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
             }
         }
         BoxWithConstraints {
-            val twoColumns = maxWidth >= 340.dp && LocalDensity.current.fontScale < 1.3f
+            val twoColumns = maxWidth >= 300.dp && LocalDensity.current.fontScale < 1.3f
             Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
                 if (twoColumns) {
                     Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
@@ -67,7 +72,7 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
         }
         BoxWithConstraints {
             val todayTasks = HomeRules.filter(state.tasks,TaskFilter.TODAY,state.now.toLocalDate(),state.now.zone)
-            if (maxWidth >= 600.dp && LocalDensity.current.fontScale < 1.5f) {
+            if (maxWidth >= 340.dp && LocalDensity.current.fontScale < 1.3f) {
                 Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
                     ActivityCard(state.activity.take(4),Modifier.weight(1f),openActivity,openResource)
                     TodayCard(todayTasks,Modifier.weight(1f),complete,openTask) { openTasks(TaskFilter.TODAY) }

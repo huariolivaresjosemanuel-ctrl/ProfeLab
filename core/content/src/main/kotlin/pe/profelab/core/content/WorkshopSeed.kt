@@ -20,8 +20,18 @@ class WorkshopSeed(private val context:Context) {
         sources("layoutFiles").flatMap {objects(it,"layouts")}.map {j->require(j.getString("template") in WorkshopCodec.templates);require(WorkshopCodec.strings(j.opt("sectionOrder")).all {it in WorkshopCodec.blocks});WorkRecord(j.getString("id"),"catalog_layout",j.getString("title"),j.toString(),0)}
     }
     suspend fun templates():List<WorkRecord> = withContext(Dispatchers.IO) {
+        val guideFiles=if(index().has("teacherGuideFiles"))sources("teacherGuideFiles")else emptyList()
+        val guideRows=guideFiles.flatMap {objects(it,"guides")}.also {rows->require(rows.map {it.getString("contentId")}.distinct().size==rows.size)}
+        val guides=guideRows.associate {it.getString("contentId") to it.getJSONObject("teacherGuide")}
+        val mediaFiles=if(index().has("experimentMediaFiles"))sources("experimentMediaFiles")else emptyList()
+        val media=mediaFiles.flatMap {objects(it,"media")}.also {rows->require(rows.map {it.getString("contentId")}.distinct().size==rows.size)}.associateBy {it.getString("contentId")}
         (sources("projectFiles").map {it to "project_template"}+sources("experimentFiles").map {it to "experiment_template"}).flatMap { (path,kind)->
             objects(path,"projects").map {j->
+                if(!j.has("teacherGuide"))guides[j.getString("id")]?.let {guide->TeacherGuides.validate(guide);j.put("teacherGuide",JSONObject(guide.toString()))}
+                media[j.getString("id")]?.let {m->
+                    j.put("imageStatus",m.getString("coverStatus")).put("imageMissingDescription",m.getString("altText"))
+                    if(!j.has("assetImages"))j.put("assetImages",m.getJSONArray("assetImages"))
+                }
                 WorkRecord(j.getString("id"),kind,j.getString("title"),j.toString(),0)
             }
         }.also {list->require(list.map {it.id}.distinct().size==list.size)}

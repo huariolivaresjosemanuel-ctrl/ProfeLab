@@ -65,8 +65,17 @@ fun ProfeApp(graph: AppGraph) {
     val message by home.message.collectAsStateWithLifecycle()
     val snackbar=remember { SnackbarHostState() }
     val scope=rememberCoroutineScope()
+    val retainedOcrWarning by graph.ocrDrafts.warning.collectAsStateWithLifecycle()
+    LaunchedEffect(retainedOcrWarning){retainedOcrWarning?.let {snackbar.showSnackbar(it)}}
     val workspace: WorkspaceViewModel=viewModel(factory=modelFactory {WorkspaceViewModel(graph.workspace)})
     val records by workspace.records.collectAsStateWithLifecycle()
+    var personalizationReady by remember {mutableStateOf(false)}
+    var registrationBusy by remember {mutableStateOf(false)}
+    var registrationError by remember {mutableStateOf<String?>(null)}
+    LaunchedEffect(homeState.loading,homeState.profile?.id){if(!homeState.loading){
+        try {graph.transfers.recoverPendingPreferences();graph.preferences.migrateLegacyProfile(homeState.profile);personalizationReady=true}
+        catch(e:CancellationException){throw e}catch(_:Exception){preferencesError="No se pudo recuperar la personalización. Tus trabajos se conservan."}
+    }}
     val workspaceError by workspace.error.collectAsStateWithLifecycle()
     var templates by remember {mutableStateOf<List<WorkRecord>>(emptyList())}
     var sources by remember {mutableStateOf<List<SourceReference>>(emptyList())}
@@ -169,7 +178,15 @@ fun ProfeApp(graph: AppGraph) {
     ) { padding ->
         Box(Modifier.padding(padding).consumeWindowInsets(padding).imePadding()) {
             NavHost(navController=nav,startDestination="home") {
-                composable("home") { HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord) }
+                composable("home") { HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord,prefs){
+                    if(personalizationReady && !prefs.onboardingCompleted)LocalWelcomeCard(prefs,registrationBusy,registrationError){name,role->
+                        registrationBusy=true;registrationError=null;scope.launch {
+                            try {graph.preferences.setPersonalization(name,role)}
+                            catch(e:CancellationException){throw e}catch(_:Exception){registrationError="No se pudo guardar. Puedes reintentar o seguir usando las pestañas."}
+                            finally{registrationBusy=false}
+                        }
+                    }
+                } }
                 composable("taller") { WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture) }
                 composable("sessions") { SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
                 composable("notebook") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
@@ -200,10 +217,10 @@ fun ProfeApp(graph: AppGraph) {
                     val vm: ProfileViewModel=viewModel(factory=modelFactory { ProfileViewModel(graph.repository,graph.repository,graph.preferences) })
                     val state by vm.state.collectAsStateWithLifecycle()
                     val settings by vm.settings.collectAsStateWithLifecycle()
-                    ProfileScreen(vm,state,settings,::back,{nav.navigate("about")},{nav.navigate("workspace-tools")})
+                    ProfileScreen(vm,state,settings,::back,{nav.navigate("about")},{nav.navigate("workspace-tools")}){InstallationCard()}
                 }
                 composable("about") { AboutScreen(::back) }
-                composable("workspace-tools") {WorkspaceTools(graph,records,workspace::save,::back){scope.launch {try {val d=graph.repository.readDraft("ocr-review");if(d==null)snackbar.showSnackbar("No hay borrador OCR guardado.")else {val j=JSONObject(d.payload);ocrUri=j.getString("uri");ocrDestination=j.optString("owner").takeIf {it.isNotBlank()};ocrDocumentId=j.optString("documentId").takeIf {it.isNotBlank()};ocrPageIndex=j.optInt("pageIndex");nav.navigate("ocr")}}catch(e:CancellationException){throw e}catch(_:Exception){snackbar.showSnackbar("No se pudo recuperar el borrador OCR; se conserva el guardado previo.")}}}}
+                composable("workspace-tools") {WorkspaceTools(graph,records,workspace::save,::back){scope.launch {try {val d=graph.ocrDrafts.readDraft("ocr-review");if(d==null)snackbar.showSnackbar("No hay borrador OCR guardado.")else {val j=JSONObject(d.payload);ocrUri=j.getString("uri");ocrDestination=j.optString("owner").takeIf {it.isNotBlank()};ocrDocumentId=j.optString("documentId").takeIf {it.isNotBlank()};ocrPageIndex=j.optInt("pageIndex");nav.navigate("ocr")}}catch(e:CancellationException){throw e}catch(_:Exception){snackbar.showSnackbar("No se pudo recuperar el borrador OCR; se conserva el guardado previo.")}}}}
                 composable("record/{id}",arguments=listOf(navArgument("id"){type=NavType.StringType})){e->
                     val id=e.arguments?.getString("id");val r=records.find {it.id==id}
                     when(r?.kind){
@@ -223,17 +240,17 @@ fun ProfeApp(graph: AppGraph) {
                 composable("ocr"){
                     val uri=ocrUri
                     if(uri==null)Page {PageTitle("OCR",back=::back);InfoCard("Selecciona una imagen","El contexto temporal no está disponible.")}
-                    else OcrScreen(Uri.parse(uri),graph.repository,ocrDestination,{text,bitmap,raw->scope.launch {
+                    else OcrScreen(Uri.parse(uri),graph.ocrDrafts,ocrDestination,{text,bitmap,raw->
                         try {
-                            val f=if(bitmap!=null){val image=File(context.cacheDir,"review-${newId()}.png");image.outputStream().use {bitmap.compress(Bitmap.CompressFormat.PNG,100,it)};try {PrivateFiles(context).copyFrom(image.inputStream(),30L*1024*1024)}finally{image.delete()}}else null
+                            val f=if(bitmap!=null)withContext(Dispatchers.IO){val image=File(context.cacheDir,"review-${newId()}.png");image.outputStream().use {check(bitmap.compress(Bitmap.CompressFormat.PNG,100,it))};try {PrivateFiles(context).copyFrom(image.inputStream(),30L*1024*1024)}finally{image.delete()}}else null
                             val existing=ocrDestination?.let {graph.workspace.record(it)}
                             val r=existing ?: WorkRecord(newId(),"note","Texto OCR revisado","{}",System.currentTimeMillis())
                             val data=JSONObject(r.json);val a=data.optJSONArray("attachments") ?: JSONArray();if(f!=null)a.put(JSONObject().put("id",f.id).put("mime","image/png"))
                             data.put("attachments",a).put("ocrRaw",raw).put("ocrReviewed",text).put("body",data.optString("body")+"\n"+text).put("ocrEngine","ML Kit Latin bundled 16.0.1").put("ocrConfirmed",true)
                             ocrDocumentId?.let {doc->data.put("links",JSONArray().put(doc)).put("citations",JSONArray().put(JSONObject().put("documentId",doc).put("pageIndex",ocrPageIndex))).put("ocrPages",JSONArray().put(JSONObject().put("documentId",doc).put("pageIndex",ocrPageIndex).put("text",text)))}
-                            graph.workspace.saveRecord(r.copy(json=data.toString()));graph.repository.clearDraft("ocr-review");nav.navigate("record/${Uri.encode(r.id)}")
-                        }catch(e:CancellationException){throw e}catch(_:Exception){snackbar.showSnackbar("No se pudo guardar el texto revisado.")}
-                    }},::back,ocrDocumentId,ocrPageIndex)
+                            graph.workspace.saveRecord(r.copy(json=data.toString()));graph.ocrDrafts.clearDraft("ocr-review");nav.navigate("record/${Uri.encode(r.id)}");true
+                        }catch(e:CancellationException){throw e}catch(_:Exception){snackbar.showSnackbar("No se pudo guardar el texto revisado.");false}
+                    },::back,ocrDocumentId,ocrPageIndex)
                 }
                 composable("export-preview"){
                     exportFile?.let {f->ExportPreview(f,graph,{openPdf(WorkRecord(newId(),"document_temp","Vista previa",JSONObject().put("uri",Uri.fromFile(f).toString()).toString(),System.currentTimeMillis()))},::back)} ?: Page {PageTitle("Exportación",back=::back);InfoCard("Vista previa caducada","Vuelve a generar la copia desde tu trabajo guardado.")}

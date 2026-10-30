@@ -17,7 +17,7 @@ import java.security.MessageDigest
 
 @RunWith(AndroidJUnit4::class)
 class PdfIntegrationTest {
-    @Test fun textLayerAndExportedMarksPreserveOriginal()=runBlocking {
+    @Test fun textLayerAndExportedMarksPreserveOriginal():Unit=runBlocking {
         val context=ApplicationProvider.getApplicationContext<Context>()
         val input=File(context.cacheDir,"qa-text.pdf")
         InstrumentationRegistry.getInstrumentation().context.assets.open("qa/EJEMPLO_PROFELAB_TEXTO_SELECCIONABLE_2P.pdf").use {source->input.outputStream().use {source.copyTo(it)}}

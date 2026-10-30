@@ -10,10 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import pe.profelab.core.model.UserPreferences
+import pe.profelab.core.model.LocalRole
 import pe.profelab.core.ui.*
 
 @Composable
-fun ProfileScreen(vm: ProfileViewModel, state: ProfileState, preferences: UserPreferences, back: ()->Unit, about: ()->Unit, tools: ()->Unit = {}) {
+fun ProfileScreen(vm: ProfileViewModel, state: ProfileState, preferences: UserPreferences, back: ()->Unit, about: ()->Unit, tools: ()->Unit = {},installation:@Composable ()->Unit={}) {
     BackHandler(enabled=!state.finished) { vm.leave() }
     LaunchedEffect(state.finished) { if(state.finished) back() }
     Page {
@@ -32,6 +33,12 @@ fun ProfileScreen(vm: ProfileViewModel, state: ProfileState, preferences: UserPr
             Text("Mostrar tareas completadas en las listas",modifier=Modifier.weight(1f))
             Switch(checked=preferences.showCompleted,onCheckedChange=vm::showCompleted)
         }
+        Text("Mi bienvenida",style=MaterialTheme.typography.titleMedium)
+        ChoiceRow(LocalRole.entries.map {it.label},preferences.role.label){label->vm.role(LocalRole.entries.first {it.label==label})}
+        Row(verticalAlignment=Alignment.CenterVertically){Text("Saludo personalizado",Modifier.weight(1f));Switch(preferences.personalizedGreetings,{vm.mascot(personalizedGreeting=it)})}
+        Row(verticalAlignment=Alignment.CenterVertically){Text("Mostrar la maestra de ProfeLab",Modifier.weight(1f));Switch(preferences.mascotVisible,{vm.mascot(visible=it)})}
+        Row(verticalAlignment=Alignment.CenterVertically){Text("Reducir movimiento",Modifier.weight(1f));Switch(preferences.reduceMotion,{vm.mascot(reduceMotion=it)})}
+        installation()
         InfoCard("Tus datos son locales","No necesitas una cuenta. Evita datos identificables de menores. Antes de desinstalar, exporta un respaldo y comprueba su integridad desde Datos y contenidos.")
         OutlinedButton(onClick=about) { Text("Acerca de ProfeLab y créditos") }
         OutlinedButton(onClick=tools) { Text("Respaldo, paquetes y trabajos archivados") }

@@ -23,6 +23,8 @@ interface DraftRepository {
 interface PreferencesRepository {
     val preferences: Flow<UserPreferences>
     suspend fun setShowCompleted(enabled: Boolean)
+    suspend fun setPersonalization(name:String,role:LocalRole)
+    suspend fun setMascotPreferences(visible:Boolean,reduceMotion:Boolean,personalizedGreeting:Boolean)
 }
 interface EducationalSourceRepository { suspend fun sources(): List<SourceReference> }
 

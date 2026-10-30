@@ -26,7 +26,8 @@ class BatchOcrDraftModel(private val drafts:DraftRepository,private val document
         if(payload==null)emptyList()else {
             val a=JSONArray(payload)
             (0 until a.length()).map {i->val j=a.getJSONObject(i);ReviewedOcrPage(j.getInt("page"),j.getString("file"),j.getString("raw"),j.getString("corrected"),j.optBoolean("reviewed"))}
-                .filter {val f=File(it.filePath);f.canonicalPath.startsWith(folder.canonicalPath+File.separator) && f.name.matches(Regex("[a-zA-Z0-9-]+\\.png")) && f.isFile}
+                .filter {val f=File(it.filePath);f.canonicalPath.startsWith(folder.canonicalPath+File.separator) && f.name.matches(Regex("[a-zA-Z0-9-]+\\.png"))}
+                .also {pages->if(pages.any {!File(it.filePath).isFile})_error.value="Faltan imágenes del lote; los textos se conservan. Repite esas páginas desde el PDF antes de guardar imágenes."}
         }
     }catch(e:CancellationException){throw e}catch(_:Exception){_error.value="No se pudo leer el lote previo; no se ha borrado.";emptyList()}
     fun save(pages:List<ReviewedOcrPage>){

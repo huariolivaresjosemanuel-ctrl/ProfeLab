@@ -37,7 +37,7 @@ class SigningTests(unittest.TestCase):
         output=self.root/'public'
         result=SimpleNamespace(returncode=code,stdout=f'Signer #1 certificate SHA-256 digest: {digest}\nVerified using v2 scheme (APK Signature Scheme v2): {v2}\n')
         def run(args,**kwargs):
-            if args[0]=='fake-aapt': return SimpleNamespace(returncode=0,stdout=f"package: name='{package}' versionCode='1008' versionName='1.0.1'\n")
+            if args[0]=='fake-aapt': return SimpleNamespace(returncode=0,stdout=f"package: name='{package}' versionCode='1008' versionName='1.0.2'\n")
             return result
         verify(self.env,apk,output,run=run)
         return output
@@ -54,7 +54,7 @@ class SigningTests(unittest.TestCase):
         self.assertFalse((self.root/'public').exists())
     def test_verified_output_contains_only_public_files(self):
         output=self.verification()
-        self.assertEqual({'ProfeLab-V1.0-release.apk','SHA256SUMS.txt','firma-publica.json'},{p.name for p in output.iterdir()})
+        self.assertEqual({'ProfeLab-V1.0.2-release.apk','SHA256SUMS.txt','firma-publica.json'},{p.name for p in output.iterdir()})
         self.assertIn(hashlib.sha256(b'unit-test-not-an-apk').hexdigest(),(output/'SHA256SUMS.txt').read_text())
 
 if __name__=='__main__':unittest.main()

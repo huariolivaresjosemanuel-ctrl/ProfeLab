@@ -28,6 +28,7 @@ class ContentPacks(private val context:Context,private val store:WorkspaceStore)
     }
     private fun compatible(previous:WorkRecord?,pack:PackData):Boolean {
         if(previous==null)return true
+        require(previous.kind=="content_pack" && previous.title==pack.manifest.getString("packId")){"Colisión de identificador de paquete; no se reemplaza el registro existente"}
         val old=JSONObject(previous.json)
         if(old.optString("digest")==pack.digest)return false
         require(compareContentVersion(pack.manifest.getString("version"),old.getString("version"))>0){"Misma versión con contenido distinto o retroceso de paquete"}
@@ -47,12 +48,25 @@ class ContentPacks(private val context:Context,private val store:WorkspaceStore)
                     j.put("imageFileIds",JSONArray(WorkshopCodec.strings(j.opt("images")).map {requireNotNull(refs[it])}))
                     val steps=j.optJSONArray("steps") ?: JSONArray();for(i in 0 until steps.length()){val s=steps.optJSONObject(i) ?: continue;s.put("imageFileIds",JSONArray(WorkshopCodec.strings(s.opt("images")).map {requireNotNull(refs[it])}))}
                     j.put("resourceCredits",JSONArray().also {a->pack.resources.forEach {a.put(JSONObject().put("id",it.id).put("source",it.source).put("license",it.license))}})
+                    j.put("imageMetadataByFileId",JSONObject().also {metadata->pack.resources.forEach {resource->
+                        val custom=j.optJSONObject("imageMetadata")?.optJSONObject(resource.id)
+                        metadata.put(requireNotNull(refs[resource.id]),JSONObject().put("alt",custom?.optString("alt").orEmpty().ifBlank {resource.alt}).put("caption",custom?.optString("caption").orEmpty().ifBlank {resource.caption}).put("source",resource.source).put("license",resource.license))
+                    }})
                 }
                 record.copy(json=j.toString())
             }
             val bundled=WorkshopSeed(context).materials();var applied=false
             store.editRecords {current->
                 if(!compatible(current.find {it.id==markerId},pack))emptyList()else {
+                    installed.filter {it.kind!="catalog_material"}.forEach {incoming->
+                        current.find {it.id==incoming.id}?.let {old->
+                            val body=JSONObject(old.json);val packId=pack.manifest.getString("packId")
+                            // Original V2 had no sourcePackId. Its stored local id reconstructs the owner exactly.
+                            val legacyOwner=!body.has("sourcePackId") && old.kind in setOf("catalog_project","catalog_experiment") &&
+                                old.id=="pack:$packId:${body.optString("id")}" && current.any {it.id==markerId && it.kind=="content_pack" && it.title==packId}
+                            require(old.kind==incoming.kind && (body.optString("sourcePackId")==packId || legacyOwner)){"Colisión entre paquetes o datos personales; no se reemplazan"}
+                        }
+                    }
                     val definitions=installed.filter {it.kind=="catalog_material"}.map {WorkshopCodec.definition(JSONObject(it.json))}
                     val before=bundled+current.filter {it.kind in setOf("catalog_material","user_material")}.map {WorkshopCodec.definition(JSONObject(it.json))}+definitions
                     definitions.forEach {d->

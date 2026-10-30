@@ -10,7 +10,7 @@ fun signingEnv(name: String): String = providers.environmentVariable(name).orNul
 val proposedVersionCode = providers.environmentVariable("PROFELAB_VERSION_CODE").orNull?.let {
     it.toIntOrNull()?.takeIf { value -> value in 2..2100000000 }
         ?: error("PROFELAB_VERSION_CODE debe ser un entero entre 2 y 2100000000")
-} ?: 4
+} ?: 5
 
 android {
     namespace = "pe.profelab.app"
@@ -21,7 +21,7 @@ android {
         applicationId = "pe.profelab.app"
         targetSdk = 36
         versionCode = proposedVersionCode
-        versionName = "1.0.1"
+        versionName = "1.0.2"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -93,4 +93,5 @@ dependencies {
     androidTestImplementation(libs.test.core)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.test.junit)
+    androidTestImplementation(libs.datastore)
 }

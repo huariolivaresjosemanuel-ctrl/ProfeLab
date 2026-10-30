@@ -1,24 +1,29 @@
-# ProfeLab · fuentes integradas V1.0
+# ProfeLab · actualización de fuentes 1.0.2
 
-Proyecto Android completo en esta raíz: `app/`, `core/`, `feature/`, wrapper Gradle, recursos, pruebas y workflow manual. Una APK `pe.profelab.app`, API26+, Kotlin/Compose, Room v2, DataStore. Versión de fuentes 1.0.0; no incluye APK compilada.
+Continuación de `main` en `43ff3eead533105006f7da851784cba7ace063a9` (30/10/2026), con Taller V1.0.1 conservado. Proyecto Android real de 16 módulos, cinco pestañas, `pe.profelab.app`, API26+, Kotlin/Compose, Room2 y DataStore. No incluye APK compilada. GitHub se consultó solo mediante lecturas; no se ejecutó Actions ni se hicieron commits o cambios remotos.
 
-Se amplió la copia de `main` del repositorio ProfeLab, commit `4ec7a104e9345fd1aa1a0c74eddbe72169304b80`, árbol `ce2d9fbd0999bd0947d4e0e9ba35d2286d89544c`. No se escribió en GitHub ni se modificaron otros proyectos. La entrega es integral de fuentes, con funcionalidad real en las cinco secciones; **no equivale a una V1.0 validada para distribución**. No se pudo compilar Android en este entorno. Las diferencias y funciones parciales se detallan en [PENDIENTES_REALES.md](PENDIENTES_REALES.md).
+## Estado de esta actualización
 
-Empieza por [LEER_PRIMERO_SUBIDA_MANUAL.md](LEER_PRIMERO_SUBIDA_MANUAL.md). El contenido del ZIP va directamente en la raíz del repositorio existente. Actions funciona exclusivamente con **Run workflow**; subir archivos no compila nada.
+Se corrigen en fuentes las firmas JVM no-void de tres tests instrumentados y la espera de navegación de Taller que dependía de un título fuera del área compuesta. Se conservan assertions, pruebas y timeout. El run histórico `41096812092` compiló, pero falló tres casos de app por API26/API36; ese resultado no valida las fuentes nuevas.
 
-## Funcionalidad escrita e integrada
+Incluye Docente «Cómo enseñarlo» junto a Práctico/Académico en las fichas del Taller: guion breve/desarrollado, edición persistente, fallback para fichas sin guion y exportación. Los doce proyectos y ocho experimentos originales conservan sus IDs y contenido. El overlay del Geoplano corresponde a **mat-003**, no mat-001. Los experimentos mantienen observaciones, mediciones y fotos propias; sus ocho portadas siguen pendientes de aprobación, con estado faltante explícito y sin resultados ficticios.
 
-- Inicio existente: perfil/ciclo universitario, tareas/borradores/avisos opcionales, progreso calculado, actividad y navegación por IDs.
-- Taller: 12 proyectos y miniaturas originales + ocho experimentos pendientes de revisión, filtros/favoritos, copias personales, editores de pasos/checklist, observaciones, modos práctico/académico, inventario por cantidades/unidades/reservas y compras consolidadas.
-- Sesiones: Primaria 1–6, tres estructuras temporales offline, planificación y evaluación, cotejo curricular declarado por el usuario, recuperación/versiones, recursos vinculados y PDF personal. No incorpora textos oficiales sin cotejo.
-- Cuaderno: Apuntes/Prácticas/Ideas, búsqueda, adjuntos, reflexión, voz local con permiso, portafolio seleccionado y exportación con revisión de privacidad.
-- Biblioteca: las 12 referencias del paquete, fuentes/derechos/estado local, importación SAF y recepción de PDFs externos con elección temporal/privada. No se distribuyen PDFs oficiales.
-- PDF: render nativo, páginas/miniaturas/zoom, búsqueda de texto, selección a partir de posiciones de caracteres, lápiz/resaltado/subrayado/notas, Room por documento/hash/página, marcadores y copia aplanada. Comentarios íntegros en anexo imprimible. Adaptación parcial de DocReader MIT, atribuida.
-- Cámara/OCR: CameraX, enfoque y linterna condicionada a hardware, selección SAF, recorte de márgenes/rotación, ML Kit Latin bundled, edición y confirmación del texto, evidencias y lotes de hasta diez páginas con borrador local.
-- Integración: archivos privados UUID, enlaces estables, packs validados, respaldo ZIP con vista previa/fusión controlada, migración explícita Room1→2 y configuración de firma permanente del usuario.
+Se ajustan las cinco pantallas Compose hacia los diseños aprobados sin agregar pestañas. Hay registro local opcional, saludo por nombre/rol/hora, ajustes de mascota y movimiento reducido. Concepto C usa el master aprobado sin alterar; solo entrada por opacidad, sin presentar poses o GIF experimentales como animación final.
 
-## Verificación
+El respaldo incluye preferencias de forma aditiva, referencias a medios, borrador OCR con imagen retenida y páginas de lotes OCR pendientes. La restauración fusiona sin sobrescribir IDs existentes y usa un journal Room para recuperar preferencias si DataStore falla. No hay nueva versión de Room ni migración destructiva. Los motores PDF, cámara y reconocimiento ML Kit conservan sus implementaciones; se ajustan almacenamiento/sincronización de borradores OCR.
 
-Los 16 controles estáticos y las 11 pruebas Python del helper de firma pasan localmente. El intento manual17 del usuario ejecutó19 pruebas JVM de core:model/core:security, todas aprobadas, pero falló la compilación de core:files por PdfDocument().use. Ese error está corregido en las fuentes; la compilación de la corrección aún NOT_RUN. Instrumentadas, lint completo, dispositivos, fidelidad visual y actualización firmada siguen pendientes. Lee [LEER_PRIMERO_CORRECCION_CI.md](LEER_PRIMERO_CORRECCION_CI.md) antes de volver a subir. Consulta [REPORTE_QA_REAL.md](REPORTE_QA_REAL.md), [MATRIZ_COBERTURA_REQUISITOS.csv](MATRIZ_COBERTURA_REQUISITOS.csv) y [INFORME_FIDELIDAD_UI.md](INFORME_FIDELIDAD_UI.md).
+Packs V2/V2.1 siguen compatibles; V3 agrega guiones, categorías y metadatos de imágenes. Las extensiones MiniChef/FOOD y medios audio/video siguen como contratos futuros, sin publicación de recetas o talleres no revisados. Se conservan inventario, alternativas, reservas, recomendaciones, compras, Sesiones, Cuaderno y Biblioteca.
 
-Las instrucciones H0/H1/H1.1 conservadas son históricas; la documentación raíz de esta entrega y `docs/completo/` describen el estado actual. Ningún PASS histórico acredita el código nuevo. `reference/` conserva los cinco mockups y documentos aportados, fuera de la APK.
+## Validación y distribución
+
+Se ejecutaron 16 controles estáticos, 11 pruebas Python del helper de firma con herramientas simuladas, auditoría de delimitadores, preflight de contenido y migración SQLite en archivo con reapertura. Esto **no es compilación Kotlin ni ejecución Android**. No hay JDK/SDK/Gradle/adb disponibles en el entorno y no se instalaron. Los tests JVM, instrumentados, lint, actualización real y comparación visual están NOT_RUN/BLOCKED para estas fuentes. La entrega incremental adjunta sus logs y matriz QA en `03_INSTRUCCIONES`; los informes históricos conservados en esta raíz y `docs/` no acreditan esta versión.
+
+`.github/workflows/android.yml` se inicia exclusivamente con **Run workflow** (`workflow_dispatch`). Mantiene builds/lint/JVM y pruebas Android API26/API36. Incluye una prueba preparada de dos reemplazos sin desinstalar, con APK DEBUG4→5→6 creadas con la misma clave dentro del job y comprobación de datos/UID/certificados. Aún no ejecutada; no demuestra compatibilidad con la APK que tiene el usuario.
+
+La APK instalada del usuario procede de un artefacto DEBUG de Actions. Su certificado todavía no se comparó. No instalar un release de distinta firma esperando conservar datos automáticamente. La firma permanente existente requiere claves custodiadas por el usuario, los cuatro secretos y huella pública configurados; no se incluyen claves ni se reemplazan. El release usa `1000 + GITHUB_RUN_NUMBER`, mayor que `PROFELAB_LAST_DISTRIBUTED_VERSION_CODE`; el DEBUG predeterminado usa5. La APK permanente publicada se llama `ProfeLab-V1.0.2-release.apk`.
+
+Antes de cambiar de origen, terminar revisiones OCR antiguas, guardar documentos temporales SAF en la Biblioteca y exportar respaldo completo con archivos. Verificar hashes, referencias y restauración en un entorno de prueba independiente antes de considerar una desinstalación autorizada. Permisos SAF externos no se transfieren entre instalaciones; ningún backup recupera archivos ya ausentes. El agente no desinstaló nada.
+
+Los archivos de producción se aplican desde `01_IMPLEMENTAR/` y `02_REEMPLAZAR/` del ZIP incremental, conservando rutas. `03_INSTRUCCIONES/`, propuestas gráficas y el SHA del paquete no van en la raíz del repo. El `SHA256SUMS.txt` ubicado dentro de `02_REEMPLAZAR/` sí es el manifiesto renovado de fuentes. La guía externa explica cada paso manual.
+
+Se mantienen licencias y atribuciones existentes, incluida la adaptación parcial de DocReader MIT; no se incorporó código de ScanPro ni PDFs oficiales sin permiso. No hay login, anuncios, suscripciones ni servicios remotos nuevos.

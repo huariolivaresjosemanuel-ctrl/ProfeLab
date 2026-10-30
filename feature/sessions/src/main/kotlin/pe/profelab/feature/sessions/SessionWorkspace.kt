@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.foundation.shape.CircleShape
 import org.json.JSONObject
 import pe.profelab.core.model.*
 import pe.profelab.core.ui.*
@@ -37,7 +40,7 @@ fun SessionWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(Strin
             revisions.take(10).forEach {old->TextButton(onClick={save(current.copy(json=old.json));selected=null}){Text("Recuperar versión ${old.revision} de esta sesión")}}
         }
     }else Page {
-        PageTitle("Sesiones","Planifica tu clase")
+        SectionHeading("Sesiones","Planifica tu clase",Icons.Outlined.Groups)
         Text("Plantilla estructural offline · duración en minutos",style=MaterialTheme.typography.bodySmall)
         ChoiceRow(listOf("45","60","90"),templateMinutes){templateMinutes=it}
         Button(onClick={val total=templateMinutes.toInt();val r=WorkRecord(newId(),"session","",JSONObject().put("grade","1").put("area","Matemática").put("status","BORRADOR").put("totalMinutes",templateMinutes).put("startMinutes","10").put("developmentMinutes",(total-20).toString()).put("closeMinutes","10").toString(),System.currentTimeMillis());save(r);selected=r.id}){Text("Nueva sesión")}
@@ -61,8 +64,21 @@ fun SessionWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(Strin
                         }
                     }
                     Text("Secuencia de la sesión · ${data.optString("totalMinutes")} minutos",style=MaterialTheme.typography.titleMedium)
-                    listOf("Inicio" to "start","Desarrollo" to "development","Cierre" to "close").forEach {(label,key)->TextButton(onClick={selected=featured.id}){Text("$label (${data.optString(key+"Minutes")} min) · ${data.optString(key).take(160).ifBlank {"Completar"}}")}}
-                    Button(onClick={export(featured)}){Text("Exportar borrador")}
+                    listOf(Triple("Inicio","start",ProfeColors.Mint),Triple("Desarrollo","development",ProfeColors.Paper),Triple("Cierre","close",ProfeColors.Coral)).forEach {(label,key,color)->
+                        Card(onClick={selected=featured.id},colors=CardDefaults.cardColors(containerColor=ProfeColors.Cream)){
+                            Row(Modifier.fillMaxWidth().padding(12.dp),horizontalArrangement=Arrangement.spacedBy(12.dp)){
+                                Surface(Modifier.size(18.dp),shape=CircleShape,color=color){ }
+                                Column(Modifier.weight(1f)){Text("$label (${data.optString(key+"Minutes")} min)",style=MaterialTheme.typography.titleMedium);Text(data.optString(key).take(300).ifBlank {"Completar en mi borrador"})}
+                            }
+                        }
+                    }
+                    val links=data.optJSONArray("links");val linked=if(links==null)emptyList()else (0 until links.length()).mapNotNull {i->all.find {it.id==links.optString(i) && !it.archived}}
+                    if(data.optString("materials").isNotBlank() || linked.isNotEmpty()){
+                        val openResource=LocalOpenResource.current
+                        InfoCard("Materiales y recursos",data.optString("materials").ifBlank {"Recursos vinculados a esta sesión"})
+                        linked.forEach {resource->TextButton(enabled=openResource!=null,onClick={openResource?.invoke(resource.id)}){Text(resource.title.ifBlank {"Recurso vinculado"})}}
+                    }
+                    Button(onClick={export(featured)},modifier=Modifier.fillMaxWidth()){Text("Exportar borrador")}
                 }
             }
         }

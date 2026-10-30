@@ -15,13 +15,13 @@ import pe.profelab.core.ui.JsonFields
 import pe.profelab.core.ui.Field
 
 @Composable
-internal fun WorkshopEditor(record:WorkRecord,all:List<WorkRecord>,catalog:List<MaterialDefinition>,vm:WorkshopViewModel,back:()->Unit,duplicate:()->Unit,capture:(String)->Unit){
+internal fun WorkshopEditor(record:WorkRecord,all:List<WorkRecord>,catalog:List<MaterialDefinition>,vm:WorkshopViewModel,back:()->Unit,duplicate:()->Unit,capture:(String)->Unit,initialTab:String="Presentación"){
     val data=WorkshopCodec.normalize(JSONObject(record.json),catalog)
     val title=record.title
-    var tab by rememberSaveable(record.id){mutableStateOf("Presentación")};var restore by remember {mutableStateOf<WorkRecord?>(null)}
+    var tab by rememberSaveable(record.id,initialTab){mutableStateOf(initialTab)};var restore by remember {mutableStateOf<WorkRecord?>(null)}
     fun persist(next:JSONObject=data,name:String=title){vm.edit(record,next,name)}
     WorkshopPage("Editar mi creación","Borradores permitidos · comprueba el indicador de guardado",back){
-        item("editor-tabs"){WorkshopChoices(listOf("Presentación","Materiales","Pasos","Indagación","Pedagogía","Evidencias","Vínculos y versiones"),tab){tab=it}}
+        item("editor-tabs"){WorkshopChoices(listOf("Presentación","Materiales","Pasos","Docente","Indagación","Pedagogía","Evidencias","Vínculos y versiones"),tab){tab=it}}
         when(tab){
             "Presentación"->{
                 item("title"){WorkshopCard("Mi proyecto",WorkshopColors.Mint){OutlinedTextField(title,{persist(name=it.take(160))},label={Text("Título")},modifier=Modifier.fillMaxWidth());JsonFields(data,listOf(Field("objectiveSuggested","Objetivo educativo"),Field("notes","Descripción y notas",3),Field("estimatedMinutes","Tiempo estimado en minutos",1))){persist(it)}
@@ -37,6 +37,7 @@ internal fun WorkshopEditor(record:WorkRecord,all:List<WorkRecord>,catalog:List<
                 }}
             }
             "Materiales"->item("materials"){WorkshopCard("Qué necesitas",WorkshopColors.Blue){MaterialLinesEditor(data,catalog){persist(it)}}}
+            "Docente"->item("teacher-guide"){WorkshopCard("Cómo enseñarlo · mi guion",WorkshopColors.Lavender){TeacherGuideEditor(vm.current(record),vm)}}
             "Pasos"->item("steps"){WorkshopCard("Guía de construcción o procedimiento",WorkshopColors.Paper){WorkshopStepsEditor(data){persist(it)}}}
             "Indagación"->item("inquiry"){WorkshopCard("Pregunta, variables y resultados",WorkshopColors.Yellow){
                 Text("Registra hipótesis y resultados propios. No se rellenan conclusiones automáticamente.",style=MaterialTheme.typography.bodySmall)

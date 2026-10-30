@@ -74,7 +74,8 @@ internal fun WorkshopObservations(record:WorkRecord,vm:WorkshopViewModel){
             else {val entry=JSONObject().put("id",newId()).put("at",Instant.now().toString()).put("date",date).put("moment",moment).put("observation",note).put("measurement",measure).put("measurementUnit",unit).put("photoAttachmentIds",JSONArray(selected.toList()))
                 vm.patch(record){j->j.put("records",JSONArray((j.optJSONArray("records") ?: JSONArray()).toString()).put(entry))};note="";measure="";unit="";chosenPhotos="[]";error=null}
         }){Text("Guardar registro con fecha")}
-        for(i in 0 until observations.length()){
+        val dated=(0 until observations.length()).sortedBy {observations.optJSONObject(it)?.optString("date",observations.optJSONObject(it)?.optString("at").orEmpty()).orEmpty()}
+        for(i in dated){
             val o=observations.optJSONObject(i) ?: continue
             WorkshopCard(o.optString("date",o.optString("at")),WorkshopColors.Paper){
                 Text(o.optString("moment"));Text(o.optString("observation"))

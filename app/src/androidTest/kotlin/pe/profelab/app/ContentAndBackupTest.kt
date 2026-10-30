@@ -29,7 +29,7 @@ class ContentAndBackupTest {
         ZipOutputStream(file.outputStream()).use {out->entries.forEach {(name,bytes)->out.putNextEntry(ZipEntry(name));out.write(bytes);out.closeEntry()}}
         return file
     }
-    @Test fun zipTraversalIsRejectedWithoutMutation()=runBlocking {
+    @Test fun zipTraversalIsRejectedWithoutMutation():Unit=runBlocking {
         val db=database()
         try {
             val store=WorkspaceRepository(db);val pack=ContentPacks(context,store);val file=zip(mapOf("../outside.json" to byteArrayOf(1)))
@@ -37,7 +37,7 @@ class ContentAndBackupTest {
             assertTrue(rejected);assertTrue(store.observeRecords().first().isEmpty());file.delete()
         }finally{db.close()}
     }
-    @Test fun packReimportIsIdempotentAndUserCopySurvives()=runBlocking {
+    @Test fun packReimportIsIdempotentAndUserCopySurvives():Unit=runBlocking {
         val db=database()
         try {
             val store=WorkspaceRepository(db);val importer=ContentPacks(context,store)

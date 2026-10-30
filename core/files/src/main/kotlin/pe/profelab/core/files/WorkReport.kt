@@ -3,6 +3,7 @@ package pe.profelab.core.files
 import org.json.JSONObject
 import org.json.JSONArray
 import pe.profelab.core.model.WorkRecord
+import pe.profelab.core.model.LegacyMaterialParser
 
 object WorkReport {
     private val labels=linkedMapOf("date" to "Fecha","grade" to "Grado de Primaria","area" to "Área","status" to "Estado",
@@ -25,10 +26,20 @@ object WorkReport {
         labels.forEach {(key,label)->val value=data.opt(key);if(value!=null && value!=JSONObject.NULL && value.toString().isNotBlank())out.append("\n$label\n$value\n")}
         if(record.kind=="session")out.append("\nCotejo curricular: ${if(data.optBoolean("curriculumVerifiedByUser"))"declarado por el usuario; ProfeLab no lo acredita" else "pendiente"}. Elaboración personal, no documento oficial.\n")
         val materials=data.opt("materials")
-        if(materials is JSONArray){out.append("\nMateriales y herramientas\n");for(i in 0 until materials.length()){val m=materials.getJSONObject(i);val type=when{m.optBoolean("tool") || m.optString("materialKind")=="TOOL"->"herramienta";m.optBoolean("reusable") || m.optString("materialKind")=="REUSABLE"->"reutilizable";else->"consumible"};out.append("• ${m.optString("name")}: ${m.optString("amount").ifBlank {"cantidad por revisar"}} ${m.optString("unit")} · $type\n")}}
-        else if(materials is String && materials.isNotBlank())out.append("\nMateriales\n$materials\n")
+        fun legacy(text:String){LegacyMaterialParser.parse(text).forEach {m->out.append("• ${m.name.replace('|','·')}: ${if(m.issue.isBlank())m.amount else "cantidad por revisar"} ${m.unit.replace('|','·')} · ${m.kind.label}\n")}}
+        if(materials is JSONArray){out.append("\nMateriales y herramientas\n");for(i in 0 until materials.length()){
+            val m=materials.optJSONObject(i)
+            if(m==null){legacy(materials.optString(i));continue}
+            val type=when{m.optBoolean("tool") || m.optString("materialKind")=="TOOL"->"herramienta";m.optBoolean("reusable") || m.optString("materialKind")=="REUSABLE"->"reutilizable";else->"consumible"}
+            out.append("• ${m.optString("name").replace('|','·')}: ${m.optString("amount").takeIf {m.optString("legacyIssue").isBlank()}?.ifBlank {"cantidad por revisar"} ?: "cantidad por revisar"} ${m.optString("unit").replace('|','·')} · $type\n")
+        }}else if(materials is String && materials.isNotBlank()){out.append("\nMateriales\n");if('|' in materials)legacy(materials)else out.append(materials+"\n")}
+        data.optJSONObject("teacherGuide")?.let {guide->
+            out.append("\nDocente · Cómo enseñarlo\nGuion editable; no acredita una asociación curricular oficial.\n")
+            val sections=linkedMapOf("introShort" to "Presentación breve","introExtended" to "Guion desarrollado","purpose" to "Propósito de enseñanza","motivation" to "Motivación","gradeRange" to "Grupo y grado","priorKnowledgeQuestions" to "Saberes previos","teachingSequence" to "Secuencia de enseñanza","guidedDemonstration" to "Demostración","participation" to "Participación","reflectiveQuestions" to "Preguntas","commonDifficulties" to "Dificultades frecuentes","grade1to2" to "Adaptación 1.º–2.º","grade3to4" to "Adaptación 3.º–4.º","grade5to6" to "Adaptación 5.º–6.º","inclusion" to "Diversidad","formativeEvidence" to "Evaluación formativa","feedback" to "Retroalimentación","close" to "Cierre","safety" to "Seguridad docente","sources" to "Fuentes del guion")
+            sections.forEach {(key,label)->val value=guide.opt(key);val text=if(value is JSONArray)(0 until value.length()).map {value.optString(it)}.filter {it.isNotBlank()}.joinToString("\n• ",prefix="• ")else if(value is String)value else "";if(text.isNotBlank() && text!="• ")out.append("\n$label\n$text\n")}
+        }
         val steps=data.optJSONArray("steps") ?: JSONArray();if(steps.length()>0)out.append("\nProcedimiento\n")
-        for(i in 0 until steps.length()){val s=steps.getJSONObject(i);out.append("${i+1}. ${s.optString("title")} [${if(s.optBoolean("done"))"completado" else "pendiente"}]\n");if(s.optString("materialsUsed").isNotBlank())out.append("Usa: ${s.optString("materialsUsed")}\n");if(s.optString("notes").isNotBlank())out.append("Observación: ${s.optString("notes")}\n")}
+        for(i in 0 until steps.length()){val s=steps.optJSONObject(i) ?: JSONObject().put("title",steps.optString(i));out.append("${i+1}. ${s.optString("title")} [${if(s.optBoolean("done"))"completado" else "pendiente"}]\n");if(s.optString("materialsUsed").isNotBlank())out.append("Usa: ${s.optString("materialsUsed")}\n");if(s.optString("instructionNote").isNotBlank())out.append("Orientación: ${s.optString("instructionNote")}\n");if(s.optString("notes").isNotBlank())out.append("Observación: ${s.optString("notes")}\n")}
         val warnings=data.optJSONObject("safety")?.optJSONArray("warnings") ?: JSONArray();if(warnings.length()>0)out.append("\nSeguridad y preparación\n")
         for(i in 0 until warnings.length())out.append("• ${warnings.getString(i)}\n")
         if(record.kind in setOf("project","experiment"))out.append("\nActividad editorial o personal, no aval MINEDU. Revisar seguridad y adecuación docente.\n")

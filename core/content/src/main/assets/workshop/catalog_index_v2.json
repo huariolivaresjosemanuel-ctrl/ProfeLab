@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "contentContractVersion": "2.1",
+  "contentContractVersion": "3.0",
   "projectFiles": [
     "projects.json"
   ],
@@ -12,5 +12,11 @@
   ],
   "layoutFiles": [
     "layouts_v2.json"
+  ],
+  "teacherGuideFiles": [
+    "teacher_guides_v3.json"
+  ],
+  "experimentMediaFiles": [
+    "experiment_media_v3.json"
   ]
 }

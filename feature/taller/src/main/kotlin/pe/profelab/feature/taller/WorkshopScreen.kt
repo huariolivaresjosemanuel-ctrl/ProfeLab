@@ -54,11 +54,12 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
         if(experiment)listOf("results","analysis","limitations","conclusion").forEach {data.put(it,"")}
         if(!data.has("visualTemplate"))data.put("visualTemplate",if(experiment)"EXPERIMENT"else if(source==null)"CREATIVE"else "DIDACTIC")
         val r=WorkRecord(newId(),if(experiment)"experiment"else "project",source?.title.orEmpty()+if(duplicate)" (copia)"else "",data.toString(),System.currentTimeMillis())
-        vm.save(r);selected=r.id;destination=if(source!=null && !duplicate)"guide"else "editor"
+        val initialized=if(data.optJSONObject("teacherGuide")==null)r.copy(json=data.put("teacherGuide",pe.profelab.core.content.TeacherGuides.defaultFor(r)).toString())else r
+        vm.save(initialized);selected=r.id;destination=if(source!=null && !duplicate)"guide"else "editor"
     }
     fun back(){scope.launch {
         if(!vm.flush()){backError=true;return@launch}
-        when(destination){"editor"->destination="guide";"inventory","shopping"->destination=returnTo;else->{if(initialId!=null && selected==initialId)exit()else {selected=null;destination="catalog"}}}
+        when(destination){"editor","teacher-editor"->destination="guide";"inventory","shopping"->destination=returnTo;else->{if(initialId!=null && selected==initialId)exit()else {selected=null;destination="catalog"}}}
     }}
     fun utility(name:String){scope.launch {if(vm.flush()){returnTo=destination;destination=name}else backError=true}}
     fun favorite(r:WorkRecord){val id="favorite:${r.id}";if(all.any {it.id==id && !it.archived})vm.archive(id)else vm.save(WorkRecord(id,"favorite",r.title,"{}",System.currentTimeMillis()))}
@@ -66,12 +67,12 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
     MaterialTheme(colorScheme=MaterialTheme.colorScheme.copy(primary=WorkshopColors.Green,secondary=WorkshopColors.Green,primaryContainer=WorkshopColors.Mint,secondaryContainer=WorkshopColors.Mint,background=WorkshopColors.Cream,surface=WorkshopColors.Cream)){
         Column(Modifier.fillMaxSize()){
             if(state.pending>0)LinearProgressIndicator(Modifier.fillMaxWidth())
-            holder.SaveableStateProvider(if(destination in setOf("guide","editor"))"$destination:${selected.orEmpty()}"else destination){
+            holder.SaveableStateProvider(if(destination in setOf("guide","editor","teacher-editor"))"$destination:${selected.orEmpty()}"else destination){
                 when(destination){
                     "inventory"->WorkshopInventory(all,catalog,vm,state,::back)
                     "shopping"->WorkshopShopping(all,catalog,vm,state,::back)
-                    "guide"->if(current==null)WorkshopPage("Proyecto",back=::back){item{Text("El recurso no está disponible o todavía se está guardando.")}}else WorkshopGuide(current,all,catalog,vm,::back,{begin(current,current.kind.contains("experiment"))},{destination="editor"},export,capture,{utility("inventory")},{utility("shopping")},{favorite(current)})
-                    "editor"->if(current!=null)WorkshopEditor(current,all,catalog,vm,::back,{begin(current,current.kind=="experiment",true)},capture)
+                    "guide"->if(current==null)WorkshopPage("Proyecto",back=::back){item{Text("El recurso no está disponible o todavía se está guardando.")}}else WorkshopGuide(current,all,catalog,vm,::back,{begin(current,current.kind.contains("experiment"))},{destination="editor"},export,capture,{utility("inventory")},{utility("shopping")},{favorite(current)},{destination="teacher-editor"})
+                    "editor","teacher-editor"->if(current!=null)WorkshopEditor(current,all,catalog,vm,::back,{begin(current,current.kind=="experiment",true)},capture,initialTab=if(destination=="teacher-editor")"Docente"else "Presentación")
                     else->WorkshopCatalog(all,templates,catalog,state,section,{section=it},::open,{begin(experiment=it)},{utility("inventory")},{utility("shopping")},::favorite,{record,index,value->vm.patch(record){j->val steps=j.optJSONArray("steps") ?: org.json.JSONArray();val step=steps.optJSONObject(index) ?: JSONObject();steps.put(index,JSONObject(step.toString()).put("done",value));j.put("steps",steps);val done=(0 until steps.length()).count {steps.optJSONObject(it)?.optBoolean("done")==true};j.put("status",if(done==steps.length() && done>0)"COMPLETADO"else "EN_PROGRESO")}})
                 }
             }

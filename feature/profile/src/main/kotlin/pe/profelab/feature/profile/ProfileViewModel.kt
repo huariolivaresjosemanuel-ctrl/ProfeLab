@@ -21,7 +21,7 @@ class ProfileViewModel(private val profiles: ProfileRepository, private val draf
     init {
         viewModelScope.launch {
             try {
-                val profile=profiles.observeProfile().first() ?: Profile(newId())
+                val profile=profiles.observeProfile().first() ?: Profile(newId(),preferences.preferences.first().displayName)
                 val draft=drafts.readDraft("profile")?.let { JSONObject(it.payload) }
                 _state.value=ProfileState(false,profile.id,draft?.getString("name") ?: profile.name,
                     draft?.getString("cycle") ?: profile.academicCycle?.toString().orEmpty(),
@@ -49,9 +49,11 @@ class ProfileViewModel(private val profiles: ProfileRepository, private val draf
         val cycle=s.cycle.toIntOrNull()
         if(s.cycle.isNotBlank() && (cycle==null || cycle !in 1..20)) { _state.value=s.copy(error="Indica un ciclo académico entre 1 y 20, o deja el campo vacío."); return }
         _state.value=s.copy(saving=true,error=null)
-        operations.trySend { profiles.saveProfile(Profile(s.id,s.name,cycle,s.institution)); _state.value=state.value.copy(saving=false,saved=true,draftSaved=false) }
+        operations.trySend { profiles.saveProfile(Profile(s.id,s.name,cycle,s.institution));preferences.setPersonalization(s.name,preferences.preferences.first().role); _state.value=state.value.copy(saving=false,saved=true,draftSaved=false) }
     }
     fun showCompleted(enabled: Boolean) { operations.trySend { preferences.setShowCompleted(enabled) } }
+    fun role(role:LocalRole){operations.trySend {val current=preferences.preferences.first();preferences.setPersonalization(current.displayName.ifBlank {profiles.observeProfile().first()?.name.orEmpty()},role)}}
+    fun mascot(visible:Boolean?=null,reduceMotion:Boolean?=null,personalizedGreeting:Boolean?=null){operations.trySend {val current=preferences.preferences.first();preferences.setMascotPreferences(visible ?: current.mascotVisible,reduceMotion ?: current.reduceMotion,personalizedGreeting ?: current.personalizedGreetings)}}
     fun leave() {
         if(state.value.saving || state.value.finished) return
         val s=state.value

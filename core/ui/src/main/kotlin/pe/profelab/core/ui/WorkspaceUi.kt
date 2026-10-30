@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 
 val LocalOpenResource=staticCompositionLocalOf<((String)->Unit)?> {null}
 val LocalOpenDocumentPage=staticCompositionLocalOf<((String,Int)->Unit)?> {null}
@@ -41,7 +42,7 @@ fun JsonFields(data: JSONObject, fields: List<Field>, changed: (JSONObject)->Uni
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChoiceRow(options: List<String>, value: String, choose:(String)->Unit) {
-    FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)) {options.forEach {option->FilterChip(selected=value==option,onClick={choose(option)},label={Text(option)})}}
+    FlowRow(horizontalArrangement=Arrangement.spacedBy(8.dp)) {options.forEach {option->FilterChip(selected=value==option,onClick={choose(option)},label={Text(option)},modifier=Modifier.heightIn(min=48.dp),colors=FilterChipDefaults.filterChipColors(selectedContainerColor=ProfeColors.Green,selectedLabelColor=Color.White))}}
 }
 @Composable
 fun RecordLinks(all: List<WorkRecord>, data: JSONObject, changed: (JSONObject)->Unit) {

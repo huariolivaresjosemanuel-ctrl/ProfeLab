@@ -11,6 +11,7 @@ import pe.profelab.core.database.*
 class AppGraph(context: Context) {
     val database=ProfeDatabase.create(context)
     val repository=LocalRepository(database)
+    val ocrDrafts=RetainedOcrDrafts(context,repository)
     val workspace=WorkspaceRepository(database)
     val transfers=BackupTransfer(context,database)
     val seeds=pe.profelab.core.content.WorkshopSeed(context)

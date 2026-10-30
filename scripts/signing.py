@@ -61,16 +61,16 @@ def verify(env, apk, output, run=subprocess.run):
     metadata=run([required(env,'PROFELAB_AAPT'),'dump','badging',str(apk)],capture_output=True,text=True,check=False)
     expected_code=required(env,'PROFELAB_VERSION_CODE')
     package=re.search(r"^package: name='([^']+)' versionCode='(\d+)' versionName='([^']+)'",metadata.stdout,re.M)
-    if metadata.returncode or not package or package.groups()!=('pe.profelab.app',expected_code,'1.0.1'):
+    if metadata.returncode or not package or package.groups()!=('pe.profelab.app',expected_code,'1.0.2'):
         raise ValueError('Identificador o versión de la APK no coincide con H1.1')
     output.mkdir(parents=True,exist_ok=False)
-    destination=output/'ProfeLab-V1.0-release.apk'
+    destination=output/'ProfeLab-V1.0.2-release.apk'
     shutil.copyfile(apk,destination)
     digest=hashlib.sha256(destination.read_bytes()).hexdigest()
     (output/'SHA256SUMS.txt').write_text(digest+'  '+destination.name+'\n',encoding='utf-8')
     (output/'firma-publica.json').write_text(json.dumps({'certificate_sha256':expected,
         'apk_sha256':digest,'versionCode':int(required(env,'PROFELAB_VERSION_CODE')),
-        'versionName':'1.0.1','signature_verified':True},indent=2),encoding='utf-8')
+        'versionName':'1.0.2','signature_verified':True},indent=2),encoding='utf-8')
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('operation',choices=['prepare','cleanup','verify'])

@@ -23,8 +23,9 @@ internal object WorkshopColors {
     val Peach=Color(0xFFF4D5C9);val Lavender=Color(0xFFEEE4F6);val Paper=Color(0xFFFFFBF5)
 }
 @Composable
-internal fun WorkshopPage(title:String,subtitle:String="",back:(()->Unit)?=null,listState:LazyListState=rememberLazyListState(),trailing:@Composable ()->Unit={},content:LazyListScope.()->Unit){
-    Box(Modifier.fillMaxSize().background(WorkshopColors.Cream),contentAlignment=Alignment.TopCenter){
+internal fun WorkshopPage(title:String,subtitle:String="",back:(()->Unit)?=null,listState:LazyListState=rememberLazyListState(),screenTag:String?=null,trailing:@Composable ()->Unit={},content:LazyListScope.()->Unit){
+    val pageModifier=Modifier.fillMaxSize().background(WorkshopColors.Cream)
+    Box(if(screenTag==null)pageModifier else pageModifier.testTag(screenTag),contentAlignment=Alignment.TopCenter){
         LazyColumn(state=listState,modifier=Modifier.widthIn(max=1100.dp).fillMaxSize().testTag("workshop-page"),contentPadding=PaddingValues(16.dp),verticalArrangement=Arrangement.spacedBy(14.dp)){
             item("page-title"){BoxWithConstraints {val stacked=maxWidth<320.dp || androidx.compose.ui.platform.LocalDensity.current.fontScale>=1.4f;Column(verticalArrangement=Arrangement.spacedBy(6.dp)){Row(verticalAlignment=Alignment.CenterVertically){back?.let {IconButton(onClick=it){Icon(Icons.AutoMirrored.Outlined.ArrowBack,"Volver")}};Text(title,style=MaterialTheme.typography.headlineSmall,fontWeight=FontWeight.Bold,color=WorkshopColors.Deep,modifier=Modifier.weight(1f));if(!stacked)trailing()};if(stacked)trailing();if(subtitle.isNotBlank())Text(subtitle,style=MaterialTheme.typography.bodyMedium,color=MaterialTheme.colorScheme.onSurfaceVariant)}}}
             content()
