@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       run_emulator:
-        description: Ejecutar tambien las pruebas Android en emulador
+        description: Ejecutar pruebas Android en emulador
         required: true
         type: boolean
         default: true
@@ -91,6 +91,7 @@ jobs:
 
   android-tests:
     name: Pruebas Android API ${{ matrix.api }}
+
     if: github.event_name == 'workflow_dispatch' && inputs.run_emulator
     needs: build
     runs-on: ubuntu-24.04
