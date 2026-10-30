@@ -67,6 +67,7 @@ jobs:
           fi
           python3 scripts/verify_project.py
           python3 -m unittest discover -s scripts -p 'test_signing.py' -v
+          python3 -m unittest discover -s scripts -p 'test_android_orchestration.py' -v
 
       - name: Permitir ejecucion de Gradle
         run: chmod +x gradlew
@@ -157,17 +158,7 @@ jobs:
           arch: x86_64
           target: ${{ matrix.target }}
           disable-animations: true
-          script: |
-            set +e
-            bash scripts/check_android_upgrade.sh
-            result=$?
-            if [ "$result" -eq 0 ]; then
-              PROFELAB_VERSION_CODE=6 ./gradlew --no-daemon --stacktrace --continue :core:database:connectedDebugAndroidTest :app:connectedDebugAndroidTest
-              result=$?
-            fi
-            mkdir -p app/build/reports/androidTests/visual
-            adb pull /sdcard/Android/data/pe.profelab.app.test/files/visual/. app/build/reports/androidTests/visual/ || echo "No se recuperaron capturas; revisar la prueba y los logs."
-            exit "$result"
+          script: bash scripts/run_android_checks.sh
 
       - name: Guardar resultados Android
         if: always()
