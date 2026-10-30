@@ -1,0 +1,1 @@
+El esquema 1 se genera con Room KSP en la primera compilación. Actions lo entrega como artefacto; conservar su JSON en esta carpeta antes de cambiar de versión. No se declara una migración ficticia hacia una versión inexistente.

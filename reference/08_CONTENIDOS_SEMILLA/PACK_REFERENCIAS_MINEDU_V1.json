@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "packId": "profelab-minedu-referencias-2026-10",
+  "publisher": "ProfeLab",
+  "kind": "REFERENCE_CATALOG_ONLY",
+  "isOfficialPublisher": false,
+  "sourceAttribution": "Ministerio de Educación del Perú; enlaces de fuente explícitos en cada ficha",
+  "version": "1.0.0",
+  "isBundledPdf": false,
+  "documents": [
+    {
+      "id": "MINEDU-CNEB-2017",
+      "title": "Currículo Nacional de la Educación Básica",
+      "year": 2017,
+      "author": "Ministerio de Educación del Perú",
+      "kind": "marco_curricular",
+      "area": "Todas",
+      "grades": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "officialUrl": "https://repositorio.minedu.gob.pe/handle/20.500.12799/4551",
+      "pdfUrl": "https://www.minedu.gob.pe/curriculo/pdf/curriculo-nacional-de-la-educacion-basica.pdf",
+      "copyrightStatus": "NO_BUNDLE_REFERENCE_ONLY",
+      "embeddedPdf": false,
+      "pages": null,
+      "favourite": false,
+      "progressPage": 0,
+      "description": "Marco nacional: perfil de egreso, competencias, estándares, enfoques y evaluación."
+    },
+    {
+      "id": "MINEDU-PRIMARIA-2017",
+      "title": "Programa curricular de Educación Primaria",
+      "year": 2017,
+      "author": "Ministerio de Educación del Perú - Dirección de Educación Primaria",
+      "kind": "marco_curricular",
+      "area": "Todas",
+      "grades": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "officialUrl": "https://repositorio.minedu.gob.pe/handle/20.500.12799/4549",
+      "pdfUrl": "https://www.minedu.gob.pe/curriculo/pdf/programa-curricular-educacion-primaria.pdf",
+      "copyrightStatus": "NO_BUNDLE_REFERENCE_ONLY",
+      "embeddedPdf": false,
+      "pages": null,
+      "favourite": false,
+      "progressPage": 0,
+      "description": "Competencias, capacidades, desempeños, estándares, ciclo, enfoques y planificación."
+    },
+    {
+      "id": "MINEDU-ALFA-G1-2025",
+      "title": "Guía 1: Lectura y escritura en los inicios de la alfabetización. Orientaciones para generar condiciones",
+      "year": 2025,
+      "author": "Sucari Maldonado, Ruiz Vásquez y Reynalte Espinoza / MINEDU",
+      "kind": "guia_docente",
+      "area": "Comunicación",
+      "grades": [
+        1,
+        2
+      ],
+      "officialUrl": "https://repositorio.minedu.gob.pe/handle/20.500.12799/11807",
+      "pdfUrl": "https://repositorio.minedu.gob.pe/bitstream/handle/20.500.12799/11807/Gu%C3%ADa%201%20Lectura%20y%20escritura%20en%20los%20inicios%20de%20la%20alfabetizaci%C3%B3n.%20Orientaciones%20para%20generar%20condiciones%20que%20favorezcan%20la%20ense%C3%B1anza%20y%20aprendizaje%20de%20la%20alfabetizaci%C3%B3n%20inicial.pdf?isAllowed=y&sequence=1",
+      "copyrightStatus": "DOWNLOAD_TO_REVIEW_NOT_APK",
+      "embeddedPdf": false,
+      "pages": null,
+      "favourite": false,
+      "progressPage": 0,
+      "description": "Condiciones para la alfabetización inicial: ambiente alfabetizador, biblioteca de aula y organización."
+    },
+    {
+      "id": "MINEDU-ALFA-G2-2025",
+      "title": "Guía 2: Lectura y escritura en los inicios de la alfabetización. Qué y cómo se enseña y aprende",
+      "year": 2025,
+      "author": "Sucari Maldonado, Ruiz Vásquez y Reynalte Espinoza / MINEDU",
+      "kind": "guia_docente",
+      "area": "Comunicación",
+      "grades": [
+        1,
+        2
+      ],
+      "officialUrl": "https://repositorio.minedu.gob.pe/handle/20.500.12799/11809",
+      "pdfUrl": "https://repositorio.minedu.gob.pe/bitstream/handle/20.500.12799/11809/Gu%C3%ADa%202%20Lectura%20y%20escritura%20en%20los%20inicios%20de%20la%20alfabetizaci%C3%B3n%20%C2%BFQu%C3%A9%20y%20c%C3%B3mo%20se%20ense%C3%B1a%20y%20aprende%20a%20leer%20y%20escribir.pdf?isAllowed=y&sequence=1",
+      "copyrightStatus": "DOWNLOAD_TO_REVIEW_NOT_APK",
+      "embeddedPdf": false,
+      "pages": null,
+      "favourite": false,
+      "progressPage": 0,
+      "description": "Enfoques y situaciones didácticas de enseñanza y aprendizaje del lenguaje escrito."
+    },
+    {
+      "id": "MINEDU-ALFA-G3-2025",
+      "title": "Guía 3: Lectura y escritura en los inicios de la alfabetización. Situaciones didácticas para enseñar y aprender",
+      "year": 2025,
+      "author": "Sucari Maldonado, Ruiz Vásquez y Reynalte Espinoza / MINEDU",
+      "kind": "guia_docente",
+      "area": "Comunicación",
+      "grades": [
+        1,
+        2
+      ],
+      "officialUrl": "https://repositorio.minedu.gob.pe/handle/20.500.12799/11810",
+      "pdfUrl": null,
+      "copyrightStatus": "DOWNLOAD_TO_REVIEW_NOT_APK",
+      "embeddedPdf": false,
+      "pages": null,
+      "favourite": false,
+      "progressPage": 0,
+      "description": "Situaciones para revisar hipótesis de escritura y reflexionar sobre el lenguaje escrito."
+    },
+    {
+      "id": "MINEDU-INICIO-2026",
+      "title": "Orientaciones para el inicio del año escolar 2026 — Educación Primaria",
+      "year": 2026,
+      "author": "Ministerio de Educación - Dirección de Educación Primaria",
+      "kind": "orientaciones",
+      "area": "Gestión pedagógica",
+      "grades": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "officialUrl": "https://repositorio.minedu.gob.pe/handle/20.500.12799/12677",
+      "pdfUrl": "https://repositorio.minedu.gob.pe/bitstream/handle/20.500.12799/12677/Orientaciones%20para%20el%20inicio%20del%20a%C3%B1o%20escolar%202026%20-%20Educaci%C3%B3n%20Primaria.pdf?isAllowed=y&sequence=1",
+      "copyrightStatus": "DOWNLOAD_TO_REVIEW_NOT_APK",
+      "embeddedPdf": false,
+      "pages": null,
+      "favourite": false,
+      "progressPage": 0,
+      "description": "Prioridades 2026, planificación de inicio y organización de la escuela."
+    }
+  ]
+}

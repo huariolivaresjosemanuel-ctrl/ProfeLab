@@ -1,0 +1,17 @@
+﻿ID,REQUISITO,MODULOS,DOCUMENTACION,QA
+M-001,Cinco tabs de navegación,Inicio/Taller/Sesiones/Cuaderno/Biblioteca,"SDD §1,12",QA-191
+M-002,Feature modules sin dependencias cíclicas,Arquitectura,SDD §2,"QA-190,QA-191"
+M-003,Catálogo MINEDU con derechos,Biblioteca,"SDD §7,13","QA-175,QA-177"
+M-004,Abrir con y compartir hacia ProfeLab,Biblioteca/PDF,SDD §8.1,"QA-135,QA-136"
+M-005,Lector completo anotable,PDF,SDD §8.2,QA-142..QA-152
+M-006,OCR camera + flash offline,Capture/OCR,SDD §9,QA-180..QA-184
+M-007,Taller con inventario cantidad,Taller,SDD §4.4,QA-159..QA-162
+M-008,Taller con dos modos,Taller,SDD §4.5,QA-153..QA-155
+M-009,Experimentos hipótesis/observaciones,Taller,SDD §4.2,QA-156..QA-158
+M-010,Editor ideas propias,Taller,SDD §4.3,QA-166..QA-168
+M-011,Observación anonima e inclusión,Taller,SDD §4.6..4.7,"QA-165,QA-166,QA-178"
+M-012,Sesiones con referencia estable,Sesiones,SDD §5,QA-169
+M-013,Cuaderno y Portafolio,Cuaderno,SDD §6,"QA-178,QA-179"
+M-014,Packs sin pérdida de datos,Content,SDD §11,QA-170..QA-174
+M-015,Permisos por acción/SAF,Android,SDD §10,QA-180..QA-184
+M-016,QA y Actions,Ciclo de entrega,SDD §14,QA-190

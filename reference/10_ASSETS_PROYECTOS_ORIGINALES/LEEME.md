@@ -1,0 +1,2 @@
+# Miniaturas originales de proyectos
+Doce imágenes PNG conceptuales generadas para la biblioteca editorial de ProfeLab. **No son fotos** de resultados materiales ni dibujos oficiales MINEDU. Son libres de referencias externas: no se copiaron marcas ni obras protegidas. Codex puede utilizarlas como placeholders de ProfeLab y reemplazarlas progresivamente por imágenes originales documentadas. Cada archivo está vinculado por `projectId` en `MANIFIESTO_IMAGENES.json`.

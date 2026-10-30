@@ -1,0 +1,47 @@
+﻿ID,MODULO,PANTALLA,ENTRADA,ACCION_ESPERADA,ESTADO_ERROR_VACIO,REFERENCIA_UI
+UI-001,Inicio,Home,Abrir aplicación,"Mostrar datos reales, progresos y pendientes",Perfil vacío produce estado vacío,01_REFERENCIAS_UI/01_INICIO.png
+UI-002,Inicio,Perfil académico,Abrir avatar/configuración,Editar ciclo universitario independiente de grado escolar,Validación de datos,01_REFERENCIAS_UI/01_INICIO.png
+UI-003,Inicio,Próximas entregas,Tap Próximas entregas,Abrir tareas futuras y fecha,Ninguna muestra vacío,01_REFERENCIAS_UI/01_INICIO.png
+UI-004,Inicio,Nueva tarea,Añadir tarea,Guardar/editar/recordar offline,Cancelar no crea tarea,01_REFERENCIAS_UI/01_INICIO.png
+UI-005,Inicio,Actividad reciente,Tap recurso,Abrir objeto original por ID,Objeto eliminado = aviso sin crash,01_REFERENCIAS_UI/01_INICIO.png
+UI-006,Taller,Explorar Taller,Tap tab Taller,Lista filtrable e inventario,Sin pack = importar/crear,01_REFERENCIAS_UI/02_TALLER.png
+UI-007,Taller,Ficha de material,Tap proyecto,"Guía, cantidades, pasos, modos práctico/académico",Contenido editorial identificado,01_REFERENCIAS_UI/02_TALLER.png
+UI-008,Taller,Ficha de experimento,Tap experimento,"Pregunta, hipótesis, controles, tabla y resultados",Sin validación no marcar seguro,01_REFERENCIAS_UI/02_TALLER.png
+UI-009,Taller,Nueva idea,Nuevo proyecto,Crear desde cero y auto-guardar,Borrador incompleto permitido,01_REFERENCIAS_UI/02_TALLER.png
+UI-010,Taller,Editor de pasos,Añadir/reordenar,Editar y comprobar checklist,Persistir orden tras cerrar,01_REFERENCIAS_UI/02_TALLER.png
+UI-011,Taller,Inventario,Gestionar inventario,Unidades y cantidades correctas,Material faltante no recomendado como disponible,01_REFERENCIAS_UI/02_TALLER.png
+UI-012,Taller,Lista de compras,Generar faltantes,Consolidar materiales faltantes,Sin duplicados,01_REFERENCIAS_UI/02_TALLER.png
+UI-013,Taller,Modo práctico/académico,Alternar modo,Ver ambos sin destruir estado,No diagnóstico clínico,01_REFERENCIAS_UI/02_TALLER.png
+UI-014,Taller,Adaptaciones,Abrir inclusión,Elegir barreras y alternativas,No exigir diagnóstico,01_REFERENCIAS_UI/02_TALLER.png
+UI-015,Taller,Ficha seguridad,Abrir riesgo,Exponer riesgos y preparación adulta,No apto excluido de recomendaciones,01_REFERENCIAS_UI/02_TALLER.png
+UI-016,Taller,Observación,Abrir evidencias,Antes/durante/después y fotos opcionales,Anonimizado por defecto,01_REFERENCIAS_UI/02_TALLER.png
+UI-017,Taller,Rúbrica,Crear rúbrica,"Criterios, niveles y comentarios editables",No calificación auto clínica,01_REFERENCIAS_UI/02_TALLER.png
+UI-018,Taller,Fuentes,Abrir bibliografía,Citas verificadas y pendientes identificadas,No simular páginas,01_REFERENCIAS_UI/02_TALLER.png
+UI-019,Taller,Mis creaciones,Abrir lista propia,Buscar/editar/duplicar/exportar,Actualizar pack no sobrescribe,01_REFERENCIAS_UI/02_TALLER.png
+UI-020,Sesiones,Listado,Tap Sesiones,Filtrar grado área fecha estado,Sin sesiones = nueva,01_REFERENCIAS_UI/03_SESIONES.png
+UI-021,Sesiones,Nueva sesión,Nueva sesión,Editor con objetivos y criterios,Grado obligatorio 1..6,01_REFERENCIAS_UI/03_SESIONES.png
+UI-022,Sesiones,Plan de clase,Editar secuencia,Inicio/Desarrollo/Cierre y duración,Aviso si excede tiempo,01_REFERENCIAS_UI/03_SESIONES.png
+UI-023,Sesiones,Elegir recursos,Adjuntar proyecto/nota/PDF,Vínculos estables por ID,No copiar archivos innecesariamente,01_REFERENCIAS_UI/03_SESIONES.png
+UI-024,Sesiones,Exportar sesión,Exportar PDF,"Borrador imprimible, preview y compartir",Marca no oficial,01_REFERENCIAS_UI/03_SESIONES.png
+UI-025,Cuaderno,Listado,Tap Cuaderno,Apuntes/Prácticas/Ideas y portafolio,Sin notas = crear,01_REFERENCIAS_UI/04_CUADERNO.png
+UI-026,Cuaderno,Editor nota,Nueva nota,"Texto, etiquetas, adjuntos, autosave",Recuperar cierre inesperado,01_REFERENCIAS_UI/04_CUADERNO.png
+UI-027,Cuaderno,Grabación,Grabar voz,Pedir micrófono y guardar audio local,Denegado=nota texto,01_REFERENCIAS_UI/04_CUADERNO.png
+UI-028,Cuaderno,Foto/OCR,Foto/OCR,"Abrir cámara, recortar, OCR, revisar",Denegado=seleccionar imagen,01_REFERENCIAS_UI/04_CUADERNO.png
+UI-029,Cuaderno,Práctica/reflexión,Nueva reflexión,Registrar evidencias y observaciones,No obliga nombres de menores,01_REFERENCIAS_UI/04_CUADERNO.png
+UI-030,Cuaderno,Portafolio,Abrir Portafolio,"Agrupar evidencias, preview y PDF",Privacidad antes de compartir,01_REFERENCIAS_UI/04_CUADERNO.png
+UI-031,Biblioteca,Catálogo,Tap Biblioteca,Filtros documentos y estado local,Fuente sin PDF marcada claramente,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-032,Biblioteca,Documentos propios,Importar PDF,SAF y copia privada elegida,Sin READ global,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-033,Biblioteca,Abrir con,ACTION_VIEW externo,Leer ahora o Guardar en Biblioteca,URI caduca con error claro,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-034,Biblioteca,Compartir a,ACTION_SEND PDF,Recibir PDF y dar elección,Sin archivo no crash,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-035,Biblioteca,Lector PDF,Abrir documento,"Zoom, miniaturas, ir página, reanudar",PDF corrupto error no pérdida,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-036,Biblioteca,Resaltar/Subrayar,Seleccionar texto,Marcas guardadas en capa de anotaciones,Escaneo: ofrecer modo manual,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-037,Biblioteca,Lápiz/Goma,Dibujar,"Dedo/stylus, borrar, undo/redo",Rotación y zoom correctos,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-038,Biblioteca,Nota PDF,Añadir comentario,Vincular doc/página/posición,Guardar/reabrir,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-039,Biblioteca,Marcador/Buscar,Buscar,Índice texto o OCR revisado,Sin texto=sin resultados,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-040,Biblioteca,Exportar anotado,Guardar copia,Nuevo PDF con anotaciones y preview,Original preservado,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-041,Biblioteca,Compartir PDF,Compartir copia,FileProvider y chooser Android,Privacidad y permisos temporales,01_REFERENCIAS_UI/05_BIBLIOTECA.png
+UI-042,Sistema,Escáner cámara,Abrir captura,"Pedir permiso, flash, enfoque",Hardware sin flash y permiso denegado,01_REFERENCIAS_UI/NAVEGACION_COMPARTIDA
+UI-043,Sistema,Revisión OCR,Reconocer,Imagen y texto lado a lado para corregir,No auto-aplicar incorrecto,01_REFERENCIAS_UI/NAVEGACION_COMPARTIDA
+UI-044,Sistema,Importar pack,Seleccionar ZIP,Validar permisos/versiones/licencias/paths,ZIP inválido revierte,01_REFERENCIAS_UI/NAVEGACION_COMPARTIDA
+UI-045,Sistema,Copias seguridad,Exportar/importar backup,Backup/restore transaccional,No sobrescribir sin consentir,01_REFERENCIAS_UI/NAVEGACION_COMPARTIDA
+UI-046,Sistema,Ajustes,Abrir Ajustes,"Preferencias modo, accesibilidad, licencias",Sin cuentas obligatorias,01_REFERENCIAS_UI/NAVEGACION_COMPARTIDA

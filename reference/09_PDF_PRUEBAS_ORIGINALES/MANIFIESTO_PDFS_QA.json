@@ -1,0 +1,20 @@
+[
+  {
+    "path": "EJEMPLO_PROFELAB_ESCANEADO_SIN_CAPA_TEXTO.pdf",
+    "bytes": 89820,
+    "sha256": "e320ef0e5eea6dd5f5ab49b0ec94abdafcd645d77a64d5ab768b00d7b19bd2f5",
+    "type": "ORIGINAL_PROFELAB_QA_NOT_MINEDU"
+  },
+  {
+    "path": "EJEMPLO_PROFELAB_PDF_CONTRASENA.pdf",
+    "bytes": 44408,
+    "sha256": "0075e52a4f6db8537ceac4e169e38ac031063d2f8d59c995cf19f3e46b0944eb",
+    "type": "ORIGINAL_PROFELAB_QA_NOT_MINEDU"
+  },
+  {
+    "path": "EJEMPLO_PROFELAB_TEXTO_SELECCIONABLE_2P.pdf",
+    "bytes": 45785,
+    "sha256": "9703f69ff4660bf54035224a54cbc438136944cecb73bf25347a38fb96538007",
+    "type": "ORIGINAL_PROFELAB_QA_NOT_MINEDU"
+  }
+]

@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "dataset": "SIMULACION_UNICAMENTE",
+    "schemaVersion": 1,
+    "warning": "Todos los nombres, fechas, títulos y documentos en este archivo son inventados; no representa a MINEDU."
+  },
+  "profile": {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "displayName": "Docente de ejemplo",
+    "academicCycle": "6.º ciclo",
+    "institution": null
+  },
+  "tasks": [
+    {
+      "id": "task-a",
+      "title": "Revisar rúbrica de práctica",
+      "status": "PENDIENTE",
+      "dueAt": "2026-11-02"
+    },
+    {
+      "id": "task-b",
+      "title": "Preparar tarjetas numéricas",
+      "status": "PENDIENTE",
+      "dueAt": "2026-11-04"
+    },
+    {
+      "id": "task-c",
+      "title": "Leer guía de planificación",
+      "status": "COMPLETADA",
+      "dueAt": "2026-10-28"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "session-demo",
+      "title": "Juntamos cantidades (ejemplo propio)",
+      "primaryGrade": 1,
+      "area": "Matemática",
+      "minutes": 45,
+      "purpose": "Representar sumas sencillas con materiales concretos",
+      "evidence": "Explica un procedimiento de suma con objetos",
+      "criteria": [
+        "Identifica los datos",
+        "Representa cantidades",
+        "Explica su procedimiento"
+      ],
+      "moments": [
+        {
+          "kind": "INICIO",
+          "minutes": 10
+        },
+        {
+          "kind": "DESARROLLO",
+          "minutes": 25
+        },
+        {
+          "kind": "CIERRE",
+          "minutes": 10
+        }
+      ],
+      "status": "BORRADOR",
+      "source": "PLANTILLA_FICTICIA_NO_OFICIAL"
+    }
+  ],
+  "inventory": [
+    {
+      "id": "mat-a",
+      "label": "Cartón",
+      "quantityAvailable": 12,
+      "unit": "unidad"
+    },
+    {
+      "id": "mat-b",
+      "label": "Tapas plásticas",
+      "quantityAvailable": 25,
+      "unit": "unidad"
+    },
+    {
+      "id": "mat-c",
+      "label": "Tijeras",
+      "quantityAvailable": 4,
+      "unit": "unidad"
+    }
+  ],
+  "projects": [
+    {
+      "id": "project-demo",
+      "title": "Máquina de sumar (idea original de ejemplo)",
+      "status": "PREPARACION",
+      "primaryGrades": [
+        1,
+        2
+      ],
+      "areas": [
+        "Matemática"
+      ],
+      "requirements": [
+        {
+          "label": "Cartón",
+          "amount": 2,
+          "unit": "unidad"
+        },
+        {
+          "label": "Tapas plásticas",
+          "amount": 8,
+          "unit": "unidad"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Preparar piezas",
+          "checked": false
+        },
+        {
+          "title": "Armar la estructura",
+          "checked": false
+        }
+      ],
+      "credits": "IDEA DEMOSTRATIVA; SIN FOTOGRAFÍAS DE TERCEROS"
+    }
+  ],
+  "notes": [
+    {
+      "id": "note-a",
+      "title": "Reflexión de práctica (ficticia)",
+      "type": "PRACTICA",
+      "body": "El material concreto ayudó a explicar un concepto de ejemplo.",
+      "schoolGrade": 1,
+      "academicCycle": "6.º ciclo"
+    }
+  ],
+  "library": []
+}

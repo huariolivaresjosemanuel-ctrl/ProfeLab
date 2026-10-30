@@ -1,0 +1,1 @@
+Documentación, fixtures y referencias originales fuera de los sourceSets Android. No se empaquetan en la APK, salvo el catálogo JSON copiado explícitamente a core/content. El paquete fuente completo permanece intacto en fuentes_paquete. V2 gobierna sobre V1; no ejecutar scripts históricos ni reutilizar instrucciones sustituidas.

@@ -1,0 +1,87 @@
+{
+  "catalogVersion": 1,
+  "mappedAt": "2026-10-29",
+  "modules": {
+    "Biblioteca": {
+      "docs": [
+        "MINEDU-CNEB-2017",
+        "MINEDU-PRIMARIA-2017",
+        "MINEDU-ALFA-G1-2025",
+        "MINEDU-ALFA-G2-2025",
+        "MINEDU-ALFA-G3-2025",
+        "MINEDU-INICIO-2026"
+      ],
+      "usage": "catálogo oficial con metadatos; PDF importado por usuario con SAF; búsqueda en títulos/metadatos y texto sólo si PDF presente y extracción verificada"
+    },
+    "Sesiones": {
+      "docs": [
+        "MINEDU-CNEB-2017",
+        "MINEDU-PRIMARIA-2017",
+        "MINEDU-ALFA-G2-2025",
+        "MINEDU-ALFA-G3-2025"
+      ],
+      "usage": "proporcionar referencias de orientación; editor manual de propósito, competencias, desempeños, evidencia, criterios, secuencia; no llenar competencias no verificadas"
+    },
+    "Taller": {
+      "docs": [
+        "MINEDU-PRIMARIA-2017",
+        "MINEDU-ALFA-G1-2025",
+        "MINEDU-ALFA-G3-2025"
+      ],
+      "original_content": "PACK_TALLER_12_PROYECTOS_ORIGINALES.json",
+      "usage": "ideas originales, inventario por unidades, actividades y checklists; etiquetas de áreas sugeridas sujetas a validación por docente"
+    },
+    "Cuaderno": {
+      "docs": [
+        "MINEDU-INICIO-2026"
+      ],
+      "usage": "anotaciones y reflexión docente vinculadas a referencias y prácticas, sin declarar oficiales textos propios"
+    },
+    "OCR": {
+      "docs": [],
+      "usage": "captura documentos elegidos de forma local, revisión humana antes de guardar; no scraping de sitios MINEDU en la app"
+    },
+    "Inicio": {
+      "docs": [],
+      "usage": "reflejar progreso de tareas y reciente lectura de PDF real, nunca mock fijo"
+    }
+  },
+  "verified_index_hints": [
+    {
+      "docId": "MINEDU-PRIMARIA-2017",
+      "section": "III. Orientaciones para planificar el proceso de enseñanza, aprendizaje y evaluación",
+      "indexPage": 30,
+      "verifiedFrom": "índice de PDF indexado en buscador, no se inspeccionó el PDF binario"
+    },
+    {
+      "docId": "MINEDU-PRIMARIA-2017",
+      "section": "V. Espacios educativos, materiales y rol del adulto",
+      "indexPage": 58,
+      "verifiedFrom": "índice de PDF indexado en buscador, no se inspeccionó el PDF binario"
+    },
+    {
+      "docId": "MINEDU-ALFA-G1-2025",
+      "section": "Condiciones para la alfabetización inicial",
+      "indexPage": 5,
+      "verifiedFrom": "índice de PDF indexado en buscador, no se inspeccionó el PDF binario"
+    },
+    {
+      "docId": "MINEDU-ALFA-G1-2025",
+      "section": "Situaciones didácticas fundamentales",
+      "indexPage": 6,
+      "verifiedFrom": "índice de PDF indexado en buscador, no se inspeccionó el PDF binario"
+    },
+    {
+      "docId": "MINEDU-ALFA-G1-2025",
+      "section": "Ambiente alfabetizador",
+      "indexPage": 10,
+      "verifiedFrom": "índice de PDF indexado en buscador, no se inspeccionó el PDF binario"
+    },
+    {
+      "docId": "MINEDU-ALFA-G1-2025",
+      "section": "Biblioteca de aula",
+      "indexPage": 14,
+      "verifiedFrom": "índice de PDF indexado en buscador, no se inspeccionó el PDF binario"
+    }
+  ]
+}

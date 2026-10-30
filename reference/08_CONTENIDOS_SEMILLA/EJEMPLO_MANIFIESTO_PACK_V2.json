@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 2,
+  "packId": "profelab-taller-editorial",
+  "version": "2.0.0",
+  "minimumAppSchema": 1,
+  "maxAppSchema": 2,
+  "language": "es-PE",
+  "items": 12,
+  "contentType": "taller-projects",
+  "publisher": "ProfeLab",
+  "sha256": "PENDIENTE_CALCULAR_SOBRE_BYTES_FINALES_DEL_PACK",
+  "rights": "editorial-original",
+  "dependsOn": [],
+  "migrationPolicy": "NEVER_OVERWRITE_PERSONAL_COPIES",
+  "verifiedAt": null
+}
