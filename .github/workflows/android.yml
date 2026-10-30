@@ -34,6 +34,11 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Normalizar y validar finales LF
+        run: |
+          python3 scripts/normalize_shell_sources.py
+          python3 scripts/normalize_shell_sources.py --check
+
       - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
@@ -66,6 +71,7 @@ jobs:
             exit 1
           fi
           python3 scripts/verify_project.py
+          python3 -m unittest discover -s scripts -p 'test_normalize_shell_sources.py' -v
           python3 -m unittest discover -s scripts -p 'test_signing.py' -v
           python3 -m unittest discover -s scripts -p 'test_android_orchestration.py' -v
           python3 scripts/check_flow_assets.py
@@ -129,6 +135,11 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
+      - name: Normalizar y validar finales LF
+        run: |
+          python3 scripts/normalize_shell_sources.py
+          python3 scripts/normalize_shell_sources.py --check
+
       - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
@@ -186,6 +197,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Normalizar y validar finales LF
+        run: |
+          python3 scripts/normalize_shell_sources.py
+          python3 scripts/normalize_shell_sources.py --check
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
