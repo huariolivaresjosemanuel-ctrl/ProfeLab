@@ -11,6 +11,6 @@ test_wrong_application_never_published (test_signing.SigningTests.test_wrong_app
 test_wrong_certificate_never_published (test_signing.SigningTests.test_wrong_certificate_never_published) ... ok
 
 ----------------------------------------------------------------------
-Ran 11 tests in 0.032s
+Ran 11 tests in 0.060s
 
 OK

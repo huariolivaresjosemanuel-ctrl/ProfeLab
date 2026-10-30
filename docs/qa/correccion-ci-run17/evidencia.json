@@ -1,0 +1,42 @@
+{
+  "run_id": 41066315537,
+  "commit": "9c2a09cc0d5651b9eca36f61c4bfcddbee05d4b3",
+  "artifact_sha256": "dd891a4baef3f82934d75cf007614640e9542ed064ffccdf2274ff452a403be8",
+  "jvm_suites": [
+    {
+      "path": "core/model/build/test-results/test/TEST-pe.profelab.core.model.HomeRulesTest.xml",
+      "name": "pe.profelab.core.model.HomeRulesTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "core/model/build/test-results/test/TEST-pe.profelab.core.model.InventoryRulesTest.xml",
+      "name": "pe.profelab.core.model.InventoryRulesTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "core/security/build/test-results/test/TEST-pe.profelab.core.security.ContentPolicyTest.xml",
+      "name": "pe.profelab.core.security.ContentPolicyTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "ksp_schema_from_failed_run": [
+    "core/database/schemas/pe.profelab.core.database.ProfeDatabase/2.json"
+  ],
+  "failed_task": ":core:files:compileDebugKotlin",
+  "diagnostic": "DocumentFiles.kt:29 PdfDocument().use: receiver is not Closeable/AutoCloseable",
+  "full_build_run17": "FAIL",
+  "corrected_build": "NOT_RUN",
+  "instrumentation_run17": "SKIPPED",
+  "signed_release_run17": "SKIPPED",
+  "total_jvm_tests": 19,
+  "source_api": "https://developer.android.com/reference/android/graphics/pdf/PdfDocument"
+}

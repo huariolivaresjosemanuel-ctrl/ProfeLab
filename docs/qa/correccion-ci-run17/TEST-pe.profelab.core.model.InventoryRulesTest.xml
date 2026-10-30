@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="pe.profelab.core.model.InventoryRulesTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-30T13:51:48.262Z" hostname="runnervm48cm3" time="0.072">
+  <properties/>
+  <testcase name="missingToolCounts" classname="pe.profelab.core.model.InventoryRulesTest" time="0.042"/>
+  <testcase name="unknownQuantityNeverAvailable" classname="pe.profelab.core.model.InventoryRulesTest" time="0.001"/>
+  <testcase name="incompatibleUnitsNeverMatch" classname="pe.profelab.core.model.InventoryRulesTest" time="0.006"/>
+  <testcase name="repeatedRequirementDoesNotReuseSameConsumable" classname="pe.profelab.core.model.InventoryRulesTest" time="0.004"/>
+  <testcase name="reservationsReduceAvailable" classname="pe.profelab.core.model.InventoryRulesTest" time="0.003"/>
+  <testcase name="missingQuantitiesAreReal" classname="pe.profelab.core.model.InventoryRulesTest" time="0.007"/>
+  <testcase name="shoppingSumsConsumablesAndReusesTools" classname="pe.profelab.core.model.InventoryRulesTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,19 @@
+Source: https://github.com/huariolivaresjosemanuel-ctrl/ProfeLab/actions/runs/41066315537/job/124098537432
+Commit: 9c2a09cc0d5651b9eca36f61c4bfcddbee05d4b3
+
+2026-10-30T13:51:49.6198902Z > Task :core:security:compileTestJava NO-SOURCE
+2026-10-30T13:51:49.6200231Z > Task :core:security:testClasses UP-TO-DATE
+2026-10-30T13:51:51.2155223Z > Task :core:security:test
+2026-10-30T13:51:51.7179104Z > Task :core:model:test
+2026-10-30T13:51:59.3210079Z e: file:///home/runner/work/ProfeLab/ProfeLab/core/files/src/main/kotlin/pe/profelab/core/files/DocumentFiles.kt:29:23 Cannot infer type for type parameter 'R'. Specify it explicitly.
+2026-10-30T13:51:59.3211482Z 
+2026-10-30T13:51:59.3268271Z e: file:///home/runner/work/ProfeLab/ProfeLab/core/files/src/main/kotlin/pe/profelab/core/files/DocumentFiles.kt:29:23 Unresolved reference. None of the following candidates is applicable because of a receiver type mismatch:
+2026-10-30T13:51:59.3270270Z > Task :core:files:compileDebugKotlin
+2026-10-30T13:51:59.3308979Z fun <T : Closeable?, R> T.use(block: (T) -> R): R
+2026-10-30T13:52:00.4157895Z 
+2026-10-30T13:52:00.4228640Z > Task :core:files:compileDebugKotlin FAILED
+2026-10-30T13:52:01.4156048Z > Task :core:content:compileDebugKotlin
+2026-10-30T13:52:01.5163904Z > Task :core:content:compileDebugJavaWithJavac NO-SOURCE
+2026-10-30T13:52:01.7168869Z > Task :core:content:bundleLibRuntimeToJarDebug
+2026-10-30T13:52:01.7258713Z > Task :core:content:processDebugJavaRes
+2026-10-30T13:52:02.5159413Z > Task :core:content:bundleLibCompileToJarDebug
