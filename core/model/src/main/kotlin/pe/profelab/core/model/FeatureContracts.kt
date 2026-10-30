@@ -1,6 +1,6 @@
 package pe.profelab.core.model
 
-/** Contracts for H2-H7. These are not registered as available services in H1. */
+/** Typed extension contracts retained from H1. Integrated V1 services use WorkspaceStore/LocalTransfer and module APIs; these interfaces are not fake service registrations. */
 data class ProjectFilter(val grade: Int? = null, val area: String? = null, val text: String = "")
 data class ProjectSummary(val id: String, val title: String, val reviewStatus: String)
 data class MaterialShortage(val materialId: String, val quantityDecimal: String, val unit: String)

@@ -36,6 +36,7 @@ data class SourceReference(
     val area: String, val officialUrl: String, val description: String,
     val rightsNote: String, val distributionApproved: Boolean = false,
     val localDocumentId: String? = null,
+    val kind: String = "",
 )
 enum class Failure { INVALID_INPUT, NOT_FOUND, PERMISSION_DENIED, STORAGE_FULL, CORRUPT, UNSUPPORTED, UNAVAILABLE }
 sealed interface Outcome<out T> {

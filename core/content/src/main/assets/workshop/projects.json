@@ -1,0 +1,1181 @@
+{
+  "schemaVersion": 2,
+  "packId": "profelab-taller-editorial",
+  "version": "2.0.0",
+  "publisher": "ProfeLab",
+  "authoringStatus": "PLANTILLAS_ORIGINALES_PARA_VALIDACION_PEDAGOGICA",
+  "mineduOfficial": false,
+  "projects": [
+    {
+      "id": "mat-001",
+      "title": "Máquina de sumar con tapas",
+      "area": "Matemática",
+      "grades": [
+        1,
+        2
+      ],
+      "estimatedMinutes": 35,
+      "difficulty": "Fácil",
+      "objectiveSuggested": "Representar adiciones usando objetos reutilizados",
+      "materials": [
+        {
+          "name": "cartón",
+          "amount": 2,
+          "unit": "planchas"
+        },
+        {
+          "name": "tapas",
+          "amount": 10,
+          "unit": "unidades"
+        },
+        {
+          "name": "pegamento",
+          "amount": 1,
+          "unit": "unidad"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Diseñar dos entradas para las cantidades",
+          "done": false
+        },
+        {
+          "title": "Crear dos canales para colocar tapas",
+          "done": false
+        },
+        {
+          "title": "Probar sumas con cantidades pequeñas",
+          "done": false
+        },
+        {
+          "title": "Pedir explicar cómo llegaron al resultado",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/mat-001.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Representar cantidades y justificar el resultado",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Expresa cómo representó y comprobó la suma"
+        },
+        "academic": {
+          "curricularArea": "Matemática",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Atención a cantidad, memoria de trabajo y explicación oral",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Ofrecer grupos más pequeños, objetos mayores y tarjetas visuales",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "ADULT_PREPARATION",
+        "warnings": [
+          "Las ranuras y pegamentos se preparan por adulto; revisar bordes del cartón"
+        ],
+        "childrenForbiddenActions": [
+          "Cortar con herramienta"
+        ]
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Expresa cómo representó y comprobó la suma"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/mat-001.png"
+    },
+    {
+      "id": "mat-002",
+      "title": "Tarjetas numéricas reutilizables",
+      "area": "Matemática",
+      "grades": [
+        1,
+        2
+      ],
+      "estimatedMinutes": 25,
+      "difficulty": "Fácil",
+      "objectiveSuggested": "Comparar números y construir secuencias",
+      "materials": [
+        {
+          "name": "cartulina",
+          "amount": 10,
+          "unit": "hojas"
+        },
+        {
+          "name": "plumones",
+          "amount": 2,
+          "unit": "unidades"
+        },
+        {
+          "name": "tijeras",
+          "amount": 1,
+          "unit": "unidad"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Cortar tarjetas iguales",
+          "done": false
+        },
+        {
+          "title": "Escribir cantidades y símbolos",
+          "done": false
+        },
+        {
+          "title": "Plastificar solo si se cuenta con material",
+          "done": false
+        },
+        {
+          "title": "Formar secuencias y operaciones",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/mat-002.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Ordenar, comparar y comunicar números",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Ordena tarjetas y explica criterio"
+        },
+        "academic": {
+          "curricularArea": "Matemática",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Memoria de trabajo y secuenciación",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Tarjetas grandes, alto contraste, braille o relieve cuando proceda",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "ADULT_PREPARATION",
+        "warnings": [
+          "Corte de tarjetas a cargo de adulto según edad"
+        ],
+        "childrenForbiddenActions": [
+          "Cortar con herramienta"
+        ]
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Ordena tarjetas y explica criterio"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/mat-002.png"
+    },
+    {
+      "id": "com-001",
+      "title": "Ruleta de sílabas",
+      "area": "Comunicación",
+      "grades": [
+        1,
+        2
+      ],
+      "estimatedMinutes": 25,
+      "difficulty": "Fácil",
+      "objectiveSuggested": "Explorar combinaciones silábicas con juego guiado",
+      "materials": [
+        {
+          "name": "cartón",
+          "amount": 1,
+          "unit": "plancha"
+        },
+        {
+          "name": "plumones",
+          "amount": 3,
+          "unit": "unidades"
+        },
+        {
+          "name": "encuadernador",
+          "amount": 1,
+          "unit": "unidad"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Dibujar círculo y dividir sectores",
+          "done": false
+        },
+        {
+          "title": "Escribir sílabas",
+          "done": false
+        },
+        {
+          "title": "Colocar flecha móvil",
+          "done": false
+        },
+        {
+          "title": "Relacionar la sílaba con palabras locales",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/com-001.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Combinar sílabas para explorar palabras",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Propone palabras y explica significado"
+        },
+        "academic": {
+          "curricularArea": "Comunicación",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Atención fonológica y flexibilidad de combinaciones",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Apoyos auditivos y dibujos contextualizados",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "LOW_SUPERVISED",
+        "warnings": [
+          "Montaje y fijación del giro por persona adulta"
+        ],
+        "childrenForbiddenActions": []
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Propone palabras y explica significado"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/com-001.png"
+    },
+    {
+      "id": "com-002",
+      "title": "Bingo de palabras",
+      "area": "Comunicación",
+      "grades": [
+        1,
+        3
+      ],
+      "estimatedMinutes": 30,
+      "difficulty": "Fácil",
+      "objectiveSuggested": "Reconocer palabras familiares en contextos significativos",
+      "materials": [
+        {
+          "name": "papel",
+          "amount": 15,
+          "unit": "hojas"
+        },
+        {
+          "name": "lápices",
+          "amount": 4,
+          "unit": "unidades"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Elegir vocabulario contextualizado",
+          "done": false
+        },
+        {
+          "title": "Armar cartones con palabras",
+          "done": false
+        },
+        {
+          "title": "Crear fichas de lectura",
+          "done": false
+        },
+        {
+          "title": "Jugar y revisar estrategias lectoras",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/com-002.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Reconocer palabras en situaciones comunicativas",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Localiza palabra y comenta pistas utilizadas"
+        },
+        "academic": {
+          "curricularArea": "Comunicación",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Atención selectiva y turnos de interacción",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Texto grande, iconos y ritmo ajustado",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "LOW_SUPERVISED",
+        "warnings": [
+          "Evitar piezas pequeñas sueltas; revisar accesibilidad"
+        ],
+        "childrenForbiddenActions": []
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Localiza palabra y comenta pistas utilizadas"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/com-002.png"
+    },
+    {
+      "id": "mat-003",
+      "title": "Geoplano de bandas elásticas",
+      "area": "Matemática",
+      "grades": [
+        3,
+        4
+      ],
+      "estimatedMinutes": 45,
+      "difficulty": "Media",
+      "objectiveSuggested": "Explorar figuras geométricas con material manipulativo",
+      "materials": [
+        {
+          "name": "madera",
+          "amount": 1,
+          "unit": "tablero"
+        },
+        {
+          "name": "clavos",
+          "amount": 25,
+          "unit": "unidades"
+        },
+        {
+          "name": "ligas",
+          "amount": 10,
+          "unit": "unidades"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Lijar el tablero y revisar bordes",
+          "done": false
+        },
+        {
+          "title": "Marcar retícula regular",
+          "done": false
+        },
+        {
+          "title": "Instalar clavos con supervisión adulta",
+          "done": false
+        },
+        {
+          "title": "Construir figuras y discutir perímetros",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/mat-003.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Construir y comparar figuras geométricas",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Construye figura y describe características"
+        },
+        "academic": {
+          "curricularArea": "Matemática",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Planificación espacial y ensayo de alternativas",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Geoplano sin puntas, tablero magnético o digital",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "ADULT_PREPARATION",
+        "warnings": [
+          "Clavos y martillo son exclusivos de adulto; no entregar herramientas al alumnado"
+        ],
+        "childrenForbiddenActions": [
+          "Cortar con herramienta"
+        ]
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Construye figura y describe características"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/mat-003.png"
+    },
+    {
+      "id": "tut-001",
+      "title": "Termómetro de emociones",
+      "area": "Tutoría",
+      "grades": [
+        1,
+        4
+      ],
+      "estimatedMinutes": 25,
+      "difficulty": "Fácil",
+      "objectiveSuggested": "Reconocer y expresar emociones sin evaluaciones clínicas",
+      "materials": [
+        {
+          "name": "cartulina",
+          "amount": 3,
+          "unit": "hojas"
+        },
+        {
+          "name": "plumones",
+          "amount": 4,
+          "unit": "unidades"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Acordar nombres de emociones",
+          "done": false
+        },
+        {
+          "title": "Construir escala con colores",
+          "done": false
+        },
+        {
+          "title": "Crear tarjetas de ejemplos",
+          "done": false
+        },
+        {
+          "title": "Practicar expresión respetuosa",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/tut-001.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Expresar y nombrar emociones sin juicio",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Expresa opción voluntaria de estrategia de regulación"
+        },
+        "academic": {
+          "curricularArea": "Tutoría",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Vocabulario socioemocional y autorregulación como práctica",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Permitir dibujo, gesto, símbolos o silencio voluntario",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "LOW_SUPERVISED",
+        "warnings": [
+          "No forzar revelaciones personales ni registrar diagnósticos"
+        ],
+        "childrenForbiddenActions": []
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Expresa opción voluntaria de estrategia de regulación"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/tut-001.png"
+    },
+    {
+      "id": "cta-001",
+      "title": "Germinador con botella",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        2,
+        5
+      ],
+      "estimatedMinutes": 35,
+      "difficulty": "Fácil",
+      "objectiveSuggested": "Observar cambios en seres vivos con registro continuo",
+      "materials": [
+        {
+          "name": "botellas",
+          "amount": 1,
+          "unit": "unidad"
+        },
+        {
+          "name": "algodón",
+          "amount": 1,
+          "unit": "bolsa"
+        },
+        {
+          "name": "semillas",
+          "amount": 8,
+          "unit": "unidades"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Limpiar y recortar botella con adulto",
+          "done": false
+        },
+        {
+          "title": "Colocar algodón húmedo y semillas",
+          "done": false
+        },
+        {
+          "title": "Registrar cambios diarios",
+          "done": false
+        },
+        {
+          "title": "Comparar humedad y crecimiento",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/cta-001.png",
+      "approved": false,
+      "kind": "material_o_indagacion",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Registrar cambios en germinación",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Documenta variaciones y diferencia observación de inferencia"
+        },
+        "academic": {
+          "curricularArea": "Ciencia y Tecnología",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Observación sostenida y registro por comparación",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Recipiente accesible y registro con pictogramas",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "ADULT_PREPARATION",
+        "warnings": [
+          "Corte de botella exclusivo de adulto, higiene y manejo cuidadoso de semillas"
+        ],
+        "childrenForbiddenActions": [
+          "Cortar con herramienta"
+        ]
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Documenta variaciones y diferencia observación de inferencia"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/cta-001.png"
+    },
+    {
+      "id": "com-003",
+      "title": "Teatro de títeres de papel",
+      "area": "Comunicación",
+      "grades": [
+        3,
+        5
+      ],
+      "estimatedMinutes": 50,
+      "difficulty": "Media",
+      "objectiveSuggested": "Narrar y dialogar cooperativamente",
+      "materials": [
+        {
+          "name": "cartón",
+          "amount": 2,
+          "unit": "planchas"
+        },
+        {
+          "name": "papel",
+          "amount": 10,
+          "unit": "hojas"
+        },
+        {
+          "name": "pegamento",
+          "amount": 1,
+          "unit": "unidad"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Diseñar personajes de cuento original",
+          "done": false
+        },
+        {
+          "title": "Construir escenario reutilizable",
+          "done": false
+        },
+        {
+          "title": "Ensayar diálogo y turnos de habla",
+          "done": false
+        },
+        {
+          "title": "Presentar y autoevaluar claridad del mensaje",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/com-003.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Narrar y coordinar turnos de diálogo",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Narra secuencia y coopera con equipo"
+        },
+        "academic": {
+          "curricularArea": "Comunicación",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Comunicación y cooperación",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Personajes con agarre adaptado y guion visual",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "LOW_SUPERVISED",
+        "warnings": [
+          "Tijeras/herramientas controladas por docente"
+        ],
+        "childrenForbiddenActions": []
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Narra secuencia y coopera con equipo"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/com-003.png"
+    },
+    {
+      "id": "mat-004",
+      "title": "Dominó de fracciones",
+      "area": "Matemática",
+      "grades": [
+        4,
+        6
+      ],
+      "estimatedMinutes": 40,
+      "difficulty": "Media",
+      "objectiveSuggested": "Relacionar representaciones de fracciones",
+      "materials": [
+        {
+          "name": "cartón",
+          "amount": 2,
+          "unit": "planchas"
+        },
+        {
+          "name": "plumones",
+          "amount": 3,
+          "unit": "unidades"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Diseñar piezas con diagramas originales",
+          "done": false
+        },
+        {
+          "title": "Representar fracciones equivalentes",
+          "done": false
+        },
+        {
+          "title": "Separar piezas y revisar respuestas",
+          "done": false
+        },
+        {
+          "title": "Jugar explicando equivalencias",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/mat-004.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Representar fracciones mediante juegos",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Explica equivalencia con apoyo concreto"
+        },
+        "academic": {
+          "curricularArea": "Matemática",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Cambio entre representaciones y razonamiento",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Piezas grandes, ejemplos de contexto y colores contrastantes",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "ADULT_PREPARATION",
+        "warnings": [
+          "Cortar cartón por adulto o estudiantes según madurez y supervisión"
+        ],
+        "childrenForbiddenActions": [
+          "Cortar con herramienta"
+        ]
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Explica equivalencia con apoyo concreto"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/mat-004.png"
+    },
+    {
+      "id": "per-001",
+      "title": "Mapa de mi comunidad",
+      "area": "Personal Social",
+      "grades": [
+        3,
+        6
+      ],
+      "estimatedMinutes": 45,
+      "difficulty": "Media",
+      "objectiveSuggested": "Representar relaciones espaciales del entorno",
+      "materials": [
+        {
+          "name": "papel",
+          "amount": 6,
+          "unit": "hojas"
+        },
+        {
+          "name": "plumones",
+          "amount": 3,
+          "unit": "unidades"
+        },
+        {
+          "name": "regla",
+          "amount": 1,
+          "unit": "unidad"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Elegir lugares conocidos sin publicar domicilios",
+          "done": false
+        },
+        {
+          "title": "Dibujar puntos de referencia",
+          "done": false
+        },
+        {
+          "title": "Crear leyenda simple",
+          "done": false
+        },
+        {
+          "title": "Reflexionar sobre rutas seguras",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/per-001.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Representar hitos y servicios de comunidad",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Relaciona elementos del mapa con necesidades comunes"
+        },
+        "academic": {
+          "curricularArea": "Personal Social",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Organización espacial y análisis del entorno",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Mapa táctil, símbolos grandes y descripción oral",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "LOW_SUPERVISED",
+        "warnings": [
+          "No divulgar domicilios exactos de estudiantes"
+        ],
+        "childrenForbiddenActions": []
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Relaciona elementos del mapa con necesidades comunes"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/per-001.png"
+    },
+    {
+      "id": "arte-001",
+      "title": "Mural de texturas recicladas",
+      "area": "Arte y Cultura",
+      "grades": [
+        1,
+        6
+      ],
+      "estimatedMinutes": 40,
+      "difficulty": "Fácil",
+      "objectiveSuggested": "Experimentar materiales y expresar ideas",
+      "materials": [
+        {
+          "name": "papel",
+          "amount": 10,
+          "unit": "hojas"
+        },
+        {
+          "name": "cartón",
+          "amount": 2,
+          "unit": "planchas"
+        },
+        {
+          "name": "pegamento",
+          "amount": 1,
+          "unit": "unidad"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Recolectar texturas limpias y seguras",
+          "done": false
+        },
+        {
+          "title": "Explorar diferencias por tacto",
+          "done": false
+        },
+        {
+          "title": "Crear composición grupal",
+          "done": false
+        },
+        {
+          "title": "Compartir decisiones artísticas",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/arte-001.png",
+      "approved": false,
+      "kind": "material_didactico",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Componer con texturas y materiales reutilizados",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Justifica elecciones artísticas"
+        },
+        "academic": {
+          "curricularArea": "Arte y Cultura",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Exploración sensorial y elección creativa",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Alternativas a estímulos molestos; participación voluntaria",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "LOW_SUPERVISED",
+        "warnings": [
+          "Revisar alergias y materiales con puntas o grapas"
+        ],
+        "childrenForbiddenActions": []
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Justifica elecciones artísticas"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/arte-001.png"
+    },
+    {
+      "id": "cta-002",
+      "title": "Estación de clasificación de residuos",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        3,
+        6
+      ],
+      "estimatedMinutes": 45,
+      "difficulty": "Media",
+      "objectiveSuggested": "Observar y clasificar materiales de forma segura",
+      "materials": [
+        {
+          "name": "cajas",
+          "amount": 3,
+          "unit": "unidades"
+        },
+        {
+          "name": "papel",
+          "amount": 6,
+          "unit": "hojas"
+        },
+        {
+          "name": "plumones",
+          "amount": 3,
+          "unit": "unidades"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Etiquetar tres categorías simples",
+          "done": false
+        },
+        {
+          "title": "Reunir residuos limpios de demostración",
+          "done": false
+        },
+        {
+          "title": "Clasificar y explicar criterios",
+          "done": false
+        },
+        {
+          "title": "Registrar acuerdos de mejora",
+          "done": false
+        }
+      ],
+      "source": "Ejemplo original de ProfeLab; adaptar según contexto y seguridad",
+      "gradeMappingOfficial": false,
+      "image": "10_ASSETS_PROYECTOS_ORIGINALES/cta-002.png",
+      "approved": false,
+      "kind": "material_o_indagacion",
+      "pedagogy": {
+        "practical": {
+          "purpose": "Clasificar residuos y proponer mejoras",
+          "howToUse": "Utilizar guía y checklist; ofrecer demostración y oportunidad de explicación.",
+          "whatToObserve": "Explica por qué eligió una categoría"
+        },
+        "academic": {
+          "curricularArea": "Ciencia y Tecnología",
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "potentialProcesses": "Categorización, argumentación y cooperación",
+          "claimType": "PROPUESTA_EDITORIAL_NO_EFECTO_CLINICO",
+          "evidence": [],
+          "caution": "No constituye valoración psicológica ni diagnóstico; no prometer efecto causal."
+        }
+      },
+      "inclusion": {
+        "barrierOriented": true,
+        "suggestedAdjustments": [
+          "Símbolos accesibles y objetos limpios, manejables",
+          "Permitir respuesta oral, gráfica o manipulativa según la tarea."
+        ]
+      },
+      "safety": {
+        "reviewStatus": "EDITORIAL_PRELIMINARY_REQUIERE_VALIDACION_DOCENTE",
+        "riskLevel": "LOW_SUPERVISED",
+        "warnings": [
+          "Solo residuos limpios y seguros: no vidrios ni residuos médicos"
+        ],
+        "childrenForbiddenActions": []
+      },
+      "observation": {
+        "before": "Registrar estrategia o idea inicial, sin datos sensibles.",
+        "during": [
+          "Explica por qué eligió una categoría"
+        ],
+        "after": "Anotar qué funcionó, qué mejorar y próxima adaptación.",
+        "rubricTemplateId": "rubrica_observacion_v1",
+        "records": []
+      },
+      "contentRights": {
+        "origin": "EDITORIAL_PROFELAB",
+        "mineduOfficial": false,
+        "approvedForDistribution": true,
+        "version": "1.1.0"
+      },
+      "thumbnail": "10_ASSETS_PROYECTOS_ORIGINALES/cta-002.png"
+    }
+  ]
+}

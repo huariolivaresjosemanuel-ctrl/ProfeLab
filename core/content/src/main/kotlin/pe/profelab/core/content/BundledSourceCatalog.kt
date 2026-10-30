@@ -18,7 +18,7 @@ class BundledSourceCatalog(private val context: Context) : EducationalSourceRepo
             val d = docs.getJSONObject(i)
             require(!d.getBoolean("pdf_binary_included") && !d.getBoolean("distribution_approved"))
             SourceReference(d.getString("id"),d.getString("title"),d.getInt("year"),d.getString("author"),
-                d.getString("area"),d.getString("official_page"),d.getString("description"),d.getString("rights_note"))
+                d.getString("area"),d.getString("official_page"),d.getString("description"),d.getString("rights_note"),kind=d.getString("kind"))
         }
         require(result.map { it.id }.distinct().size == result.size)
         result

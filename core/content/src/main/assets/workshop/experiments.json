@@ -1,0 +1,1021 @@
+{
+  "schemaVersion": 1,
+  "packId": "profelab-experimentos-originales",
+  "version": "1.0.0",
+  "mineduOfficial": false,
+  "projects": [
+    {
+      "id": "exp-001",
+      "type": "experimento",
+      "title": "¿La luz cambia el crecimiento de una planta?",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "estimatedMinutes": 40,
+      "durationNote": "Algunos requieren seguimiento durante días o semanas",
+      "difficulty": "Fácil / media",
+      "researchQuestion": "¿Cómo influye la luz disponible en el crecimiento observado?",
+      "hypothesisExample": "Las plantas con luz adecuada podrían presentar un crecimiento distinto de las plantas con poca luz.",
+      "independentVariable": "Cantidad de luz recibida",
+      "dependentVariable": "Altura y aspecto de brotes",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ],
+      "materials": [
+        {
+          "name": "semillas",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "recipientes reutilizables",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "sustrato",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "agua",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "regla",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "etiquetas",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Sembrar semillas del mismo tipo en recipientes similares.",
+          "done": false
+        },
+        {
+          "title": "Mantener similares agua, sustrato y ambiente; variar luz sin colocar plantas en sitios peligrosos.",
+          "done": false
+        },
+        {
+          "title": "Registrar fecha, altura y aspecto cada varios días.",
+          "done": false
+        },
+        {
+          "title": "Comparar resultados y reconocer otros factores posibles.",
+          "done": false
+        }
+      ],
+      "recordsTemplate": {
+        "date": null,
+        "observationText": "",
+        "measurement": null,
+        "photoAttachmentIds": []
+      },
+      "analysisPrompts": [
+        "¿Qué ocurrió realmente?",
+        "¿Qué datos apoyan o contradicen la hipótesis?",
+        "¿Qué cambiaríamos?"
+      ],
+      "pedagogy": {
+        "practical": {
+          "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+          "whatToObserve": "Distingue predicción de observación y registra datos."
+        },
+        "academic": {
+          "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+          "potentialProcesses": [
+            "atención sostenida",
+            "planificación",
+            "inferencia a partir de observaciones"
+          ],
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "evidence": [],
+          "caution": "No constituye evaluación psicológica."
+        }
+      },
+      "inclusion": {
+        "strategies": [
+          "Tablas con pictogramas",
+          "Registro oral o fotográfico",
+          "Alternativa de medidas y tiempos accesibles"
+        ]
+      },
+      "safety": {
+        "level": "LOW_SUPERVISED_WITH_CONTROLS",
+        "adultRequired": true,
+        "warnings": [
+          "No ubicar plantas en sitios inseguros ni atribuir todo cambio a un único factor."
+        ],
+        "prohibited": [
+          "fuego",
+          "electricidad de red",
+          "sustancias tóxicas",
+          "ingestión de materiales experimentales"
+        ]
+      },
+      "observation": {
+        "before": "Qué cree que sucederá",
+        "during": "Cómo registra y coopera",
+        "after": "Conclusión y límites de la evidencia"
+      },
+      "source": "Propuesta editorial original ProfeLab; inspirada en metodología general de indagación, NO extraída de MINEDU",
+      "mineduOfficial": false,
+      "contentRights": {
+        "approvedForDistribution": true,
+        "origin": "EDITORIAL_PROFELAB"
+      },
+      "thumbnail": null,
+      "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD"
+    },
+    {
+      "id": "exp-002",
+      "type": "experimento",
+      "title": "¿Qué objetos flotan?",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        1,
+        2,
+        3
+      ],
+      "estimatedMinutes": 40,
+      "durationNote": "Algunos requieren seguimiento durante días o semanas",
+      "difficulty": "Fácil / media",
+      "researchQuestion": "¿Todos los objetos se comportan igual en el agua?",
+      "hypothesisExample": "Algunos objetos flotarán y otros se hundirán.",
+      "independentVariable": "Tipo de objeto",
+      "dependentVariable": "Flota o se hunde",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ],
+      "materials": [
+        {
+          "name": "recipiente",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "agua",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "objetos grandes limpios",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "hoja de registro",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Preparar un recipiente poco profundo en una superficie estable.",
+          "done": false
+        },
+        {
+          "title": "Predecir resultados de objetos grandes y seguros.",
+          "done": false
+        },
+        {
+          "title": "Colocar uno a la vez, observar y registrar.",
+          "done": false
+        },
+        {
+          "title": "Comparar predicciones con observaciones.",
+          "done": false
+        }
+      ],
+      "recordsTemplate": {
+        "date": null,
+        "observationText": "",
+        "measurement": null,
+        "photoAttachmentIds": []
+      },
+      "analysisPrompts": [
+        "¿Qué ocurrió realmente?",
+        "¿Qué datos apoyan o contradicen la hipótesis?",
+        "¿Qué cambiaríamos?"
+      ],
+      "pedagogy": {
+        "practical": {
+          "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+          "whatToObserve": "Distingue predicción de observación y registra datos."
+        },
+        "academic": {
+          "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+          "potentialProcesses": [
+            "atención sostenida",
+            "planificación",
+            "inferencia a partir de observaciones"
+          ],
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "evidence": [],
+          "caution": "No constituye evaluación psicológica."
+        }
+      },
+      "inclusion": {
+        "strategies": [
+          "Tablas con pictogramas",
+          "Registro oral o fotográfico",
+          "Alternativa de medidas y tiempos accesibles"
+        ]
+      },
+      "safety": {
+        "level": "LOW_SUPERVISED_WITH_CONTROLS",
+        "adultRequired": true,
+        "warnings": [
+          "Supervisión continua; no usar agua profunda, piezas que se puedan tragar ni enchufes cercanos."
+        ],
+        "prohibited": [
+          "fuego",
+          "electricidad de red",
+          "sustancias tóxicas",
+          "ingestión de materiales experimentales"
+        ]
+      },
+      "observation": {
+        "before": "Qué cree que sucederá",
+        "during": "Cómo registra y coopera",
+        "after": "Conclusión y límites de la evidencia"
+      },
+      "source": "Propuesta editorial original ProfeLab; inspirada en metodología general de indagación, NO extraída de MINEDU",
+      "mineduOfficial": false,
+      "contentRights": {
+        "approvedForDistribution": true,
+        "origin": "EDITORIAL_PROFELAB"
+      },
+      "thumbnail": null,
+      "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD"
+    },
+    {
+      "id": "exp-003",
+      "type": "experimento",
+      "title": "¿La sombra cambia de posición?",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        3,
+        4,
+        5
+      ],
+      "estimatedMinutes": 40,
+      "durationNote": "Algunos requieren seguimiento durante días o semanas",
+      "difficulty": "Fácil / media",
+      "researchQuestion": "¿Cómo cambia la sombra de un objeto durante el día?",
+      "hypothesisExample": "La posición y longitud de la sombra variarán.",
+      "independentVariable": "Momento del día",
+      "dependentVariable": "Longitud/dirección de sombra",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ],
+      "materials": [
+        {
+          "name": "palo corto fijo",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "tiza",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "regla",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "hoja de observación",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Ubicar un objeto vertical en lugar seguro.",
+          "done": false
+        },
+        {
+          "title": "Registrar el contorno de la sombra en distintos momentos.",
+          "done": false
+        },
+        {
+          "title": "Medir y comparar.",
+          "done": false
+        },
+        {
+          "title": "Explicar el patrón sin mirar directamente al Sol.",
+          "done": false
+        }
+      ],
+      "recordsTemplate": {
+        "date": null,
+        "observationText": "",
+        "measurement": null,
+        "photoAttachmentIds": []
+      },
+      "analysisPrompts": [
+        "¿Qué ocurrió realmente?",
+        "¿Qué datos apoyan o contradicen la hipótesis?",
+        "¿Qué cambiaríamos?"
+      ],
+      "pedagogy": {
+        "practical": {
+          "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+          "whatToObserve": "Distingue predicción de observación y registra datos."
+        },
+        "academic": {
+          "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+          "potentialProcesses": [
+            "atención sostenida",
+            "planificación",
+            "inferencia a partir de observaciones"
+          ],
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "evidence": [],
+          "caution": "No constituye evaluación psicológica."
+        }
+      },
+      "inclusion": {
+        "strategies": [
+          "Tablas con pictogramas",
+          "Registro oral o fotográfico",
+          "Alternativa de medidas y tiempos accesibles"
+        ]
+      },
+      "safety": {
+        "level": "LOW_SUPERVISED_WITH_CONTROLS",
+        "adultRequired": true,
+        "warnings": [
+          "Nunca mirar al Sol directamente; supervisión en patio y protección solar."
+        ],
+        "prohibited": [
+          "fuego",
+          "electricidad de red",
+          "sustancias tóxicas",
+          "ingestión de materiales experimentales"
+        ]
+      },
+      "observation": {
+        "before": "Qué cree que sucederá",
+        "during": "Cómo registra y coopera",
+        "after": "Conclusión y límites de la evidencia"
+      },
+      "source": "Propuesta editorial original ProfeLab; inspirada en metodología general de indagación, NO extraída de MINEDU",
+      "mineduOfficial": false,
+      "contentRights": {
+        "approvedForDistribution": true,
+        "origin": "EDITORIAL_PROFELAB"
+      },
+      "thumbnail": null,
+      "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD"
+    },
+    {
+      "id": "exp-004",
+      "type": "experimento",
+      "title": "Agua que viaja por papel absorbente",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        2,
+        3,
+        4
+      ],
+      "estimatedMinutes": 40,
+      "durationNote": "Algunos requieren seguimiento durante días o semanas",
+      "difficulty": "Fácil / media",
+      "researchQuestion": "¿Puede el agua desplazarse a través del papel absorbente?",
+      "hypothesisExample": "El agua ascenderá y se desplazará por el papel.",
+      "independentVariable": "Disposición del papel",
+      "dependentVariable": "Distancia/tiempo de humectación",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ],
+      "materials": [
+        {
+          "name": "vasos",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "agua",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "papel absorbente",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "colorante alimentario opcional",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Llenar vasos de manera estable.",
+          "done": false
+        },
+        {
+          "title": "Colocar una tira de papel absorbente entre recipientes.",
+          "done": false
+        },
+        {
+          "title": "Registrar tiempos y movimiento visible.",
+          "done": false
+        },
+        {
+          "title": "Comparar con papel de otro ancho si hay condiciones controladas.",
+          "done": false
+        }
+      ],
+      "recordsTemplate": {
+        "date": null,
+        "observationText": "",
+        "measurement": null,
+        "photoAttachmentIds": []
+      },
+      "analysisPrompts": [
+        "¿Qué ocurrió realmente?",
+        "¿Qué datos apoyan o contradicen la hipótesis?",
+        "¿Qué cambiaríamos?"
+      ],
+      "pedagogy": {
+        "practical": {
+          "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+          "whatToObserve": "Distingue predicción de observación y registra datos."
+        },
+        "academic": {
+          "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+          "potentialProcesses": [
+            "atención sostenida",
+            "planificación",
+            "inferencia a partir de observaciones"
+          ],
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "evidence": [],
+          "caution": "No constituye evaluación psicológica."
+        }
+      },
+      "inclusion": {
+        "strategies": [
+          "Tablas con pictogramas",
+          "Registro oral o fotográfico",
+          "Alternativa de medidas y tiempos accesibles"
+        ]
+      },
+      "safety": {
+        "level": "LOW_SUPERVISED_WITH_CONTROLS",
+        "adultRequired": true,
+        "warnings": [
+          "Solo colorante apto para uso alimentario y sin ingerir líquidos de la actividad."
+        ],
+        "prohibited": [
+          "fuego",
+          "electricidad de red",
+          "sustancias tóxicas",
+          "ingestión de materiales experimentales"
+        ]
+      },
+      "observation": {
+        "before": "Qué cree que sucederá",
+        "during": "Cómo registra y coopera",
+        "after": "Conclusión y límites de la evidencia"
+      },
+      "source": "Propuesta editorial original ProfeLab; inspirada en metodología general de indagación, NO extraída de MINEDU",
+      "mineduOfficial": false,
+      "contentRights": {
+        "approvedForDistribution": true,
+        "origin": "EDITORIAL_PROFELAB"
+      },
+      "thumbnail": null,
+      "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD"
+    },
+    {
+      "id": "exp-005",
+      "type": "experimento",
+      "title": "¿Qué suelo deja pasar más agua?",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        4,
+        5,
+        6
+      ],
+      "estimatedMinutes": 40,
+      "durationNote": "Algunos requieren seguimiento durante días o semanas",
+      "difficulty": "Fácil / media",
+      "researchQuestion": "¿Diferentes tipos de suelo dejan pasar agua a la misma velocidad?",
+      "hypothesisExample": "El agua podría atravesar materiales a ritmos distintos.",
+      "independentVariable": "Tipo de suelo",
+      "dependentVariable": "Volumen filtrado en periodo comparable",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ],
+      "materials": [
+        {
+          "name": "arena limpia",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "tierra limpia",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "recipientes perforados por adulto",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "agua",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "vasos medidores",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Preparar filtros/recipientes iguales por adulto.",
+          "done": false
+        },
+        {
+          "title": "Colocar igual cantidad de material limpio.",
+          "done": false
+        },
+        {
+          "title": "Añadir volúmenes iguales de agua.",
+          "done": false
+        },
+        {
+          "title": "Registrar volumen y tiempo; comparar.",
+          "done": false
+        }
+      ],
+      "recordsTemplate": {
+        "date": null,
+        "observationText": "",
+        "measurement": null,
+        "photoAttachmentIds": []
+      },
+      "analysisPrompts": [
+        "¿Qué ocurrió realmente?",
+        "¿Qué datos apoyan o contradicen la hipótesis?",
+        "¿Qué cambiaríamos?"
+      ],
+      "pedagogy": {
+        "practical": {
+          "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+          "whatToObserve": "Distingue predicción de observación y registra datos."
+        },
+        "academic": {
+          "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+          "potentialProcesses": [
+            "atención sostenida",
+            "planificación",
+            "inferencia a partir de observaciones"
+          ],
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "evidence": [],
+          "caution": "No constituye evaluación psicológica."
+        }
+      },
+      "inclusion": {
+        "strategies": [
+          "Tablas con pictogramas",
+          "Registro oral o fotográfico",
+          "Alternativa de medidas y tiempos accesibles"
+        ]
+      },
+      "safety": {
+        "level": "LOW_SUPERVISED_WITH_CONTROLS",
+        "adultRequired": true,
+        "warnings": [
+          "No usar tierra contaminada ni beber agua filtrada; orificios hechos por adulto."
+        ],
+        "prohibited": [
+          "fuego",
+          "electricidad de red",
+          "sustancias tóxicas",
+          "ingestión de materiales experimentales"
+        ]
+      },
+      "observation": {
+        "before": "Qué cree que sucederá",
+        "during": "Cómo registra y coopera",
+        "after": "Conclusión y límites de la evidencia"
+      },
+      "source": "Propuesta editorial original ProfeLab; inspirada en metodología general de indagación, NO extraída de MINEDU",
+      "mineduOfficial": false,
+      "contentRights": {
+        "approvedForDistribution": true,
+        "origin": "EDITORIAL_PROFELAB"
+      },
+      "thumbnail": null,
+      "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD"
+    },
+    {
+      "id": "exp-006",
+      "type": "experimento",
+      "title": "¿Cómo se evapora el agua?",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        3,
+        4,
+        5
+      ],
+      "estimatedMinutes": 40,
+      "durationNote": "Algunos requieren seguimiento durante días o semanas",
+      "difficulty": "Fácil / media",
+      "researchQuestion": "¿La ubicación modifica la rapidez de evaporación observable?",
+      "hypothesisExample": "La cantidad de agua disminuirá a ritmos diferentes.",
+      "independentVariable": "Condición ambiental",
+      "dependentVariable": "Variación del nivel de agua",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ],
+      "materials": [
+        {
+          "name": "platos poco profundos",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "agua",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "marcador no tóxico",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "medidor",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Preparar volúmenes similares en recipientes iguales.",
+          "done": false
+        },
+        {
+          "title": "Colocar en lugares interiores seguros con condiciones distintas.",
+          "done": false
+        },
+        {
+          "title": "Marcar niveles y observar durante días.",
+          "done": false
+        },
+        {
+          "title": "Analizar variables no controladas.",
+          "done": false
+        }
+      ],
+      "recordsTemplate": {
+        "date": null,
+        "observationText": "",
+        "measurement": null,
+        "photoAttachmentIds": []
+      },
+      "analysisPrompts": [
+        "¿Qué ocurrió realmente?",
+        "¿Qué datos apoyan o contradicen la hipótesis?",
+        "¿Qué cambiaríamos?"
+      ],
+      "pedagogy": {
+        "practical": {
+          "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+          "whatToObserve": "Distingue predicción de observación y registra datos."
+        },
+        "academic": {
+          "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+          "potentialProcesses": [
+            "atención sostenida",
+            "planificación",
+            "inferencia a partir de observaciones"
+          ],
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "evidence": [],
+          "caution": "No constituye evaluación psicológica."
+        }
+      },
+      "inclusion": {
+        "strategies": [
+          "Tablas con pictogramas",
+          "Registro oral o fotográfico",
+          "Alternativa de medidas y tiempos accesibles"
+        ]
+      },
+      "safety": {
+        "level": "LOW_SUPERVISED_WITH_CONTROLS",
+        "adultRequired": true,
+        "warnings": [
+          "Sin calefactores, fuego ni enchufes próximos; no dejar agua en zonas de paso."
+        ],
+        "prohibited": [
+          "fuego",
+          "electricidad de red",
+          "sustancias tóxicas",
+          "ingestión de materiales experimentales"
+        ]
+      },
+      "observation": {
+        "before": "Qué cree que sucederá",
+        "during": "Cómo registra y coopera",
+        "after": "Conclusión y límites de la evidencia"
+      },
+      "source": "Propuesta editorial original ProfeLab; inspirada en metodología general de indagación, NO extraída de MINEDU",
+      "mineduOfficial": false,
+      "contentRights": {
+        "approvedForDistribution": true,
+        "origin": "EDITORIAL_PROFELAB"
+      },
+      "thumbnail": null,
+      "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD"
+    },
+    {
+      "id": "exp-007",
+      "type": "experimento",
+      "title": "¿Qué papel resiste más peso?",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        4,
+        5,
+        6
+      ],
+      "estimatedMinutes": 40,
+      "durationNote": "Algunos requieren seguimiento durante días o semanas",
+      "difficulty": "Fácil / media",
+      "researchQuestion": "¿La forma de doblar papel influye en su resistencia?",
+      "hypothesisExample": "Algunas formas sostendrán más carga.",
+      "independentVariable": "Forma del papel",
+      "dependentVariable": "Número de cargas idénticas soportadas",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ],
+      "materials": [
+        {
+          "name": "hojas de papel",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "libros livianos",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "pesos iguales grandes",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "mesa firme",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Formar dos o tres estructuras con el mismo papel.",
+          "done": false
+        },
+        {
+          "title": "Mantener igual distancia de apoyos.",
+          "done": false
+        },
+        {
+          "title": "Colocar cargas grandes, livianas y sin bordes cortantes.",
+          "done": false
+        },
+        {
+          "title": "Registrar y explicar diferencias.",
+          "done": false
+        }
+      ],
+      "recordsTemplate": {
+        "date": null,
+        "observationText": "",
+        "measurement": null,
+        "photoAttachmentIds": []
+      },
+      "analysisPrompts": [
+        "¿Qué ocurrió realmente?",
+        "¿Qué datos apoyan o contradicen la hipótesis?",
+        "¿Qué cambiaríamos?"
+      ],
+      "pedagogy": {
+        "practical": {
+          "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+          "whatToObserve": "Distingue predicción de observación y registra datos."
+        },
+        "academic": {
+          "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+          "potentialProcesses": [
+            "atención sostenida",
+            "planificación",
+            "inferencia a partir de observaciones"
+          ],
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "evidence": [],
+          "caution": "No constituye evaluación psicológica."
+        }
+      },
+      "inclusion": {
+        "strategies": [
+          "Tablas con pictogramas",
+          "Registro oral o fotográfico",
+          "Alternativa de medidas y tiempos accesibles"
+        ]
+      },
+      "safety": {
+        "level": "LOW_SUPERVISED_WITH_CONTROLS",
+        "adultRequired": true,
+        "warnings": [
+          "No apilar peso excesivo; prevenir caída sobre manos y pies."
+        ],
+        "prohibited": [
+          "fuego",
+          "electricidad de red",
+          "sustancias tóxicas",
+          "ingestión de materiales experimentales"
+        ]
+      },
+      "observation": {
+        "before": "Qué cree que sucederá",
+        "during": "Cómo registra y coopera",
+        "after": "Conclusión y límites de la evidencia"
+      },
+      "source": "Propuesta editorial original ProfeLab; inspirada en metodología general de indagación, NO extraída de MINEDU",
+      "mineduOfficial": false,
+      "contentRights": {
+        "approvedForDistribution": true,
+        "origin": "EDITORIAL_PROFELAB"
+      },
+      "thumbnail": null,
+      "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD"
+    },
+    {
+      "id": "exp-008",
+      "type": "experimento",
+      "title": "Observamos la erosión con maquetas",
+      "area": "Ciencia y Tecnología",
+      "grades": [
+        4,
+        5,
+        6
+      ],
+      "estimatedMinutes": 40,
+      "durationNote": "Algunos requieren seguimiento durante días o semanas",
+      "difficulty": "Fácil / media",
+      "researchQuestion": "¿La cobertura del suelo afecta el arrastre por agua?",
+      "hypothesisExample": "La superficie cubierta puede mostrar menos arrastre observable.",
+      "independentVariable": "Cobertura del terreno",
+      "dependentVariable": "Sedimento arrastrado observable",
+      "controlConditions": [
+        "Usar recipientes o muestras comparables",
+        "Mantener constantes otras condiciones cuando sea posible",
+        "Registrar las limitaciones del procedimiento"
+      ],
+      "materials": [
+        {
+          "name": "bandejas",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "suelo limpio",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "agua",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "recipiente graduado",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        },
+        {
+          "name": "vegetación simulada o real",
+          "amount": 1,
+          "unit": "referencial: ajustar"
+        }
+      ],
+      "steps": [
+        {
+          "title": "Preparar pequeñas pendientes en bandejas iguales.",
+          "done": false
+        },
+        {
+          "title": "Aplicar agua equivalente de forma segura.",
+          "done": false
+        },
+        {
+          "title": "Observar color y sedimentos arrastrados.",
+          "done": false
+        },
+        {
+          "title": "Comparar, registrar y proponer mejoras.",
+          "done": false
+        }
+      ],
+      "recordsTemplate": {
+        "date": null,
+        "observationText": "",
+        "measurement": null,
+        "photoAttachmentIds": []
+      },
+      "analysisPrompts": [
+        "¿Qué ocurrió realmente?",
+        "¿Qué datos apoyan o contradicen la hipótesis?",
+        "¿Qué cambiaríamos?"
+      ],
+      "pedagogy": {
+        "practical": {
+          "purpose": "Practicar observación, registro, comparación y explicación de resultados.",
+          "whatToObserve": "Distingue predicción de observación y registra datos."
+        },
+        "academic": {
+          "claimType": "PROPUESTA_EDITORIAL_SIN_VALIDACION_DE_EFICACIA",
+          "potentialProcesses": [
+            "atención sostenida",
+            "planificación",
+            "inferencia a partir de observaciones"
+          ],
+          "curricularAlignmentStatus": "SUGERIDO_NO_HOMOLOGADO",
+          "evidence": [],
+          "caution": "No constituye evaluación psicológica."
+        }
+      },
+      "inclusion": {
+        "strategies": [
+          "Tablas con pictogramas",
+          "Registro oral o fotográfico",
+          "Alternativa de medidas y tiempos accesibles"
+        ]
+      },
+      "safety": {
+        "level": "LOW_SUPERVISED_WITH_CONTROLS",
+        "adultRequired": true,
+        "warnings": [
+          "Solo suelo limpio; no usar lodos contaminados; limpiar derrames de inmediato."
+        ],
+        "prohibited": [
+          "fuego",
+          "electricidad de red",
+          "sustancias tóxicas",
+          "ingestión de materiales experimentales"
+        ]
+      },
+      "observation": {
+        "before": "Qué cree que sucederá",
+        "during": "Cómo registra y coopera",
+        "after": "Conclusión y límites de la evidencia"
+      },
+      "source": "Propuesta editorial original ProfeLab; inspirada en metodología general de indagación, NO extraída de MINEDU",
+      "mineduOfficial": false,
+      "contentRights": {
+        "approvedForDistribution": true,
+        "origin": "EDITORIAL_PROFELAB"
+      },
+      "thumbnail": null,
+      "reviewStatus": "PENDIENTE_VALIDACION_PEDAGOGICA_Y_SEGURIDAD"
+    }
+  ]
+}

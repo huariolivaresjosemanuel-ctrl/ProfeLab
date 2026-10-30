@@ -4,13 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [TaskEntity::class, ProfileEntity::class, DraftEntity::class, ActivityEntity::class], version = 1, exportSchema = true)
+@Database(entities = [TaskEntity::class, ProfileEntity::class, DraftEntity::class, ActivityEntity::class, WorkspaceEntity::class], version = 2, exportSchema = true)
 abstract class ProfeDatabase : RoomDatabase() {
     abstract fun dao(): ProfeDao
+    abstract fun workspace(): WorkspaceDao
     companion object {
+        val MIGRATION_1_2=object: Migration(1,2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS workspace_records (id TEXT NOT NULL PRIMARY KEY, kind TEXT NOT NULL, title TEXT NOT NULL, json TEXT NOT NULL, updatedAt INTEGER NOT NULL, revision INTEGER NOT NULL, archived INTEGER NOT NULL)")
+            }
+        }
         fun create(context: Context): ProfeDatabase = Room.databaseBuilder(
             context.applicationContext, ProfeDatabase::class.java, "profelab.db"
-        ).build() // No destructive fallback. Future versions require an explicit migration.
+        ).addMigrations(MIGRATION_1_2).build()
     }
 }
