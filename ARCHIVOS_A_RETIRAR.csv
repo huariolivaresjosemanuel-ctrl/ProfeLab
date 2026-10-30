@@ -1,8 +1,1 @@
 ﻿RUTA,BLOB_SHA1_BASE,MOTIVO
-feature/capture/src/main/kotlin/pe/profelab/feature/capture/CaptureFeature.kt,befcd12097031982e179135ed6a353f565a9fd5b,Pantalla/contrato vacío sustituido por implementación integrada; retirar solo esta ruta.
-feature/library/src/main/kotlin/pe/profelab/feature/library/LibraryScreen.kt,20d2654b5cdd15be668b637ee7febebe6c402085,Pantalla/contrato vacío sustituido por implementación integrada; retirar solo esta ruta.
-feature/notebook/src/main/kotlin/pe/profelab/feature/notebook/NotebookScreen.kt,69d40ea5eae5bee61c77c68a47d09757524f963a,Pantalla/contrato vacío sustituido por implementación integrada; retirar solo esta ruta.
-feature/ocr/src/main/kotlin/pe/profelab/feature/ocr/OcrFeature.kt,8fb2d2c5d9ecbc7cebe095e4de7588a6e60b976e,Pantalla/contrato vacío sustituido por implementación integrada; retirar solo esta ruta.
-feature/pdf/src/main/kotlin/pe/profelab/feature/pdf/PdfFeature.kt,dc44d1536cbbab1aa6ebb3ab1f314dcde1adabb9,Pantalla/contrato vacío sustituido por implementación integrada; retirar solo esta ruta.
-feature/sessions/src/main/kotlin/pe/profelab/feature/sessions/SessionsScreen.kt,1092c6278c6a8c94344ea7bc51359b555b5601f3,Pantalla/contrato vacío sustituido por implementación integrada; retirar solo esta ruta.
-feature/taller/src/main/kotlin/pe/profelab/feature/taller/TallerScreen.kt,9fc0084e8d7b54780e7478205d039b38ef2c7f36,Pantalla/contrato vacío sustituido por implementación integrada; retirar solo esta ruta.

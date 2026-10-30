@@ -19,6 +19,6 @@ Empieza por [LEER_PRIMERO_SUBIDA_MANUAL.md](LEER_PRIMERO_SUBIDA_MANUAL.md). El c
 
 ## Verificación
 
-Los 16 controles estáticos y las 11 pruebas Python del helper de firma pasan localmente. No prueban Kotlin, cámara, OCR ni una firma criptográfica real. Android/Gradle, lint, JVM Kotlin, instrumentadas, dispositivos, fidelidad visual y actualización firmada están pendientes. Consulta [REPORTE_QA_REAL.md](REPORTE_QA_REAL.md), [MATRIZ_COBERTURA_REQUISITOS.csv](MATRIZ_COBERTURA_REQUISITOS.csv) y [INFORME_FIDELIDAD_UI.md](INFORME_FIDELIDAD_UI.md).
+Los 16 controles estáticos y las 11 pruebas Python del helper de firma pasan localmente. El intento manual17 del usuario ejecutó19 pruebas JVM de core:model/core:security, todas aprobadas, pero falló la compilación de core:files por PdfDocument().use. Ese error está corregido en las fuentes; la compilación de la corrección aún NOT_RUN. Instrumentadas, lint completo, dispositivos, fidelidad visual y actualización firmada siguen pendientes. Lee [LEER_PRIMERO_CORRECCION_CI.md](LEER_PRIMERO_CORRECCION_CI.md) antes de volver a subir. Consulta [REPORTE_QA_REAL.md](REPORTE_QA_REAL.md), [MATRIZ_COBERTURA_REQUISITOS.csv](MATRIZ_COBERTURA_REQUISITOS.csv) y [INFORME_FIDELIDAD_UI.md](INFORME_FIDELIDAD_UI.md).
 
 Las instrucciones H0/H1/H1.1 conservadas son históricas; la documentación raíz de esta entrega y `docs/completo/` describen el estado actual. Ningún PASS histórico acredita el código nuevo. `reference/` conserva los cinco mockups y documentos aportados, fuera de la APK.
