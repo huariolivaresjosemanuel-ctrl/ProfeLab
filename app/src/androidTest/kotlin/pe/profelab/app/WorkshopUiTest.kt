@@ -2,7 +2,6 @@ package pe.profelab.app
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.flow.first
@@ -42,7 +41,10 @@ class WorkshopUiTest {
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-step-0"))
         compose.onNodeWithTag("workshop-step-0").performClick()
         compose.waitForIdle()
-        pressBack() // Guarded navigation waits for the Room save queue.
+        // Dispatch on the Activity's UI thread so Compose BackHandler flushes the Room save queue.
+        compose.activityRule.scenario.onActivity { activity ->
+            activity.onBackPressedDispatcher.onBackPressed()
+        }
         compose.waitUntil(15_000){compose.onAllNodesWithText("Mi taller").fetchSemanticsNodes().isNotEmpty()}
         val created=runBlocking {store.observeRecords().first().single {it.kind=="project" && it.id !in before}}
         assertTrue(JSONObject(created.json).getJSONArray("steps").getJSONObject(0).getBoolean("done"))
