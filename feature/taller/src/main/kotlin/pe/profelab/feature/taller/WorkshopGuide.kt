@@ -16,11 +16,12 @@ import pe.profelab.core.model.*
 
 @Composable
 internal fun WorkshopGuide(record:WorkRecord,all:List<WorkRecord>,catalog:List<MaterialDefinition>,vm:WorkshopViewModel,
-    back:()->Unit,start:()->Unit,edit:()->Unit,export:(WorkRecord)->Unit,capture:(String)->Unit,inventory:()->Unit,shopping:()->Unit,favorite:()->Unit,editTeacher:()->Unit=edit){
+    back:()->Unit,start:()->Unit,edit:()->Unit,export:(WorkRecord)->Unit,capture:(String)->Unit,inventory:()->Unit,shopping:()->Unit,favorite:()->Unit,editTeacher:()->Unit=edit,requestedMode:String?=null,modeConsumed:()->Unit={}){
     val j=JSONObject(record.json);val template=record.kind.contains("template") || record.kind.startsWith("catalog_")
     val assessment=WorkshopCodec.assess(record,all,catalog);val scope=rememberCoroutineScope()
     val visual=j.optString("visualTemplate",if(record.kind.contains("experiment"))"EXPERIMENT"else "DIDACTIC")
     var mode by rememberSaveable(record.id){mutableStateOf(if(visual=="ACADEMIC")"Académico"else "Práctico")};var review by remember {mutableStateOf(false)}
+    LaunchedEffect(requestedMode){if(requestedMode in setOf("Práctico","Docente","Académico")){mode=requireNotNull(requestedMode);modeConsumed()}}
     var remove by remember {mutableStateOf(false)}
     val steps=j.optJSONArray("steps") ?: JSONArray();val done=if(template)0 else (0 until steps.length()).count {steps.optJSONObject(it)?.optBoolean("done")==true}
     val selected=j.optJSONObject("selectedAlternatives") ?: JSONObject()

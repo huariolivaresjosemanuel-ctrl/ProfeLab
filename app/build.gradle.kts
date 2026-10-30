@@ -28,6 +28,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures { compose = true }
+    androidResources { noCompress += "mp4" }
     signingConfigs {
         if (permanentSigning) create("permanent") {
             storeFile = file(signingEnv("PROFELAB_KEYSTORE_PATH"))

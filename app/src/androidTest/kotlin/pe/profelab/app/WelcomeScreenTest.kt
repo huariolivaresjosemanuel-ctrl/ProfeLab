@@ -21,7 +21,7 @@ class WelcomeScreenTest {
     @get:Rule val compose=createComposeRule()
     private fun capture(name:String){
         compose.waitUntil(10_000){compose.onAllNodesWithTag("mascot-canonical-static").fetchSemanticsNodes().isNotEmpty()}
-        val folder=File(requireNotNull(InstrumentationRegistry.getInstrumentation().context.getExternalFilesDir(null)),"visual").apply {mkdirs()}
+        val folder=qaCaptureDirectory()
         val bitmap=compose.onRoot().captureToImage().asAndroidBitmap()
         File(folder,"$name.png").outputStream().use {assertTrue(bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it))}
     }

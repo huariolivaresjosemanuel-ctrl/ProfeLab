@@ -23,7 +23,7 @@ class MainScreensCaptureTest {
     @Before fun enterExistingApp(){compose.dismissWelcomeIfPresent()}
     @Test fun captureTheFiveApprovedRootSections(){
         val graph=ApplicationProvider.getApplicationContext<ProfeApplication>().graph
-        val output=File(requireNotNull(InstrumentationRegistry.getInstrumentation().context.getExternalFilesDir(null)),"visual").apply {mkdirs()}
+        val output=qaCaptureDirectory()
         val sections=listOf(Triple("home","01_INICIO","Tu avance esta semana"),Triple("taller","02_TALLER",""),Triple("sessions","03_SESIONES","Sesiones"),Triple("notebook","04_CUADERNO","Cuaderno"),Triple("library","05_BIBLIOTECA","Biblioteca"))
         for((route,name,title) in sections){
             compose.onNodeWithTag("nav_$route").performClick()

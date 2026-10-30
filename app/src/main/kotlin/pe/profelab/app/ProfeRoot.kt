@@ -1,5 +1,8 @@
 package pe.profelab.app
 
+import android.content.Context
+import android.view.accessibility.AccessibilityManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,6 +19,13 @@ import pe.profelab.feature.profile.WelcomeScreen
 @Composable
 internal fun ProfeRoot(graph:AppGraph,welcome:WelcomeFlowModel){
     val state by welcome.state.collectAsStateWithLifecycle()
+    val context=LocalContext.current
+    DisposableEffect(context,welcome){
+        val manager=context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        val listener=AccessibilityManager.TouchExplorationStateChangeListener {enabled->welcome.accessibilityChanged(enabled)}
+        welcome.accessibilityChanged(manager.isTouchExplorationEnabled);manager.addTouchExplorationStateChangeListener(listener)
+        onDispose {manager.removeTouchExplorationStateChangeListener(listener)}
+    }
     val incoming by graph.incomingPdf.collectAsStateWithLifecycle()
     LaunchedEffect(incoming){if(incoming!=null)welcome.externalContentRequested()}
     if(state.loading){
@@ -32,7 +42,7 @@ internal fun ProfeRoot(graph:AppGraph,welcome:WelcomeFlowModel){
                 Button(onClick=welcome::dismissForSession){Text("Entrar sin modificar mi perfil")}
             }
         }else if(state.mode!=WelcomeMode.NONE && incoming==null){
-            WelcomeScreen(state,welcome::continueWelcome,welcome::dismissForSession)
+            WelcomeScreen(state,welcome::continueWelcome,welcome::dismissForSession,welcome::videoPosition,welcome::videoFinished,welcome::videoFailed)
         }
     }
 }

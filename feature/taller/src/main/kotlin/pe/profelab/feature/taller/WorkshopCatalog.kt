@@ -18,7 +18,8 @@ import pe.profelab.core.model.*
 
 @Composable
 internal fun WorkshopCatalog(all:List<WorkRecord>,templates:List<WorkRecord>,catalog:List<MaterialDefinition>,state:WorkshopSaveState,
-    section:String,onSection:(String)->Unit,open:(String)->Unit,create:(Boolean)->Unit,inventory:()->Unit,shopping:()->Unit,favorite:(WorkRecord)->Unit,step:(WorkRecord,Int,Boolean)->Unit){
+    section:String,onSection:(String)->Unit,open:(String)->Unit,create:(Boolean)->Unit,inventory:()->Unit,shopping:()->Unit,favorite:(WorkRecord)->Unit,step:(WorkRecord,Int,Boolean)->Unit,focusRecommendations:Boolean=false,recommendationsConsumed:()->Unit={}){
+    val listState=rememberLazyListState()
     var query by rememberSaveable {mutableStateOf("")};var showFilters by rememberSaveable {mutableStateOf(false)}
     var grade by rememberSaveable {mutableStateOf("Todos")};var area by rememberSaveable {mutableStateOf("Todas")}
     var difficulty by rememberSaveable {mutableStateOf("Todas")};var availability by rememberSaveable {mutableStateOf("Todos")}
@@ -44,9 +45,14 @@ internal fun WorkshopCatalog(all:List<WorkRecord>,templates:List<WorkRecord>,cat
     val progress=personal.filter {r->val s=JSONObject(r.json).optJSONArray("steps");s!=null && s.length()>0 && (0 until s.length()).any {s.optJSONObject(it)?.optBoolean("done")==true} && !(0 until s.length()).all {s.optJSONObject(it)?.optBoolean("done")==true}}
     val complete=personal.count {r->val s=JSONObject(r.json).optJSONArray("steps");s!=null && s.length()>0 && (0 until s.length()).all {s.optJSONObject(it)?.optBoolean("done")==true}}
     val featured=shown.firstOrNull()
-    WorkshopPage("Mi taller","Crea materiales didácticos, paso a paso",screenTag="workshop-catalog",trailing={Button(onClick={create(section=="Experimentos")}){Icon(Icons.Outlined.Add,null);Text(if(section=="Experimentos")"Nuevo experimento"else "Nuevo proyecto")}}){
+    val preparing=progress.firstOrNull() ?: personal.firstOrNull {JSONObject(it.json).optString("status")!="COMPLETADO"}
+    LaunchedEffect(focusRecommendations){if(focusRecommendations && section!="Mis ideas"){
+        val target=5+(if(showFilters)1 else 0)+(if(featured!=null)1 else 0)+(if(preparing!=null)1 else 0)+(if(section=="Experimentos")1 else 0)
+        listState.scrollToItem(target);recommendationsConsumed()
+    }}
+    WorkshopPage("Mi taller","Crea materiales didácticos, paso a paso",screenTag="workshop-catalog",listState=listState,trailing={Button(onClick={create(section=="Experimentos")}){Icon(Icons.Outlined.Add,null);Text(if(section=="Experimentos")"Nuevo experimento"else "Nuevo proyecto")}}){
         item("search"){Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(8.dp)){OutlinedTextField(query,{query=it},placeholder={Text("Buscar proyectos, materiales o temas…")},leadingIcon={Icon(Icons.Outlined.Search,null)},modifier=Modifier.weight(1f),singleLine=true);IconButton(onClick={showFilters=!showFilters}){Icon(Icons.Outlined.Tune,"Filtros del catálogo")}}}
-        item("sections"){WorkshopChoices(listOf("Materiales didácticos","Experimentos","Mis ideas"),section,onSection)}
+        item("sections"){WorkshopChoicesRow(listOf("Materiales didácticos","Experimentos","Mis ideas"),section,Modifier.testTag("workshop-sections"),onSection)}
         if(showFilters)item("filters"){WorkshopCard("Filtrar proyectos",WorkshopColors.Paper){
             val categories=sources.map {JSONObject(it.json).optString("categoryId",if(it.kind.contains("experiment"))"experiment"else "didactic")}.distinct()
             if(categories.size>1){Text("Tipo de actividad");val labels=pe.profelab.core.content.WorkshopCategories.labels;WorkshopChoices(listOf("Todas")+categories.map {labels[it] ?: it},labels[category] ?: category){label->category=if(label=="Todas")"Todas"else categories.first {labels[it]==label || it==label}}}
@@ -68,7 +74,6 @@ internal fun WorkshopCatalog(all:List<WorkRecord>,templates:List<WorkRecord>,cat
             if(stock.isEmpty())Text("Aún no has registrado existencias. Añade lo que realmente tienes para calcular los proyectos compatibles.")
             else LazyRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){items(stock.take(12),key={it.id}){r->val j=JSONObject(r.json);Card(onClick=inventory,colors=CardDefaults.cardColors(containerColor=WorkshopColors.Paper),modifier=Modifier.width(112.dp)){Column(Modifier.padding(10.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){MaterialGlyph(j.optString("category"),WorkshopCodec.kind(j)==MaterialKind.TOOL);Text(r.title,style=MaterialTheme.typography.labelLarge);Text("${j.optString("quantity")} ${safeMaterialText(j.optString("unit"))}",style=MaterialTheme.typography.bodySmall)}}}}
         }}
-        val preparing=progress.firstOrNull() ?: personal.firstOrNull {JSONObject(it.json).optString("status")!="COMPLETADO"}
         if(preparing!=null)item("preparation"){
             val steps=JSONObject(preparing.json).optJSONArray("steps");val total=steps?.length() ?: 0;val done=(0 until total).count {steps?.optJSONObject(it)?.optBoolean("done")==true}
             WorkshopCard("Preparación",WorkshopColors.Paper){WorkshopHeading(preparing.title.ifBlank {"Borrador personal"},"Continuar",{open(preparing.id)});Text("$done/$total pasos completados");if(total>0)LinearProgressIndicator(progress={done.toFloat()/total},modifier=Modifier.fillMaxWidth())

@@ -5,6 +5,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import kotlinx.coroutines.launch
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material.icons.Icons
@@ -21,9 +24,13 @@ fun LibraryWorkspace(sources:List<SourceReference>,all:List<WorkRecord>,save:(Wo
     var query by rememberSaveable {mutableStateOf("")};var filter by rememberSaveable {mutableStateOf("MINEDU")}
     var selected by rememberSaveable {mutableStateOf<String?>(null)}
     var remove by remember {mutableStateOf<WorkRecord?>(null)}
+    val searchFocus=remember {FocusRequester()};val scope=rememberCoroutineScope()
+    BindAssistant("library",mapOf(AssistantAction.LIBRARY_IMPORT to {importPdf(null)},AssistantAction.LIBRARY_SEARCH to {
+        filter="PDF propios";scope.launch {withFrameNanos {};searchFocus.requestFocus()}
+    }))
     Page {
         SectionHeading("Biblioteca","Guías y recursos oficiales",Icons.AutoMirrored.Outlined.MenuBook)
-        OutlinedTextField(query,{query=it},label={Text("Buscar título, autor o área")},modifier=Modifier.fillMaxWidth())
+        OutlinedTextField(query,{query=it},label={Text("Buscar título, autor o área")},modifier=Modifier.fillMaxWidth().focusRequester(searchFocus))
         ChoiceRow(listOf("MINEDU","Currículo","PDF propios","Favoritos"),filter){filter=it}
         Row {Button(onClick={importPdf(null)}){Text("Importar PDF")};TextButton(onClick=capture){Text("Foto / OCR")}}
         val docs=all.filter {it.kind=="document" && !it.archived}

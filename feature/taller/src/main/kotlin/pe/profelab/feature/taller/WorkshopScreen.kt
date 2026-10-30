@@ -17,6 +17,7 @@ import pe.profelab.core.content.WorkshopCodec
 import pe.profelab.core.content.WorkshopSeed
 import pe.profelab.core.model.*
 import pe.profelab.core.ui.modelFactory
+import pe.profelab.core.ui.BindAssistant
 
 @Composable
 fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:WorkspaceStore,export:(WorkRecord)->Unit,capture:(String)->Unit,initialId:String?=null,exit:()->Unit={}){
@@ -30,6 +31,8 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
     val catalog=remember(base,all){(base+all.filter {it.kind in setOf("catalog_material","user_material") && !it.archived}.mapNotNull {runCatching {WorkshopCodec.definition(JSONObject(it.json))}.getOrNull()}).associateBy {it.id}.values.toList()}
     var section by rememberSaveable {mutableStateOf("Materiales didácticos")};var selected by rememberSaveable(initialId){mutableStateOf(initialId)}
     var destination by rememberSaveable(initialId){mutableStateOf(if(initialId==null)"catalog"else "guide")};var returnTo by rememberSaveable {mutableStateOf("catalog")}
+    var requestedGuideMode by remember {mutableStateOf<String?>(null)}
+    var recommendationRequest by remember {mutableStateOf(false)}
     var backError by remember {mutableStateOf(false)}
     val holder=rememberSaveableStateHolder()
     fun configured(r:WorkRecord):WorkRecord {
@@ -63,6 +66,13 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
     }}
     fun utility(name:String){scope.launch {if(vm.flush()){returnTo=destination;destination=name}else backError=true}}
     fun favorite(r:WorkRecord){val id="favorite:${r.id}";if(all.any {it.id==id && !it.archived})vm.archive(id)else vm.save(WorkRecord(id,"favorite",r.title,"{}",System.currentTimeMillis()))}
+    val assistantHandlers=mutableMapOf<AssistantAction,()->Unit>(
+        AssistantAction.INVENTORY to {utility("inventory")},AssistantAction.SHOPPING to {utility("shopping")},
+        AssistantAction.RECOMMENDATIONS to {scope.launch {if(vm.flush()){selected=null;section="Materiales didácticos";destination="catalog";recommendationRequest=true}else backError=true}},
+        AssistantAction.EXPERIMENTS to {scope.launch {if(vm.flush()){selected=null;section="Experimentos";destination="catalog"}else backError=true}}
+    )
+    if(current!=null && destination=="guide")assistantHandlers[AssistantAction.TEACHER]={scope.launch {if(vm.flush()){requestedGuideMode="Docente"}else backError=true}}
+    BindAssistant("taller",assistantHandlers)
     BackHandler(enabled=destination!="catalog"){back()}
     MaterialTheme(colorScheme=MaterialTheme.colorScheme.copy(primary=WorkshopColors.Green,secondary=WorkshopColors.Green,primaryContainer=WorkshopColors.Mint,secondaryContainer=WorkshopColors.Mint,background=WorkshopColors.Cream,surface=WorkshopColors.Cream)){
         Column(Modifier.fillMaxSize()){
@@ -71,9 +81,9 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
                 when(destination){
                     "inventory"->WorkshopInventory(all,catalog,vm,state,::back)
                     "shopping"->WorkshopShopping(all,catalog,vm,state,::back)
-                    "guide"->if(current==null)WorkshopPage("Proyecto",back=::back){item{Text("El recurso no está disponible o todavía se está guardando.")}}else WorkshopGuide(current,all,catalog,vm,::back,{begin(current,current.kind.contains("experiment"))},{destination="editor"},export,capture,{utility("inventory")},{utility("shopping")},{favorite(current)},{destination="teacher-editor"})
+                    "guide"->if(current==null)WorkshopPage("Proyecto",back=::back){item{Text("El recurso no está disponible o todavía se está guardando.")}}else WorkshopGuide(current,all,catalog,vm,::back,{begin(current,current.kind.contains("experiment"))},{destination="editor"},export,capture,{utility("inventory")},{utility("shopping")},{favorite(current)},{destination="teacher-editor"},requestedMode=requestedGuideMode,modeConsumed={requestedGuideMode=null})
                     "editor","teacher-editor"->if(current!=null)WorkshopEditor(current,all,catalog,vm,::back,{begin(current,current.kind=="experiment",true)},capture,initialTab=if(destination=="teacher-editor")"Docente"else "Presentación")
-                    else->WorkshopCatalog(all,templates,catalog,state,section,{section=it},::open,{begin(experiment=it)},{utility("inventory")},{utility("shopping")},::favorite,{record,index,value->vm.patch(record){j->val steps=j.optJSONArray("steps") ?: org.json.JSONArray();val step=steps.optJSONObject(index) ?: JSONObject();steps.put(index,JSONObject(step.toString()).put("done",value));j.put("steps",steps);val done=(0 until steps.length()).count {steps.optJSONObject(it)?.optBoolean("done")==true};j.put("status",if(done==steps.length() && done>0)"COMPLETADO"else "EN_PROGRESO")}})
+                    else->WorkshopCatalog(all,templates,catalog,state,section,{section=it},::open,{begin(experiment=it)},{utility("inventory")},{utility("shopping")},::favorite,{record,index,value->vm.patch(record){j->val steps=j.optJSONArray("steps") ?: org.json.JSONArray();val step=steps.optJSONObject(index) ?: JSONObject();steps.put(index,JSONObject(step.toString()).put("done",value));j.put("steps",steps);val done=(0 until steps.length()).count {steps.optJSONObject(it)?.optBoolean("done")==true};j.put("status",if(done==steps.length() && done>0)"COMPLETADO"else "EN_PROGRESO")}},focusRecommendations=recommendationRequest,recommendationsConsumed={recommendationRequest=false})
                 }
             }
         }

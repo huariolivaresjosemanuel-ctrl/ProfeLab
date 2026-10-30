@@ -17,7 +17,7 @@ import pe.profelab.core.ui.*
 fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (TaskFilter) -> Unit,
     openTask: (String) -> Unit, openActivity: () -> Unit, openProfile: () -> Unit,
     complete: (Task,Boolean) -> Unit, retry: () -> Unit, openResource: (EntityRef)->Unit,
-    preferences:UserPreferences=UserPreferences()) {
+    preferences:UserPreferences=UserPreferences(),openAssistant:(()->Unit)?=null) {
     Page {
         if (state.loading) { CircularProgressIndicator(); return@Page }
         if (state.error != null) { ErrorNotice(state.error,retry); return@Page }
@@ -82,6 +82,7 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
                 val text:@Composable ()->Unit={Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
                     Text("Tu compañera de ProfeLab",style=MaterialTheme.typography.titleMedium)
                     Text("Tus ideas y pendientes, a tu ritmo.")
+                    openAssistant?.let {action->OutlinedButton(onClick=action){Text("¿En qué puedo ayudarte?")}}
                     TextButton(onClick={openTasks(TaskFilter.ALL)}){Text("Ver mis tareas")}
                     TextButton(onClick={openSection("taller")}){Text("Ir a mi taller")}
                 }}

@@ -22,21 +22,23 @@ object MascotCapabilities {
     fun supported(gesture:MascotGesture)=gesture==MascotGesture.IDLE
 }
 
-/** Isolated canonical pixels, never the full sheet. Unsupported gestures use this static fallback. */
+/** Supplied canonical art with baked 2.5D shadow, without an additional Compose shadow. Never the full sheet. Unsupported gestures use this static fallback. */
 @Composable
 fun CanonicalMascot(modifier:Modifier=Modifier,reduceMotion:Boolean=true,entrance:Boolean=false,
     gesture:MascotGesture=MascotGesture.IDLE,fullBody:Boolean=false){
     val context=LocalContext.current
     val bitmap by produceState<android.graphics.Bitmap?>(null,fullBody){value=withContext(Dispatchers.IO){try {
-        context.assets.open("brand/concept_c_individual.png").use {input->
-            @Suppress("DEPRECATION")
-            val decoder=requireNotNull(BitmapRegionDecoder.newInstance(input,false))
-            try {
-                val region=Rect(0,0,decoder.width,if(fullBody)decoder.height else minOf(980,decoder.height))
-                var sample=1;while(region.width()/sample>600 || region.height()/sample>800)sample*=2
-                decoder.decodeRegion(region,BitmapFactory.Options().apply {inSampleSize=sample})
-            }finally{decoder.recycle()}
-        }
+        fun decode(asset:String,shadow:Boolean):android.graphics.Bitmap?=try {
+            context.assets.open(asset).use {input->
+                @Suppress("DEPRECATION") val decoder=requireNotNull(BitmapRegionDecoder.newInstance(input,false))
+                try {
+                    val region=Rect(0,0,decoder.width,if(fullBody)decoder.height else minOf(if(shadow)1600 else 980,decoder.height))
+                    var sample=1;while(region.width()/sample>600 || region.height()/sample>800)sample*=2
+                    decoder.decodeRegion(region,BitmapFactory.Options().apply {inSampleSize=sample})
+                }finally{decoder.recycle()}
+            }
+        }catch(_:Exception){null}
+        decode("brand/concept_c_assistant_shadow_v1.webp",true) ?: decode("brand/concept_c_individual.png",false)
     }catch(e:CancellationException){throw e}catch(_:Exception){null}}}
     // Legacy entrance, gesture and reduceMotion never activate an unapproved motion or endless loop.
     bitmap?.let {Image(it.asImageBitmap(),"Maestra Concepto C de ProfeLab, con lazo menta y delantal verde",

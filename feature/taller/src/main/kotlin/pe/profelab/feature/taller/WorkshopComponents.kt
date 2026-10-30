@@ -44,7 +44,11 @@ internal fun WorkshopCard(title:String,color:Color=WorkshopColors.Mint,modifier:
 }
 @Composable
 internal fun WorkshopChoices(options:List<String>,selected:String,choose:(String)->Unit){
-    LazyRow(horizontalArrangement=Arrangement.spacedBy(8.dp)){
+    WorkshopChoicesRow(options,selected,Modifier,choose)
+}
+@Composable
+internal fun WorkshopChoicesRow(options:List<String>,selected:String,modifier:Modifier,choose:(String)->Unit){
+    LazyRow(modifier=modifier,horizontalArrangement=Arrangement.spacedBy(8.dp)){
         items(options,key={it}){option->FilterChip(selected=option==selected,onClick={choose(option)},label={Text(option)},modifier=Modifier.heightIn(min=48.dp),colors=FilterChipDefaults.filterChipColors(selectedContainerColor=WorkshopColors.Green,selectedLabelColor=Color.White))}
     }
 }

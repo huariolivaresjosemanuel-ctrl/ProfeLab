@@ -15,7 +15,7 @@ class AndroidOrchestrationTest(unittest.TestCase):
             (root/'bin/adb').write_text('#!/usr/bin/env bash\nexit 1\n',encoding='utf-8');(root/'bin/adb').chmod(0o755)
             posix=root.as_posix()
             if os.name=='nt':posix='/'+posix[0].lower()+posix[2:]
-            env=dict(os.environ,PATH=posix+'/bin:/usr/bin:/bin')
+            env=dict(os.environ,PATH=posix+'/bin:/usr/bin:/bin',GITHUB_ACTIONS='true')
             result=subprocess.run([bash,'--noprofile','--norc','run.sh'],cwd=root,env=env,capture_output=True,text=True)
             return result.returncode,(root/'gradle-called').exists(),result.stdout+result.stderr
     def test_upgrade_failure_keeps_code_and_skips_gradle(self):

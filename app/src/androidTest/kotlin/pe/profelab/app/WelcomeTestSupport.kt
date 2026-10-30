@@ -7,6 +7,7 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 internal fun ComposeTestRule.dismissWelcomeIfPresent(){
     waitUntil(15_000){onAllNodesWithTag("welcome-screen").fetchSemanticsNodes().isNotEmpty() || onAllNodesWithTag("nav_home").fetchSemanticsNodes().isNotEmpty()}
     val tag=when {
+        onAllNodesWithTag("welcome-skip").fetchSemanticsNodes().isNotEmpty()->"welcome-skip"
         onAllNodesWithTag("welcome-skip-registration").fetchSemanticsNodes().isNotEmpty()->"welcome-skip-registration"
         onAllNodesWithTag("welcome-continue").fetchSemanticsNodes().isNotEmpty()->"welcome-continue"
         else->null

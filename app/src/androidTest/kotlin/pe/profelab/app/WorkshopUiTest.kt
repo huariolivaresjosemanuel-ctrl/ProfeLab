@@ -65,7 +65,8 @@ class WorkshopUiTest {
         val created=runBlocking {store.observeRecords().first().single {it.kind=="project" && it.id !in before}}
         assertTrue(JSONObject(created.json).getJSONArray("steps").getJSONObject(0).getBoolean("done"))
         compose.activityRule.scenario.recreate()
-        compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Mis ideas"))
+        compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-sections"))
+        compose.onNodeWithTag("workshop-sections").performScrollToNode(hasText("Mis ideas"))
         compose.onNodeWithText("Mis ideas").performClick()
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Continuar creando"))
         compose.onNodeWithText("Continuar creando").assertIsDisplayed()

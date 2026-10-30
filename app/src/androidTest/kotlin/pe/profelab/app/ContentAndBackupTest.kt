@@ -32,9 +32,10 @@ class ContentAndBackupTest {
     @Test fun zipTraversalIsRejectedWithoutMutation():Unit=runBlocking {
         val db=database()
         try {
-            val store=WorkspaceRepository(db);val pack=ContentPacks(context,store);val file=zip(mapOf("../outside.json" to byteArrayOf(1)))
-            var rejected=false;try {pack.inspect(Uri.fromFile(file).toString())}catch(_:IllegalArgumentException){rejected=true}
-            assertTrue(rejected);assertTrue(store.observeRecords().first().isEmpty());file.delete()
+            val store=WorkspaceRepository(db);val pack=ContentPacks(context,store);val file=File(context.cacheDir,"qa-traversal-${newId()}.zip")
+            androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().context.assets.open("qa/path-traversal.zip").use {input->file.outputStream().use {input.copyTo(it)}}
+            var rejected=false;try {pack.inspect(Uri.fromFile(file).toString())}catch(_:IllegalArgumentException){rejected=true}catch(_:java.util.zip.ZipException){rejected=true}
+            assertTrue(rejected);assertTrue(store.observeRecords().first().isEmpty());assertFalse(File(context.cacheDir,"outside.json").exists());file.delete()
         }finally{db.close()}
     }
     @Test fun packReimportIsIdempotentAndUserCopySurvives():Unit=runBlocking {
