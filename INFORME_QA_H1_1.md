@@ -1,3 +1,5 @@
+> HISTÓRICO: describe H0/H1/H1.1. Para esta entrega prevalecen README.md, REPORTE_QA_REAL.md, GUIA_FIRMA_Y_ACTUALIZACION.md y PENDIENTES_REALES.md de la raíz. Las antiguas pausas por hitos ya no aplican.
+
 # QA H1.1
 
 Base remota `5891cd9257eb966dbce319b4b55f5dc86436fe9d`; run H1 41002583890: build y publicación debug completados correctamente según GitHub, emuladores skipped. Esa evidencia corresponde a H1, no a las modificaciones H1.1.

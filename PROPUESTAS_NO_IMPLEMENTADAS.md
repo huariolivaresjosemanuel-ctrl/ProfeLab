@@ -1,3 +1,3 @@
-# Propuestas no implementadas
+# Estado vigente
 
-No se añaden funciones fuera del SDD. Esta entrega se limita a H1.1 y preparación documental de H2. Ninguna propuesta nueva se programa.
+Consulta `PENDIENTES_REALES.md`; el alcance ya no se limita a H1. No se añadieron funciones ajenas a los cinco módulos aprobados.

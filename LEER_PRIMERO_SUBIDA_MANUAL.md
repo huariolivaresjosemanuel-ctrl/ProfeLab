@@ -1,0 +1,16 @@
+# Subida manual de la entrega integral
+
+**La raíz de `PROFELAB_COMPLETO_V1_0_FUENTES.zip` es la raíz del repositorio Android.** No crear `ProfeLab_Completo/` ni otra carpeta envolvente dentro de GitHub. Este archivo y `settings.gradle.kts` deben quedar junto a `app/`, `core/`, `feature/` y `.github/`.
+
+1. Descarga y extrae el ZIP en una carpeta nueva. Conserva una copia del estado actual de tu repositorio y de los datos del dispositivo. No reemplaces otra aplicación.
+2. Si ya tienes Python, ejecuta `python scripts/verify_inventory.py` ANTES de editar. Contrasta `INVENTARIO_COMPLETO.csv` y `ARCHIVOS_A_RETIRAR.csv`. Los hashes describen esta entrega; modificar un archivo después cambia su hash.
+3. Abre tu copia local de `https://github.com/huariolivaresjosemanuel-ctrl/ProfeLab`. Comprueba el commit base `4ec7a104e9345fd1aa1a0c74eddbe72169304b80`. Si avanzó, revisa las diferencias antes de sustituir archivos; no pisar cambios posteriores.
+4. Copia TODO el contenido extraído, incluidas `.github/` y `.gitignore`, a esa copia del repositorio. No copies ninguna carpeta `.git` del ZIP (no existe), `local.properties`, keystores, cachés, APKs ni builds.
+5. Retira exclusivamente las rutas de `ARCHIVOS_A_RETIRAR.csv` de la copia del repositorio. Eran pantallas vacías sustituidas por los editores nuevos. La subida web de archivos no elimina estas rutas automáticamente. No borres el repositorio completo ni otros directorios para aplicar la entrega.
+6. Revisa los cambios con tu herramienta Git. **Tú** puedes hacer el commit/push manual cuando decidas. El asistente no hizo commits, push, PR ni cambios remotos. Alternativa web: Add file → Upload files, arrastra el CONTENIDO de la carpeta extraída (activa archivos ocultos), revisa todas las rutas y elimina manualmente solo las rutas retiradas. Para carpetas ocultas o muchos archivos, una herramienta Git local suele ser más fiable.
+7. Confirma que existe `.github/workflows/android.yml`, y que su bloque `on` contiene solo `workflow_dispatch`. No hay disparadores push, pull_request ni schedule.
+8. GitHub → Actions → **ProfeLab Android** → **Run workflow** → rama `main`. Primera comprobación: `run_emulator=true`, `signed_release=false`. La ejecución manual descarga las herramientas en el runner, no en tu PC.
+9. Revisa `build` y ambos jobs Android API26/API36. Descarga `informes-V1.0-<n>` y `android-api-<api>-<n>`. Un artefacto debug disponible no sustituye el resultado de todos los jobs. Si algo falla, conserva el log exacto; no desactives lint o pruebas para declarar éxito.
+10. Solo tras configurar TU clave y completar la validación: ejecutar un NUEVO workflow con ambos campos `true`. Sigue [GUIA_FIRMA_Y_ACTUALIZACION.md](GUIA_FIRMA_Y_ACTUALIZACION.md). Artefactos: `ProfeLab-V1.0-DEBUG-no-distribuir-<n>` y, si todos los controles pasan, `ProfeLab-V1.0-FIRMA-PERMANENTE-<n>`.
+
+El helper comprueba paquete, versión, huella fijada y firma v2 antes de publicar el release. No se generó una clave ni una APK aquí. No desinstales H1 para solucionar una firma incompatible: H1 puede contener datos sin exportador. Antes de distribuir, completa los escenarios de `REPORTE_QA_REAL.md` y revisa `PENDIENTES_REALES.md`.

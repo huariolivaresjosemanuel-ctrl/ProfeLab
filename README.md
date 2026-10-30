@@ -1,45 +1,24 @@
-# ProfeLab · H0 + fuentes H1
+# ProfeLab · fuentes integradas V1.0
 
-Aplicación Android independiente para estudiantes y docentes de Educación Primaria en Perú.
+Proyecto Android completo en esta raíz: `app/`, `core/`, `feature/`, wrapper Gradle, recursos, pruebas y workflow manual. Una APK `pe.profelab.app`, API26+, Kotlin/Compose, Room v2, DataStore. Versión de fuentes 1.0.0; no incluye APK compilada.
 
-**Entrega de código real `0.1.0-h1`, applicationId `pe.profelab.app`. No incluye APK compilada ni aprobación de instalación.** La compilación y las pruebas de ejecución están preparadas para GitHub Actions; no se ejecutó Android/Gradle en la PC del usuario ni se modificó GitHub.
+Se amplió la copia de `main` del repositorio ProfeLab, commit `4ec7a104e9345fd1aa1a0c74eddbe72169304b80`, árbol `ce2d9fbd0999bd0947d4e0e9ba35d2286d89544c`. No se escribió en GitHub ni se modificaron otros proyectos. La entrega es integral de fuentes, con funcionalidad real en las cinco secciones; **no equivale a una V1.0 validada para distribución**. No se pudo compilar Android en este entorno. Las diferencias y funciones parciales se detallan en [PENDIENTES_REALES.md](PENDIENTES_REALES.md).
 
-## Abrir y compilar
+Empieza por [LEER_PRIMERO_SUBIDA_MANUAL.md](LEER_PRIMERO_SUBIDA_MANUAL.md). El contenido del ZIP va directamente en la raíz del repositorio existente. Actions funciona exclusivamente con **Run workflow**; subir archivos no compila nada.
 
-1. Descomprimir esta entrega. La carpeta `ProfeLab/` es la raíz del proyecto Android.
-2. Seguir [SUBIDA_MANUAL_GITHUB.md](docs/SUBIDA_MANUAL_GITHUB.md). Subir **el contenido** de `ProfeLab/` a la raíz de un repositorio nuevo e independiente, incluida `.github/`.
-3. En GitHub → Actions → **ProfeLab Android** → **Run workflow**. La opción de pruebas en emulador está activada por defecto para la ejecución manual.
-4. Si el job `build` termina correctamente, descargar el artefacto `ProfeLab-H1-debug-<número>`; dentro estará `app-debug.apk`.
-5. Revisar también `informes-H1-*` y `android-api-*`. Una APK generada no demuestra por sí sola que todas las pruebas Android hayan pasado.
+## Funcionalidad escrita e integrada
 
-## Implementado en las fuentes
+- Inicio existente: perfil/ciclo universitario, tareas/borradores/avisos opcionales, progreso calculado, actividad y navegación por IDs.
+- Taller: 12 proyectos y miniaturas originales + ocho experimentos pendientes de revisión, filtros/favoritos, copias personales, editores de pasos/checklist, observaciones, modos práctico/académico, inventario por cantidades/unidades/reservas y compras consolidadas.
+- Sesiones: Primaria 1–6, tres estructuras temporales offline, planificación y evaluación, cotejo curricular declarado por el usuario, recuperación/versiones, recursos vinculados y PDF personal. No incorpora textos oficiales sin cotejo.
+- Cuaderno: Apuntes/Prácticas/Ideas, búsqueda, adjuntos, reflexión, voz local con permiso, portafolio seleccionado y exportación con revisión de privacidad.
+- Biblioteca: las 12 referencias del paquete, fuentes/derechos/estado local, importación SAF y recepción de PDFs externos con elección temporal/privada. No se distribuyen PDFs oficiales.
+- PDF: render nativo, páginas/miniaturas/zoom, búsqueda de texto, selección a partir de posiciones de caracteres, lápiz/resaltado/subrayado/notas, Room por documento/hash/página, marcadores y copia aplanada. Comentarios íntegros en anexo imprimible. Adaptación parcial de DocReader MIT, atribuida.
+- Cámara/OCR: CameraX, enfoque y linterna condicionada a hardware, selección SAF, recorte de márgenes/rotación, ML Kit Latin bundled, edición y confirmación del texto, evidencias y lotes de hasta diez páginas con borrador local.
+- Integración: archivos privados UUID, enlaces estables, packs validados, respaldo ZIP con vista previa/fusión controlada, migración explícita Room1→2 y configuración de firma permanente del usuario.
 
-- 16 módulos Gradle: `app`, seis `core:*`, nueve `feature:*`. Kotlin/Compose/Room/DataStore, interfaces y DI por constructores.
-- Cinco pestañas en orden aprobado, navegación atrás, estado de navegación y formularios. Tema crema/verde, tarjetas pastel, logo y planta vectoriales originales.
-- Inicio: saludo local, ciclo universitario, progreso real de tareas de lunes a domingo, entregas, accesos, actividad persistida y pendientes de hoy.
-- Crear, editar, completar/reabrir, deshacer completado y eliminar tareas con confirmación; fecha/hora, prioridad, notas, búsqueda y filtros. Borradores Room al editar y al salir.
-- Perfil opcional con nombre, ciclo e institución; preferencia local para ver completadas. Nunca confunde ciclo académico con grado escolar.
-- Avisos locales opcionales con WorkManager, permiso contextual, cancelación y control de entrega por tarea/fecha. Android puede retrasar avisos; no son alarmas exactas.
-- Biblioteca: consulta y búsqueda offline de las 12 referencias entregadas; ficha y apertura explícita de fuente oficial en navegador. **Cero PDFs oficiales incluidos.**
-- Contratos futuros de documentos, anotaciones, archivos, OCR, captura, proyectos, inventario, evidencias, packs y respaldo. Las capacidades no implementadas no se registran como servicios disponibles.
-- Workflow de APK debug, lint, pruebas JVM y pruebas Android en emuladores API 26 y 36.
+## Verificación
 
-## Pendiente
+Los 16 controles estáticos y las 11 pruebas Python del helper de firma pasan localmente. No prueban Kotlin, cámara, OCR ni una firma criptográfica real. Android/Gradle, lint, JVM Kotlin, instrumentadas, dispositivos, fidelidad visual y actualización firmada están pendientes. Consulta [REPORTE_QA_REAL.md](REPORTE_QA_REAL.md), [MATRIZ_COBERTURA_REQUISITOS.csv](MATRIZ_COBERTURA_REQUISITOS.csv) y [INFORME_FIDELIDAD_UI.md](INFORME_FIDELIDAD_UI.md).
 
-Taller completo y packs/inventario (H2), Sesiones (H3), Cuaderno/portafolio/audio (H4), importación y lector PDF anotable (H5), cámara/OCR (H6), integración, backup/migraciones y validación física/tablet/accesibilidad (H7). Las pestañas pendientes muestran un estado explícito, sin editores falsos ni botones inertes.
-
-**No dar H1 por aceptado como app instalable hasta obtener la compilación y evidencia de pruebas.** `minSdk=26` es el mínimo de esta base; compatibilidad efectiva con teléfono y Lenovo Tab Plus pendiente. El tema claro es el aprobado; modo oscuro y avatar fotográfico no están habilitados.
-
-## Documentación y evidencia
-
-- [Auditoría H0](docs/H0_AUDITORIA.md): conflictos, viabilidad, riesgos y decisiones.
-- [Arquitectura y contratos](docs/ARQUITECTURA.md).
-- [Matriz de cobertura de las 46 vistas](docs/COBERTURA_UI.csv).
-- [Informe real de pruebas](docs/INFORME_PRUEBAS.md).
-- [Dependencias y fuentes](docs/DEPENDENCIAS.md).
-- [Inventario](INVENTARIO_ENTREGA.csv): todas las rutas de esta entrega son nuevas respecto al workspace inicial.
-- `SHA256SUMS.txt`: hashes de entrega, excluyendo el propio listado.
-
-`reference/` conserva documentación, mockups, datos y PDFs de prueba del paquete fuera de los sourceSets de la APK. No contiene fuentes copiadas de ScanPro o DocReader. El ZIP original permanece intacto fuera del proyecto.
-
-No hay claves de firma release. La clave debug que utiliza el runner sirve para pruebas y puede cambiar entre ejecuciones; conservar datos durante actualizaciones entre builds exige configurar una clave de prueba estable de propiedad del usuario. **No desinstalar para actualizar si necesitas conservar datos.** El respaldo manual todavía no está implementado.
+Las instrucciones H0/H1/H1.1 conservadas son históricas; la documentación raíz de esta entrega y `docs/completo/` describen el estado actual. Ningún PASS histórico acredita el código nuevo. `reference/` conserva los cinco mockups y documentos aportados, fuera de la APK.

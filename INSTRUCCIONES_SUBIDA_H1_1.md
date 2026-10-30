@@ -1,3 +1,5 @@
+> HISTÓRICO: describe H0/H1/H1.1. Para esta entrega prevalecen README.md, REPORTE_QA_REAL.md, GUIA_FIRMA_Y_ACTUALIZACION.md y PENDIENTES_REALES.md de la raíz. Las antiguas pausas por hitos ya no aplican.
+
 # Subida y prueba H1.1
 
 Base `5891cd9257eb966dbce319b4b55f5dc86436fe9d` en main. El ZIP contiene rutas desde la raíz, sin carpeta contenedora. Extrae y sube manualmente solo los archivos del inventario; reemplaza los MODIFICADOS y añade los NUEVOS. Si hubo cambios posteriores en esas rutas, compara antes de reemplazar. No elimines módulos ni datos. Incluye `.github/workflows/android.yml` y `.gitignore` aunque Windows los oculte. El asistente no modificó GitHub.
