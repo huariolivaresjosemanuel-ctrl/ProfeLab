@@ -15,11 +15,11 @@ class NavigationTest {
         compose.onNodeWithTag("nav_taller").performClick()
         compose.onNodeWithText("Mi taller").assertIsDisplayed()
         compose.onNodeWithTag("nav_sessions").performClick()
-        compose.onNodeWithText("Aún no hay sesiones").assertIsDisplayed()
+        compose.onNodeWithText("Nueva sesión").assertIsDisplayed()
         compose.onNodeWithTag("nav_notebook").performClick()
-        compose.onNodeWithText("Apuntes · sin registros").assertIsDisplayed()
+        compose.onNodeWithText("Nueva nota").assertIsDisplayed()
         compose.onNodeWithTag("nav_library").performClick()
-        compose.waitUntil(10_000) { compose.onAllNodesWithText("12 referencias · ningún PDF local").fetchSemanticsNodes().isNotEmpty() }
+        compose.onNodeWithText("Importar PDF").assertIsDisplayed()
         compose.onNodeWithTag("nav_home").performClick()
         compose.onNodeWithText("Tu avance esta semana").assertIsDisplayed()
     }

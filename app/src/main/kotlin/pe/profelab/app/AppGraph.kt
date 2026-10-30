@@ -11,6 +11,12 @@ import pe.profelab.core.database.*
 class AppGraph(context: Context) {
     val database=ProfeDatabase.create(context)
     val repository=LocalRepository(database)
+    val workspace=WorkspaceRepository(database)
+    val transfers=BackupTransfer(context,database)
+    val seeds=pe.profelab.core.content.WorkshopSeed(context)
+    val packs=pe.profelab.core.content.ContentPacks(context,workspace)
+    val files=pe.profelab.core.files.DocumentFiles(context)
+    val incomingPdf=kotlinx.coroutines.flow.MutableStateFlow<String?>(null)
     val preferences=LocalPreferences(context)
     val catalog=BundledSourceCatalog(context)
     private val reminders=LocalReminders(context)

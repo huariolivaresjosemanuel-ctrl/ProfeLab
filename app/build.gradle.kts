@@ -10,7 +10,7 @@ fun signingEnv(name: String): String = providers.environmentVariable(name).orNul
 val proposedVersionCode = providers.environmentVariable("PROFELAB_VERSION_CODE").orNull?.let {
     it.toIntOrNull()?.takeIf { value -> value in 2..2100000000 }
         ?: error("PROFELAB_VERSION_CODE debe ser un entero entre 2 y 2100000000")
-} ?: 2
+} ?: 3
 
 android {
     namespace = "pe.profelab.app"
@@ -21,7 +21,7 @@ android {
         applicationId = "pe.profelab.app"
         targetSdk = 36
         versionCode = proposedVersionCode
-        versionName = "0.1.1-h1.1"
+        versionName = "1.0.0"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -54,6 +54,8 @@ gradle.taskGraph.whenReady {
 }
 
 dependencies {
+    implementation("com.tom-roush:pdfbox-android:2.0.27.0")
+
     implementation(libs.androidx.core)
     implementation(libs.coroutines.android)
     implementation(project(":core:model"))
@@ -88,6 +90,7 @@ dependencies {
     androidTestImplementation(libs.compose.test)
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)
+    androidTestImplementation(libs.test.core)
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.test.junit)
 }
