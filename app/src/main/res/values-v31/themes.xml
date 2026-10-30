@@ -1,0 +1,8 @@
+<resources>
+    <style name="Theme.ProfeLab" parent="Theme.ProfeLab.Base">
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">#F8F5EE</item>
+        <item name="android:windowSplashScreenBackground">#F8F5EE</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_profelab</item>
+    </style>
+</resources>
