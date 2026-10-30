@@ -1,0 +1,24 @@
+{
+  "at_utc": "2026-10-30T13:16:21.045466+00:00",
+  "scope": "Python and lexical source checks only. No Kotlin/Gradle/Android execution.",
+  "runs": [
+    {
+      "command": "python scripts/verify_project.py",
+      "exit_code": 0,
+      "log": "docs/qa/completo/estructura.txt",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m unittest discover -s scripts -p test_signing.py -v",
+      "exit_code": 0,
+      "log": "docs/qa/completo/firma-python.txt",
+      "status": "PASS"
+    },
+    {
+      "command": "python scripts/check_kotlin_delimiters.py",
+      "exit_code": 0,
+      "log": "docs/qa/completo/delimitadores.txt",
+      "status": "PASS"
+    }
+  ]
+}

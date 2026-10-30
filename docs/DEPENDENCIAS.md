@@ -1,3 +1,5 @@
+> HISTÓRICO: describe H0/H1/H1.1. Para esta entrega prevalecen README.md, REPORTE_QA_REAL.md, GUIA_FIRMA_Y_ACTUALIZACION.md y PENDIENTES_REALES.md de la raíz. Las antiguas pausas por hitos ya no aplican.
+
 # Dependencias y compatibilidad
 
 Consulta y preparación: 29/10/2026. Todas las versiones están fijadas en `gradle/libs.versions.toml`. Se eligió una combinación estable con requisitos declarados compatibles; no se afirma que sea la última versión de cada componente ni que el proyecto haya compilado.

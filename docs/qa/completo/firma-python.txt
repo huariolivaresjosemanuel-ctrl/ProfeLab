@@ -1,0 +1,16 @@
+test_existing_directory_not_overwritten (test_signing.SigningTests.test_existing_directory_not_overwritten) ... ok
+test_failed_apksigner_never_published (test_signing.SigningTests.test_failed_apksigner_never_published) ... ok
+test_invalid_base64_rejected (test_signing.SigningTests.test_invalid_base64_rejected) ... ok
+test_invalid_certificate_pin_rejected (test_signing.SigningTests.test_invalid_certificate_pin_rejected) ... ok
+test_missing_configuration_never_writes_key (test_signing.SigningTests.test_missing_configuration_never_writes_key) ... ok
+test_prepare_cleanup_outside_checkout (test_signing.SigningTests.test_prepare_cleanup_outside_checkout) ... ok
+test_rollback_and_same_version_rejected (test_signing.SigningTests.test_rollback_and_same_version_rejected) ... ok
+test_v2_required (test_signing.SigningTests.test_v2_required) ... ok
+test_verified_output_contains_only_public_files (test_signing.SigningTests.test_verified_output_contains_only_public_files) ... ok
+test_wrong_application_never_published (test_signing.SigningTests.test_wrong_application_never_published) ... ok
+test_wrong_certificate_never_published (test_signing.SigningTests.test_wrong_certificate_never_published) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.032s
+
+OK

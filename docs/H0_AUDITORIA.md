@@ -1,3 +1,5 @@
+> HISTÓRICO: describe H0/H1/H1.1. Para esta entrega prevalecen README.md, REPORTE_QA_REAL.md, GUIA_FIRMA_Y_ACTUALIZACION.md y PENDIENTES_REALES.md de la raíz. Las antiguas pausas por hitos ya no aplican.
+
 # Auditoría H0 · 29 de octubre de 2026 (America/Lima)
 
 ## Evidencia revisada

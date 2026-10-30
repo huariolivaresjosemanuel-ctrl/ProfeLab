@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "scope": "Complete ZIP CRC, byte equality with source, SHA256 checks, root paths, no duplicate/traversal/private key containers/build caches",
+  "files": 294,
+  "qa_cases_present": 191,
+  "matrix_rows": 335,
+  "android_compilation": "NOT_RUN",
+  "zip_name": "PROFELAB_COMPLETO_V1_0_FUENTES.zip"
+}

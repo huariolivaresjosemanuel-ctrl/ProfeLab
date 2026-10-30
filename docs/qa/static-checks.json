@@ -1,7 +1,7 @@
 {
   "scope": "Static source/artifact checks only; no Kotlin compilation or Android runtime",
-  "tests_run": 14,
-  "passed": 14,
+  "tests_run": 16,
+  "passed": 16,
   "failures": [],
   "errors": []
 }

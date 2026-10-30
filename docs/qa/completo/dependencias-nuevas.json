@@ -1,0 +1,37 @@
+[
+  {
+    "name": "camera-view",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/camera/camera-view/1.5.1/camera-view-1.5.1.aar",
+    "bytes": 122488,
+    "metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=35\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.6.0\ncoreLibraryDesugaringEnabled=false\n",
+    "status": "PASS"
+  },
+  {
+    "name": "camera-lifecycle",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/camera/camera-lifecycle/1.5.1/camera-lifecycle-1.5.1.aar",
+    "bytes": 50554,
+    "metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=35\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.6.0\ncoreLibraryDesugaringEnabled=false\n",
+    "status": "PASS"
+  },
+  {
+    "name": "camera-camera2",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/camera/camera-camera2/1.5.1/camera-camera2-1.5.1.aar",
+    "bytes": 603810,
+    "metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=35\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=8.6.0\ncoreLibraryDesugaringEnabled=false\n",
+    "status": "PASS"
+  },
+  {
+    "name": "mlkit-bundled",
+    "url": "https://dl.google.com/dl/android/maven2/com/google/mlkit/text-recognition/16.0.1/text-recognition-16.0.1.aar",
+    "bytes": 1383148,
+    "metadata": "",
+    "status": "PASS"
+  },
+  {
+    "name": "pdfbox",
+    "url": "https://repo.maven.apache.org/maven2/com/tom-roush/pdfbox-android/2.0.27.0/pdfbox-android-2.0.27.0.aar",
+    "bytes": 3254019,
+    "metadata": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=1\nminAndroidGradlePluginVersion=1.0.0\n",
+    "status": "PASS"
+  }
+]

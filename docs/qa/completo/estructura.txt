@@ -1,0 +1,21 @@
+test_all_twelve_minedu_references_remain_without_pdf_bytes (__main__.DeliveryChecks.test_all_twelve_minedu_references_remain_without_pdf_bytes) ... ok
+test_all_ui_and_qa_rows_preserved (__main__.DeliveryChecks.test_all_ui_and_qa_rows_preserved) ... ok
+test_android_manifest_is_independent_and_has_only_contextual_permission (__main__.DeliveryChecks.test_android_manifest_is_independent_and_has_only_contextual_permission) ... ok
+test_api26_theme_and_versioned_navigation_bar (__main__.DeliveryChecks.test_api26_theme_and_versioned_navigation_bar) ... ok
+test_ci_is_read_only_and_generates_apk_and_reports (__main__.DeliveryChecks.test_ci_is_read_only_and_generates_apk_and_reports) ... ok
+test_dao_sql_parses_against_entity_columns (__main__.DeliveryChecks.test_dao_sql_parses_against_entity_columns) ... ok
+test_dependency_metadata_supports_selected_compile_sdk_and_agp (__main__.DeliveryChecks.test_dependency_metadata_supports_selected_compile_sdk_and_agp) ... ok
+test_navigation_routes_and_five_tabs (__main__.DeliveryChecks.test_navigation_routes_and_five_tabs) ... ok
+test_no_feature_imports_another_feature_or_database (__main__.DeliveryChecks.test_no_feature_imports_another_feature_or_database) ... ok
+test_no_mockup_bitmap_or_fixture_data_in_android (__main__.DeliveryChecks.test_no_mockup_bitmap_or_fixture_data_in_android) ... ok
+test_real_schema_one_to_two_sql_preserves_h1_rows (__main__.DeliveryChecks.test_real_schema_one_to_two_sql_preserves_h1_rows) ... ok
+test_runtime_seed_images_and_ocr_are_bundled (__main__.DeliveryChecks.test_runtime_seed_images_and_ocr_are_bundled) ... ok
+test_seed_integrity_and_safety_not_published_as_validated (__main__.DeliveryChecks.test_seed_integrity_and_safety_not_published_as_validated) ... ok
+test_sixteen_modules_and_acyclic_dependency_graph (__main__.DeliveryChecks.test_sixteen_modules_and_acyclic_dependency_graph) ... ok
+test_validation_stays_enabled_and_emulator_sdk_is_explicit (__main__.DeliveryChecks.test_validation_stays_enabled_and_emulator_sdk_is_explicit) ... ok
+test_wrapper_matches_official_checksum_and_distribution_is_pinned (__main__.DeliveryChecks.test_wrapper_matches_official_checksum_and_distribution_is_pinned) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.283s
+
+OK

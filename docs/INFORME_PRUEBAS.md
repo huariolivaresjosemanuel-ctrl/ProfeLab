@@ -1,3 +1,5 @@
+> HISTÓRICO: describe H0/H1/H1.1. Para esta entrega prevalecen README.md, REPORTE_QA_REAL.md, GUIA_FIRMA_Y_ACTUALIZACION.md y PENDIENTES_REALES.md de la raíz. Las antiguas pausas por hitos ya no aplican.
+
 # Informe de pruebas · entrega H1
 
 Fecha de entrega: 29/10/2026, America/Lima. Fuentes `0.1.0-h1`. Equipo de preparación: Windows; Python y Poppler ya incluidos en el runtime de Codex. No se instaló ni ejecutó toolchain Android.
