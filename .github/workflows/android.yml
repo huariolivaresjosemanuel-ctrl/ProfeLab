@@ -58,7 +58,7 @@ jobs:
       - name: Permitir ejecucion de Gradle
         run: chmod +x gradlew
 
-      - name: Compilar y ejecutar pruebas
+      - name: Compilar y ejecutar pruebas unitarias
         run: |
           ./gradlew --no-daemon --stacktrace --continue \
             :core:model:test \
@@ -132,8 +132,9 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - name: Instalar plataforma de compilacion en este runner
-        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
+      - name: Instalar plataforma de compilacion
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;35.0.0"
 
       - name: Ejecutar pruebas Android
         uses: reactivecircus/android-emulator-runner@v2
@@ -142,11 +143,7 @@ jobs:
           arch: x86_64
           target: ${{ matrix.target }}
           disable-animations: true
-          script: |
-            chmod +x gradlew
-            ./gradlew --no-daemon --stacktrace --continue \
-              :core:database:connectedDebugAndroidTest \
-              :app:connectedDebugAndroidTest
+          script: chmod +x gradlew && ./gradlew --no-daemon --stacktrace --continue :core:database:connectedDebugAndroidTest :app:connectedDebugAndroidTest
 
       - name: Guardar resultados Android
         if: always()
@@ -158,4 +155,3 @@ jobs:
             **/build/outputs/androidTest-results/**
             **/build/outputs/connected_android_test_additional_output/**
           retention-days: 30
-
