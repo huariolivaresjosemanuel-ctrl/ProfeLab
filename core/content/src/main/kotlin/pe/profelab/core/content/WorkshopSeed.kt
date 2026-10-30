@@ -7,13 +7,23 @@ import org.json.JSONObject
 import pe.profelab.core.model.WorkRecord
 
 class WorkshopSeed(private val context:Context) {
+    private fun index():JSONObject = runCatching {context.assets.open("workshop/catalog_index_v2.json").bufferedReader().use {JSONObject(it.readText())}}.getOrElse {throw IllegalStateException("Índice del Taller no disponible",it)}
+    private fun sources(key:String):List<String> = WorkshopCodec.strings(index().getJSONArray(key)).also {paths->require(paths.size<=50 && paths.all {it.matches(Regex("[a-zA-Z0-9_-]+\\.json"))})}
+    private fun objects(file:String,key:String):List<JSONObject>{
+        val text=context.assets.open("workshop/$file").bufferedReader().use {it.readText()};require(text.length<=4_000_000)
+        val a=JSONObject(text).getJSONArray(key);require(a.length()<=1000);return (0 until a.length()).map {a.getJSONObject(it)}
+    }
+    suspend fun materials():List<pe.profelab.core.model.MaterialDefinition> = withContext(Dispatchers.IO) {
+        sources("materialFiles").flatMap {objects(it,"materials")}.map(WorkshopCodec::definition).also {list->require(list.map {it.id}.distinct().size==list.size)}
+    }
+    suspend fun layouts():List<WorkRecord> = withContext(Dispatchers.IO){
+        sources("layoutFiles").flatMap {objects(it,"layouts")}.map {j->require(j.getString("template") in WorkshopCodec.templates);require(WorkshopCodec.strings(j.opt("sectionOrder")).all {it in WorkshopCodec.blocks});WorkRecord(j.getString("id"),"catalog_layout",j.getString("title"),j.toString(),0)}
+    }
     suspend fun templates():List<WorkRecord> = withContext(Dispatchers.IO) {
-        listOf("workshop/projects.json" to "project_template","workshop/experiments.json" to "experiment_template").flatMap { (path,kind)->
-            val pack=context.assets.open(path).bufferedReader().use {JSONObject(it.readText())}
-            val projects=pack.getJSONArray("projects")
-            (0 until projects.length()).map {i->val j=projects.getJSONObject(i)
+        (sources("projectFiles").map {it to "project_template"}+sources("experimentFiles").map {it to "experiment_template"}).flatMap { (path,kind)->
+            objects(path,"projects").map {j->
                 WorkRecord(j.getString("id"),kind,j.getString("title"),j.toString(),0)
             }
-        }
+        }.also {list->require(list.map {it.id}.distinct().size==list.size)}
     }
 }

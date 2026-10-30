@@ -37,7 +37,7 @@ class SigningTests(unittest.TestCase):
         output=self.root/'public'
         result=SimpleNamespace(returncode=code,stdout=f'Signer #1 certificate SHA-256 digest: {digest}\nVerified using v2 scheme (APK Signature Scheme v2): {v2}\n')
         def run(args,**kwargs):
-            if args[0]=='fake-aapt': return SimpleNamespace(returncode=0,stdout=f"package: name='{package}' versionCode='1008' versionName='1.0.0'\n")
+            if args[0]=='fake-aapt': return SimpleNamespace(returncode=0,stdout=f"package: name='{package}' versionCode='1008' versionName='1.0.1'\n")
             return result
         verify(self.env,apk,output,run=run)
         return output

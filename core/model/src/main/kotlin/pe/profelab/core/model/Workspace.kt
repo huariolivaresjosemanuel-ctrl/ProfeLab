@@ -10,6 +10,8 @@ interface WorkspaceStore {
     suspend fun saveRecord(record: WorkRecord)
     suspend fun archiveRecord(id: String)
     suspend fun saveBatch(records: List<WorkRecord>)
+    /** Reads current rows and applies a local multi-record operation atomically. No UI snapshot overwrites. */
+    suspend fun editRecords(change: (List<WorkRecord>)->List<WorkRecord>)
 }
 interface LocalTransfer {
     suspend fun exportBackup(destinationUri: String, includeFiles: Boolean)

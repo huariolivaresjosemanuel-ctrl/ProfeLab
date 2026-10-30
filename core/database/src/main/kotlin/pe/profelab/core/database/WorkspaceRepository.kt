@@ -25,6 +25,13 @@ class WorkspaceRepository(private val db: ProfeDatabase): WorkspaceStore {
     }
     override suspend fun archiveRecord(id: String)=dao.archive(id)
     override suspend fun saveBatch(records: List<WorkRecord>)=db.withTransaction { records.forEach { dao.put(it.entity()) } }
+    override suspend fun editRecords(change:(List<WorkRecord>)->List<WorkRecord>) {
+        db.withTransaction {
+            val current=dao.all().map {it.domain()};val next=change(current)
+            require(next.map {it.id}.distinct().size==next.size)
+            next.forEach {row->require(row.id.isNotBlank() && row.json.length<=2_000_000);val old=dao.find(row.id);dao.put(row.entity().copy(revision=(old?.revision ?: 0)+1))}
+        }
+    }
 }
 private fun WorkspaceEntity.domain()=WorkRecord(id,kind,title,json,updatedAt,revision,archived)
 private fun WorkRecord.entity()=WorkspaceEntity(id,kind,title,json,updatedAt,revision,archived)

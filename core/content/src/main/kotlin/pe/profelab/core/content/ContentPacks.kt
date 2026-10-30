@@ -4,44 +4,66 @@ import android.content.Context
 import android.net.Uri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
 import org.json.JSONObject
+import pe.profelab.core.files.PrivateFiles
 import pe.profelab.core.model.*
-import java.security.MessageDigest
+import java.io.ByteArrayInputStream
+import java.io.File
 import java.util.zip.ZipInputStream
 
-data class PackData(val manifest:JSONObject,val records:List<WorkRecord>,val digest:String)
-class ContentPacks(private val context:Context,private val store:WorkspaceStore) {
+class ContentPacks(private val context:Context,private val store:WorkspaceStore){
     suspend fun inspect(uri:String):PackData=withContext(Dispatchers.IO){
         val entries=linkedMapOf<String,ByteArray>();var total=0
         context.contentResolver.openInputStream(Uri.parse(uri))!!.use {input->ZipInputStream(input).use {zip->
             while(true){val entry=zip.nextEntry ?: break;val name=entry.name
-                require(!entry.isDirectory && !name.startsWith('/') && !name.contains('\\') && !name.contains(':') && name.split('/').none {it==".."||it=="."||it.isBlank()} && name !in entries && entries.size<200)
-                val bytes=zip.readBytesLimited(2*1024*1024);total+=bytes.size;require(total<=20*1024*1024);entries[name]=bytes;zip.closeEntry()
+                require(!entry.isDirectory && !name.startsWith('/') && !name.contains('\\') && !name.contains(':') && name.split('/').none {it in setOf("..",".") || it.isBlank()} && name !in entries && entries.size<200)
+                val limit=if(name.substringAfterLast('.').lowercase() in setOf("png","jpg","jpeg","webp"))8*1024*1024 else 2*1024*1024
+                val out=java.io.ByteArrayOutputStream();val buffer=ByteArray(8192)
+                while(true){val n=zip.read(buffer);if(n<0)break;require(out.size()+n<=limit && total+n<=40*1024*1024);out.write(buffer,0,n);total+=n}
+                entries[name]=out.toByteArray();zip.closeEntry()
             }
         }}
-        val manifest=JSONObject(String(requireNotNull(entries["manifest.json"]),Charsets.UTF_8))
-        require(manifest.getInt("schemaVersion")==2 && manifest.getInt("minimumAppSchema")<=2 && manifest.getString("version").matches(Regex("\\d+\\.\\d+\\.\\d+")))
-        val items=manifest.getJSONArray("items");require(items.length()<=100)
-        val records=(0 until items.length()).map {i->val item=items.getJSONObject(i);val path=item.getString("path");val bytes=requireNotNull(entries[path]);require(bytes.sha()==item.getString("sha256"));val data=JSONObject(String(bytes,Charsets.UTF_8))
-            require(data.getString("contentOrigin")=="EDITORIAL_PROFELAB" || data.getString("contentOrigin")=="USER_AUTHORED")
-            require(data.getBoolean("distributionApproved"));val type=item.getString("type");require(type in listOf("project","experiment"))
-            val id="pack:${manifest.getString("packId")}:${data.getString("id")}"
-            WorkRecord(id,"catalog_$type",data.getString("title"),data.put("packVersion",manifest.getString("version")).put("reviewStatus","PENDING").put("safetyReviewedByUser",false).toString(),System.currentTimeMillis())
-        }
-        require(records.map {it.id}.distinct().size==records.size && entries.keys==((0 until items.length()).map {items.getJSONObject(it).getString("path")}.toSet()+"manifest.json"))
-        PackData(manifest,records,entries["manifest.json"]!!.sha())
+        ContentPackValidator.inspect(entries)
     }
-    suspend fun install(pack:PackData){
-        val markerId="pack:${pack.manifest.getString("packId")}";val previous=store.record(markerId)
-        if(previous!=null && JSONObject(previous.json).optString("digest")==pack.digest)return
-        if(previous!=null){
-            val old=JSONObject(previous.json).getString("version").split('.').map {it.toInt()}
-            val next=pack.manifest.getString("version").split('.').map {it.toInt()}
-            val comparison=(0..2).firstOrNull {old[it]!=next[it]}?.let {next[it].compareTo(old[it])} ?: 0
-            require(comparison>0){"La misma versión difiere o se intentó retroceder el paquete"}
-        }
-        store.saveBatch(pack.records+WorkRecord(markerId,"content_pack",pack.manifest.getString("packId"),JSONObject().put("version",pack.manifest.getString("version")).put("digest",pack.digest).toString(),System.currentTimeMillis()))
+    private fun compatible(previous:WorkRecord?,pack:PackData):Boolean {
+        if(previous==null)return true
+        val old=JSONObject(previous.json)
+        if(old.optString("digest")==pack.digest)return false
+        require(compareContentVersion(pack.manifest.getString("version"),old.getString("version"))>0){"Misma versión con contenido distinto o retroceso de paquete"}
+        return true
+    }
+    suspend fun install(pack:PackData)=withContext(Dispatchers.IO){
+        val markerId="pack:${pack.manifest.getString("packId")}"
+        if(!compatible(store.record(markerId),pack))return@withContext
+        val created=mutableListOf<File>();val refs=mutableMapOf<String,String>();val byHash=mutableMapOf<String,String>()
+        try {
+            for(resource in pack.resources){val existing=byHash[resource.sha256]
+                val id=existing ?: PrivateFiles(context).copyFrom(ByteArrayInputStream(resource.bytes),8L*1024*1024).let {created+=it.file;byHash[resource.sha256]=it.id;it.id}
+                refs[resource.id]=id
+            }
+            val installed=pack.records.map {record->val j=JSONObject(record.json)
+                if(record.kind in setOf("catalog_project","catalog_experiment")){
+                    j.put("imageFileIds",JSONArray(WorkshopCodec.strings(j.opt("images")).map {requireNotNull(refs[it])}))
+                    val steps=j.optJSONArray("steps") ?: JSONArray();for(i in 0 until steps.length()){val s=steps.optJSONObject(i) ?: continue;s.put("imageFileIds",JSONArray(WorkshopCodec.strings(s.opt("images")).map {requireNotNull(refs[it])}))}
+                    j.put("resourceCredits",JSONArray().also {a->pack.resources.forEach {a.put(JSONObject().put("id",it.id).put("source",it.source).put("license",it.license))}})
+                }
+                record.copy(json=j.toString())
+            }
+            val bundled=WorkshopSeed(context).materials();var applied=false
+            store.editRecords {current->
+                if(!compatible(current.find {it.id==markerId},pack))emptyList()else {
+                    val definitions=installed.filter {it.kind=="catalog_material"}.map {WorkshopCodec.definition(JSONObject(it.json))}
+                    val before=bundled+current.filter {it.kind in setOf("catalog_material","user_material")}.map {WorkshopCodec.definition(JSONObject(it.json))}+definitions
+                    definitions.forEach {d->
+                        val same=before.filter {it.id==d.id};same.forEach {old->require(InventoryRules.canonical(old.name)==InventoryRules.canonical(d.name) && old.kind==d.kind && InventoryRules.convert(java.math.BigDecimal.ONE,old.unit,d.unit)!=null){"El ID de material entra en conflicto con su definición existente"}}
+                        (listOf(d.name)+d.synonyms).forEach {alias->require(before.none {it.id!=d.id && (listOf(it.name)+it.synonyms).any {name->InventoryRules.canonical(name)==InventoryRules.canonical(alias)}}){"Nombre o sinónimo ambiguo entre materiales"}}
+                    }
+                    applied=true
+                    installed+WorkRecord(markerId,"content_pack",pack.manifest.getString("packId"),JSONObject().put("version",pack.manifest.getString("version")).put("digest",pack.digest).put("resourceFileIds",JSONArray(refs.values.distinct())).toString(),System.currentTimeMillis())
+                }
+            }
+            if(!applied)created.forEach {it.delete()}
+        }catch(failure:Throwable){created.forEach {it.delete()};throw failure}
     }
 }
-private fun ByteArray.sha()=MessageDigest.getInstance("SHA-256").digest(this).joinToString(""){"%02x".format(it)}
-private fun java.io.InputStream.readBytesLimited(max:Int):ByteArray {val out=java.io.ByteArrayOutputStream();val buffer=ByteArray(8192);while(true){val n=read(buffer);if(n<0)break;require(out.size()+n<=max);out.write(buffer,0,n)};return out.toByteArray()}

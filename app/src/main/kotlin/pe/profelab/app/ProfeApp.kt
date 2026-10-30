@@ -170,7 +170,7 @@ fun ProfeApp(graph: AppGraph) {
         Box(Modifier.padding(padding).consumeWindowInsets(padding).imePadding()) {
             NavHost(navController=nav,startDestination="home") {
                 composable("home") { HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord) }
-                composable("taller") { WorkshopScreen(records,templates,workspace::save,workspace::archive,::renderWork,::capture) }
+                composable("taller") { WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture) }
                 composable("sessions") { SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
                 composable("notebook") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
                 composable("practices") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,initialSection="Prácticas") }
@@ -207,7 +207,7 @@ fun ProfeApp(graph: AppGraph) {
                 composable("record/{id}",arguments=listOf(navArgument("id"){type=NavType.StringType})){e->
                     val id=e.arguments?.getString("id");val r=records.find {it.id==id}
                     when(r?.kind){
-                        "project","experiment"->WorkshopScreen(records,templates,workspace::save,workspace::archive,::renderWork,::capture,id)
+                        "project","experiment"->WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture,id,::back)
                         "session"->SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id)
                         "note"->NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id)
                         "document"->LaunchedEffect(id){nav.popBackStack();openPdf(r)}
