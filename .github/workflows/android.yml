@@ -68,6 +68,8 @@ jobs:
           python3 scripts/verify_project.py
           python3 -m unittest discover -s scripts -p 'test_signing.py' -v
           python3 -m unittest discover -s scripts -p 'test_android_orchestration.py' -v
+          python3 scripts/check_flow_assets.py
+          python3 -m unittest discover -s scripts -p 'test_flow_assets.py' -v
 
       - name: Permitir ejecucion de Gradle
         run: chmod +x gradlew
