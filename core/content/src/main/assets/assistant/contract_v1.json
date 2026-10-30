@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "appId": "pe.profelab.app",
+  "language": "es-PE",
+  "offlineOnly": true,
+  "disclaimer": "Los textos son recursos editoriales y los botones solo se activan cuando tienen acciones reales.",
+  "contexts": [
+    "global",
+    "home",
+    "taller",
+    "sessions",
+    "notebook",
+    "library"
+  ],
+  "messages": [
+    {
+      "id": "assistant.home.hello",
+      "context": "home",
+      "text": "¡Hola! Puedo ayudarte a organizar tu día.",
+      "buttonLabel": "Ver mis tareas",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "tasks_today"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.home.workshop",
+      "context": "home",
+      "text": "¿Quieres revisar qué materiales tienes disponibles?",
+      "buttonLabel": "Abrir Taller",
+      "action": {
+        "type": "open_route",
+        "target": "taller"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.home.resume",
+      "context": "home",
+      "text": "Podemos continuar un proyecto o sesión que dejaste pendiente.",
+      "buttonLabel": "Ver mis trabajos",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "recent_work"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": true,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.taller.inventory",
+      "context": "taller",
+      "text": "Tu inventario es la base de las recomendaciones.",
+      "buttonLabel": "Gestionar materiales",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "workshop_inventory"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": true,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.taller.recommendations",
+      "context": "taller",
+      "text": "Puedes ver qué actividades permiten tus materiales actuales.",
+      "buttonLabel": "Proyectos recomendados",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "workshop_recommendations"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": true,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.taller.shopping",
+      "context": "taller",
+      "text": "Si un proyecto necesita materiales, revisa sus faltantes.",
+      "buttonLabel": "Lista de compras",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "workshop_shopping"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": true,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.taller.teacher",
+      "context": "taller",
+      "text": "Además de construirlo, puedes practicar cómo enseñarlo.",
+      "buttonLabel": "Cómo enseñarlo",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "workshop_teacher_mode"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.taller.experiments",
+      "context": "taller",
+      "text": "Antes de experimentar, revisa seguridad y materiales.",
+      "buttonLabel": "Experimentos",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "workshop_experiments"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.sessions.planning",
+      "context": "sessions",
+      "text": "Organiza el propósito, las actividades y la evaluación.",
+      "buttonLabel": "Ver sesiones",
+      "action": {
+        "type": "open_route",
+        "target": "sessions"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.sessions.links",
+      "context": "sessions",
+      "text": "Puedes conectar materiales de Taller con una sesión.",
+      "buttonLabel": "Abrir Taller",
+      "action": {
+        "type": "open_route",
+        "target": "taller"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.notebook.notes",
+      "context": "notebook",
+      "text": "Anota tus ideas y continúa cuando quieras.",
+      "buttonLabel": "Abrir Cuaderno",
+      "action": {
+        "type": "open_route",
+        "target": "notebook"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.library.browse",
+      "context": "library",
+      "text": "Tus documentos se mantienen en tu Biblioteca.",
+      "buttonLabel": "Abrir Biblioteca",
+      "action": {
+        "type": "open_route",
+        "target": "library"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.library.find",
+      "context": "library",
+      "text": "Puedes buscar un PDF por título antes de abrirlo.",
+      "buttonLabel": "Buscar PDF",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "library_search"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": true,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.library.import",
+      "context": "library",
+      "text": "Importa documentos que tengas guardados en el dispositivo.",
+      "buttonLabel": "Importar PDF",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "library_import"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.global.no_inventory",
+      "context": "global",
+      "text": "Todavía no hay suficientes materiales registrados para recomendar una actividad.",
+      "buttonLabel": "Registrar materiales",
+      "action": {
+        "type": "open_existing_handler",
+        "target": "workshop_inventory"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.global.no_projects",
+      "context": "global",
+      "text": "Todavía no hay proyectos iniciados. Puedes explorar el catálogo.",
+      "buttonLabel": "Explorar Taller",
+      "action": {
+        "type": "open_route",
+        "target": "taller"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.global.privacy",
+      "context": "global",
+      "text": "Tu nombre y tus trabajos se guardan localmente.",
+      "buttonLabel": "Ir a Perfil",
+      "action": {
+        "type": "open_route",
+        "target": "profile"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.global.progress",
+      "context": "global",
+      "text": "Cada pequeño avance cuenta. ¿Seguimos?",
+      "buttonLabel": "Volver a Inicio",
+      "action": {
+        "type": "open_route",
+        "target": "home"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    },
+    {
+      "id": "assistant.global.safety",
+      "context": "global",
+      "text": "Revisa la preparación adulta y las advertencias antes de comenzar.",
+      "buttonLabel": "Abrir Taller",
+      "action": {
+        "type": "open_route",
+        "target": "taller"
+      },
+      "condition": "user_request_or_relevant_nonintrusive_state",
+      "requiresLiveData": false,
+      "fallback": "hide_button_if_no_real_handler"
+    }
+  ],
+  "rules": {
+    "neverFabricateCounts": true,
+    "noAiOrNetwork": true,
+    "hideDuringImmersivePdf": true,
+    "neverCoverSensitiveInput": true,
+    "requireExistingHandlers": true,
+    "respectReducedMotion": true
+  }
+}
