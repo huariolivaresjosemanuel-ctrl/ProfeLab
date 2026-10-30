@@ -20,6 +20,8 @@ android {
 kotlin { jvmToolchain(17) }
 
 dependencies {
+    implementation("com.google.mlkit:text-recognition:16.0.1")
+
     implementation(libs.androidx.core)
     implementation(libs.coroutines.android)
     implementation(project(":core:model"))

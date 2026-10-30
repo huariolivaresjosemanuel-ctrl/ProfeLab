@@ -20,6 +20,8 @@ android {
 kotlin { jvmToolchain(17) }
 
 dependencies {
+    implementation(libs.androidx.activity.compose)
+
     implementation(libs.androidx.core)
     implementation(libs.coroutines.android)
     implementation(project(":core:model"))

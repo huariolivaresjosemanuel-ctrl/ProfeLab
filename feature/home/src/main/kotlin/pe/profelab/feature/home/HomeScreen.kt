@@ -16,7 +16,7 @@ import pe.profelab.core.ui.*
 @Composable
 fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (TaskFilter) -> Unit,
     openTask: (String) -> Unit, openActivity: () -> Unit, openProfile: () -> Unit,
-    complete: (Task,Boolean) -> Unit, retry: () -> Unit) {
+    complete: (Task,Boolean) -> Unit, retry: () -> Unit, openResource: (EntityRef)->Unit) {
     Page {
         if (state.loading) { CircularProgressIndicator(); return@Page }
         if (state.error != null) { ErrorNotice(state.error,retry); return@Page }
@@ -69,11 +69,11 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
             val todayTasks = HomeRules.filter(state.tasks,TaskFilter.TODAY,state.now.toLocalDate(),state.now.zone)
             if (maxWidth >= 600.dp && LocalDensity.current.fontScale < 1.5f) {
                 Row(horizontalArrangement=Arrangement.spacedBy(12.dp)) {
-                    ActivityCard(state.activity.take(4),Modifier.weight(1f),openActivity,openTask,openProfile)
+                    ActivityCard(state.activity.take(4),Modifier.weight(1f),openActivity,openResource)
                     TodayCard(todayTasks,Modifier.weight(1f),complete,openTask) { openTasks(TaskFilter.TODAY) }
                 }
             } else Column(verticalArrangement=Arrangement.spacedBy(12.dp)) {
-                ActivityCard(state.activity.take(3),Modifier,openActivity,openTask,openProfile)
+                ActivityCard(state.activity.take(3),Modifier,openActivity,openResource)
                 TodayCard(todayTasks,Modifier,complete,openTask) { openTasks(TaskFilter.TODAY) }
             }
         }
@@ -81,14 +81,14 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
 }
 
 @Composable
-private fun ActivityCard(events: List<ActivityEvent>, modifier: Modifier, all: () -> Unit, openTask: (String)->Unit, profile: ()->Unit) {
+private fun ActivityCard(events: List<ActivityEvent>, modifier: Modifier, all: () -> Unit, openResource: (EntityRef)->Unit) {
     Card(modifier.fillMaxWidth(),colors=CardDefaults.cardColors(containerColor=MaterialTheme.colorScheme.surface)) {
         Column(Modifier.padding(12.dp)) {
             Text("Actividad reciente",style=MaterialTheme.typography.titleMedium)
             TextButton(onClick=all) { Text("Ver todo") }
-            if (events.isEmpty()) Text("Aquí aparecerán tus tareas y cambios de perfil.",style=MaterialTheme.typography.bodyMedium)
+            if (events.isEmpty()) Text("Aquí aparecerán tus tareas y trabajos guardados.",style=MaterialTheme.typography.bodyMedium)
             events.forEach { event ->
-                TextButton(onClick={ if (event.target.kind==EntityKind.TASK) openTask(event.target.id) else profile() }) { Text(event.label) }
+                TextButton(onClick={openResource(event.target)}) { Text(event.label) }
             }
         }
     }

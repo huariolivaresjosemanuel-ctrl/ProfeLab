@@ -13,7 +13,7 @@ import pe.profelab.core.model.UserPreferences
 import pe.profelab.core.ui.*
 
 @Composable
-fun ProfileScreen(vm: ProfileViewModel, state: ProfileState, preferences: UserPreferences, back: ()->Unit, about: ()->Unit) {
+fun ProfileScreen(vm: ProfileViewModel, state: ProfileState, preferences: UserPreferences, back: ()->Unit, about: ()->Unit, tools: ()->Unit = {}) {
     BackHandler(enabled=!state.finished) { vm.leave() }
     LaunchedEffect(state.finished) { if(state.finished) back() }
     Page {
@@ -32,7 +32,8 @@ fun ProfileScreen(vm: ProfileViewModel, state: ProfileState, preferences: UserPr
             Text("Mostrar tareas completadas en las listas",modifier=Modifier.weight(1f))
             Switch(checked=preferences.showCompleted,onCheckedChange=vm::showCompleted)
         }
-        InfoCard("Tus datos son locales","No necesitas una cuenta. No registres nombres ni fotografías de menores en tus tareas. Si desinstalas la aplicación, se borran sus datos; el respaldo manual estará disponible en una próxima versión.")
+        InfoCard("Tus datos son locales","No necesitas una cuenta. Evita datos identificables de menores. Antes de desinstalar, exporta un respaldo y comprueba su integridad desde Datos y contenidos.")
         OutlinedButton(onClick=about) { Text("Acerca de ProfeLab y créditos") }
+        OutlinedButton(onClick=tools) { Text("Respaldo, paquetes y trabajos archivados") }
     }
 }

@@ -20,6 +20,8 @@ android {
 kotlin { jvmToolchain(17) }
 
 dependencies {
+    implementation("com.tom-roush:pdfbox-android:2.0.27.0")
+
     implementation(libs.androidx.core)
     implementation(libs.coroutines.android)
     implementation(project(":core:model"))
