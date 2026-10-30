@@ -1,0 +1,2 @@
+# Prototipo histórico (no es el diseño aprobado actual)
+Los HTML de Aula en Mano se guardan solo para no perder el trabajo anterior. Son prototipos estáticos de una propuesta anterior. **NO deben usarse como identidad final ni sobrescribir las cinco capturas autorizadas de `01_REFERENCIAS_UI`.** Codex debe implementar el aspecto de las imágenes originales ProfeLab. El contenido técnico aprobado se define en el nuevo SDD.

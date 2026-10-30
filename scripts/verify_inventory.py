@@ -14,4 +14,8 @@ for line in (ROOT/'SHA256SUMS.txt').read_text(encoding='utf-8').splitlines():
     if not target.is_file() or hashlib.sha256(target.read_bytes()).hexdigest()!=digest: errors.append(relative)
 print(f'{count-len(errors)}/{count} hashes match')
 for error in errors: print('MISMATCH',error)
+actual={p.relative_to(ROOT).as_posix() for p in ROOT.rglob('*') if p.is_file() and not any(part in {'.git','.gradle','build','__pycache__','.idea'} for part in p.relative_to(ROOT).parts) and p.name!='local.properties' and p.suffix not in {'.pyc','.apk','.aab'}}
+unexpected=actual-listed-{'SHA256SUMS.txt'}
+for path in sorted(unexpected):print('UNLISTED',path)
+errors.extend(unexpected)
 sys.exit(bool(errors))

@@ -7,6 +7,29 @@ def read(path): return (ROOT/path).read_text(encoding='utf-8')
 def rows(path): return list(csv.DictReader((ROOT/path).open(encoding='utf-8-sig',newline='')))
 
 class DeliveryChecks(unittest.TestCase):
+    def test_real_schema_one_to_two_sql_preserves_h1_rows(self):
+        schema=json.loads(read('core/database/schemas/pe.profelab.core.database.ProfeDatabase/1.json'))['database']
+        db=sqlite3.connect(':memory:')
+        for entity in schema['entities']:
+            db.execute(entity['createSql'].replace('${TABLE_NAME}',entity['tableName']))
+        db.execute("INSERT INTO profiles VALUES (1,'profile-id','Profe',6,'Instituto')")
+        db.execute("INSERT INTO tasks VALUES ('task-id','Continuidad','',123,'NORMAL',NULL,0,NULL,NULL,NULL,1,1)")
+        sql=re.search(r'db.execSQL\("(CREATE TABLE IF NOT EXISTS workspace_records[^\"]+)"\)',read('core/database/src/main/kotlin/pe/profelab/core/database/ProfeDatabase.kt')).group(1)
+        db.execute(sql)
+        self.assertEqual(('Continuidad',),db.execute("SELECT title FROM tasks WHERE id='task-id'").fetchone())
+        self.assertEqual(('Profe',6),db.execute("SELECT name,academicCycle FROM profiles").fetchone())
+        db.execute("INSERT INTO workspace_records VALUES ('project-id','project','Proyecto','{}',1,1,0)")
+        self.assertEqual(1,db.execute('SELECT count(*) FROM workspace_records').fetchone()[0]);db.close()
+
+    def test_runtime_seed_images_and_ocr_are_bundled(self):
+        seed=json.loads(read('core/content/src/main/assets/workshop/projects.json'))['projects']
+        experiments=json.loads(read('core/content/src/main/assets/workshop/experiments.json'))['projects']
+        self.assertEqual((12,8),(len(seed),len(experiments)))
+        for r in seed:self.assertTrue((ROOT/'core/content/src/main/assets/workshop/images'/ (r['id']+'.png')).is_file())
+        self.assertIn('com.google.mlkit:text-recognition:16.0.1',read('feature/ocr/build.gradle.kts'))
+        self.assertNotIn('play-services-mlkit',read('feature/ocr/build.gradle.kts'))
+        self.assertIn('version = 2',read('core/database/src/main/kotlin/pe/profelab/core/database/ProfeDatabase.kt'))
+
     def test_api26_theme_and_versioned_navigation_bar(self):
         base=ET.fromstring(read('app/src/main/res/values/themes.xml'))
         styles={s.attrib['name']:s for s in base.findall('style')}
@@ -58,11 +81,12 @@ class DeliveryChecks(unittest.TestCase):
     def test_android_manifest_is_independent_and_has_only_contextual_permission(self):
         manifest=ET.fromstring(read('app/src/main/AndroidManifest.xml'))
         ns='{http://schemas.android.com/apk/res/android}'
-        permissions={p.attrib[ns+'name'] for p in manifest.findall('uses-permission')}
-        self.assertEqual({'android.permission.POST_NOTIFICATIONS'},permissions)
+        permissions={p.attrib[ns+'name'] for p in manifest.findall('uses-permission') if p.attrib.get('{http://schemas.android.com/tools}node')!='remove'}
+        self.assertEqual({'android.permission.POST_NOTIFICATIONS','android.permission.CAMERA','android.permission.RECORD_AUDIO'},permissions)
         self.assertEqual('false',manifest.find('application').attrib[ns+'allowBackup'])
         self.assertIn('applicationId = "pe.profelab.app"',read('app/build.gradle.kts'))
-        self.assertNotIn('android.intent.action.VIEW',read('app/src/main/AndroidManifest.xml'))
+        self.assertIn('android.intent.action.VIEW',read('app/src/main/AndroidManifest.xml'))
+        self.assertIn('android.intent.action.SEND',read('app/src/main/AndroidManifest.xml'))
         for xml in (ROOT/'app/src/main/res').rglob('*.xml'): ET.parse(xml)
 
     def test_all_twelve_minedu_references_remain_without_pdf_bytes(self):
@@ -151,6 +175,7 @@ class DeliveryChecks(unittest.TestCase):
             self.assertIn(expected,workflow)
         self.assertNotIn('contents: write',workflow)
         self.assertNotIn('git push',workflow)
+        self.assertNotRegex(workflow,r'(?m)^\s+(push|pull_request|schedule|workflow_run):')
 
 if __name__=='__main__':
     suite=unittest.defaultTestLoader.loadTestsFromTestCase(DeliveryChecks)
