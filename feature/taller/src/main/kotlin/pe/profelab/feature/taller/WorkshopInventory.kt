@@ -50,6 +50,7 @@ private fun InventoryForm(record:WorkRecord,all:List<WorkRecord>,catalog:List<Ma
     BackHandler {requestBack()}
     WorkshopPage(if(record.title.isBlank())"Agregar a mi inventario"else record.title,"Cantidad y unidad reales · sin precios ficticios",::requestBack){
         item("form"){WorkshopCard("Datos del material",WorkshopColors.Mint){
+            if(data.optString("materialKind") !in MaterialKind.entries.map {it.name})Text("El tipo anterior requiere revisión. Confirma si es consumible, reutilizable o herramienta antes de registrar un consumo.",color=MaterialTheme.colorScheme.error)
             OutlinedTextField(name,{name=it.take(120);dirty=true},label={Text("Nombre")},modifier=Modifier.fillMaxWidth())
             if(name.isNotBlank())catalog.filter {(listOf(it.name)+it.synonyms).any {s->s.contains(name,true)}}.take(6).forEach {d->TextButton(onClick={name=d.name;category=d.category;unit=d.unit;kind=d.kind.label;dirty=true}){Text("Usar ${d.name}")}}
             Text("Categoría");WorkshopChoices(materialCategories,category){category=it;dirty=true}
@@ -80,15 +81,17 @@ private fun InventoryForm(record:WorkRecord,all:List<WorkRecord>,catalog:List<Ma
             },modifier=Modifier.fillMaxWidth()){Text("Revisar y guardar inventario")}
         }}
         if(all.any {it.id==record.id})item("adjust"){InventoryAdjustment(record,vm,state,dirty)}
+        if(all.any {it.id==record.id})item("pending-consumption"){PendingInventoryOperations("manual:${record.id}",all,vm)}
         item("back"){Button(onClick=::requestBack,modifier=Modifier.fillMaxWidth()){Text("Volver al inventario")}}
     }
-    candidate?.let {next->AlertDialog(onDismissRequest={candidate=null},title={Text("Confirmar existencias")},text={Text("${next.title}: ${JSONObject(next.json).optString("quantity")} ${JSONObject(next.json).optString("unit")}. Confirmas la cantidad que realmente tienes. Los ajustes quedan registrados.")},confirmButton={TextButton(onClick={dirty=false;vm.saveInventory(next,newDefinition,catalog);candidate=null}){Text("Guardar")}},dismissButton={TextButton(onClick={candidate=null}){Text("Cancelar")}})}
+    candidate?.let {next->AlertDialog(onDismissRequest={candidate=null},title={Text("Confirmar existencias")},text={Text("${next.title}: ${JSONObject(next.json).optString("quantity")} ${JSONObject(next.json).optString("unit")}. Tipo confirmado: $kind. Confirmas la cantidad que realmente tienes. Los ajustes quedan registrados.")},confirmButton={TextButton(onClick={dirty=false;vm.saveInventory(next,newDefinition,catalog);candidate=null}){Text("Guardar")}},dismissButton={TextButton(onClick={candidate=null}){Text("Cancelar")}})}
     if(leave)AlertDialog(onDismissRequest={leave=false},title={Text("Cambios del formulario sin guardar")},text={Text("Puedes seguir editando y confirmar el guardado, o descartar únicamente estos cambios del formulario.")},confirmButton={TextButton(onClick={leave=false}){Text("Seguir editando")}},dismissButton={TextButton(onClick={leave=false;back()}){Text("Descartar cambios")}})
 }
 @Composable
 private fun InventoryAdjustment(record:WorkRecord,vm:WorkshopViewModel,state:WorkshopSaveState,dirty:Boolean){
     val data=JSONObject(record.json);var amount by rememberSaveable(record.id){mutableStateOf("")};var reason by rememberSaveable(record.id){mutableStateOf("")}
     var operation by rememberSaveable(record.id){mutableStateOf("Entrada")};var error by remember {mutableStateOf<String?>(null)};var confirm by remember {mutableStateOf(false)};var undo by remember {mutableStateOf(false)}
+    var movementId by rememberSaveable(record.id){mutableStateOf(newId())}
     WorkshopCard("Ajustar existencia y trazabilidad",WorkshopColors.Paper){
         Text("Actual: ${data.optString("quantity")} ${data.optString("unit")} · reservado ${data.optString("reserved","0")}")
         if(dirty)Text("Guarda primero los cambios del formulario antes de ajustar existencias.",style=MaterialTheme.typography.bodySmall)
@@ -96,11 +99,11 @@ private fun InventoryAdjustment(record:WorkRecord,vm:WorkshopViewModel,state:Wor
         OutlinedTextField(amount,{amount=it},label={Text("Cantidad positiva del movimiento")},modifier=Modifier.fillMaxWidth())
         OutlinedTextField(reason,{reason=it},label={Text("Motivo")},modifier=Modifier.fillMaxWidth())
         error?.let {Text(it,color=MaterialTheme.colorScheme.error)}
-        Button(enabled=!dirty && state.pending==0,onClick={if(InventoryRules.decimal(amount)?.signum()!=1 || reason.isBlank())error="Indica cantidad positiva y motivo"else {error=null;confirm=true}}){Text("Revisar ajuste")}
+        Button(enabled=!dirty && state.pending==0,onClick={if(InventoryRules.decimal(amount)?.signum()!=1 || reason.isBlank())error="Indica cantidad positiva y motivo"else {error=null;movementId=newId();confirm=true}}){Text("Revisar ajuste")}
         TextButton(enabled=!dirty && state.pending==0,onClick={undo=true}){Text("Revertir último ajuste reversible")}
         val movements=data.optJSONArray("movements") ?: JSONArray()
         for(i in (movements.length()-1) downTo maxOf(0,movements.length()-20)){val event=movements.optJSONObject(i) ?: continue;Text("${event.optString("at")} · ${event.optString("reason")}\n${event.optString("before").ifBlank {"—"}} → ${event.optString("after").ifBlank {event.optString("quantity")}} ${event.optString("unit",data.optString("unit"))}",style=MaterialTheme.typography.bodySmall)}
     }
-    if(confirm)AlertDialog(onDismissRequest={confirm=false},title={Text("¿Confirmar $operation?")},text={Text("$amount ${data.optString("unit")} de ${record.title}. Los pasos de un proyecto nunca descuentan existencias por sí solos.")},confirmButton={TextButton(onClick={val q=requireNotNull(InventoryRules.decimal(amount));vm.adjustInventory(record.id,if(operation=="Entrada")q else -q,reason,operation=="Consumo");confirm=false;amount="";reason=""}){Text("Confirmar")}},dismissButton={TextButton(onClick={confirm=false}){Text("Cancelar")}})
+    if(confirm)AlertDialog(onDismissRequest={confirm=false},title={Text("¿Confirmar $operation?")},text={Text("$amount ${data.optString("unit")} de ${record.title}. Los pasos de un proyecto nunca descuentan existencias por sí solos.")},confirmButton={TextButton(onClick={val q=requireNotNull(InventoryRules.decimal(amount));vm.adjustInventory(record.id,if(operation=="Entrada")q else -q,reason,operation=="Consumo",movementId);confirm=false;amount="";reason=""}){Text("Confirmar")}},dismissButton={TextButton(onClick={confirm=false}){Text("Cancelar")}})
     if(undo)AlertDialog(onDismissRequest={undo=false},title={Text("¿Revertir el último ajuste?")},text={Text("Solo si el saldo y las reservas siguen siendo compatibles. Se añade un movimiento inverso; no se borra el historial.")},confirmButton={TextButton(onClick={vm.undoInventory(record.id);undo=false}){Text("Revertir")}},dismissButton={TextButton(onClick={undo=false}){Text("Cancelar")}})
 }

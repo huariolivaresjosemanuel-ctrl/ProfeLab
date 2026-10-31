@@ -70,13 +70,32 @@ object WorkshopCodec {
     fun inventory(rows:List<WorkRecord>,catalog:List<MaterialDefinition>,owners:Set<String> = emptySet()):List<Stock> = rows.filter {it.kind=="inventory" && !it.archived}.mapNotNull {r->
         val j=JSONObject(r.json);val quantity=InventoryRules.decimal(j.optString("quantity")) ?: return@mapNotNull null
         val reserved=InventoryRules.decimal(j.optString("reserved","0")) ?: return@mapNotNull null;val type=kind(j)
-        Stock(r.title,quantity,if(j.optString("reservationProjectId") in owners)java.math.BigDecimal.ZERO else reserved,j.optString("unit"),type==MaterialKind.TOOL,type==MaterialKind.REUSABLE,j.optString("materialId").ifBlank {resolve(r.title,catalog)?.id ?: legacyMaterialId(r.title)},InventoryRules.decimal(j.optString("contentAmount")),j.optString("contentUnit"))
+        val breakdown=j.optJSONArray("inventoryReservations")
+        val own=if(j.optInt("inventoryLedgerVersion")==1 && breakdown!=null)(0 until breakdown.length()).fold(java.math.BigDecimal.ZERO){sum,i->val hold=breakdown.optJSONObject(i);sum+if(hold?.optString("ownerId") in owners)InventoryRules.decimal(hold?.optString("quantity").orEmpty()).orZero()else java.math.BigDecimal.ZERO}else if(j.optString("reservationProjectId") in owners)reserved else java.math.BigDecimal.ZERO
+        Stock(r.title,quantity,(reserved-own).max(java.math.BigDecimal.ZERO),j.optString("unit"),type==MaterialKind.TOOL,type==MaterialKind.REUSABLE,j.optString("materialId").ifBlank {resolve(r.title,catalog)?.id ?: legacyMaterialId(r.title)},InventoryRules.decimal(j.optString("contentAmount")),j.optString("contentUnit"))
     }
+    private fun java.math.BigDecimal?.orZero()=this ?: java.math.BigDecimal.ZERO
     fun safety(data:JSONObject):SafetyStatus {
         val j=data.optJSONObject("safety") ?: JSONObject();val level=(j.optString("riskLevel")+j.optString("level")).uppercase()
         if(level.contains("PROHIBITED") || level.contains("FORBIDDEN") || j.optBoolean("notRecommended"))return SafetyStatus.FORBIDDEN
         if(!data.optBoolean("safetyReviewedByUser"))return SafetyStatus.PENDING
         return if(j.optBoolean("adultRequired") || level.contains("ADULT"))SafetyStatus.ADULT else SafetyStatus.REVIEWED
     }
-    fun assess(record:WorkRecord,rows:List<WorkRecord>,catalog:List<MaterialDefinition>)=WorkshopAssessment(InventoryRules.assess(requirements(JSONObject(record.json),catalog),inventory(rows,catalog,setOf(record.id))),safety(JSONObject(record.json)))
+    fun assess(record:WorkRecord,rows:List<WorkRecord>,catalog:List<MaterialDefinition>):WorkshopAssessment {
+        val data=JSONObject(record.json)
+        val coverage=InventoryAvailability.evaluate(requirements(data,catalog),inventory(rows,catalog,setOf(record.id))).map {c->
+            val uncertain=rows.any {r->
+                if(r.kind!="inventory" || r.archived)false else {
+                    val j=JSONObject(r.json)
+                    val id=j.optString("materialId").ifBlank {resolve(r.title,catalog)?.id ?: legacyMaterialId(r.title)}
+                    val needId=c.requirement.materialId.ifBlank {legacyMaterialId(c.requirement.name)}
+                    val quantity=InventoryRules.decimal(j.optString("quantity"));val reserved=InventoryRules.decimal(j.optString("reserved","0"))
+                    val explicitType=j.optString("materialKind") in MaterialKind.entries.map {it.name} || j.optBoolean("tool") || j.optBoolean("reusable")
+                    id==needId && (!explicitType || quantity==null || reserved==null || reserved>quantity)
+                }
+            }
+            if(uncertain)c.copy(available=null,missing=null,review="Revisa el tipo, saldo o reserva del material heredado; no se supone disponibilidad")else c
+        }
+        return WorkshopAssessment(coverage,safety(data))
+    }
 }

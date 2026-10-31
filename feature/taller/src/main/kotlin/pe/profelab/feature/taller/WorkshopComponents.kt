@@ -75,6 +75,7 @@ internal fun RequirementRow(coverage:RequirementCoverage){
         Column(Modifier.fillMaxWidth().padding(12.dp),verticalArrangement=Arrangement.spacedBy(4.dp)){
             Row(verticalAlignment=Alignment.CenterVertically){Icon(if(coverage.covered)Icons.Outlined.CheckCircle else Icons.Outlined.Info,null,Modifier.size(20.dp),tint=WorkshopColors.Green);Spacer(Modifier.width(8.dp));Text(safeMaterialText(r.name),fontWeight=FontWeight.SemiBold,modifier=Modifier.weight(1f))}
             Text("Necesitas ${displayNumber(r.quantity)} ${safeMaterialText(r.unit)} · ${when{r.tool->"Herramienta";r.reusable->"Reutilizable";else->"Consumible"}}",style=MaterialTheme.typography.bodyMedium)
+            Text(when(InventoryAvailability.state(coverage)){AvailabilityState.READY->"Disponible";AvailabilityState.PARTIAL->"Disponible parcialmente";AvailabilityState.MISSING->"Faltante";AvailabilityState.REVIEW->"Revisar existencias o unidades"},style=MaterialTheme.typography.labelLarge)
             Text(if(coverage.review.isNotBlank())coverage.review else "Disponible: ${displayNumber(coverage.available)} · Falta: ${displayNumber(coverage.missing)} ${safeMaterialText(r.unit)}",style=MaterialTheme.typography.bodySmall)
         }
     }

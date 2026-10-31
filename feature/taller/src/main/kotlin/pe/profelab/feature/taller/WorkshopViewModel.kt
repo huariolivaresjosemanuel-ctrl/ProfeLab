@@ -46,7 +46,13 @@ class WorkshopViewModel(private val store:WorkspaceStore):ViewModel(){
         val done=CompletableDeferred<Boolean>();_state.value=_state.value.copy(pending=_state.value.pending+1);queue.send("Cambios procesados" to {done.complete(_state.value.error==null && uncommitted.isEmpty())})
         return done.await()
     }
-    private fun mutate(label:String,change:(List<WorkRecord>)->List<WorkRecord>){action(label){store.editRecords(change)}}
+    val inventoryOperations get()=store as? InventoryOperationStore
+    private fun mutate(label:String,operationId:String=newId(),change:(List<WorkRecord>)->List<WorkRecord>){action(label){val ledger=inventoryOperations;if(ledger!=null)ledger.mutateInventory(operationId,change)else store.editRecords(change)}}
+    fun confirmConsumption(id:String){action("Consumo confirmado una sola vez"){requireNotNull(inventoryOperations).confirmInventoryOperation(id)}}
+    fun cancelConsumption(id:String){action("Consumo cancelado; existencias intactas"){requireNotNull(inventoryOperations).cancelInventoryOperation(id)}}
+    fun prepareConsumption(request:ConsumptionRequest){action("Consumo pendiente de tu confirmación"){requireNotNull(inventoryOperations).prepareConsumption(request)}}
+    fun reserve(runId:String,inventoryId:String,amount:String){val id=newId();action("Reserva guardada sin consumir"){requireNotNull(inventoryOperations).setInventoryReservation(id,runId,inventoryId,amount)}}
+    fun reverseConsumption(id:String){val key=newId();action("Reversión registrada"){requireNotNull(inventoryOperations).reverseInventoryOperation(key,id)}}
     fun saveInventory(record:WorkRecord,definition:MaterialDefinition?,catalog:List<MaterialDefinition> = emptyList()){mutate("Inventario guardado"){rows->
         val j=JSONObject(record.json);val q=InventoryRules.decimal(j.optString("quantity"));val r=InventoryRules.decimal(j.optString("reserved","0"))
         require(record.title.isNotBlank() && q!=null && r!=null && r<=q && j.optString("unit").isNotBlank()){"Revisa nombre, cantidades, reservas y unidad"}
@@ -59,7 +65,12 @@ class WorkshopViewModel(private val store:WorkspaceStore):ViewModel(){
         val extra=if(definition!=null)listOf(WorkRecord(definition.id,"user_material",definition.name,JSONObject().put("id",definition.id).put("name",definition.name).put("unit",definition.unit).put("category",definition.category).put("materialKind",definition.kind.name).put("synonyms",JSONArray(definition.synonyms)).toString(),System.currentTimeMillis()))else emptyList()
         listOf(record.copy(json=payload.toString(),updatedAt=System.currentTimeMillis()))+extra
     }}
-    fun adjustInventory(id:String,delta:BigDecimal,reason:String,consume:Boolean){mutate("Existencia actualizada; movimiento registrado"){rows->
+    fun adjustInventory(id:String,delta:BigDecimal,reason:String,consume:Boolean,operationId:String=newId()){
+        if(consume && inventoryOperations!=null){
+            action("Consumo real confirmado"){require(delta.signum()<0);val ledger=requireNotNull(inventoryOperations);ledger.prepareConsumption(ConsumptionRequest(operationId,"manual:$id",reason,listOf(ActualUsage(id,delta.abs().toPlainString())),false));ledger.confirmInventoryOperation(operationId)}
+            return
+        }
+        mutate("Existencia actualizada; movimiento registrado",operationId){rows->
         val row=requireNotNull(rows.find {it.id==id && !it.archived});val j=JSONObject(row.json)
         val q=requireNotNull(InventoryRules.decimal(j.optString("quantity")));val reserved=requireNotNull(InventoryRules.decimal(j.optString("reserved","0")))
         require(reason.isNotBlank() && delta.signum()!=0){"Indica una cantidad y un motivo"}
@@ -70,15 +81,21 @@ class WorkshopViewModel(private val store:WorkspaceStore):ViewModel(){
         j.put("quantity",next.toPlainString()).put("movements",JSONArray((j.optJSONArray("movements") ?: JSONArray()).toString()).put(event))
         listOf(row.copy(json=j.toString(),updatedAt=System.currentTimeMillis()))
     }}
-    fun undoInventory(id:String){mutate("Último ajuste revertido con trazabilidad"){rows->
+    fun undoInventory(id:String){
+        if(inventoryOperations!=null){val key=newId();action("Última operación revertida con trazabilidad"){val ledger=requireNotNull(inventoryOperations);val latest=ledger.latestInventoryOperation(id)
+            if(latest!=null)ledger.reverseInventoryOperation(key,latest)else store.editRecords {rows->legacyUndo(id,rows)}
+        };return}
+        mutate("Último ajuste revertido con trazabilidad"){rows->legacyUndo(id,rows)}
+    }
+    private fun legacyUndo(id:String,rows:List<WorkRecord>):List<WorkRecord>{
         val row=requireNotNull(rows.find {it.id==id && !it.archived});val j=JSONObject(row.json);val events=JSONArray((j.optJSONArray("movements") ?: JSONArray()).toString())
         require(events.length()>0){"No hay movimiento que revertir"};val last=events.getJSONObject(events.length()-1)
         require(last.optString("kind") in setOf("ADJUST","CONSUME")){"Este cambio se corrige editando el formulario; no es reversible automáticamente"}
         val before=requireNotNull(InventoryRules.decimal(last.optString("before")));val current=requireNotNull(InventoryRules.decimal(j.optString("quantity")))
         require(current.compareTo(requireNotNull(InventoryRules.decimal(last.optString("after"))))==0 && before>=requireNotNull(InventoryRules.decimal(j.optString("reserved","0")))){"El inventario cambió; corrige la cantidad manualmente"}
         events.put(JSONObject().put("id",newId()).put("at",Instant.now().toString()).put("kind","REVERSAL").put("reason","Reversión del movimiento ${last.optString("id")}").put("before",current.toPlainString()).put("after",before.toPlainString()).put("unit",j.optString("unit")))
-        listOf(row.copy(json=j.put("quantity",before.toPlainString()).put("movements",events).toString(),updatedAt=System.currentTimeMillis()))
-    }}
+        return listOf(row.copy(json=j.put("quantity",before.toPlainString()).put("movements",events).toString(),updatedAt=System.currentTimeMillis()))
+    }
     fun addShopping(project:WorkRecord,catalog:List<MaterialDefinition>){mutate("Faltantes añadidos a compras, sin duplicar el proyecto"){rows->
         val basket=shoppingRecord(rows);val j=JSONObject(basket.json);val selections=j.optJSONArray("selections") ?: JSONArray();val next=JSONArray()
         for(i in 0 until selections.length()){val s=selections.getJSONObject(i);if(s.optString("projectId")!=project.id)next.put(s)}

@@ -108,8 +108,8 @@ class BackupRoundTripTest {
             BackupTransfer(context,source,a.local).exportBackup(Uri.fromFile(exported).toString(),false)
             val entries=linkedMapOf<String,ByteArray>()
             ZipInputStream(exported.inputStream()).use {z->while(true){val e=z.nextEntry ?: break;entries[e.name]=z.readBytes()}}
-            val data=JSONObject(String(requireNotNull(entries["data.json"]),Charsets.UTF_8));data.remove("preferences");val bytes=data.toString().toByteArray();entries["data.json"]=bytes
-            val manifest=JSONObject(String(requireNotNull(entries["manifest.json"]),Charsets.UTF_8));manifest.remove("preferencesVersion");manifest.getJSONObject("sha256").put("data.json",digest(bytes));entries["manifest.json"]=manifest.toString().toByteArray()
+            val data=JSONObject(String(requireNotNull(entries["data.json"]),Charsets.UTF_8));data.remove("preferences");data.put("schema",2);listOf("inventory_operations","inventory_movements","inventory_reservations").forEach {data.remove(it)};val bytes=data.toString().toByteArray();entries["data.json"]=bytes
+            val manifest=JSONObject(String(requireNotNull(entries["manifest.json"]),Charsets.UTF_8));manifest.put("schema",2);manifest.remove("preferencesVersion");manifest.getJSONObject("sha256").put("data.json",digest(bytes));entries["manifest.json"]=manifest.toString().toByteArray()
             ZipOutputStream(legacy.outputStream()).use {z->entries.forEach {(name,value)->z.putNextEntry(ZipEntry(name));z.write(value);z.closeEntry()}}
             val transfer=BackupTransfer(context,destination,b.local);val uri=Uri.fromFile(legacy).toString();assertTrue(transfer.previewBackup(uri).contains("respaldo anterior"));transfer.restoreBackup(uri)
             val profile=LocalRepository(destination).observeProfile().first();b.local.migrateLegacyProfile(profile)

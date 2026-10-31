@@ -7,10 +7,11 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [TaskEntity::class, ProfileEntity::class, DraftEntity::class, ActivityEntity::class, WorkspaceEntity::class], version = 2, exportSchema = true)
+@Database(entities = [TaskEntity::class, ProfileEntity::class, DraftEntity::class, ActivityEntity::class, WorkspaceEntity::class, InventoryOperationEntity::class, InventoryMovementEntity::class, InventoryReservationEntity::class], version = 3, exportSchema = true)
 abstract class ProfeDatabase : RoomDatabase() {
     abstract fun dao(): ProfeDao
     abstract fun workspace(): WorkspaceDao
+    abstract fun inventory(): InventoryDao
     companion object {
         val MIGRATION_1_2=object: Migration(1,2) {
             override fun migrate(db: SupportSQLiteDatabase) {
@@ -19,6 +20,6 @@ abstract class ProfeDatabase : RoomDatabase() {
         }
         fun create(context: Context): ProfeDatabase = Room.databaseBuilder(
             context.applicationContext, ProfeDatabase::class.java, "profelab.db"
-        ).addMigrations(MIGRATION_1_2).build()
+        ).addMigrations(MIGRATION_1_2, INVENTORY_MIGRATION_2_3).build()
     }
 }

@@ -28,7 +28,10 @@ class DeliveryChecks(unittest.TestCase):
         for r in seed:self.assertTrue((ROOT/'core/content/src/main/assets/workshop/images'/ (r['id']+'.png')).is_file())
         self.assertIn('com.google.mlkit:text-recognition:16.0.1',read('feature/ocr/build.gradle.kts'))
         self.assertNotIn('play-services-mlkit',read('feature/ocr/build.gradle.kts'))
-        self.assertIn('version = 2',read('core/database/src/main/kotlin/pe/profelab/core/database/ProfeDatabase.kt'))
+        database=read('core/database/src/main/kotlin/pe/profelab/core/database/ProfeDatabase.kt')
+        self.assertIn('version = 3',database)
+        self.assertIn('addMigrations(MIGRATION_1_2, INVENTORY_MIGRATION_2_3)',database)
+        self.assertNotIn('fallbackToDestructiveMigration',database)
 
     def test_api26_theme_and_versioned_navigation_bar(self):
         base=ET.fromstring(read('app/src/main/res/values/themes.xml'))

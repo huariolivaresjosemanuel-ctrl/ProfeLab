@@ -18,6 +18,7 @@ import java.util.zip.ZipOutputStream
 
 class BackupTransfer(private val context:Context,private val db:ProfeDatabase,private val preferences:LocalPreferences=LocalPreferences(context)):LocalTransfer {
     private val tables=listOf("tasks","profiles","drafts","activity","workspace_records")
+    private fun backupTables(data:JSONObject)=tables+if(data.getInt("schema")==3)InventoryBackup.tables else emptyList()
     private var previewHash:String?=null
     private val preferencesJournal="restore:preferences:v1"
     /** Room and DataStore are separate stores. This durable journal makes a partial restore retryable. */
@@ -29,9 +30,9 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
     private fun hashFile(file:File)=file.inputStream().use {input->val digest=MessageDigest.getInstance("SHA-256");val buffer=ByteArray(65536);while(true){val n=input.read(buffer);if(n<0)break;digest.update(buffer,0,n)};digest.digest().joinToString(""){"%02x".format(it)}}
     override suspend fun exportBackup(destinationUri:String,includeFiles:Boolean)=withContext(Dispatchers.IO){
         recoverPendingPreferences()
-        val snapshot=JSONObject().put("schema",2)
+        val snapshot=JSONObject().put("schema",3)
         db.withTransaction {
-            tables.forEach {table->val rows=JSONArray();db.openHelper.writableDatabase.query("SELECT * FROM $table").use {cursor->
+            backupTables(snapshot).forEach {table->val rows=JSONArray();db.openHelper.writableDatabase.query("SELECT * FROM $table").use {cursor->
                 while(cursor.moveToNext()){val row=JSONObject();cursor.columnNames.forEachIndexed {i,name->
                     row.put(name,if(cursor.isNull(i))JSONObject.NULL else when(cursor.getType(i)){android.database.Cursor.FIELD_TYPE_INTEGER->cursor.getLong(i);android.database.Cursor.FIELD_TYPE_FLOAT->cursor.getDouble(i);else->cursor.getString(i)})
                 };rows.put(row)}
@@ -41,7 +42,7 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
         val referenced=BackupReferences.ids(snapshot);val batchReferences=BackupReferences.batchNames(snapshot)
         val data=snapshot.toString().toByteArray(Charsets.UTF_8)
         require(data.size<=20*1024*1024){"Los datos superan el límite de restauración de 20 MiB"}
-        val manifest=JSONObject().put("format","profelab-backup").put("schema",2).put("preferencesVersion",1).put("filesIncluded",includeFiles)
+        val manifest=JSONObject().put("format","profelab-backup").put("schema",3).put("preferencesVersion",1).put("filesIncluded",includeFiles)
         val hashes=JSONObject().put("data.json",hash(data))
         val files=if(includeFiles)listOf("documents","ocr-drafts").flatMap {folder->File(context.filesDir,folder).listFiles()?.filter {it.isFile && if(folder=="documents")it.name.matches(Regex("[a-zA-Z0-9-]+"))else BackupReferences.batchName(it.name)==it.name}.orEmpty()}else emptyList()
         fun archiveName(f:File)="${f.parentFile!!.name}/${f.name}"
@@ -67,11 +68,12 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
                 }
             }}
             val manifestText=File(dir,"manifest.json").readText();JsonLimits.requireBounded(manifestText)
-            val manifest=JSONObject(manifestText);require(manifest.getString("format")=="profelab-backup" && manifest.getInt("schema")==2)
+            val manifest=JSONObject(manifestText);require(manifest.getString("format")=="profelab-backup" && manifest.getInt("schema") in 2..3)
             val expected=manifest.getJSONObject("sha256");require(seen==expected.keys().asSequence().toSet()+"manifest.json")
             expected.keys().forEach {name->val f=File(dir,name);val digest=f.inputStream().use {stream->val md=MessageDigest.getInstance("SHA-256");val buffer=ByteArray(65536);while(true){val n=stream.read(buffer);if(n<0)break;md.update(buffer,0,n)};md.digest().joinToString(""){"%02x".format(it)}};require(digest==expected.getString(name)){"Checksum incorrecto"}}
             val dataText=File(dir,"data.json").readText();JsonLimits.requireBounded(dataText,maxCharacters=20*1024*1024)
-            val data=JSONObject(dataText);require(data.getInt("schema")==2);tables.forEach {data.getJSONArray(it)}
+            val data=JSONObject(dataText);require(data.getInt("schema")==manifest.getInt("schema"));backupTables(data).forEach {data.getJSONArray(it)}
+            InventoryBackup.validate(data)
             if(data.has("preferences"))preferences.validateSnapshot(data.getJSONObject("preferences"))
             BackupReferences.ids(data);BackupReferences.batchNames(data)
             dir to data
@@ -80,11 +82,12 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
     override suspend fun previewBackup(sourceUri:String):String {
         val (dir,data)=stage(sourceUri)
         try{previewHash=hash(File(dir,"manifest.json").readBytes())
+            db.withTransaction {InventoryBackup.checkConflicts(data,db)}
             val referenced=BackupReferences.ids(data).map {"documents/$it"}.toSet()+BackupReferences.batchNames(data).map {"ocr-drafts/$it"}
             val supplied=listOf("documents","ocr-drafts").flatMap {folder->File(dir,folder).listFiles()?.map {"$folder/${it.name}"}.orEmpty()}.toSet()
             val omitted=referenced-supplied
             val missing=referenced.filter {it !in supplied && !File(context.filesDir,it).isFile}
-            return tables.joinToString("\n"){"$it: ${data.getJSONArray(it).length()}"}+"\nArchivos: ${supplied.size}\nPreferencias: ${if(data.has("preferences"))"incluidas; se conservan las existentes"else "no incluidas (respaldo anterior)"}\nReferencias no incluidas en el ZIP: ${omitted.size}\nReferencias sin archivo en respaldo ni dispositivo: ${missing.size}${if(omitted.isNotEmpty())"\nEste respaldo no incluye todos los medios. Que existan en este dispositivo no permite recuperarlos después de desinstalar: exporta otro respaldo completo antes de una transición."else ""}${if(BackupReferences.unretainedOcrDrafts(data)>0)"\nBorrador OCR sin imagen privada: termina y guarda su revisión antes de cambiar de instalación. El texto se incluye; la foto temporal no está garantizada."else ""}\nLa fusión conserva las filas existentes con el mismo ID; no las reemplaza."
+            return backupTables(data).joinToString("\n"){"$it: ${data.getJSONArray(it).length()}"}+"\nArchivos: ${supplied.size}\nPreferencias: ${if(data.has("preferences"))"incluidas; se conservan las existentes"else "no incluidas (respaldo anterior)"}\nReferencias no incluidas en el ZIP: ${omitted.size}\nReferencias sin archivo en respaldo ni dispositivo: ${missing.size}${if(omitted.isNotEmpty())"\nEste respaldo no incluye todos los medios. Que existan en este dispositivo no permite recuperarlos después de desinstalar: exporta otro respaldo completo antes de una transición."else ""}${if(BackupReferences.unretainedOcrDrafts(data)>0)"\nBorrador OCR sin imagen privada: termina y guarda su revisión antes de cambiar de instalación. El texto se incluye; la foto temporal no está garantizada."else ""}\nLa fusión conserva las filas existentes con el mismo ID; no las reemplaza. Los conflictos entre stock y ledger se rechazan sin mezclar mitades."
         }finally{dir.deleteRecursively()}
     }
     override suspend fun restoreBackup(sourceUri:String)=withContext(Dispatchers.IO){
@@ -92,12 +95,13 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
         val (dir,data)=stage(sourceUri);val copied=mutableListOf<File>();var committed=false
         try {
             require(previewHash!=null && hash(File(dir,"manifest.json").readBytes())==previewHash){"El contenido cambió; vuelve a previsualizar"}
+            db.withTransaction {InventoryBackup.checkConflicts(data,db)}
             listOf("documents","ocr-drafts").flatMap {folder->File(dir,folder).listFiles().orEmpty().toList()}.forEach {f->
                 val destination=File(context.filesDir,f.parentFile!!.name).apply {mkdirs()};val target=File(destination,f.name)
                 if(target.exists())require(hashFile(target)==hashFile(f)){"Conflicto de archivo; no se sustituye"}
                 else {try{f.copyTo(target,overwrite=false);copied+=target}catch(e:Exception){target.delete();throw e}}
             }
-            db.withTransaction {tables.forEach {table->
+            db.withTransaction {InventoryBackup.checkConflicts(data,db);backupTables(data).forEach {table->
                 val allowed=db.openHelper.writableDatabase.query("SELECT * FROM $table LIMIT 0").use {it.columnNames.toSet()}
                 val rows=data.getJSONArray(table)
                 for(i in 0 until rows.length()){val row=rows.getJSONObject(i);val columns=row.keys().asSequence().toList();require(columns.toSet()==allowed)
@@ -105,6 +109,9 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
                     if(table=="profiles" && !row.isNull("academicCycle"))require(row.getInt("academicCycle") in 1..20)
                     if(table=="workspace_records"){
                         val body=row.getString("json");require(body.length<=2_000_000);val json=JSONObject(body)
+                        if(data.getInt("schema")==2 && row.getString("kind")=="inventory" && (json.has("inventoryLedgerVersion") || json.has("inventoryReservations"))){
+                            json.remove("inventoryLedgerVersion");json.remove("inventoryReservations");row.put("json",json.toString())
+                        }
                         if(row.getString("kind")=="document")require(json.getString("fileId").matches(Regex("[a-zA-Z0-9-]+")))
                         if(row.getString("kind")=="annotation"){
                             require(json.getInt("page")>=0)

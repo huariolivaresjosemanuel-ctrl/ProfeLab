@@ -38,7 +38,13 @@ class UpgradeSurvivalTest {
         val external=phase!=null
         if(external)require(Build.HARDWARE in setOf("ranchu","goldfish") || Build.FINGERPRINT.contains("generic")){"Cross-APK fixture is restricted to a dedicated emulator"}
         val name=if(external)"profelab.db"else "qa-survival-${newId()}.db"
-        val db=Room.databaseBuilder(context,ProfeDatabase::class.java,name).addMigrations(ProfeDatabase.MIGRATION_1_2).build()
+        val builder=Room.databaseBuilder(context,ProfeDatabase::class.java,name).addMigrations(ProfeDatabase.MIGRATION_1_2)
+        // The BEFORE target is the historical APK. Never link a new class into that phase.
+        if(phase!="before"){
+            val migration=Class.forName("pe.profelab.core.database.InventoryMigrationKt").getMethod("getINVENTORY_MIGRATION_2_3").invoke(null) as androidx.room.migration.Migration
+            builder.addMigrations(migration)
+        }
+        val db=builder.build()
         val ledger=File(if(external)context.filesDir else context.cacheDir,if(external)"qa-upgrade-ledger.json"else "qa-ledger-${newId()}.json")
         val workspace=WorkspaceRepository(db);val repository=LocalRepository(db);val preferences=LocalPreferences(context)
         var ownedFiles=emptyList<File>()
@@ -69,7 +75,7 @@ class UpgradeSurvivalTest {
                 if(external)preferences.setShowCompleted(true)
                 val expected=identity(context).put("lastCheckedVersion",identity(context).getLong("versionCode")).put("showCompleted",if(external)true else initialPreference)
                     .put("profileId","profile-$id").put("taskId","task-$id")
-                    .put("records",JSONArray(records.map {JSONObject().put("id",it.id).put("json",it.json).put("title",it.title)}))
+                    .put("records",JSONArray(records.map {val saved=requireNotNull(workspace.record(it.id));JSONObject().put("id",it.id).put("json",saved.json).put("title",saved.title)}))
                     .put("files",JSONArray(ownedFiles.map {JSONObject().put("id",it.name).put("sha256",hash(it.readBytes()))}))
                 ledger.writeText(expected.toString())
             }
@@ -81,7 +87,9 @@ class UpgradeSurvivalTest {
             assertEquals(expected.getBoolean("showCompleted"),preferences.preferences.first().showCompleted)
             val records=expected.getJSONArray("records");for(i in 0 until records.length()){val r=records.getJSONObject(i);val actual=requireNotNull(workspace.record(r.getString("id")));assertEquals(r.getString("json"),actual.json);assertEquals(r.getString("title"),actual.title)}
             val files=expected.getJSONArray("files");for(i in 0 until files.length()){val f=files.getJSONObject(i);assertEquals(f.getString("sha256"),hash(File(context.filesDir,"documents/${f.getString("id")}").readBytes()))}
-            assertEquals(2,db.openHelper.writableDatabase.version)
+            assertEquals(if(phase=="before")2 else 3,db.openHelper.writableDatabase.version)
+            val stock=workspace.observeRecords().first().single {it.kind=="inventory"}
+            assertEquals("7",JSONObject(stock.json).getString("quantity"));assertEquals("2",JSONObject(stock.json).getString("reserved"))
             if(phase=="after"){expected.put("lastCheckedVersion",current.getLong("versionCode"));ledger.writeText(expected.toString())}
         }finally{db.close();if(!external){context.deleteDatabase(name);ledger.delete();ownedFiles.forEach {it.delete()}}}
     }

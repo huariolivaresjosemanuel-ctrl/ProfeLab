@@ -42,17 +42,17 @@ class MigrationTest {
         }).build())
         try {
             helper.writableDatabase;helper.close()
-            var current=Room.databaseBuilder(context,ProfeDatabase::class.java,name).addMigrations(ProfeDatabase.MIGRATION_1_2).build()
+            var current=Room.databaseBuilder(context,ProfeDatabase::class.java,name).addMigrations(ProfeDatabase.MIGRATION_1_2,INVENTORY_MIGRATION_2_3).build()
             try {
                 // Opening invokes Room's complete entity/index schema validation after the real migration.
-                assertEquals(2,current.openHelper.writableDatabase.version)
+                assertEquals(3,current.openHelper.writableDatabase.version)
                 assertEquals("Conservar tarea",LocalRepository(current).findTask("old-task")?.title)
                 assertEquals("Nombre previo",LocalRepository(current).observeProfile().first()?.name)
                 assertNotNull(current.dao().draft("old-draft"))
                 assertEquals("Actividad previa",current.dao().observeActivity().first().single().label)
                 WorkspaceRepository(current).saveRecord(WorkRecord("new-work","project","Nuevo trabajo","{}",2))
             }finally{current.close()}
-            current=Room.databaseBuilder(context,ProfeDatabase::class.java,name).addMigrations(ProfeDatabase.MIGRATION_1_2).build()
+            current=Room.databaseBuilder(context,ProfeDatabase::class.java,name).addMigrations(ProfeDatabase.MIGRATION_1_2,INVENTORY_MIGRATION_2_3).build()
             try {assertNotNull(LocalRepository(current).findTask("old-task"));assertEquals("Nuevo trabajo",WorkspaceRepository(current).record("new-work")?.title)}finally{current.close()}
         }finally{helper.close();context.deleteDatabase(name)}
     }
