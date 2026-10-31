@@ -34,8 +34,7 @@ class MainScreensCaptureTest {
                     if(runBlocking {graph.repository.observeProfile().first()}!=null)compose.waitUntil(15_000){runBlocking {graph.preferences.preferences.first().onboardingCompleted}}
                 }
                 "taller"->{
-                    compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-open:mat-001").fetchSemanticsNodes().isNotEmpty()}
-                    compose.waitUntil(15_000){compose.onAllNodesWithContentDescription("Ilustración conceptual original; no foto del procedimiento").fetchSemanticsNodes().isNotEmpty()}
+                    compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-sector:taller").fetchSemanticsNodes().isNotEmpty()}
                 }
                 else->compose.waitUntil(15_000){compose.onAllNodesWithTag("section-$title").fetchSemanticsNodes().isNotEmpty()}
             }

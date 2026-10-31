@@ -83,7 +83,12 @@ object WorkshopCodec {
     }
     fun assess(record:WorkRecord,rows:List<WorkRecord>,catalog:List<MaterialDefinition>):WorkshopAssessment {
         val data=JSONObject(record.json)
-        val coverage=InventoryAvailability.evaluate(requirements(data,catalog),inventory(rows,catalog,setOf(record.id))).map {c->
+        return WorkshopAssessment(coverage(requirements(data,catalog),rows,catalog,setOf(record.id)),safety(data))
+    }
+    fun coverage(needs:List<Supply>,rows:List<WorkRecord>,catalog:List<MaterialDefinition>,owners:Set<String> = emptySet(),shopping:Boolean=false):List<RequirementCoverage> {
+        val stocks=inventory(rows,catalog,owners)
+        val base=if(shopping)InventoryRules.assess(needs,stocks)else InventoryAvailability.evaluate(needs,stocks)
+        return base.map {c->
             val uncertain=rows.any {r->
                 if(r.kind!="inventory" || r.archived)false else {
                     val j=JSONObject(r.json)
@@ -94,8 +99,8 @@ object WorkshopCodec {
                     id==needId && (!explicitType || quantity==null || reserved==null || reserved>quantity)
                 }
             }
-            if(uncertain)c.copy(available=null,missing=null,review="Revisa el tipo, saldo o reserva del material heredado; no se supone disponibilidad")else c
+            if(uncertain)c.copy(available=null,missing=null,review="Revisa el tipo, saldo o reserva del material heredado; no se supone disponibilidad")
+            else if(shopping && stocks.isEmpty() && c.review.isBlank())c.copy(review="No constan existencias: se indica la cantidad total necesaria, no un faltante verificado. Confírmala antes de comprar.")else c
         }
-        return WorkshopAssessment(coverage,safety(data))
     }
 }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import pe.profelab.core.content.WorkshopCodec
+import pe.profelab.core.content.WorkshopFlowAdapter
 import pe.profelab.core.model.*
 import java.math.BigDecimal
 import java.time.Instant
@@ -47,6 +48,12 @@ class WorkshopViewModel(private val store:WorkspaceStore):ViewModel(){
         return done.await()
     }
     val inventoryOperations get()=store as? InventoryOperationStore
+    fun visitStep(record:WorkRecord,id:String){val latest=current(record);save(latest.copy(json=WorkshopFlowAdapter.visit(latest,id).toString()))}
+    fun completeStep(record:WorkRecord,id:String,done:Boolean){val latest=current(record);save(latest.copy(json=WorkshopFlowAdapter.mark(latest,id,done).toString()))}
+    fun stepNote(record:WorkRecord,id:String,note:String){patch(record){j->
+        val view=WorkshopFlowAdapter.read(record.copy(json=j.toString()));require(view.personal)
+        val index=view.steps.indexOfFirst {it.id==id};require(index>=0);val steps=j.getJSONArray("steps");val step=steps.optJSONObject(index) ?: JSONObject().put("title",steps.optString(index));steps.put(index,JSONObject(step.toString()).put("id",id).put("notes",note));j.put("steps",steps)
+    }}
     private fun mutate(label:String,operationId:String=newId(),change:(List<WorkRecord>)->List<WorkRecord>){action(label){val ledger=inventoryOperations;if(ledger!=null)ledger.mutateInventory(operationId,change)else store.editRecords(change)}}
     fun confirmConsumption(id:String){action("Consumo confirmado una sola vez"){requireNotNull(inventoryOperations).confirmInventoryOperation(id)}}
     fun cancelConsumption(id:String){action("Consumo cancelado; existencias intactas"){requireNotNull(inventoryOperations).cancelInventoryOperation(id)}}

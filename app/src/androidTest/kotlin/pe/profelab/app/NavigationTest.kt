@@ -15,7 +15,7 @@ class NavigationTest {
 
     @Test fun allFiveTabsReachRealDestinations() {
         compose.onNodeWithTag("nav_taller").performClick()
-        compose.onNodeWithText("Mi taller").assertIsDisplayed()
+        compose.onNodeWithText("Mi Taller").assertIsDisplayed()
         compose.onNodeWithTag("nav_sessions").performClick()
         compose.onNodeWithText("Nueva sesión").assertIsDisplayed()
         compose.onNodeWithTag("nav_notebook").performClick()

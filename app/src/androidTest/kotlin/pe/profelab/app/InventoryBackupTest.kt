@@ -62,6 +62,15 @@ class InventoryBackupTest {
             target.confirmInventoryOperation("confirmed-usage");target.confirmInventoryOperation("confirmed-usage");assertEquals("6",JSONObject(requireNotNull(target.record("stock")).json).getString("quantity"))
         }finally{a.close();b.close();p.close();q.close();file.delete()}
     }
+    @Test fun flowProgressAndTeacherReflectionRemainInsideTheSameBackup():Unit=runBlocking {
+        val a=database();val b=database();val p=Prefs(context);val q=Prefs(context);val file=archive()
+        try {
+            val source=seed(a);val run=requireNotNull(source.record("run"));val body=JSONObject(run.json).put("workshopFlow",JSONObject().put("version",1).put("lastVisitedStepId","step-stable").put("teacherReflection","Conservar reflexión").put("observedCriterionIds",JSONArray(listOf("criterion-stable"))));source.saveRecord(run.copy(json=body.toString()))
+            BackupTransfer(context,a,p.local).exportBackup(Uri.fromFile(file).toString(),false)
+            val transfer=BackupTransfer(context,b,q.local);val uri=Uri.fromFile(file).toString();transfer.previewBackup(uri);transfer.restoreBackup(uri)
+            assertEquals(body.toString(),WorkspaceRepository(b).record("run")?.json);assertEquals("PREPARED",b.inventory().operation("confirmed-usage")?.status);assertEquals("14",JSONObject(requireNotNull(WorkspaceRepository(b).record("stock")).json).getString("quantity"))
+        }finally{a.close();b.close();p.close();q.close();file.delete()}
+    }
     @Test fun localStockConflictRejectsTheWholeRestoreBeforeUnrelatedRowsChange():Unit=runBlocking {
         val a=database();val b=database();val p=Prefs(context);val q=Prefs(context);val file=archive()
         try {

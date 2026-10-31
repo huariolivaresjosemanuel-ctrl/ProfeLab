@@ -128,7 +128,7 @@ internal fun WorkshopGuide(record:WorkRecord,all:List<WorkRecord>,catalog:List<M
 }
 
 @Composable
-private fun AcademicBlocks(j:JSONObject){
+internal fun AcademicBlocks(j:JSONObject){
     val academic=j.optJSONObject("pedagogy")?.optJSONObject("academic")
     WorkshopCard("Fundamentación académica",WorkshopColors.Lavender){
         Text("Área y grado sugeridos");ProjectMetadata(j)

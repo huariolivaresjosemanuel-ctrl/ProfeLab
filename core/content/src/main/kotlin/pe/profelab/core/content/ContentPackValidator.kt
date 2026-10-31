@@ -60,8 +60,9 @@ internal object ContentPackValidator {
                 val order=WorkshopCodec.strings(data.opt("sectionOrder"));require(order.size<=12 && order.all {it in WorkshopCodec.blocks})
                 layouts+=id;data.put("id",key)
             }else {
+                WorkshopFlowAdapter.validateExtension(data)
                 // Imported definitions cannot impersonate personal work or reference private evidence.
-                listOf("attachments","records","imageFileIds","imageMetadataByFileId","resourceFileIds","links","citations","selectedAlternatives","originImageId","forkedFromTemplateId","duplicatedFromId","exportImages","results","analysis","conclusion").forEach {data.remove(it)}
+                listOf("attachments","records","imageFileIds","imageMetadataByFileId","resourceFileIds","links","citations","selectedAlternatives","originImageId","forkedFromTemplateId","duplicatedFromId","exportImages","results","analysis","conclusion","workshopFlow","classroomAssociation","studentId","groupId").forEach {data.remove(it)}
                 if(data.has("teacherGuide"))TeacherGuides.validate(data.getJSONObject("teacherGuide"))
                 if(data.has("contentVersion"))contentVersion(data.getString("contentVersion"))
                 val category=data.optString("categoryId",if(type=="experiment")"experiment"else "didactic")

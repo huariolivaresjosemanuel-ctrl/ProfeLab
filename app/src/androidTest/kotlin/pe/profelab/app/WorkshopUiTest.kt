@@ -27,17 +27,14 @@ class WorkshopUiTest {
         }
     }
     private fun guide(){
-        compose.onNodeWithTag("nav_taller").performClick()
-        compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-open:mat-001").fetchSemanticsNodes().isNotEmpty()}
-        compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-open:mat-001"))
-        compose.onNodeWithTag("workshop-open:mat-001").performClick()
-        compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-guide:mat-001").fetchSemanticsNodes().isNotEmpty()}
+        compose.openWorkshopDefinition()
     }
     @Test fun catalogGuideHasStructuredMaterialsAndThreeModes(){
         guide()
-        compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Materiales y herramientas"))
+        compose.workshopAction("workshop-to-materials")
         compose.onNodeWithText("Materiales y herramientas").assertIsDisplayed()
         compose.onAllNodes(hasText("|",substring=true)).assertCountEquals(0)
+        compose.workshopAction("workshop-materials-next")
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Docente"))
         compose.onNodeWithText("Docente").performClick()
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Docente · Cómo enseñarlo"))
@@ -51,31 +48,31 @@ class WorkshopUiTest {
         val store=ApplicationProvider.getApplicationContext<ProfeApplication>().graph.workspace
         val before=runBlocking {store.observeRecords().first().map {it.id}.toSet()}
         guide()
-        compose.onNodeWithText("Comenzar mi proyecto").performScrollTo().performClick()
-        compose.waitUntil(15_000){compose.onAllNodesWithText("Editar mi proyecto").fetchSemanticsNodes().isNotEmpty()}
+        compose.workshopAction("workshop-begin")
+        compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-materials").fetchSemanticsNodes().isNotEmpty()}
+        compose.workshopAction("workshop-materials-next")
+        compose.workshopAction("workshop-purpose-next")
         compose.onNodeWithTag("workshop-page").performScrollToKey("steps")
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-step-0"))
         compose.onNodeWithTag("workshop-step-0").performClick()
         compose.waitForIdle()
-        // Dispatch on the Activity's UI thread so Compose BackHandler flushes the Room save queue.
-        compose.activityRule.scenario.onActivity { activity ->
-            activity.onBackPressedDispatcher.onBackPressed()
+        // Every BackHandler waits for the same Room save queue before popping one window.
+        repeat(5){
+            val old=compose.onNodeWithTag("workshop-page").fetchSemanticsNode().id
+            compose.activityRule.scenario.onActivity {it.onBackPressedDispatcher.onBackPressed()}
+            compose.waitUntil(15000){compose.onNodeWithTag("workshop-page").fetchSemanticsNode().id!=old}
         }
-        // The saved catalog scroll can keep its title outside LazyColumn composition.
-        // Observe the screen itself, then scroll explicitly to the control under test.
         compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-catalog").fetchSemanticsNodes().isNotEmpty()}
         val created=runBlocking {store.observeRecords().first().single {it.kind=="project" && it.id !in before}}
         assertTrue(JSONObject(created.json).getJSONArray("steps").getJSONObject(0).getBoolean("done"))
         compose.activityRule.scenario.recreate()
-        compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-sections"))
-        compose.onNodeWithTag("workshop-sections").performScrollToNode(hasText("Mis ideas"))
-        compose.onNodeWithText("Mis ideas").performClick()
+        compose.workshopAction("workshop-sector:ideas")
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Continuar creando"))
         compose.onNodeWithText("Continuar creando").assertIsDisplayed()
         // Activate the explicit open button, rather than a card center shared with nested controls.
-        compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-open-card:${created.id}"))
-        compose.onNodeWithTag("workshop-open-card:${created.id}").assertIsDisplayed().performClick()
+        compose.workshopAction("workshop-open:${created.id}")
         compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-guide:${created.id}").fetchSemanticsNodes().isNotEmpty()}
+        compose.workshopAction("workshop-begin")
         compose.onNodeWithTag("workshop-page").performScrollToKey("steps")
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-step-0"))
         compose.onNodeWithTag("workshop-step-0").assertIsOn()

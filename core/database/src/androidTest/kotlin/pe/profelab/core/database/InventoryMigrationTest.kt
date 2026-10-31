@@ -10,6 +10,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.flow.first
 import org.json.JSONObject
+import org.json.JSONArray
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +26,7 @@ class InventoryMigrationTest {
         val helper=FrameworkSQLiteOpenHelperFactory().create(SupportSQLiteOpenHelper.Configuration.builder(context).name(name).callback(object:SupportSQLiteOpenHelper.Callback(2){
             override fun onCreate(db:SupportSQLiteDatabase){
                 val entities=schema.getJSONArray("entities")
-                for(i in 0 until entities.length()){val e=entities.getJSONObject(i);val table=e.getString("tableName");db.execSQL(e.getString("createSql").replace("\${TABLE_NAME}",table));val indices=e.getJSONArray("indices");for(n in 0 until indices.length())db.execSQL(indices.getJSONObject(n).getString("createSql").replace("\${TABLE_NAME}",table))}
+                for(i in 0 until entities.length()){val e=entities.getJSONObject(i);val table=e.getString("tableName");db.execSQL(e.getString("createSql").replace("\${TABLE_NAME}",table));val indices=e.optJSONArray("indices") ?: JSONArray();for(n in 0 until indices.length())db.execSQL(indices.getJSONObject(n).getString("createSql").replace("\${TABLE_NAME}",table))}
                 db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");db.execSQL("INSERT OR REPLACE INTO room_master_table VALUES (42,?)",arrayOf(schema.getString("identityHash")))
                 db.execSQL("INSERT INTO workspace_records VALUES ('stock','inventory','Ligas',?,7,9,0)",arrayOf(oldJson))
                 db.execSQL("INSERT INTO workspace_records VALUES ('run','project','Mi creación',?,3,4,0)",arrayOf(projectJson))

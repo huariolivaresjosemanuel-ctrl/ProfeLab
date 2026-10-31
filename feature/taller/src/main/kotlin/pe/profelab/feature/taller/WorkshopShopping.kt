@@ -37,6 +37,10 @@ internal fun WorkshopShopping(all:List<WorkRecord>,catalog:List<MaterialDefiniti
             Button(enabled=line.key in checked && state.pending==0,onClick={confirm=line;quantity=line.amount;receiptId=newId();error=null},modifier=Modifier.fillMaxWidth()){Text("Revisar incorporación al inventario")}
         }}
         item("privacy"){Text("Marcar Adquirido no cambia existencias. Revisa la cantidad real y confirma su incorporación; lista e inventario se guardan en una misma transacción.",style=MaterialTheme.typography.bodySmall)}
+        item("share"){WorkshopCard("Copiar o compartir mi lista",WorkshopColors.Paper){
+            val text="ProfeLab | Lista de compras\n"+lines.joinToString("\n"){"• ${it.supply.name} — ${it.amount.ifBlank {"por revisar"}} ${it.supply.unit}"}+"\nVerifica cantidades y unidades antes de comprar."
+            androidx.compose.foundation.text.selection.SelectionContainer {Text(text)};ShoppingShareButtons(text)
+        }}
         val receipts=data.optJSONArray("receipts") ?: JSONArray()
         if(receipts.length()>0)item("receipts"){WorkshopCard("Compras incorporadas",WorkshopColors.Paper){for(i in receipts.length()-1 downTo maxOf(0,receipts.length()-20)){val receipt=receipts.getJSONObject(i);Text("${receipt.optString("at")}\n${receipt.optString("name")}: ${receipt.optString("quantity")} ${receipt.optString("unit")}",style=MaterialTheme.typography.bodySmall)}}}
         val legacy=all.filter {it.kind=="shopping" && !it.archived}

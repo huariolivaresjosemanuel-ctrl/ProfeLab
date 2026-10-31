@@ -58,15 +58,15 @@ internal fun installedWorkshopImage(data:JSONObject,id:String):WorkshopImage {
     return WorkshopImage(id,label=listOf(alt,metadata?.optString("caption").orEmpty()).filter {it.isNotBlank()}.joinToString(" · "))
 }
 @Composable
-internal fun WorkshopPicture(ref:WorkshopImage?,modifier:Modifier=Modifier,large:Boolean=false,missingMessage:String="Sin imagen disponible"){
+internal fun WorkshopPicture(ref:WorkshopImage?,modifier:Modifier=Modifier,large:Boolean=false,missingMessage:String="Sin imagen disponible",crop:Boolean=false){
     val context=LocalContext.current;var expanded by remember {mutableStateOf(false)};var retry by remember {mutableIntStateOf(0)}
     val loaded by produceState(PictureState(loading=ref!=null),ref,large,retry){
         value=PictureState(withContext(Dispatchers.IO){ref?.let {loadWorkshopBitmap(context,it,if(large)1200 else 400)}},false)
     }
     val bitmap=loaded.bitmap
-    Surface(modifier,color=WorkshopColors.Paper,shape=MaterialTheme.shapes.medium){
+    Surface(modifier,color=WorkshopColors.Paper,shape=androidx.compose.foundation.shape.RoundedCornerShape(if(large)24.dp else 14.dp)){
         val b=bitmap
-        if(b!=null)Image(b.asImageBitmap(),ref?.label ?: "Imagen del proyecto",Modifier.fillMaxSize().clickable {expanded=true},contentScale=ContentScale.Fit)
+        if(b!=null)Image(b.asImageBitmap(),ref?.label ?: "Imagen del proyecto",Modifier.fillMaxSize().clickable {expanded=true},contentScale=if(crop)ContentScale.Crop else ContentScale.Fit)
         else if(loaded.loading)CircularProgressIndicator(Modifier.padding(20.dp))
         else Column(Modifier.padding(12.dp)){Icon(Icons.Outlined.Image,null);Text(if(ref==null)missingMessage else "Imagen no disponible",style=MaterialTheme.typography.bodySmall);if(ref!=null)TextButton(onClick={retry++}){Text("Reintentar")}}
     }

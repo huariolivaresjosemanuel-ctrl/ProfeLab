@@ -19,7 +19,7 @@ fun shoppingLines(basket:JSONObject,rows:List<WorkRecord>,catalog:List<MaterialD
     }
     val excluded=WorkshopCodec.strings(basket.opt("excluded")).toSet();val stocked=WorkshopCodec.strings(basket.opt("stocked")).toSet()
     val overrides=basket.optJSONObject("overrides") ?: JSONObject()
-    val calculated=InventoryRules.assess(requirements,WorkshopCodec.inventory(rows,catalog,owners)).filterNot {it.covered}.map {c->
+    val calculated=WorkshopCodec.coverage(requirements,rows,catalog,owners,shopping=true).filterNot {it.covered}.map {c->
         val key=shoppingKey(c.requirement);ShoppingLine(key,c.requirement,overrides.optString(key,c.missing?.toPlainString().orEmpty()),c.review)
     }.filter {it.key !in excluded}
     val manual=basket.optJSONArray("manual") ?: JSONArray()
