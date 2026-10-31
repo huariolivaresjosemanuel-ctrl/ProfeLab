@@ -23,10 +23,14 @@ class AssistantNavigationTest {
     @Test fun assistantTeacherActionOpensExistingTeachingMode(){
         compose.onNodeWithTag("nav_taller").performClick()
         compose.waitUntil(15000){compose.onAllNodesWithTag("workshop-open:mat-001").fetchSemanticsNodes().isNotEmpty()}
-        compose.onNodeWithTag("workshop-open:mat-001").performClick()
+        compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-open:mat-001"))
+        compose.onNodeWithTag("workshop-open:mat-001").assertIsDisplayed().performClick()
+        compose.waitUntil(15000){compose.onAllNodesWithTag("workshop-guide:mat-001").fetchSemanticsNodes().isNotEmpty()}
         compose.onNodeWithTag("assistant-open").performClick()
+        compose.waitUntil(15000){compose.onAllNodesWithTag("assistant.taller.teacher").fetchSemanticsNodes().isNotEmpty()}
         compose.onNodeWithTag("assistant.taller.teacher").performScrollTo().performClick()
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Docente · Cómo enseñarlo"))
         compose.onNodeWithText("Docente · Cómo enseñarlo").assertExists()
+        compose.onNodeWithTag("workshop-guide:mat-001").assertExists()
     }
 }

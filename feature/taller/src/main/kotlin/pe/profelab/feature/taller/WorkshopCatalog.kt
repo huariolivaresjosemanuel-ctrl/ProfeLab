@@ -123,6 +123,6 @@ private fun ProjectSmallCard(r:WorkRecord,a:WorkshopAssessment,favorite:Boolean,
     Card(onClick=open,colors=CardDefaults.cardColors(containerColor=WorkshopColors.Paper),shape=MaterialTheme.shapes.large,modifier=Modifier.testTag("workshop-card:${r.id}")){Column(Modifier.padding(12.dp),verticalArrangement=Arrangement.spacedBy(8.dp)){
         WorkshopPicture(projectImages(r).firstOrNull(),Modifier.fillMaxWidth().aspectRatio(1.3f),missingMessage=JSONObject(r.json).optString("imageMissingDescription","Sin imagen disponible"))
         Text(r.title.ifBlank {"Borrador sin título"},fontWeight=FontWeight.SemiBold);ProjectMetadata(JSONObject(r.json));CoverageBadge(a)
-        Row(verticalAlignment=Alignment.CenterVertically){TextButton(onClick=open,modifier=Modifier.weight(1f)){Text("Ver guía")};IconButton(onClick=toggle){Icon(if(favorite)Icons.Outlined.BookmarkAdded else Icons.Outlined.BookmarkBorder,"Alternar favorito")}}
+        Row(verticalAlignment=Alignment.CenterVertically){TextButton(onClick=open,modifier=Modifier.weight(1f).testTag("workshop-open-card:${r.id}")){Text("Ver guía")};IconButton(onClick=toggle){Icon(if(favorite)Icons.Outlined.BookmarkAdded else Icons.Outlined.BookmarkBorder,"Alternar favorito")}}
     }}
 }

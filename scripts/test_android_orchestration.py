@@ -1,10 +1,10 @@
 """Exercise shell status propagation with stub executables; never run adb, Gradle or a real emulator."""
 from pathlib import Path
-import os,shutil,subprocess,tempfile,unittest
+import io,os,shutil,subprocess,tarfile,tempfile,unittest
 from normalize_shell_sources import canonical_shell_bytes
 
 class AndroidOrchestrationTest(unittest.TestCase):
-    def scenario(self,upgrade,gradle,source_bytes=None):
+    def scenario(self,upgrade,gradle,source_bytes=None,capture_bytes=None,expected_capture=None):
         bash=shutil.which('bash') or ('C:/Program Files/Git/bin/bash.exe' if Path('C:/Program Files/Git/bin/bash.exe').is_file() else None)
         self.assertIsNotNone(bash,'Bash required for this shell-only test')
         with tempfile.TemporaryDirectory(prefix='profelab-shell-',dir=os.environ.get('PROFELAB_TEST_TEMP')) as temp:
@@ -14,7 +14,8 @@ class AndroidOrchestrationTest(unittest.TestCase):
             (root/'scripts/check_android_upgrade.sh').write_bytes(f'#!/usr/bin/env bash\nexit {upgrade}\n'.encode('utf-8'))
             (root/'gradlew').write_bytes(f'#!/usr/bin/env bash\nprintf called > gradle-called\nexit {gradle}\n'.encode('utf-8'))
             (root/'gradlew').chmod(0o755)
-            (root/'bin/adb').write_bytes(b'#!/usr/bin/env bash\nexit 1\n');(root/'bin/adb').chmod(0o755)
+            if capture_bytes is not None:(root/'capture.tar').write_bytes(capture_bytes)
+            (root/'bin/adb').write_bytes(b'#!/usr/bin/env bash\ncat capture.tar\n' if capture_bytes is not None else b'#!/usr/bin/env bash\nexit 1\n');(root/'bin/adb').chmod(0o755)
             for script in [root/'run.sh',root/'scripts/check_android_upgrade.sh',root/'gradlew',root/'bin/adb']:
                 self.assertNotIn(b'\r',script.read_bytes())
             posix=root.as_posix()
@@ -22,6 +23,7 @@ class AndroidOrchestrationTest(unittest.TestCase):
             env=dict(os.environ,PATH=posix+'/bin:/usr/bin:/bin',GITHUB_ACTIONS='true')
             for name in ['BASH_ENV','ENV','SHELLOPTS','BASHOPTS']:env.pop(name,None)
             result=subprocess.run([bash,'--noprofile','--norc','run.sh'],cwd=root,env=env,capture_output=True,text=True)
+            if expected_capture is not None:self.assertEqual(expected_capture,(root/'app/build/reports/androidTests/visual/main-screens/probe.txt').read_bytes())
             return result.returncode,(root/'gradle-called').exists(),result.stdout+result.stderr
     def test_upgrade_failure_keeps_code_and_skips_gradle(self):
         code,called,log=self.scenario(7,0);self.assertEqual(7,code,log);self.assertFalse(called)
@@ -36,5 +38,16 @@ class AndroidOrchestrationTest(unittest.TestCase):
             with self.subTest(upgrade=upgrade,gradle=gradle):
                 code,called,log=self.scenario(upgrade,gradle,source)
                 self.assertEqual(expected,code,log);self.assertEqual(called_expected,called)
+
+    def test_success_recovers_valid_capture_archive(self):
+        content=b'QA archive fixture; not an Android screenshot\n';buffer=io.BytesIO()
+        with tarfile.open(fileobj=buffer,mode='w') as archive:
+            info=tarfile.TarInfo('visual/main-screens/probe.txt');info.size=len(content);archive.addfile(info,io.BytesIO(content))
+        code,called,log=self.scenario(0,0,capture_bytes=buffer.getvalue(),expected_capture=content)
+        self.assertEqual(0,code,log);self.assertTrue(called);self.assertNotIn('No screenshots',log)
+
+    def test_invalid_archive_does_not_replace_gradle_failure(self):
+        code,called,log=self.scenario(0,9,capture_bytes=b'run-as: package not available\n')
+        self.assertEqual(9,code,log);self.assertTrue(called);self.assertIn('No screenshots',log)
 
 if __name__=='__main__':unittest.main()

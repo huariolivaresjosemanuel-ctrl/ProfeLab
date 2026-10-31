@@ -23,7 +23,8 @@ class MainScreensCaptureTest {
     @Before fun enterExistingApp(){compose.dismissWelcomeIfPresent()}
     @Test fun captureTheFiveApprovedRootSections(){
         val graph=ApplicationProvider.getApplicationContext<ProfeApplication>().graph
-        val output=qaCaptureDirectory()
+        // Welcome/assistant/video suites keep their own evidence in the parent directory.
+        val output=qaCaptureDirectory("main-screens")
         val sections=listOf(Triple("home","01_INICIO","Tu avance esta semana"),Triple("taller","02_TALLER",""),Triple("sessions","03_SESIONES","Sesiones"),Triple("notebook","04_CUADERNO","Cuaderno"),Triple("library","05_BIBLIOTECA","Biblioteca"))
         for((route,name,title) in sections){
             compose.onNodeWithTag("nav_$route").performClick()
@@ -43,6 +44,10 @@ class MainScreensCaptureTest {
             assertTrue(bitmap.width>0 && bitmap.height>0)
             File(output,"$name.png").outputStream().use {assertTrue(bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,it))}
         }
-        assertEquals(5,output.listFiles {f->f.extension=="png"}?.size)
+        val expected=sections.map {it.second+".png"}.toSet()
+        val actual=output.listFiles {f->f.extension=="png"}.orEmpty()
+        assertEquals(5,actual.size)
+        assertEquals(expected,actual.map {it.name}.toSet())
+        actual.forEach {assertTrue("Captura vacía: ${it.name}",it.length()>0)}
     }
 }

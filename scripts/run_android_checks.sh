@@ -5,11 +5,12 @@ set -uo pipefail
 status=0
 bash scripts/check_android_upgrade.sh || status=$?
 if [ "$status" -eq 0 ]; then
-  PROFELAB_VERSION_CODE=6 ./gradlew --no-daemon --stacktrace --continue :core:database:connectedDebugAndroidTest :app:connectedDebugAndroidTest || status=$?
+  # Retain the debug target only on this disposable CI emulator so run-as can recover QA files.
+  PROFELAB_VERSION_CODE=6 ./gradlew --no-daemon --stacktrace --continue -Pandroid.injected.androidTest.leaveApksInstalledAfterRun=true :core:database:connectedDebugAndroidTest :app:connectedDebugAndroidTest || status=$?
 fi
 mkdir -p app/build/reports/androidTests/visual
 capture_archive=$(mktemp)
-if adb exec-out run-as pe.profelab.app tar -C files/qa-captures -cf - visual > "$capture_archive"; then
+if adb exec-out run-as pe.profelab.app tar -C files/qa-captures -cf - visual > "$capture_archive" && tar -tf "$capture_archive" >/dev/null 2>&1; then
   tar -xf "$capture_archive" -C app/build/reports/androidTests || echo 'No screenshots recovered; inspect the test reports.'
 else
   echo 'No screenshots recovered; inspect the test reports.'

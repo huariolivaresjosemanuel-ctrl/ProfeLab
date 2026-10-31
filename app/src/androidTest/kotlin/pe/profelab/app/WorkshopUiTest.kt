@@ -31,6 +31,7 @@ class WorkshopUiTest {
         compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-open:mat-001").fetchSemanticsNodes().isNotEmpty()}
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-open:mat-001"))
         compose.onNodeWithTag("workshop-open:mat-001").performClick()
+        compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-guide:mat-001").fetchSemanticsNodes().isNotEmpty()}
     }
     @Test fun catalogGuideHasStructuredMaterialsAndThreeModes(){
         guide()
@@ -52,6 +53,7 @@ class WorkshopUiTest {
         guide()
         compose.onNodeWithText("Comenzar mi proyecto").performScrollTo().performClick()
         compose.waitUntil(15_000){compose.onAllNodesWithText("Editar mi proyecto").fetchSemanticsNodes().isNotEmpty()}
+        compose.onNodeWithTag("workshop-page").performScrollToKey("steps")
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-step-0"))
         compose.onNodeWithTag("workshop-step-0").performClick()
         compose.waitForIdle()
@@ -70,8 +72,11 @@ class WorkshopUiTest {
         compose.onNodeWithText("Mis ideas").performClick()
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Continuar creando"))
         compose.onNodeWithText("Continuar creando").assertIsDisplayed()
-        compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-card:${created.id}"))
-        compose.onNodeWithTag("workshop-card:${created.id}").performClick()
+        // Activate the explicit open button, rather than a card center shared with nested controls.
+        compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-open-card:${created.id}"))
+        compose.onNodeWithTag("workshop-open-card:${created.id}").assertIsDisplayed().performClick()
+        compose.waitUntil(15_000){compose.onAllNodesWithTag("workshop-guide:${created.id}").fetchSemanticsNodes().isNotEmpty()}
+        compose.onNodeWithTag("workshop-page").performScrollToKey("steps")
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag("workshop-step-0"))
         compose.onNodeWithTag("workshop-step-0").assertIsOn()
     }

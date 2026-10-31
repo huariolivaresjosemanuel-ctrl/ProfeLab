@@ -29,7 +29,7 @@ internal fun WorkshopGuide(record:WorkRecord,all:List<WorkRecord>,catalog:List<M
     val defaults=when(visual){"CONSTRUCTION"->listOf("purpose","materials","preparation","steps","classroom","variants","safety","sources","evidence");"EXPERIMENT"->listOf("purpose","inquiry","materials","preparation","steps","evidence","classroom","variants","safety","sources");"CREATIVE"->listOf("purpose","materials","steps","variants","classroom","preparation","safety","sources","evidence");"ACADEMIC"->listOf("purpose","sources","classroom","materials","steps","variants","preparation","safety","evidence");else->WorkshopCodec.blocks}
     val blocks=(if(configured.isEmpty())defaults else configured+listOf("materials","steps","safety","sources","evidence")).distinct()
     val images=projectImages(record)
-    WorkshopPage(record.title.ifBlank {"Mi proyecto"},if(template)"Guía editorial · crea tu copia para guardar avances"else "Mi creación · cambios locales",back){
+    WorkshopPage(record.title.ifBlank {"Mi proyecto"},if(template)"Guía editorial · crea tu copia para guardar avances"else "Mi creación · cambios locales",back,screenTag="workshop-guide:${record.id}"){
         item("presentation"){WorkshopCard("",WorkshopColors.Paper){
             BoxWithConstraints {
                 val picture:@Composable (Modifier)->Unit={modifier->WorkshopPicture(images.firstOrNull(),modifier.height(250.dp),large=true,missingMessage=j.optString("imageMissingDescription","Sin imagen disponible"))}
