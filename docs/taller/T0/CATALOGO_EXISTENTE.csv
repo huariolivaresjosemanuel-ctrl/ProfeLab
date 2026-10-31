@@ -1,0 +1,21 @@
+﻿id,titulo,tipo,version_fuente,pasos_actuales,estado_medios
+mat-001,Máquina de sumar con tapas,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+mat-002,Tarjetas numéricas reutilizables,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+com-001,Ruleta de sílabas,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+com-002,Bingo de palabras,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+mat-003,Geoplano de bandas elásticas,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+tut-001,Termómetro de emociones,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+cta-001,Germinador con botella,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+com-003,Teatro de títeres de papel,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+mat-004,Dominó de fracciones,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+per-001,Mapa de mi comunidad,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+arte-001,Mural de texturas recicladas,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+cta-002,Estación de clasificación de residuos,project,2.0.0,4,ILUSTRACION_CONCEPTUAL_EXISTENTE_NO_PROCEDIMIENTO
+exp-001,¿La luz cambia el crecimiento de una planta?,experiment,1.0.0,4,PORTADA_PENDIENTE_APROBACION
+exp-002,¿Qué objetos flotan?,experiment,1.0.0,4,PORTADA_PENDIENTE_APROBACION
+exp-003,¿La sombra cambia de posición?,experiment,1.0.0,4,PORTADA_PENDIENTE_APROBACION
+exp-004,Agua que viaja por papel absorbente,experiment,1.0.0,4,PORTADA_PENDIENTE_APROBACION
+exp-005,¿Qué suelo deja pasar más agua?,experiment,1.0.0,4,PORTADA_PENDIENTE_APROBACION
+exp-006,¿Cómo se evapora el agua?,experiment,1.0.0,4,PORTADA_PENDIENTE_APROBACION
+exp-007,¿Qué papel resiste más peso?,experiment,1.0.0,4,PORTADA_PENDIENTE_APROBACION
+exp-008,Observamos la erosión con maquetas,experiment,1.0.0,4,PORTADA_PENDIENTE_APROBACION

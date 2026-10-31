@@ -1,0 +1,49 @@
+﻿fase,accion_prevista,ruta_repositorio,motivo,estado
+T1,NUEVO,core/model/src/main/kotlin/pe/profelab/model/InventoryOperations.kt,"Contratos tipados, IDs, estado y comandos; no alumnos",PROPUESTA_NO_IMPLEMENTADA
+T1,NUEVO,core/model/src/main/kotlin/pe/profelab/model/ActivityState.kt,"Contratos tipados, IDs, estado y comandos; no alumnos",PROPUESTA_NO_IMPLEMENTADA
+T1,NUEVO,core/database/src/main/kotlin/pe/profelab/database/InventoryEntities.kt,Ledger/reservas con transacción y unicidad durable,PROPUESTA_NO_IMPLEMENTADA
+T1,NUEVO,core/database/src/main/kotlin/pe/profelab/database/InventoryDao.kt,Ledger/reservas con transacción y unicidad durable,PROPUESTA_NO_IMPLEMENTADA
+T1,NUEVO,core/database/src/main/kotlin/pe/profelab/database/InventoryOperationRepository.kt,Ledger/reservas con transacción y unicidad durable,PROPUESTA_NO_IMPLEMENTADA
+T1,MODIFICAR,core/database/src/main/kotlin/pe/profelab/database/ProfeDatabase.kt,Migración aditiva2→3 propuesta y respaldos completos compatibles,PROPUESTA_NO_IMPLEMENTADA
+T1,MODIFICAR,core/database/src/main/kotlin/pe/profelab/database/BackupTransfer.kt,Migración aditiva2→3 propuesta y respaldos completos compatibles,PROPUESTA_NO_IMPLEMENTADA
+T1,MODIFICAR,core/database/src/main/kotlin/pe/profelab/database/BackupReferences.kt,Migración aditiva2→3 propuesta y respaldos completos compatibles,PROPUESTA_NO_IMPLEMENTADA
+T1,REUTILIZAR_REVISAR,core/model/src/main/kotlin/pe/profelab/model/InventoryRules.kt,Cantidades y proyección REVISAR sin reclasificación destructiva,PROPUESTA_NO_IMPLEMENTADA
+T1,REUTILIZAR_REVISAR,core/model/src/main/kotlin/pe/profelab/model/WorkshopModels.kt,Cantidades y proyección REVISAR sin reclasificación destructiva,PROPUESTA_NO_IMPLEMENTADA
+T1,MODIFICAR,core/content/src/main/kotlin/pe/profelab/content/WorkshopCodec.kt,Adaptador de lectura versionado y preservación JSON/IDs,PROPUESTA_NO_IMPLEMENTADA
+T1,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopViewModel.kt,Delegar consumo/ajustes/compras a contrato transaccional,PROPUESTA_NO_IMPLEMENTADA
+T1,MODIFICAR,app/src/main/kotlin/pe/profelab/app/AppGraph.kt,Ensamblar repositorio; no lógica de negocio en UI,PROPUESTA_NO_IMPLEMENTADA
+T1,NUEVO_GENERADO,core/database/schemas/pe.profelab.core.database.ProfeDatabase/3.json,"Solo después de generación Room y tests, no crearlo a mano enT0",PROPUESTA_NO_IMPLEMENTADA
+T1,NUEVO,core/model/src/test/kotlin/pe/profelab/core/model/InventoryOperationsTest.kt,Validación de consumibles/herramientas/unidades/reversión,PROPUESTA_NO_IMPLEMENTADA
+T1,NUEVO,core/database/src/androidTest/kotlin/pe/profelab/core/database/InventoryLedgerTest.kt,"Operaciones concurrentes, reapertura y atomicidad/idempotencia",PROPUESTA_NO_IMPLEMENTADA
+T1,MODIFICAR,core/database/src/androidTest/kotlin/pe/profelab/core/database/MigrationTest.kt,Fixtures1→2→3 y preservación completa,PROPUESTA_NO_IMPLEMENTADA
+T1,MODIFICAR,app/src/androidTest/kotlin/pe/profelab/app/BackupRoundTripTest.kt,Backup2/3 y conflictos de agregado,PROPUESTA_NO_IMPLEMENTADA
+T2,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopHub.kt,Ventanas pequeñas y navegación interna por IDs,PROPUESTA_NO_IMPLEMENTADA
+T2,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/SectorCatalog.kt,Ventanas pequeñas y navegación interna por IDs,PROPUESTA_NO_IMPLEMENTADA
+T2,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/ActivityDetail.kt,Ventanas pequeñas y navegación interna por IDs,PROPUESTA_NO_IMPLEMENTADA
+T2,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopNavigator.kt,Ventanas pequeñas y navegación interna por IDs,PROPUESTA_NO_IMPLEMENTADA
+T2,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopScreen.kt,Integrar A0/A1/A2 conservando funciones y metadatos editoriales,PROPUESTA_NO_IMPLEMENTADA
+T2,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopCatalog.kt,Integrar A0/A1/A2 conservando funciones y metadatos editoriales,PROPUESTA_NO_IMPLEMENTADA
+T2,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopGuide.kt,Integrar A0/A1/A2 conservando funciones y metadatos editoriales,PROPUESTA_NO_IMPLEMENTADA
+T2,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopImages.kt,Integrar A0/A1/A2 conservando funciones y metadatos editoriales,PROPUESTA_NO_IMPLEMENTADA
+T2,CONDICIONAL,app/src/main/kotlin/pe/profelab/app/ProfeApp.kt,Solo si corregir el encabezado compartido estrecho es necesario; regresión5 tabs,PROPUESTA_NO_IMPLEMENTADA
+T2,CONDICIONAL_NUEVO,app/src/main/kotlin/pe/profelab/app/ProfeTopBar.kt,"Extracción mínima del encabezado adaptativo, sin rediseño global",PROPUESTA_NO_IMPLEMENTADA
+T3,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/MaterialsChecklist.kt,"A3, disponibilidad y compartir texto por API Android; dominio usaT1",PROPUESTA_NO_IMPLEMENTADA
+T3,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/InventoryAvailabilityUseCase.kt,"A3, disponibilidad y compartir texto por API Android; dominio usaT1",PROPUESTA_NO_IMPLEMENTADA
+T3,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/ShoppingShareUseCase.kt,"A3, disponibilidad y compartir texto por API Android; dominio usaT1",PROPUESTA_NO_IMPLEMENTADA
+T3,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopInventory.kt,"Conservar utilitarios completos, lista v2 y compras/reversión",PROPUESTA_NO_IMPLEMENTADA
+T3,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopShopping.kt,"Conservar utilitarios completos, lista v2 y compras/reversión",PROPUESTA_NO_IMPLEMENTADA
+T3,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopShoppingData.kt,"Conservar utilitarios completos, lista v2 y compras/reversión",PROPUESTA_NO_IMPLEMENTADA
+T4,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/PurposePanel.kt,"A4/A5, navegación/persistencia y mismo estado de pasos",PROPUESTA_NO_IMPLEMENTADA
+T4,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/GuidedStepPager.kt,"A4/A5, navegación/persistencia y mismo estado de pasos",PROPUESTA_NO_IMPLEMENTADA
+T4,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/StepList.kt,"A4/A5, navegación/persistencia y mismo estado de pasos",PROPUESTA_NO_IMPLEMENTADA
+T4,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/ActivityProgress.kt,"A4/A5, navegación/persistencia y mismo estado de pasos",PROPUESTA_NO_IMPLEMENTADA
+T4,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopGuide.kt,"Conservar todos los bloques, seguridad, evidencias y exportación",PROPUESTA_NO_IMPLEMENTADA
+T4,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopEditor.kt,Editar sin perder pasos ni guion actual,PROPUESTA_NO_IMPLEMENTADA
+T5,NUEVO,feature/taller/src/main/kotlin/pe/profelab/taller/TeacherClassroomPanel.kt,A6 con reflexión local y criterios de actividad,PROPUESTA_NO_IMPLEMENTADA
+T5,NUEVO,core/model/src/main/kotlin/pe/profelab/model/TeachingActivityLink.kt,Contrato futuro solo por IDs; sin datos de menores,PROPUESTA_NO_IMPLEMENTADA
+T5,MODIFICAR,core/content/src/main/kotlin/pe/profelab/content/TeacherGuides.kt,Adaptación versionada sin sobrescribir guion personal,PROPUESTA_NO_IMPLEMENTADA
+T5,MODIFICAR,feature/taller/src/main/kotlin/pe/profelab/taller/WorkshopTeaching.kt,Reutilizar secuencia/preguntas/fuentes actuales,PROPUESTA_NO_IMPLEMENTADA
+T2-T6,ADAPTAR_RECORRIDO,app/src/androidTest/kotlin/pe/profelab/app/WorkshopUiTest.kt,Actualizar acceso por portal conservando asserts de destino/persistencia/cinco capturas,PROPUESTA_NO_IMPLEMENTADA
+T2-T6,ADAPTAR_RECORRIDO,app/src/androidTest/kotlin/pe/profelab/app/AssistantNavigationTest.kt,Actualizar acceso por portal conservando asserts de destino/persistencia/cinco capturas,PROPUESTA_NO_IMPLEMENTADA
+T2-T6,ADAPTAR_RECORRIDO,app/src/androidTest/kotlin/pe/profelab/app/MainScreensCaptureTest.kt,Actualizar acceso por portal conservando asserts de destino/persistencia/cinco capturas,PROPUESTA_NO_IMPLEMENTADA
+T6,REVISAR_SIN_DESACTIVAR,.github/workflows/android.yml,Mantener solo workflow_dispatch y firma/permisos existentes,PROPUESTA_NO_IMPLEMENTADA

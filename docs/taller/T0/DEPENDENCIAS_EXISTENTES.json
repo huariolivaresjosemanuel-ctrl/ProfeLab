@@ -1,0 +1,75 @@
+{
+  "app": [
+    ":core:content",
+    ":core:database",
+    ":core:files",
+    ":core:model",
+    ":core:security",
+    ":core:ui",
+    ":feature:capture",
+    ":feature:home",
+    ":feature:library",
+    ":feature:notebook",
+    ":feature:ocr",
+    ":feature:pdf",
+    ":feature:profile",
+    ":feature:sessions",
+    ":feature:taller"
+  ],
+  "core/content": [
+    ":core:files",
+    ":core:model"
+  ],
+  "core/database": [
+    ":core:model"
+  ],
+  "core/files": [
+    ":core:model"
+  ],
+  "core/model": [],
+  "core/security": [
+    ":core:model"
+  ],
+  "core/ui": [
+    ":core:files",
+    ":core:model"
+  ],
+  "feature/capture": [
+    ":core:model",
+    ":core:ui"
+  ],
+  "feature/home": [
+    ":core:model",
+    ":core:ui"
+  ],
+  "feature/library": [
+    ":core:model",
+    ":core:ui"
+  ],
+  "feature/notebook": [
+    ":core:model",
+    ":core:ui"
+  ],
+  "feature/ocr": [
+    ":core:model",
+    ":core:ui"
+  ],
+  "feature/pdf": [
+    ":core:model",
+    ":core:ui"
+  ],
+  "feature/profile": [
+    ":core:model",
+    ":core:ui"
+  ],
+  "feature/sessions": [
+    ":core:model",
+    ":core:ui"
+  ],
+  "feature/taller": [
+    ":core:content",
+    ":core:files",
+    ":core:model",
+    ":core:ui"
+  ]
+}
