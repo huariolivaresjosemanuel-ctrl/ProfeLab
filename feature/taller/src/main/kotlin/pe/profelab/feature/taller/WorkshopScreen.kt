@@ -29,6 +29,7 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
     LaunchedEffect(all){vm.reconcile(all)}
     val catalog=remember(base,all){(base+all.filter {it.kind in setOf("catalog_material","user_material") && !it.archived}.mapNotNull {runCatching {WorkshopCodec.definition(JSONObject(it.json))}.getOrNull()}).associateBy {it.id}.values.toList()}
     val definitions=remember(templates,all){(templates+all.filter {it.kind in setOf("catalog_project","catalog_experiment") && !it.archived}).distinctBy {it.id}}
+    val mediaRecords=remember(all){all.filter {it.kind=="catalog_media" && !it.archived}}
     var section by rememberSaveable {mutableStateOf("taller")};var selected by rememberSaveable(initialId){mutableStateOf(initialId)}
     var destination by rememberSaveable(initialId){mutableStateOf(if(initialId==null)"hub"else "detail")}
     var trail by rememberSaveable(initialId){mutableStateOf("[]")}
@@ -49,7 +50,7 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
         val old=JSONArray(trail);val a=JSONArray();for(i in maxOf(0,old.length()-99) until old.length())a.put(old.get(i));a.put(JSONObject().put("destination",destination).put("selected",selected ?: JSONObject.NULL).put("section",section));trail=a.toString()
         selected=id;section=sector;destination=target
     }
-    fun window(w:WorkshopWindow){go(when(w){WorkshopWindow.DETAIL->"detail";WorkshopWindow.MATERIALS->"materials";WorkshopWindow.PURPOSE->"purpose";WorkshopWindow.STEPS->"steps";WorkshopWindow.CLASSROOM->"classroom"})}
+    fun window(w:WorkshopWindow){go(when(w){WorkshopWindow.DETAIL->"detail";WorkshopWindow.MATERIALS->"materials";WorkshopWindow.PURPOSE->"purpose";WorkshopWindow.STEPS->"steps";WorkshopWindow.RESULTS->"results";WorkshopWindow.CLASSROOM->"classroom"})}
     fun back(){scope.launch {
         if(!vm.flush()){backError=true;return@launch}
         val a=JSONArray(trail)
@@ -60,20 +61,15 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
     fun open(id:String){go("detail",id)}
     fun begin(source:WorkRecord?=null,experiment:Boolean=false,duplicate:Boolean=false){
         if(vm.state.value.pending>0)return
-        val data=WorkshopCodec.normalize(JSONObject(source?.json ?: "{}"),catalog)
+        val data=ActivityRunData.freshPayload(WorkshopCodec.normalize(JSONObject(source?.json ?: "{}"),catalog))
         val previousImage=data.optString("originImageId").ifBlank {data.optString("forkedFromTemplateId")}
         val sourceId=source?.id.orEmpty();val origin=if(sourceId.matches(Regex("(?:mat|com|cta|per|arte|tut)-[0-9]{3}")))sourceId else previousImage
         if(origin.isNotBlank())data.put("originImageId",origin)
         if(source!=null){data.put(if(duplicate)"duplicatedFromId"else "forkedFromTemplateId",source.id);data.put("activityId",WorkshopFlowAdapter.read(source).activityId)}
-        data.remove("workshopFlow");data.remove("classroomAssociation")
-        data.put("status","BORRADOR").put("safetyReviewedByUser",false)
-        val steps=data.optJSONArray("steps") ?: JSONArray();for(i in 0 until steps.length())steps.optJSONObject(i)?.apply {put("done",false);remove("notes")}
-        data.put("records",JSONArray()).put("attachments",JSONArray())
-        if(experiment)listOf("results","analysis","limitations","conclusion").forEach {data.put(it,"")}
         if(!data.has("visualTemplate"))data.put("visualTemplate",if(experiment)"EXPERIMENT"else if(source==null)"CREATIVE"else "DIDACTIC")
         val r=WorkRecord(newId(),if(experiment)"experiment"else "project",source?.title.orEmpty()+if(duplicate)" (copia)"else "",data.toString(),System.currentTimeMillis())
         val initialized=if(data.optJSONObject("teacherGuide")==null)r.copy(json=data.put("teacherGuide",TeacherGuides.defaultFor(r)).toString())else r
-        vm.save(initialized);go(if(source!=null && !duplicate)"materials"else "editor",r.id)
+        vm.save(initialized);go(ActivityRunData.initialDestination(source!=null,duplicate,destination),r.id)
     }
     fun favorite(r:WorkRecord){val id="favorite:${r.id}";if(all.any {it.id==id && !it.archived})vm.archive(id)else vm.save(WorkRecord(id,"favorite",r.title,"{}",System.currentTimeMillis()))}
     fun perspective(p:WorkshopPerspective){mode=p;current?.takeIf {view?.personal==true}?.let {r->vm.patch(r){j->val flow=j.optJSONObject("workshopFlow") ?: JSONObject();j.put("workshopFlow",flow.put("version",1).put("perspective",p.name))}}}
@@ -83,11 +79,11 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
         AssistantAction.RECOMMENDATIONS to {recommendationRequest=true;utility("advanced")},
         AssistantAction.EXPERIMENTS to {scope.launch {if(vm.flush())go("catalog",null,"experiments")else backError=true}}
     )
-    if(current!=null && destination in setOf("detail","materials","purpose","steps","classroom","guide"))assistantHandlers[AssistantAction.TEACHER]={scope.launch {if(vm.flush()){perspective(WorkshopPerspective.TEACHER);window(WorkshopWindow.CLASSROOM)}else backError=true}}
+    if(current!=null && destination in setOf("detail","materials","purpose","steps","results","classroom","guide"))assistantHandlers[AssistantAction.TEACHER]={scope.launch {if(vm.flush()){perspective(WorkshopPerspective.TEACHER);window(WorkshopWindow.CLASSROOM)}else backError=true}}
     BindAssistant("taller",assistantHandlers)
     BackHandler(enabled=destination!="hub"){back()}
     MaterialTheme(colorScheme=MaterialTheme.colorScheme.copy(primary=WorkshopColors.Green,secondary=WorkshopColors.Green,primaryContainer=WorkshopColors.Mint,secondaryContainer=WorkshopColors.Mint,background=WorkshopColors.Cream,surface=WorkshopColors.Cream)){
-        Column(Modifier.fillMaxSize()){
+        CompositionLocalProvider(LocalWorkshopMediaRecords provides mediaRecords){Column(Modifier.fillMaxSize()){
             if(state.pending>0)LinearProgressIndicator(Modifier.fillMaxWidth())
             holder.SaveableStateProvider("$destination:${selected.orEmpty()}:$section"){
                 val actions=current?.let {r->ActivityActions(::window,{begin(r,r.kind.contains("experiment"))},{window(if(view?.lastVisitedStepId!=null || (view?.completedSteps ?: 0)>0)WorkshopWindow.STEPS else WorkshopWindow.MATERIALS)},
@@ -105,13 +101,14 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
                         "materials"->MaterialsChecklist(current,all,catalog,view,vm,::back,actions)
                         "purpose"->PurposePanel(current,view,mode,::back,actions)
                         "steps"->GuidedStepPager(current,view,vm,::back,actions)
+                        "results"->ActivityResultsScreen(current,view,vm,::back,actions,capture)
                         "classroom"->TeacherClassroomPanel(current,view,vm,::back,actions)
                         "guide"->WorkshopGuide(current,all,catalog,vm,::back,actions.begin,actions.edit,export,capture,actions.inventory,actions.shopping,actions.favorite,actions.editTeacher,requestedMode=requestedGuideMode,modeConsumed={requestedGuideMode=null})
                         else->ActivityDetail(current,all,catalog,view,mode,::back,actions)
                     }
                 }
             }
-        }
+        }}
         (state.error ?: loadError)?.let {message->AlertDialog(onDismissRequest={},title={Text("Revisa el guardado del Taller")},text={Text(message)},confirmButton={TextButton(onClick={if(loadError!=null)reload++else vm.retry()}){Text("Reintentar")}},dismissButton={if(loadError==null)TextButton(onClick={vm.clearError()}){Text("Corregir el formulario")}})}
         if(backError)AlertDialog(onDismissRequest={backError=false},title={Text("Hay cambios sin confirmar")},text={Text("Resuelve los avisos de guardado antes de salir. El borrador permanece en esta pantalla.")},confirmButton={TextButton(onClick={vm.retry();backError=false}){Text("Reintentar guardado")}},dismissButton={TextButton(onClick={backError=false}){Text("Seguir editando")}})
     }

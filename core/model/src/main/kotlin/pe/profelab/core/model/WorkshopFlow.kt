@@ -1,7 +1,7 @@
 package pe.profelab.core.model
 
 /** IDs are references only. No students, classrooms or private evaluations are seeded. */
-enum class WorkshopWindow { DETAIL, MATERIALS, PURPOSE, STEPS, CLASSROOM }
+enum class WorkshopWindow { DETAIL, MATERIALS, PURPOSE, STEPS, RESULTS, CLASSROOM }
 enum class WorkshopPerspective(val label:String) { PRACTICAL("Práctico"), TEACHER("Docente"), ACADEMIC("Académico") }
 data class ObservationCriterion(val id:String,val label:String,val reviewStatus:String="EDITORIAL_PROPOSAL")
 data class ActivityRunReference(val activityId:String,val activityRunId:String?,val contentVersion:String,val criterionIds:List<String>)

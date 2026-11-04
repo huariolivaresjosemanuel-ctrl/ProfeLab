@@ -27,10 +27,10 @@ internal object ContentPackValidator {
         val items=manifest.getJSONArray("items");require(items.length() in 1..180)
         val paths=(0 until items.length()).map {items.getJSONObject(it).getString("path")}
         require(paths.distinct().size==paths.size && entries.keys==paths.toSet()+"manifest.json")
-        val resources=mutableListOf<PackResource>();val records=mutableListOf<WorkRecord>();val imageIds=mutableSetOf<String>();val layouts=mutableSetOf<String>()
+        val resources=mutableListOf<PackResource>();val records=mutableListOf<WorkRecord>();val imageIds=mutableSetOf<String>();val layouts=mutableSetOf<String>();val dimensions=mutableMapOf<String,Triple<Int,Int,String>>()
         for(i in 0 until items.length()){
             val item=items.getJSONObject(i);val bytes=requireNotNull(entries[item.getString("path")]);require(bytes.contentSha()==item.getString("sha256"))
-            val type=item.getString("type");require(type in setOf("project","experiment","material","layout","image") || schema==3 && type=="guided_workshop")
+            val type=item.getString("type");require(type in setOf("project","experiment","material","layout","image") || schema==3 && type in setOf("guided_workshop","workshop_media"))
             if(type=="image"){
                 val id=item.getString("id");require(validContentId(id) && imageIds.add(id));val ext=item.getString("path").substringAfterLast('.').lowercase()
                 require(ext in setOf("png","jpg","jpeg","webp") && item.getBoolean("distributionApproved"))
@@ -39,6 +39,7 @@ internal object ContentPackValidator {
                 val b=BitmapFactory.Options().apply {inJustDecodeBounds=true};BitmapFactory.decodeByteArray(bytes,0,bytes.size,b)
                 require(b.outWidth in 1..10000 && b.outHeight in 1..10000 && b.outWidth.toLong()*b.outHeight<=25_000_000)
                 require(b.outMimeType==when(ext){"png"->"image/png";"webp"->"image/webp";else->"image/jpeg"})
+                dimensions[id]=Triple(b.outWidth,b.outHeight,requireNotNull(b.outMimeType))
                 var sample=1;while(b.outWidth/sample>400 || b.outHeight/sample>400)sample*=2
                 val decoded=BitmapFactory.decodeByteArray(bytes,0,bytes.size,BitmapFactory.Options().apply {inSampleSize=sample})
                 require(decoded!=null){"Recurso gráfico ilegible"};decoded.recycle()
@@ -48,7 +49,7 @@ internal object ContentPackValidator {
             val origin=data.optString("contentOrigin",rights?.optString("origin").orEmpty())
             require(origin in setOf("EDITORIAL_PROFELAB","USER_AUTHORED") && data.optBoolean("distributionApproved",rights?.optBoolean("approvedForDistribution")==true))
             val id=data.getString("id");require(validContentId(id))
-            val key=when(type){"material"->"material:$id";"layout"->"pack:$packId:layout:$id";else->"pack:$packId:$id"}
+            val key=when(type){"material"->"material:$id";"layout"->"pack:$packId:layout:$id";"workshop_media"->"pack:$packId:media:$id";else->"pack:$packId:$id"}
             val title=if(type=="material")data.getString("name")else data.getString("title")
             require(title.isNotBlank() && title.length<=160 && '|' !in title)
             if(type=="material"){
@@ -59,10 +60,16 @@ internal object ContentPackValidator {
                 require(data.getString("template") in WorkshopCodec.templates)
                 val order=WorkshopCodec.strings(data.opt("sectionOrder"));require(order.size<=12 && order.all {it in WorkshopCodec.blocks})
                 layouts+=id;data.put("id",key)
+            }else if(type=="workshop_media"){
+                require(data.getString("scope")=="TALLER_ONLY" && data.getString("contentId")==id)
+                WorkshopMediaBindings.validate(data.getJSONArray("mediaRoleRefs"),id,data.getString("contentVersion"))
+                // Only retain this public media contract; it cannot smuggle user state through new keys.
+                val allowed=setOf("id","title","scope","contentId","contentVersion","mediaRoleRefs","contentOrigin","distributionApproved","contentRights")
+                require(data.keys().asSequence().all {it in allowed})
             }else {
                 WorkshopFlowAdapter.validateExtension(data)
                 // Imported definitions cannot impersonate personal work or reference private evidence.
-                listOf("attachments","records","imageFileIds","imageMetadataByFileId","resourceFileIds","links","citations","selectedAlternatives","originImageId","forkedFromTemplateId","duplicatedFromId","exportImages","results","analysis","conclusion","workshopFlow","classroomAssociation","studentId","groupId").forEach {data.remove(it)}
+                listOf("attachments","records","imageFileIds","imageMetadataByFileId","resourceFileIds","editorialMediaBindings","links","citations","selectedAlternatives","originImageId","forkedFromTemplateId","duplicatedFromId","exportImages","results","analysis","conclusion","workshopFlow","classroomAssociation","studentId","groupId").forEach {data.remove(it)}
                 if(data.has("teacherGuide"))TeacherGuides.validate(data.getJSONObject("teacherGuide"))
                 if(data.has("contentVersion"))contentVersion(data.getString("contentVersion"))
                 val category=data.optString("categoryId",if(type=="experiment")"experiment"else "didactic")
@@ -91,6 +98,12 @@ internal object ContentPackValidator {
             records+=WorkRecord(key,if(type=="guided_workshop")"catalog_project"else "catalog_$type",title,data.toString(),System.currentTimeMillis())
         }
         require(records.map {it.id}.distinct().size==records.size)
+        records.filter {it.kind=="catalog_workshop_media"}.forEach {r->val j=JSONObject(r.json);val rows=j.getJSONArray("mediaRoleRefs");WorkshopMediaBindings.validate(rows,j.getString("contentId"),j.getString("contentVersion"),imageIds)
+            for(i in 0 until rows.length()){val ref=rows.getJSONObject(i);val resource=resources.single {it.id==ref.getString("mediaId")};val size=requireNotNull(dimensions[resource.id])
+                require(ref.getString("sha256").equals(resource.sha256,true) && ref.getString("sourceType")==resource.source && ref.getString("licenseOrRights")==resource.license)
+                require(ref.getInt("width")==size.first && ref.getInt("height")==size.second && ref.getString("mime")==size.third){"La metadata del slot no coincide con la imagen validada"}
+            }
+        }
         records.filter {it.kind in setOf("catalog_project","catalog_experiment")}.forEach {r->val j=JSONObject(r.json)
             val images=WorkshopCodec.strings(j.opt("images"));require(images.size<=20 && images.all {it in imageIds})
             val metadata=j.optJSONObject("imageMetadata")

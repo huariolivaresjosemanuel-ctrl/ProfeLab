@@ -56,7 +56,7 @@ internal fun PerspectiveBar(selected:WorkshopPerspective,onSelect:(WorkshopPersp
 internal fun ActivitySummary(record:WorkRecord,view:ActivityViewState,open:(()->Unit)?=null){
     FlowCard {
         Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)){
-            WorkshopPicture(flowCover(record),Modifier.width(80.dp).height(88.dp),missingMessage="Imagen pendiente")
+            WorkshopMediaSlot(record,"catalog_cover",modifier=Modifier.width(80.dp))
             Column(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(6.dp)){
                 Text(record.title.ifBlank {"Mi proyecto"},style=MaterialTheme.typography.titleMedium,fontWeight=FontWeight.Bold)
                 ProjectMetadata(JSONObject(record.json))
@@ -82,7 +82,7 @@ private fun FlowMetadataBadge(item:Pair<ImageVector,String>,modifier:Modifier){S
 @Composable
 internal fun <T> FlowGrid(entries:List<T>,content:@Composable (T,Modifier)->Unit){
     BoxWithConstraints {
-        val columns=if(maxWidth>=680.dp && LocalDensity.current.fontScale<1.4f)3 else if(maxWidth>=310.dp && LocalDensity.current.fontScale<1.4f)2 else 1
+        val columns=if(maxWidth>=310.dp && LocalDensity.current.fontScale<1.4f)2 else 1
         Column(verticalArrangement=Arrangement.spacedBy(12.dp)){
             entries.chunked(columns).forEach {group->Row(horizontalArrangement=Arrangement.spacedBy(12.dp)){
                 group.forEach {entry->content(entry,Modifier.weight(1f))};repeat(columns-group.size){Spacer(Modifier.weight(1f))}

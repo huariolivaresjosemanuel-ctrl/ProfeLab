@@ -11,7 +11,7 @@ object WorkshopFlowAdapter {
     fun read(record:WorkRecord):ActivityViewState {
         val j=JSONObject(record.json);val flow=j.optJSONObject("workshopFlow") ?: JSONObject()
         val personal=record.kind in setOf("project","experiment")
-        val activityId=j.optString("activityId").ifBlank {j.optString("forkedFromTemplateId").ifBlank {record.id}}
+        val activityId=if(!personal)record.id else j.optString("activityId").ifBlank {j.optString("forkedFromTemplateId").ifBlank {record.id}}
         val steps=j.optJSONArray("steps") ?: JSONArray();val used=mutableSetOf<String>()
         val views=(0 until steps.length()).map {i->
             val s=steps.optJSONObject(i) ?: JSONObject().put("title",steps.optString(i))

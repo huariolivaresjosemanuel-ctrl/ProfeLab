@@ -48,6 +48,7 @@ class WorkshopViewModel(private val store:WorkspaceStore):ViewModel(){
         return done.await()
     }
     val inventoryOperations get()=store as? InventoryOperationStore
+    fun editResult(record:WorkRecord,field:String,value:String){val latest=current(record);save(latest.copy(json=ActivityResultsData.update(latest,field,value).toString()))}
     fun visitStep(record:WorkRecord,id:String){val latest=current(record);save(latest.copy(json=WorkshopFlowAdapter.visit(latest,id).toString()))}
     fun completeStep(record:WorkRecord,id:String,done:Boolean){val latest=current(record);save(latest.copy(json=WorkshopFlowAdapter.mark(latest,id,done).toString()))}
     fun stepNote(record:WorkRecord,id:String,note:String){patch(record){j->

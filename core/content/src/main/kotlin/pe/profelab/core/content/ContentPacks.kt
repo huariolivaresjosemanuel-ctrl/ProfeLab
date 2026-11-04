@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.first
 import org.json.JSONArray
 import org.json.JSONObject
 import pe.profelab.core.files.PrivateFiles
@@ -37,6 +38,19 @@ class ContentPacks(private val context:Context,private val store:WorkspaceStore)
     suspend fun install(pack:PackData)=withContext(Dispatchers.IO){
         val markerId="pack:${pack.manifest.getString("packId")}"
         if(!compatible(store.record(markerId),pack))return@withContext
+        val seed=WorkshopSeed(context);val bundledActivities=seed.templates();val bundled=seed.materials()
+        val initial=store.observeRecords().first()
+        val mediaProofs=pack.records.filter {it.kind=="catalog_workshop_media"}.associate {r->
+            val definitions=bundledActivities+initial.filter {it.kind in setOf("catalog_project","catalog_experiment") && !it.archived}
+            val materials=bundled+initial.filter {it.kind in setOf("catalog_material","user_material") && !it.archived}.map {WorkshopCodec.definition(JSONObject(it.json))}
+            r.id to WorkshopMediaBindings.fingerprintedRefs(JSONObject(r.json),definitions,materials)
+        }
+        fun validateMediaTargets(records:List<WorkRecord>){pack.records.filter {it.kind=="catalog_workshop_media"}.forEach {r->
+            val definitions=bundledActivities+records.filter {it.kind in setOf("catalog_project","catalog_experiment") && !it.archived}
+            val materials=bundled+records.filter {it.kind in setOf("catalog_material","user_material") && !it.archived}.map {WorkshopCodec.definition(JSONObject(it.json))}
+            WorkshopMediaBindings.validateTarget(JSONObject(r.json).put("mediaRoleRefs",requireNotNull(mediaProofs[r.id])),definitions,materials)
+        }}
+        validateMediaTargets(initial)
         val created=mutableListOf<File>();val refs=mutableMapOf<String,String>();val byHash=mutableMapOf<String,String>()
         try {
             for(resource in pack.resources){val existing=byHash[resource.sha256]
@@ -44,6 +58,14 @@ class ContentPacks(private val context:Context,private val store:WorkspaceStore)
                 refs[resource.id]=id
             }
             val installed=pack.records.map {record->val j=JSONObject(record.json)
+                if(record.kind=="catalog_workshop_media"){
+                    val roles=requireNotNull(mediaProofs[record.id]);val installedRefs=JSONArray();val ids=mutableSetOf<String>()
+                    for(i in 0 until roles.length()){
+                        val ref=JSONObject(roles.getJSONObject(i).toString());val mediaId=ref.getString("mediaId");val fileId=requireNotNull(refs[mediaId]);ids+=fileId
+                        installedRefs.put(ref.put("fileId",fileId).also {it.remove("assetFilename")})
+                    }
+                    j.put("editorialMediaBindings",installedRefs).put("resourceFileIds",JSONArray(ids.toList()))
+                }
                 if(record.kind in setOf("catalog_project","catalog_experiment")){
                     j.put("imageFileIds",JSONArray(WorkshopCodec.strings(j.opt("images")).map {requireNotNull(refs[it])}))
                     val steps=j.optJSONArray("steps") ?: JSONArray();for(i in 0 until steps.length()){val s=steps.optJSONObject(i) ?: continue;s.put("imageFileIds",JSONArray(WorkshopCodec.strings(s.opt("images")).map {requireNotNull(refs[it])}))}
@@ -53,11 +75,12 @@ class ContentPacks(private val context:Context,private val store:WorkspaceStore)
                         metadata.put(requireNotNull(refs[resource.id]),JSONObject().put("alt",custom?.optString("alt").orEmpty().ifBlank {resource.alt}).put("caption",custom?.optString("caption").orEmpty().ifBlank {resource.caption}).put("source",resource.source).put("license",resource.license))
                     }})
                 }
-                record.copy(json=j.toString())
+                record.copy(kind=if(record.kind=="catalog_workshop_media")"catalog_media"else record.kind,json=j.toString())
             }
-            val bundled=WorkshopSeed(context).materials();var applied=false
+            var applied=false
             store.editRecords {current->
                 if(!compatible(current.find {it.id==markerId},pack))emptyList()else {
+                    validateMediaTargets(current)
                     installed.filter {it.kind!="catalog_material"}.forEach {incoming->
                         current.find {it.id==incoming.id}?.let {old->
                             val body=JSONObject(old.json);val packId=pack.manifest.getString("packId")
