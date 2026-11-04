@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "status": "SLOTS_ONLY_NO_FINAL_MEDIA",
+  "description": "Los slots no declaran archivos disponibles. La actividad y sus pasos del catálogo siguen siendo la fuente de verdad.",
+  "activities": [
+    {
+      "contentId": "mat-001",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "mat-002",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "com-001",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "com-002",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "mat-003",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "tut-001",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "cta-001",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "com-003",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "mat-004",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "per-001",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "arte-001",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "cta-002",
+      "contentVersion": "2.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "exp-001",
+      "contentVersion": "1.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "exp-002",
+      "contentVersion": "1.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "exp-003",
+      "contentVersion": "1.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "exp-004",
+      "contentVersion": "1.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "exp-005",
+      "contentVersion": "1.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "exp-006",
+      "contentVersion": "1.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "exp-007",
+      "contentVersion": "1.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    },
+    {
+      "contentId": "exp-008",
+      "contentVersion": "1.0.0",
+      "stepIds": [
+        "step-0",
+        "step-1",
+        "step-2",
+        "step-3"
+      ],
+      "roles": [
+        "catalog_cover",
+        "detail_hero",
+        "material_icon",
+        "step_photo",
+        "outcome_reference",
+        "teacher_reference"
+      ]
+    }
+  ],
+  "sectors": [
+    "experiments",
+    "taller",
+    "cooking",
+    "dance",
+    "heritage",
+    "ideas"
+  ],
+  "resources": []
+}
