@@ -334,7 +334,7 @@ c53f0616c08796a35908f3190a880be6a31f918783c4085b31accff6eeb94f6c  feature/taller
 b9cdc82dacf9606843ad92f6895777690f7944253ba9846f85c685bd9fb46202  feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopFlowComponents.kt
 dc94dbd40e7b52fec0bfbb2284edbe54fb7b367b48f494a1d6c9a5f82b94b70a  feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopGuide.kt
 bc46d3a2545410538947151f8df5d5d4871e3baabc825befec2f28b2a51c2363  feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopHub.kt
-76cdf1b63369572b5a665b689d436f91653051eec1d9c6d1a8d646f794fb1530  feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopImages.kt
+d46325cc8ce77301689f19acf981ab057265717916ae6db611a4e55824d576bd  feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopImages.kt
 80d543794af02273911d7f02ca07d8a4456721fe0dd42dd54fa9cc3ef51d605a  feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopInventory.kt
 a37367c3f54ba99435dbeaa3a9efa7a565cdb74ecfb968b04f2ba4e0a6b3bb66  feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopMaterialForms.kt
 eee88496d3f54ce5b5ac571fb9ce7f92327a48604bcfa9d84969d0f87f84894d  feature/taller/src/main/kotlin/pe/profelab/feature/taller/WorkshopScreen.kt

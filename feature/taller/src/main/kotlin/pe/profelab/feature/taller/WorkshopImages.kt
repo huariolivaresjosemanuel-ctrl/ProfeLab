@@ -80,9 +80,10 @@ internal fun WorkshopMediaSlot(record:WorkRecord,role:String,stepId:String?=null
         val label=when(role){"step_photo"->"Fotografía de este paso pendiente";"outcome_reference"->"Referencia visual pendiente; registra solo tus observaciones";"teacher_reference"->"Apoyo visual de la guía pendiente";"material_icon"->"Imagen del material pendiente";else->"Fotografía específica pendiente"}
         Surface(box,color=WorkshopColors.Mint,shape=MaterialTheme.shapes.large){
             BoxWithConstraints(Modifier.fillMaxSize().semantics {contentDescription=label}){
-                Column(Modifier.fillMaxSize().padding(if(maxWidth<100.dp)6.dp else 16.dp),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.Center){
+                val compact=maxWidth<100.dp || maxHeight<80.dp
+                Column(Modifier.fillMaxSize().padding(if(compact)6.dp else 16.dp),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.Center){
                     Icon(Icons.Outlined.Image,null)
-                    if(maxWidth>=100.dp && maxHeight>=80.dp){Spacer(Modifier.height(6.dp));Text(label,style=MaterialTheme.typography.bodySmall)}
+                    if(!compact){Spacer(Modifier.height(6.dp));Text(label,style=MaterialTheme.typography.bodySmall)}
                 }
             }
         }
