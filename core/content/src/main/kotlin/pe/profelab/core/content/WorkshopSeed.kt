@@ -21,10 +21,8 @@ class WorkshopSeed(private val context:Context) {
         sources("layoutFiles").flatMap {objects(it,"layouts")}.map {j->require(j.getString("template") in WorkshopCodec.templates);require(WorkshopCodec.strings(j.opt("sectionOrder")).all {it in WorkshopCodec.blocks});WorkRecord(j.getString("id"),"catalog_layout",j.getString("title"),j.toString(),0)}
     }
     suspend fun templates():List<WorkRecord> = withContext(Dispatchers.IO) {
-        val assetMedia=runCatching {
-            val text=context.assets.open("workshop/media_slots_v1.json").bufferedReader().use {it.readText()};require(text.length<=2_000_000)
-            val index=JSONObject(text);require(index.getInt("schemaVersion")==1);index.getJSONArray("resources")
-        }.getOrElse {JSONArray()}
+        val assetMedia=WorkshopBundledMedia(context)
+        val materialCatalog=materials()
         val guideFiles=if(index().has("teacherGuideFiles"))sources("teacherGuideFiles")else emptyList()
         val guideRows=guideFiles.flatMap {objects(it,"guides")}.also {rows->require(rows.map {it.getString("contentId")}.distinct().size==rows.size)}
         val guides=guideRows.associate {it.getString("contentId") to it.getJSONObject("teacherGuide")}
@@ -37,18 +35,8 @@ class WorkshopSeed(private val context:Context) {
                     j.put("imageStatus",m.getString("coverStatus")).put("imageMissingDescription",m.getString("altText"))
                     if(!j.has("assetImages"))j.put("assetImages",m.getJSONArray("assetImages"))
                 }
-                val bindings=JSONArray()
-                for(i in 0 until assetMedia.length())runCatching {
-                    val m=assetMedia.getJSONObject(i)
-                    if(m.optString("contentId")==j.getString("id") && m.optString("contentVersion")==j.optString("contentVersion")){
-                        WorkshopMediaBindings.validate(JSONArray().put(m),j.getString("id"),j.getString("contentVersion"))
-                        val filename=m.getString("assetFilename");require(filename.matches(Regex("[a-zA-Z0-9_-]+\\.(?:png|jpg|jpeg|webp)")))
-                        val bytes=context.assets.open("workshop/images/$filename").use {it.readBytes()};require(bytes.size<=8*1024*1024 && bytes.contentSha().equals(m.getString("sha256"),true))
-                        val source=WorkRecord(j.getString("id"),kind,j.getString("title"),j.toString(),0)
-                        val proof=WorkshopMediaBindings.fingerprintedRefs(JSONObject().put("contentId",j.getString("id")).put("contentVersion",j.getString("contentVersion")).put("mediaRoleRefs",JSONArray().put(m)),listOf(source))
-                        bindings.put(proof.getJSONObject(0))
-                    }
-                }
+                val source=WorkRecord(j.getString("id"),kind,j.getString("title"),j.toString(),0)
+                val bindings=assetMedia.refs(source,materialCatalog)
                 if(bindings.length()>0)j.put("editorialMediaBindings",bindings)
                 WorkRecord(j.getString("id"),kind,j.getString("title"),j.toString(),0)
             }

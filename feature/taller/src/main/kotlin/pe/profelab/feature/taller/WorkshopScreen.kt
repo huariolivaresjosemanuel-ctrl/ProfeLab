@@ -29,7 +29,7 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
     LaunchedEffect(all){vm.reconcile(all)}
     val catalog=remember(base,all){(base+all.filter {it.kind in setOf("catalog_material","user_material") && !it.archived}.mapNotNull {runCatching {WorkshopCodec.definition(JSONObject(it.json))}.getOrNull()}).associateBy {it.id}.values.toList()}
     val definitions=remember(templates,all){(templates+all.filter {it.kind in setOf("catalog_project","catalog_experiment") && !it.archived}).distinctBy {it.id}}
-    val mediaRecords=remember(all){all.filter {it.kind=="catalog_media" && !it.archived}}
+    val mediaRecords=remember(all,definitions){WorkshopBundledMedia.overlays(definitions)+all.filter {it.kind=="catalog_media" && !it.archived}}
     var section by rememberSaveable {mutableStateOf("taller")};var selected by rememberSaveable(initialId){mutableStateOf(initialId)}
     var destination by rememberSaveable(initialId){mutableStateOf(if(initialId==null)"hub"else "detail")}
     var trail by rememberSaveable(initialId){mutableStateOf("[]")}

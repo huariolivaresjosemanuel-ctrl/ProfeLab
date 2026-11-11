@@ -34,7 +34,10 @@ class WorkVisualAdapterTest {
         return out.toByteArray()
     }
     private fun hash(b:ByteArray)=MessageDigest.getInstance("SHA-256").digest(b).joinToString(""){"%02x".format(it)}
-    private val seedDefinition by lazy {runBlocking {WorkshopSeed(context).templates().single {it.id=="exp-001"}}}
+    private val seedDefinition by lazy {runBlocking {WorkshopSeed(context).templates().single {it.id=="exp-001"}.let {source->
+        // Synthetic overlay tests isolate their own revisions; retain the real procedure fingerprint.
+        source.copy(json=JSONObject(source.json).also {it.remove("editorialMediaBindings")}.toString())
+    }}}
     private fun definition(id:String="exp-001",count:Int=4):WorkRecord = if(id=="exp-001" && count==4)seedDefinition else WorkRecord(id,"experiment_template","Fixture de actividad",JSONObject().put("contentVersion","1.0.0").put("steps",JSONArray().also {a->repeat(count){a.put(JSONObject().put("id","step-$it").put("title","Acción $it").put("done",false))}}).toString(),0)
     private fun row(bytes:ByteArray,role:String="step_photo",step:String="step-0",id:String="exp-001",revision:Int=1,extension:String="png")=JSONObject()
         .put("contentId",id).put("contentVersion","1.0.0").put("role",role).put("stepId",if(role=="step_photo")step else "")
@@ -157,7 +160,7 @@ class WorkVisualAdapterTest {
         val a=Prefs(context);val b=Prefs(context);val archive=File(context.cacheDir,"qa-work-backup-${newId()}.zip");val bytes=image();val mediaZip=zip(convert(row(bytes),bytes));var mediaFile:File?=null
         try {
             val store=WorkspaceRepository(source);val importer=ContentPacks(context,store);importer.install(importer.inspect(Uri.fromFile(mediaZip).toString()))
-            val activity=WorkshopSeed(context).templates().single {it.id=="exp-001"}
+            val activity=definition()
             val binding=requireNotNull(WorkshopMediaBindings.resolve(activity,"step_photo","step-0",overlays=store.observeRecords().first()))
             val file=File(context.filesDir,"documents/${binding.storageId}");mediaFile=file;assertTrue(file.isFile)
             BackupTransfer(context,source,a.local).exportBackup(Uri.fromFile(archive).toString(),true);assertTrue(file.delete())

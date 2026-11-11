@@ -23,7 +23,7 @@ internal fun GuidedStepPager(record:WorkRecord,view:ActivityViewState,vm:Worksho
     LaunchedEffect(record.id){if(view.personal && view.steps.isNotEmpty())vm.visitStep(record,view.steps[index].id)}
     WorkshopPage("Procedimiento guiado",if(view.experiment)"Sigue la investigación paso a paso"else "Realiza tu actividad paso a paso",back,screenTag="workshop-steps"){
         item("summary"){ActivitySummary(record,view,{actions.navigate(WorkshopWindow.DETAIL)})}
-        item("step-selector"){if(view.steps.isNotEmpty())WorkshopChoices(view.steps.indices.map {"${it+1}"},"${index+1}"){visit(it.toInt()-1)}}
+        item("step-selector"){GuidedStepSelector(view.steps.size,index,::visit)}
         if(list){
             item("list-heading"){Text("Todos los pasos",style=MaterialTheme.typography.titleLarge)}
             view.steps.forEachIndexed {i,step->item("step:${step.id}"){
@@ -46,7 +46,7 @@ internal fun GuidedStepPager(record:WorkRecord,view:ActivityViewState,vm:Worksho
                 val warnings=WorkshopCodec.strings(data.optJSONObject("safety")?.opt("warnings"));if(warnings.isEmpty())Text("Revisa riesgos, preparación y adecuación al grupo antes de realizar el paso.")else warnings.forEach {Text(it)}
                 WorkshopCodec.strings(data.optJSONObject("safety")?.opt("childrenForbiddenActions")).forEach {Text("Solo adulto: $it")}
             }}
-            item("navigation"){FlowAction("Anterior","workshop-step-previous",{visit(index-1)},false,enabled=index>0);FlowAction(if(index<view.steps.lastIndex)"Siguiente"else "Ver resultados y reflexión","workshop-step-next",{if(index<view.steps.lastIndex)visit(index+1)else actions.navigate(WorkshopWindow.RESULTS)})}
+            item("navigation"){GuidedStepNavigation(index,view.steps.lastIndex,{visit(index-1)},{if(index<view.steps.lastIndex)visit(index+1)else actions.navigate(WorkshopWindow.RESULTS)})}
         }
         if(view.steps.isEmpty())item("empty"){FlowCard("Sin pasos definidos"){Text("Puedes consultar la ficha y los resultados, o añadir pasos en el editor de tu copia.");FlowAction("Resultados y reflexión","workshop-empty-steps-results",{actions.navigate(WorkshopWindow.RESULTS)},false)}}
         item("view"){FlowAction(if(list)"Volver a vista guiada"else "Ver todos los pasos (${view.steps.size})","workshop-step-view",{list=!list},false)}

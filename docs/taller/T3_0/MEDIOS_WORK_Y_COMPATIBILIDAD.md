@@ -1,6 +1,6 @@
-# Integración preparada para medios de Work — Taller 3.0
+# Integración de medios de Work — Taller 3.0
 
-Este parche implementa slots y un adaptador. No contiene las fotografías finales de Work, no aprueba imágenes y no convierte los siete mockups en recursos Android. Su ausencia no bloquea las ventanas ni el texto del procedimiento.
+Actualización 2026-11-10: el banco aprobado por la orden explícita del usuario ya se integra mediante 199 WebP y 229 vínculos. Incluye 20 portadas, 20 imágenes de ficha, 80 pasos, 69 vínculos para 45 materiales, 20 referencias de resultado y 20 apoyos docentes. Los siete mockups permanecen como referencias y no son recursos fotográficos Android. Los espacios alternativos se conservan para archivos dañados o ausentes.
 
 ## Slots de la aplicación
 
@@ -14,9 +14,11 @@ Cada fotografía de paso conserva además una huella SHA256 de la pareja JSON [t
 
 Las versiones 2.0.0 de los 12 proyectos y 1.0.0 de los 8 experimentos se obtienen de las cabeceras reales al leer los catálogos. Esta proyección no reescribe copias personales previas. Los JSON originales y sus 80 pasos no se modifican.
 
-`assets/workshop/media_slots_v1.json` registra los 20 IDs y los 80 stepIds actuales y tiene `resources: []`. Es cobertura pendiente, no un manifiesto de fotos producidas. El motor usa N pasos del contenido, no exige exactamente cuatro ni limita nuevos paquetes a esos veinte IDs.
+`assets/workshop/media_slots_v1.json` registra 229 recursos aprobados de los 20 IDs y sus 80 stepIds. WorkshopBundledMedia verifica hash, dimensiones, MIME y correspondencia con el catálogo real; comparte la verificación por archivo sin fusionar identidades de materiales. Los overlays de lectura también permiten mostrar estos recursos en ejecuciones compatibles anteriores sin reescribirlas. El motor usa N pasos del contenido, no exige exactamente cuatro ni limita nuevos paquetes a esos veinte IDs.
 
-## Conversión posterior del lote editorial
+## Conversión posterior de otros lotes editoriales
+
+El banco del 10 de noviembre se incluye directamente en assets; no se importa el ZIP editorial de 425MB ni se incluyen sus originales PNG. BANCO_VISUAL_INTEGRADO.json conserva origen, versiones, hashes, estados históricos y aprobación explícita. Los estados pendientes del banco original no se reescriben retrospectivamente. La aprobación se limita a integrar imágenes editoriales; no certifica seguridad de materiales reales, aprendizaje ni resultados científicos. Se conservan las advertencias y la revisión docente de cada actividad.
 
 El JSON WORK_VISUAL_DELIVERY_1 no se presenta como un manifest.json importable directamente. La API `WorkVisualAdapter.toContentPack(manifest, files, definitions, packId, packVersion, materialCatalog)` realiza una conversión explícita a los mismos paquetes offline que ya valida ContentPacks. No se añade otra base de datos ni un importador que ignore las verificaciones existentes.
 

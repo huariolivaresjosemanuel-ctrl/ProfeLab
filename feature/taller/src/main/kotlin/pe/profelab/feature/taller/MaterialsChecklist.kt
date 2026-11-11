@@ -44,7 +44,7 @@ internal fun MaterialsChecklist(record:WorkRecord,all:List<WorkRecord>,catalog:L
         assessment.coverage.forEach {coverage->val need=coverage.requirement;val key="${need.materialId}:${InventoryRules.unit(need.unit)}:${need.tool}:${need.reusable}"
             item("requirement:$key"){
                 var detail by rememberSaveable(record.id,key){mutableStateOf(false)}
-                FlowCard(color=WorkshopColors.Paper){
+                FlowCard(color=WorkshopColors.Paper,contentPadding=10.dp){
                     Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(12.dp)){
                         WorkshopMediaSlot(record,"material_icon",materialId=need.materialId,modifier=Modifier.size(56.dp))
                         Column(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(4.dp)){
@@ -52,8 +52,8 @@ internal fun MaterialsChecklist(record:WorkRecord,all:List<WorkRecord>,catalog:L
                             Text("${displayNumber(need.quantity)} ${need.unit}",style=MaterialTheme.typography.bodyMedium)
                             Text(when(InventoryAvailability.state(coverage)){AvailabilityState.READY->"Suficiente";AvailabilityState.PARTIAL->"Disponible parcialmente";AvailabilityState.MISSING->"Me falta";AvailabilityState.REVIEW->"Sin datos · revisar"},style=MaterialTheme.typography.labelLarge,color=WorkshopColors.Green)
                         }
+                        IconButton(onClick={detail=!detail}){Icon(if(detail)Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore,if(detail)"Ocultar existencias y reservas"else "Ver existencias y reservas")}
                     }
-                    TextButton(onClick={detail=!detail}){Text(if(detail)"Ocultar existencias y reservas"else "Ver existencias y reservas")}
                     if(detail){
                         val physical=convertedTotal(stocks,need,false,coverage.review)
                         val reserved=convertedTotal(stocks,need,true,coverage.review)

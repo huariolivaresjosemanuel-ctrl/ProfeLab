@@ -17,14 +17,12 @@ internal fun TeacherClassroomPanel(record:WorkRecord,view:ActivityViewState,vm:W
     val guide=TeacherGuides.resolve(record);val flow=JSONObject(record.json).optJSONObject("workshopFlow") ?: JSONObject()
     val observed=WorkshopCodec.strings(flow.opt("observedCriterionIds")).toSet()
     var section by rememberSaveable(record.id){mutableStateOf("Presentación")}
-    var support by rememberSaveable(record.id){mutableStateOf(false)}
     WorkshopPage("Guía docente",record.title.ifBlank {"Cómo explicarlo y qué observar"},back,screenTag="workshop-classroom"){
         item("sections"){WorkshopChoices(listOf("Presentación","Evaluación","Adaptación"),section){section=it}}
         if(section=="Presentación"){
-        item("sequence"){FlowCard("Inicio, desarrollo y cierre",WorkshopColors.Mint){Text("Inicio: ${guide.optString("motivation")}");WorkshopCodec.strings(guide.opt("teachingSequence")).forEachIndexed {i,line->Text("${i+1}. $line")};Text("Cierre: ${guide.optString("close")}")}}
+        item("sequence"){TeacherPresentationCard(record,guide)}
         item("questions"){FlowCard("Preguntas para el aula",WorkshopColors.Blue,Icons.Outlined.QuestionAnswer){(WorkshopCodec.strings(guide.opt("priorKnowledgeQuestions"))+WorkshopCodec.strings(guide.opt("reflectiveQuestions"))).distinct().forEachIndexed {i,q->Text("${i+1}. $q")}}}
         item("script"){FlowCard("Guion breve",WorkshopColors.Paper,Icons.Outlined.MenuBook){BriefText(guide.optString("introShort").ifBlank {"Guion vacío por elección del usuario. Puedes editarlo en tu copia."});TextButton(onClick=if(view.personal)actions.editTeacher else actions.begin){Text(if(view.personal)"Editar mi guion docente"else "Crear mi guion docente")}}}
-        item("visual-support"){TextButton(onClick={support=!support}){Text(if(support)"Ocultar apoyo visual"else "Apoyo visual opcional")};if(support)WorkshopMediaSlot(record,"teacher_reference",modifier=Modifier.fillMaxWidth())}
         }
         if(section=="Evaluación"){
         item("formative"){FlowCard("Evaluación formativa simple",WorkshopColors.Peach,Icons.Outlined.FactCheck){

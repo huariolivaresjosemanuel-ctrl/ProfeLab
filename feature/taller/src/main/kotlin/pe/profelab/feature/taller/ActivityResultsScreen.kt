@@ -25,8 +25,10 @@ internal fun ActivityResultsScreen(record:WorkRecord,view:ActivityViewState,vm:W
     WorkshopPage(title,if(experimental)"Registra, compara y analiza tus observaciones"else "Conserva lo realizado, los ajustes y lo aprendido",back,screenTag="workshop-results"){
         item("summary"){ActivitySummary(record,view,{actions.navigate(WorkshopWindow.DETAIL)})}
         item("results-sections"){WorkshopChoices(listOf("Registro","Evidencias","Conclusión"),section){section=it}}
-        if(!view.personal)item("readonly"){FlowCard("Consulta sin registros personales",WorkshopColors.Yellow,Icons.Outlined.Info){Text("Esta es una definición pública. No se crean mediciones ni evidencias al abrirla. Comienza tu copia para registrar lo que realmente ocurra.");FlowAction("Comenzar mi copia","workshop-results-begin",actions.begin,false)}}
+        if(!view.personal && section!="Registro")item("readonly"){PublicResultsNotice(actions)}
         if(section=="Registro"){
+            item("outcome-reference"){FlowCard("Referencia ilustrativa de la actividad",WorkshopColors.Mint){WorkshopMediaSlot(record,"outcome_reference",modifier=Modifier.fillMaxWidth());Text("Imagen editorial generada por IA. No representa tus observaciones ni resultados medidos.",style=MaterialTheme.typography.bodySmall)}}
+            if(!view.personal)item("readonly"){PublicResultsNotice(actions)}
             if(experimental)item("variables"){FlowCard("Pregunta y variables",WorkshopColors.Mint,Icons.Outlined.Science){
                 Text(data.optString("researchQuestion").ifBlank {"Pregunta por definir en tu copia."})
                 Text("Hipótesis propia: ${data.optString("hypothesis").ifBlank {"sin registrar"}}")
@@ -37,7 +39,6 @@ internal fun ActivityResultsScreen(record:WorkRecord,view:ActivityViewState,vm:W
                 if(view.personal)WorkshopObservations(record,vm)else Text("Tu copia podrá guardar registros con fecha, notas, medidas opcionales con su unidad y evidencias propias. Sin valores pregrabados.")
             }}
             item("results-text"){ResultTextField(record,"results",when {experimental->"Resultados observados";dance->"Práctica realizada";heritage->"Actividad realizada";else->"Producto realizado"},view.personal,vm)}
-            item("outcome-reference"){FlowCard("Referencia visual opcional",WorkshopColors.Mint){WorkshopMediaSlot(record,"outcome_reference",modifier=Modifier.fillMaxWidth());Text("Una imagen editorial es una referencia ilustrativa, nunca evidencia de tus resultados.",style=MaterialTheme.typography.bodySmall)}}
         }
         if(section=="Evidencias")item("personal-evidence"){FlowCard("Evidencias fotográficas",WorkshopColors.Mint,Icons.Outlined.PhotoCamera){
             if(view.personal)WorkshopEvidence(record,vm,capture)else Text("Sin fotografías personales. Añadir evidencias es opcional y requiere iniciar una copia.")
@@ -49,6 +50,14 @@ internal fun ActivityResultsScreen(record:WorkRecord,view:ActivityViewState,vm:W
         }
         item("results-next"){FlowAction("Ver guía docente","workshop-results-next",{actions.navigate(WorkshopWindow.CLASSROOM)});FlowAction("Volver al procedimiento","workshop-results-steps",{actions.navigate(WorkshopWindow.STEPS)},false)}
         if(view.personal)item("results-save-state"){Text("Los cambios se guardan en este dispositivo. Si aparece un error, conserva el borrador y utiliza Reintentar.",style=MaterialTheme.typography.bodySmall)}
+    }
+}
+
+@Composable
+private fun PublicResultsNotice(actions:ActivityActions){
+    FlowCard("Consulta sin registros personales",WorkshopColors.Yellow,Icons.Outlined.Info){
+        Text("Esta es una definición pública. Comienza tu copia para registrar tus observaciones; consultar no crea datos personales.")
+        FlowAction("Comenzar mi copia","workshop-results-begin",actions.begin,false)
     }
 }
 

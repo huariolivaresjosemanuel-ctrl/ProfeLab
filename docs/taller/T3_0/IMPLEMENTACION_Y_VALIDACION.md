@@ -30,7 +30,7 @@ El procedimiento lee cantidades variables de pasos para proyectos, experimentos 
 
 ## Medios preparados, sin fotos ficticias
 
-WorkVisualAdapter convierte explícitamente un lote editorial validado al importador actual. WorkshopMediaBindings vincula por identidad pública/namespace, versión, rol y stepId/materialId, con huella del texto de cada paso. Los overlays catalog_media y archivos privados respaldables no clonan actividades ni modifican inventario, progreso u observaciones. El registro de slots tiene resources vacío. Ver MEDIOS_WORK_Y_COMPATIBILIDAD.md para contrato, aprobación, límites y orden de integración.
+Actualización 2026-11-10: el banco aprobado contiene 199 WebP optimizados y 229 vínculos reales para las 20 actividades/80 pasos/45 materiales. WorkshopBundledMedia los verifica y WorkshopSeed los proyecta sin escribir en Room. Los overlays de lectura también sirven a copias personales de versión compatible; la portada propia elegida mantiene prioridad. El registro de slots ya contiene recursos reales. Los originales PNG de alta resolución y los mockups no se incorporan a la APK. Ver BANCO_VISUAL_INTEGRADO.json y MEDIOS_WORK_Y_COMPATIBILIDAD.md. WorkVisualAdapter y el importador versionado anterior se conservan para nuevos paquetes compatibles.
 
 ## Validación honesta
 

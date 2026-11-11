@@ -18,14 +18,15 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import org.json.JSONObject
 import pe.profelab.core.model.*
 import pe.profelab.core.content.WorkshopCodec
 
 @Composable
-internal fun FlowCard(title:String="",color:Color=WorkshopColors.Mint,icon:ImageVector?=null,modifier:Modifier=Modifier,content:@Composable ColumnScope.()->Unit){
+internal fun FlowCard(title:String="",color:Color=WorkshopColors.Mint,icon:ImageVector?=null,modifier:Modifier=Modifier,contentPadding:Dp=16.dp,content:@Composable ColumnScope.()->Unit){
     Surface(modifier.fillMaxWidth(),shape=RoundedCornerShape(22.dp),color=color,border=BorderStroke(1.dp,WorkshopColors.Green.copy(alpha=.06f)),shadowElevation=1.dp){
-        Column(Modifier.background(Brush.linearGradient(listOf(Color.White.copy(alpha=.18f),Color.Transparent))).padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)){
+        Column(Modifier.background(Brush.linearGradient(listOf(Color.White.copy(alpha=.18f),Color.Transparent))).padding(contentPadding),verticalArrangement=Arrangement.spacedBy(10.dp)){
             if(title.isNotBlank())Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(10.dp)){
                 icon?.let {Icon(it,null,Modifier.size(28.dp),tint=WorkshopColors.Green)}
                 Text(title,style=MaterialTheme.typography.titleLarge,fontWeight=FontWeight.Bold,color=WorkshopColors.Deep)
