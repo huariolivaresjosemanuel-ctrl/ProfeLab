@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":feature:capture"))
     implementation(project(":feature:ocr"))
     implementation(project(":feature:profile"))
+    implementation(project(":feature:students"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.navigation.compose)
     implementation(libs.work)

@@ -33,6 +33,7 @@ import pe.profelab.core.content.WorkshopCodec
 import pe.profelab.core.content.WorkshopFlowAdapter
 import pe.profelab.core.content.WorkshopMediaBindings
 import pe.profelab.core.content.WorkshopEvidenceData
+import pe.profelab.core.content.WorkshopAssetPaths
 import pe.profelab.core.model.WorkRecord
 import java.io.File
 import java.security.MessageDigest
@@ -42,11 +43,12 @@ internal val LocalWorkshopMediaRecords=staticCompositionLocalOf<List<WorkRecord>
 private val bitmapCache=object:LruCache<String,Bitmap>(12*1024*1024){override fun sizeOf(key:String,value:Bitmap)=value.byteCount}
 private data class PictureState(val bitmap:Bitmap?=null,val loading:Boolean=true)
 private fun loadWorkshopBitmap(context:Context,ref:WorkshopImage,max:Int):Bitmap? {
-    if(ref.asset && !ref.id.matches(Regex("[a-zA-Z0-9_-]+\\.(?:png|jpg|jpeg|webp)")))return null
+    if(ref.asset && !(WorkshopAssetPaths.legacyName(ref.id) || WorkshopAssetPaths.validModular(ref.id)))return null
     if(!ref.asset && !ref.id.matches(Regex("[a-zA-Z0-9-]+")))return null
-    val key="${ref.asset}:${ref.id}:${ref.expectedHash.orEmpty()}:$max"
+    val resolved=if(ref.asset)runCatching {WorkshopAssetPaths.canonical(context,ref.id)}.getOrNull() ?: return null else ref.id
+    val key="${ref.asset}:$resolved:${ref.expectedHash.orEmpty()}:$max"
     return bitmapCache.get(key) ?: runCatching {
-        fun stream()=if(ref.asset)context.assets.open("workshop/images/${ref.id}")else File(context.filesDir,"documents/${ref.id}").inputStream()
+        fun stream()=if(ref.asset)WorkshopAssetPaths.open(context,ref.id)else File(context.filesDir,"documents/$resolved").inputStream()
         ref.expectedHash?.let {expected->
             val digest=MessageDigest.getInstance("SHA-256");stream().use {input->val bytes=ByteArray(65536);while(true){val n=input.read(bytes);if(n<0)break;digest.update(bytes,0,n)}}
             require(digest.digest().joinToString(""){"%02x".format(it)}.equals(expected,true))
@@ -99,7 +101,7 @@ internal fun projectImages(record:WorkRecord):List<WorkshopImage>{
     val j=JSONObject(record.json);val list=mutableListOf<WorkshopImage>()
     val id=j.optString("originImageId").ifBlank {j.optString("forkedFromTemplateId").ifBlank {record.id}}
     if(id.matches(Regex("(?:mat|com|cta|per|arte|tut)-[0-9]{3}")))list+=WorkshopImage("$id.png",true,"Ilustración conceptual original; no foto del procedimiento")
-    WorkshopCodec.strings(j.opt("assetImages")).filter {it.matches(Regex("[a-zA-Z0-9_-]+\\.(?:png|jpg|jpeg|webp)"))}.forEach {list+=WorkshopImage(it,true,"Imagen editorial incluida con la aplicación; consulta sus fuentes")}
+    WorkshopCodec.strings(j.opt("assetImages")).filter {WorkshopAssetPaths.legacyName(it) || WorkshopAssetPaths.validModular(it)}.forEach {list+=WorkshopImage(it,true,"Imagen editorial incluida con la aplicación; consulta sus fuentes")}
     WorkshopCodec.strings(j.opt("imageFileIds")).filter {it.matches(Regex("[a-zA-Z0-9-]+"))}.forEach {list+=installedWorkshopImage(j,it)}
     val attachments=j.optJSONArray("attachments")
     if(attachments!=null)for(i in 0 until attachments.length()){val a=attachments.optJSONObject(i) ?: continue;val file=a.optString("id");if(a.optString("mime").startsWith("image/") && file.matches(Regex("[a-zA-Z0-9-]+")))list+=WorkshopImage(file,label="Fotografía o boceto propio; revisa su privacidad")}

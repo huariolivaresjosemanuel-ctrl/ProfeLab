@@ -35,7 +35,7 @@ class WorkshopVisualBankTest {
             for(row in selected){
                 val resolved=requireNotNull(WorkshopMediaBindings.resolve(definition,row.getString("role"),row.optString("stepId").takeIf {it.isNotBlank()},row.optString("materialId").takeIf {it.isNotBlank()})){"Unresolved approved slot: $row"}
                 assertTrue(resolved.asset);assertEquals(row.getString("mediaId"),resolved.mediaId)
-                assertEquals(row.getString("assetFilename"),resolved.storageId);assertEquals(row.getString("sha256"),resolved.sha256)
+                assertEquals(row.getString("assetPath"),resolved.storageId);assertEquals(row.getString("sha256"),resolved.sha256)
             }
             assertEquals("Reading slots must not modify the public definition",before,definition.json)
         }
@@ -43,10 +43,10 @@ class WorkshopVisualBankTest {
 
     @Test fun everyBundledOptimizedFileMatchesItsHashAndDecodesOnAndroid(){
         val helper=WorkshopBundledMedia(context)
-        for(row in rows(registry()).distinctBy {it.getString("assetFilename")}){
-            assertTrue("Rejected bundled file: ${row.getString("assetFilename")}",helper.verifiesAsset(row))
-            assertTrue(row.getString("assetFilename").endsWith(".webp"))
-            val bytes=context.assets.open("workshop/images/${row.getString("assetFilename")}").use {it.readBytes()}
+        for(row in rows(registry()).distinctBy {it.getString("assetPath")}){
+            assertTrue("Rejected bundled file: ${row.getString("assetPath")}",helper.verifiesAsset(row))
+            assertTrue(row.getString("assetPath").endsWith(".webp"))
+            val bytes=WorkshopAssetPaths.open(context,row.getString("assetPath")).use {it.readBytes()}
             assertEquals(row.getString("sha256"),hash(bytes))
             val bounds=BitmapFactory.Options().apply {inJustDecodeBounds=true};BitmapFactory.decodeByteArray(bytes,0,bytes.size,bounds)
             assertEquals(row.getInt("width"),bounds.outWidth);assertEquals(row.getInt("height"),bounds.outHeight);assertEquals("image/webp",bounds.outMimeType)
@@ -59,7 +59,7 @@ class WorkshopVisualBankTest {
         val helper=WorkshopBundledMedia(context);val valid=registry().getJSONObject(0)
         assertTrue(helper.verifiesAsset(valid))
         listOf("sha256" to "0".repeat(64),"width" to (valid.getInt("width")+1),"mime" to "image/png",
-            "assetFilename" to "missing-work-file.webp","assetFilename" to "../media_slots_v1.json").forEach {(key,value)->
+            "assetPath" to "profelab/taller/projects/missing/steps/missing-work-file.webp","assetPath" to "../media_slots_v1.json").forEach {(key,value)->
             assertFalse("Cached file must not validate a different declaration: $key",helper.verifiesAsset(JSONObject(valid.toString()).put(key,value)))
         }
         assertTrue(helper.verifiesAsset(valid))

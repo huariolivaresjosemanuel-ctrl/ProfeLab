@@ -23,6 +23,8 @@ class AssistantNavigationTest {
     @Test fun assistantTeacherActionOpensExistingTeachingMode(){
         compose.openWorkshopDefinition()
         compose.onNodeWithTag("assistant-open").performClick()
+        compose.waitForIdle()
+        if(compose.onAllNodesWithTag("assistant.taller.teacher").fetchSemanticsNodes().isEmpty())compose.onNodeWithTag("assistant-more").performScrollTo().performClick()
         compose.waitUntil(15000){compose.onAllNodesWithTag("assistant.taller.teacher").fetchSemanticsNodes().isNotEmpty()}
         compose.onNodeWithTag("assistant.taller.teacher").performScrollTo().performClick()
         compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Guion breve"))

@@ -55,7 +55,7 @@ internal fun WorkshopEvidence(record:WorkRecord,vm:WorkshopViewModel,capture:(St
         val data=JSONObject(record.json)
         Row(verticalAlignment=Alignment.CenterVertically){Checkbox(data.optBoolean("exportImages"),{checked->vm.patch(record){it.put("exportImages",checked)}});Text("Incluir mis imágenes en la copia PDF",modifier=Modifier.weight(1f))}
     }
-    remove?.let {id->AlertDialog(onDismissRequest={remove=null},title={Text("¿Quitar el vínculo a esta evidencia?")},text={Text("Se quita de esta creación y de sus observaciones. El archivo privado se conserva para no destruir otros trabajos que lo utilicen.")},confirmButton={TextButton(onClick={vm.patch(record){j->
+    remove?.let {id->AlertDialog(onDismissRequest={remove=null},title={Text("¿Quitar el vínculo a esta evidencia?")},text={Text("Se quita de esta creación y de sus registros generales. Las evaluaciones privadas anteriores conservan sus evidencias históricas; puedes revisarlas y quitar sus vínculos explícitamente en Mis alumnos. El archivo privado no se destruye.")},confirmButton={TextButton(onClick={vm.patch(record){j->
         val old=j.optJSONArray("attachments") ?: JSONArray();val next=JSONArray()
         for(i in 0 until old.length()){val a=old.getJSONObject(i);if(a.optString("id")!=id)next.put(a)}
         j.put("attachments",next)

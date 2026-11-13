@@ -47,11 +47,10 @@ internal fun WorkshopHub(all:List<WorkRecord>,definitions:List<WorkRecord>,openS
         }
         item("recent"){FlowCard("Recientes",WorkshopColors.Mint,Icons.Outlined.Schedule){
             if(personal.isEmpty())Text("Aquí aparecerán las actividades que comiences. No hay proyectos personales precargados.",style=MaterialTheme.typography.bodySmall)
-            else personal.take(4).forEach {r->TextButton(onClick={open(r.id)},modifier=Modifier.testTag("workshop-resume:${r.id}")){Text(r.title.ifBlank {"Borrador personal"})}}
+            else personal.take(1).forEach {r->TextButton(onClick={open(r.id)},modifier=Modifier.testTag("workshop-resume:${r.id}")){Text("Continuar: "+r.title.ifBlank {"Borrador personal"})}}
         }}
-        item("utilities"){FlowCard("Inventario y compras",WorkshopColors.Paper,Icons.Outlined.Inventory2){Text("Gestiona materiales, existencias y genera tus listas");FlowAction("Revisar inventario","workshop-inventory",inventory,false);FlowAction("Lista de compras","workshop-shopping",shopping,false)}}
+        item("utilities"){FlowCard("Inventario y compras",WorkshopColors.Paper,Icons.Outlined.Inventory2){TextButton(onClick=inventory,modifier=Modifier.testTag("workshop-inventory")){Text("Revisar inventario")};TextButton(onClick=shopping,modifier=Modifier.testTag("workshop-shopping")){Text("Lista de compras")}}}
         item("create"){FlowAction("Crear mi propia idea","workshop-create",create,false)}
         item("recommendations"){TextButton(onClick=advanced){Text("Recomendaciones y filtros avanzados")}}
-        item("companion"){Row {CanonicalMascot(Modifier.width(96.dp).height(112.dp));Text("Puedes consultar las guías sin registrar inventario. Tu compañera ofrece ayuda desde el botón de la aplicación.",Modifier.weight(1f),style=MaterialTheme.typography.bodySmall)}}
     }
 }

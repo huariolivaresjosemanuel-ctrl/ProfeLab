@@ -14,6 +14,7 @@ internal object BackupReferences {
         for(i in 0 until rows.length()){
             val row=rows.getJSONObject(i);val text=row.getString("json");JsonLimits.requireBounded(text);val body=JSONObject(text)
             if(row.optString("kind")=="document")add(body.optString("fileId"))
+            if(row.optString("kind")=="edu_observation")array(body.optJSONArray("evidenceIds"))
             array(body.optJSONArray("imageFileIds"));array(body.optJSONArray("resourceFileIds"))
             val attachments=body.optJSONArray("attachments") ?: JSONArray()
             for(n in 0 until attachments.length())attachments.optJSONObject(n)?.let {add(it.optString("id"))}

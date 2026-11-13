@@ -12,6 +12,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import pe.profelab.core.content.WorkshopCodec
 import pe.profelab.core.content.WorkshopFlowAdapter
+import pe.profelab.core.content.WorkshopPreparation
+import pe.profelab.core.content.EducationProgress
 import pe.profelab.core.model.*
 import java.math.BigDecimal
 import java.time.Instant
@@ -31,7 +33,13 @@ class WorkshopViewModel(private val store:WorkspaceStore):ViewModel(){
     fun current(record:WorkRecord)=desired[record.id] ?: record
     fun reconcile(rows:List<WorkRecord>){rows.forEach {r->if((saving[r.id] ?: 0)==0 && r.revision>=(acknowledgements[r.id] ?: Int.MAX_VALUE))desired.remove(r.id)}}
     fun save(record:WorkRecord){desired[record.id]=record;uncommitted+=record.id;saving[record.id]=(saving[record.id] ?: 0)+1;action("Guardado en este dispositivo"){
-        try{val snapshot=desired[record.id] ?: record;store.saveRecord(snapshot.copy(updatedAt=System.currentTimeMillis()));acknowledgements[record.id]=store.record(record.id)?.revision ?: 0;if(desired[record.id]===snapshot)uncommitted.remove(record.id)}
+        try{val snapshot=desired[record.id] ?: record
+            store.editRecords {rows->
+                val current=rows.find {it.id==snapshot.id};val merged=if(current!=null && snapshot.kind in setOf("project","experiment"))
+                    snapshot.copy(json=WorkshopPreparation.mergeExternalRun(JSONObject(snapshot.json),JSONObject(current.json)).toString())else snapshot
+                listOf(merged.copy(updatedAt=System.currentTimeMillis()))
+            }
+            acknowledgements[record.id]=store.record(record.id)?.revision ?: 0;if(desired[record.id]===snapshot)uncommitted.remove(record.id)}
         finally{saving[record.id]=((saving[record.id] ?: 1)-1).coerceAtLeast(0)}
     }}
     fun patch(record:WorkRecord,edit:(JSONObject)->Unit){val latest=current(record);val j=JSONObject(latest.json);edit(j);save(latest.copy(json=j.toString()))}
@@ -49,9 +57,9 @@ class WorkshopViewModel(private val store:WorkspaceStore):ViewModel(){
     }
     val inventoryOperations get()=store as? InventoryOperationStore
     fun editResult(record:WorkRecord,field:String,value:String){val latest=current(record);save(latest.copy(json=ActivityResultsData.update(latest,field,value).toString()))}
-    fun visitStep(record:WorkRecord,id:String){val latest=current(record);save(latest.copy(json=WorkshopFlowAdapter.visit(latest,id).toString()))}
-    fun completeStep(record:WorkRecord,id:String,done:Boolean){val latest=current(record);save(latest.copy(json=WorkshopFlowAdapter.mark(latest,id,done).toString()))}
-    fun stepNote(record:WorkRecord,id:String,note:String){patch(record){j->
+    fun visitStep(record:WorkRecord,id:String){val latest=current(record);if(EducationProgress.hasSelection(latest)){val runId=EducationProgress.selectedId(latest);action("Ubicación guardada en esta ejecución"){EducationProgress.change(store,record.id,id,visit=true,expectedRunId=runId)};return};save(latest.copy(json=WorkshopFlowAdapter.visit(latest,id).toString()))}
+    fun completeStep(record:WorkRecord,id:String,done:Boolean){val latest=current(record);if(EducationProgress.hasSelection(latest)){val runId=EducationProgress.selectedId(latest);action("Progreso guardado en esta ejecución"){EducationProgress.change(store,record.id,id,done=done,expectedRunId=runId)};return};save(latest.copy(json=WorkshopFlowAdapter.mark(latest,id,done).toString()))}
+    fun stepNote(record:WorkRecord,id:String,note:String){val latest=current(record);if(EducationProgress.hasSelection(latest)){val runId=EducationProgress.selectedId(latest);action("Nota guardada en esta ejecución"){EducationProgress.change(store,record.id,id,note=note,expectedRunId=runId)};return};patch(record){j->
         val view=WorkshopFlowAdapter.read(record.copy(json=j.toString()));require(view.personal)
         val index=view.steps.indexOfFirst {it.id==id};require(index>=0);val steps=j.getJSONArray("steps");val step=steps.optJSONObject(index) ?: JSONObject().put("title",steps.optString(index));steps.put(index,JSONObject(step.toString()).put("id",id).put("notes",note));j.put("steps",steps)
     }}

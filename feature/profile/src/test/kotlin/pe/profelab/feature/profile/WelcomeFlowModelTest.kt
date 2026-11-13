@@ -18,6 +18,7 @@ class WelcomeFlowModelTest {
         override suspend fun setMascotPreferences(visible:Boolean,reduceMotion:Boolean,personalizedGreeting:Boolean){preferences.value=preferences.value.copy(mascotVisible=visible,reduceMotion=reduceMotion,personalizedGreetings=personalizedGreeting)}
         override suspend fun completeWelcomeRegistration(name:String,role:LocalRole){if(fail)throw java.io.IOException("fixture");writes++;preferences.value=preferences.value.copy(displayName=PersonalizationRules.name(name),role=role,onboardingCompleted=true,welcomeIntroSeen=true)}
         override suspend fun markWelcomeIntroSeen(){if(fail)throw java.io.IOException("fixture");writes++;preferences.value=preferences.value.copy(welcomeIntroSeen=true)}
+        override suspend fun markTallerWelcomeSeen(){if(fail)throw java.io.IOException("fixture");writes++;preferences.value=preferences.value.copy(tallerWelcomeSeen=true)}
     }
     private fun profiles(value:Profile?=null)=object:ProfileRepository {
         override fun observeProfile()=MutableStateFlow(value)

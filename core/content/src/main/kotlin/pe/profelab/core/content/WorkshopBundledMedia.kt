@@ -22,20 +22,20 @@ class WorkshopBundledMedia(private val context:Context) {
 
     /** A damaged/missing file rejects this slot only; no other image is substituted. */
     fun verifiesAsset(row:JSONObject):Boolean=runCatching {
-        val filename=row.getString("assetFilename")
-        require(filename.matches(Regex("[a-zA-Z0-9_-]+\\.(?:png|jpg|jpeg|webp)")))
+        val filename=WorkshopAssetPaths.reference(row)
+        val canonical=WorkshopAssetPaths.canonical(context,filename)
         val expected=row.getString("sha256").lowercase();require(expected.matches(Regex("[a-f0-9]{64}")))
-        val key="$filename:$expected"
+        val key="$canonical:$expected"
         val facts=verified[key] ?: run {
             val digest=MessageDigest.getInstance("SHA-256");var count=0L
-            context.assets.open("workshop/images/$filename").use {input->
+            WorkshopAssetPaths.open(context,filename).use {input->
                 val buffer=ByteArray(65536)
                 while(true){val n=input.read(buffer);if(n<0)break;count+=n;require(count<=8L*1024*1024);digest.update(buffer,0,n)}
             }
             require(count>0)
             val hash=digest.digest().joinToString(""){"%02x".format(it)};require(hash==expected)
             val bounds=BitmapFactory.Options().apply {inJustDecodeBounds=true}
-            context.assets.open("workshop/images/$filename").use {BitmapFactory.decodeStream(it,null,bounds)}
+            WorkshopAssetPaths.open(context,filename).use {BitmapFactory.decodeStream(it,null,bounds)}
             require(bounds.outWidth in 1..10000 && bounds.outHeight in 1..10000 && bounds.outWidth.toLong()*bounds.outHeight<=25_000_000)
             AssetFacts(hash,count,bounds.outWidth,bounds.outHeight,requireNotNull(bounds.outMimeType)).also {verified[key]=it}
         }
@@ -47,7 +47,10 @@ class WorkshopBundledMedia(private val context:Context) {
         val id=WorkshopMediaBindings.contentId(source);val version=WorkshopMediaBindings.version(source)
         return JSONArray().also {result->
             byContent[id].orEmpty().forEach {row->runCatching {
-                if(row.optString("contentVersion")!=version || !verifiesAsset(row))return@runCatching
+                // Metadata only: opening a catalog must not read/hash/decode the whole bank.
+                if(row.optString("contentVersion")!=version)return@runCatching
+                val reference=WorkshopAssetPaths.reference(row)
+                require(WorkshopAssetPaths.validModular(reference) || WorkshopAssetPaths.legacyName(reference))
                 val data=JSONObject().put("contentId",id).put("contentVersion",version).put("mediaRoleRefs",JSONArray().put(row))
                 val checked=WorkshopMediaBindings.fingerprintedRefs(data,listOf(source),catalog)
                 result.put(checked.getJSONObject(0))

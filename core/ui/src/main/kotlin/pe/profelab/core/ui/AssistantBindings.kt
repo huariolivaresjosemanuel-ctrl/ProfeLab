@@ -7,12 +7,24 @@ import pe.profelab.core.model.AssistantAction
 class AssistantRegistry {
     private data class Slot(val owner:Any,val actions:Set<AssistantAction>,val current:()->Map<AssistantAction,()->Unit>)
     private val slots=mutableStateMapOf<String,Slot>()
+    private val occlusions=mutableStateMapOf<Any,Boolean>()
+    val occluded:Boolean get()=occlusions.isNotEmpty()
+    internal fun occlude(owner:Any,active:Boolean){if(active)occlusions[owner]=true else occlusions.remove(owner)}
     fun actions(context:String)=slots[context]?.actions.orEmpty()
     fun invoke(context:String,action:AssistantAction):Boolean {val handler=slots[context]?.current?.invoke()?.get(action) ?: return false;handler();return true}
     internal fun update(context:String,owner:Any,keys:Set<AssistantAction>,current:()->Map<AssistantAction,()->Unit>){
         val old=slots[context];if(old==null || old.owner!==owner || old.actions!=keys)slots[context]=Slot(owner,keys,current)
     }
     internal fun remove(context:String,owner:Any){if(slots[context]?.owner===owner)slots.remove(context)}
+}
+
+/** Each dialog owns its suppression; dismissing one cannot reveal the mascot over another. */
+@Composable
+fun BindAssistantOcclusion(active:Boolean){
+    val registry=LocalAssistantRegistry.current ?: return
+    val owner=remember {Any()}
+    SideEffect {registry.occlude(owner,active)}
+    DisposableEffect(registry,owner){onDispose {registry.occlude(owner,false)}}
 }
 val LocalAssistantRegistry=staticCompositionLocalOf<AssistantRegistry?> {null}
 @Composable

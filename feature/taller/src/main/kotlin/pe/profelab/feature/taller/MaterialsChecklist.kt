@@ -13,6 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import org.json.JSONArray
 import org.json.JSONObject
@@ -33,15 +34,17 @@ internal fun ShoppingShareButtons(text:String){
 }
 
 @Composable
-internal fun MaterialsChecklist(record:WorkRecord,all:List<WorkRecord>,catalog:List<MaterialDefinition>,view:ActivityViewState,vm:WorkshopViewModel,back:()->Unit,actions:ActivityActions){
+internal fun MaterialsChecklist(record:WorkRecord,all:List<WorkRecord>,catalog:List<MaterialDefinition>,view:ActivityViewState,vm:WorkshopViewModel,back:()->Unit,actions:ActivityActions,participants:@Composable (WorkRecord)->Unit={}){
     val assessment=WorkshopCodec.assess(record,all,catalog);val data=JSONObject(record.json)
     val prepared=WorkshopCodec.strings(data.optJSONObject("workshopFlow")?.opt("preparedMaterialIds")).toSet()
     val stocks=WorkshopCodec.inventory(all,catalog);val otherStocks=WorkshopCodec.inventory(all,catalog,setOf(record.id))
     val text=WorkshopFlowAdapter.shoppingText(record,assessment)
     WorkshopPage("Materiales e inventario","Revisa lo que necesitas y qué tienes",back,screenTag="workshop-materials"){
         item("summary"){ActivitySummary(record,view,{actions.navigate(WorkshopWindow.DETAIL)})}
+        item("prepare"){ActivityPreparationPanel(record,view.personal,catalog,vm,actions.begin,participants)}
         item("heading"){WorkshopChoices(listOf("Lista de materiales","Inventario"),"Lista de materiales"){if(it=="Inventario")actions.inventory()};Text("Materiales y herramientas",style=MaterialTheme.typography.titleMedium)}
         assessment.coverage.forEach {coverage->val need=coverage.requirement;val key="${need.materialId}:${InventoryRules.unit(need.unit)}:${need.tool}:${need.reusable}"
+            val registered=all.any {r->if(r.kind!="inventory" || r.archived)false else {val j=JSONObject(r.json);j.optString("materialId").ifBlank {WorkshopCodec.resolve(r.title,catalog)?.id ?: legacyMaterialId(r.title)}==need.materialId}}
             item("requirement:$key"){
                 var detail by rememberSaveable(record.id,key){mutableStateOf(false)}
                 FlowCard(color=WorkshopColors.Paper,contentPadding=10.dp){
@@ -50,7 +53,7 @@ internal fun MaterialsChecklist(record:WorkRecord,all:List<WorkRecord>,catalog:L
                         Column(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(4.dp)){
                             Text(need.name,style=MaterialTheme.typography.titleMedium)
                             Text("${displayNumber(need.quantity)} ${need.unit}",style=MaterialTheme.typography.bodyMedium)
-                            Text(when(InventoryAvailability.state(coverage)){AvailabilityState.READY->"Suficiente";AvailabilityState.PARTIAL->"Disponible parcialmente";AvailabilityState.MISSING->"Me falta";AvailabilityState.REVIEW->"Sin datos · revisar"},style=MaterialTheme.typography.labelLarge,color=WorkshopColors.Green)
+                            Text(if(!registered)"Sin registrar"else when(InventoryAvailability.state(coverage)){AvailabilityState.READY->"Disponible";AvailabilityState.PARTIAL->"Faltante parcial";AvailabilityState.MISSING->"Faltante";AvailabilityState.REVIEW->"Requiere revisión"},style=MaterialTheme.typography.labelLarge,color=WorkshopColors.Green)
                         }
                         IconButton(onClick={detail=!detail}){Icon(if(detail)Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore,if(detail)"Ocultar existencias y reservas"else "Ver existencias y reservas")}
                     }
@@ -73,10 +76,10 @@ internal fun MaterialsChecklist(record:WorkRecord,all:List<WorkRecord>,catalog:L
         if(assessment.coverage.isEmpty())item("empty"){Text("No se han definido materiales. Usa el editor en tu copia personal.")}
         item("notice"){FlowCard(color=WorkshopColors.Mint,icon=Icons.Outlined.Info,title="Tu inventario se conserva"){Text("Los consumibles solo se descuentan después de confirmar su uso real. Avanzar, completar pasos o marcar preparación no cambia existencias.",style=MaterialTheme.typography.bodyMedium)}}
         item("inventory"){FlowCard("Estado de inventario",WorkshopColors.Paper,Icons.Outlined.Inventory2){Text("${assessment.covered} de ${assessment.coverage.size} requisitos cubiertos");FlowAction("Registrar o revisar mis existencias","workshop-to-inventory",actions.inventory,false)}}
-        item("buy"){FlowAction("Generar lista de compras","workshop-generate-shopping",{vm.addShopping(record,catalog);actions.shopping()})}
+        item("buy"){FlowAction("Generar lista de compras","workshop-generate-shopping",{vm.addShopping(record,catalog);actions.shopping()},false)}
         item("share"){FlowCard("Lista de compras",WorkshopColors.Paper,Icons.Outlined.ShoppingCart){androidx.compose.foundation.text.selection.SelectionContainer {Text(text)};ShoppingShareButtons(text)}}
         if(view.personal)item("operations"){InventoryOperationPanel(record,all,vm)}else item("copy"){Text("Comienza una copia para guardar preparación, reservas y consumos.");FlowAction("Comenzar mi proyecto","workshop-materials-begin",actions.begin,false)}
-        item("next"){FlowAction("Ver procedimiento guiado","workshop-materials-next",{actions.navigate(WorkshopWindow.STEPS)});FlowAction("Más información pedagógica","workshop-materials-purpose",{actions.navigate(WorkshopWindow.PURPOSE)},false)}
+        item("next"){FlowAction("Continuar a la guía docente","workshop-materials-to-guide",{actions.navigate(WorkshopWindow.CLASSROOM)});TextButton(onClick={actions.navigate(WorkshopWindow.STEPS)},modifier=Modifier.testTag("workshop-materials-next")){Text("Consultar directamente el procedimiento")};TextButton(onClick={actions.navigate(WorkshopWindow.PURPOSE)}){Text("Más información pedagógica")}}
     }
 }
 

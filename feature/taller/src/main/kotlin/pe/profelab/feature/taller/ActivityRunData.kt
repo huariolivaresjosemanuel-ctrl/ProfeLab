@@ -19,7 +19,7 @@ object ActivityRunData {
         for(i in 0 until steps.length())steps.optJSONObject(i)?.apply {
             put("done",false);remove("notes");clearPrivateImages(this)
         }
-        listOf("workshopFlow","classroomAssociation","studentId","groupId").forEach {data.remove(it)}
+        listOf("workshopFlow","classroomAssociation","studentId","groupId","teacherPreparation","educationRunId").forEach {data.remove(it)}
         data.put("status","BORRADOR").put("safetyReviewedByUser",false)
         data.put("exportImages",false)
         data.put("records",JSONArray()).put("attachments",JSONArray())

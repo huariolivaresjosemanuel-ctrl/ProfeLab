@@ -4,7 +4,8 @@ enum class AssistantAction(val target:String) {
     HOME("home"),TALLER("taller"),SESSIONS("sessions"),NOTEBOOK("notebook"),LIBRARY("library"),PROFILE("profile"),
     TASKS_TODAY("tasks_today"),RECENT_WORK("recent_work"),INVENTORY("workshop_inventory"),
     RECOMMENDATIONS("workshop_recommendations"),SHOPPING("workshop_shopping"),TEACHER("workshop_teacher_mode"),
-    EXPERIMENTS("workshop_experiments"),LIBRARY_SEARCH("library_search"),LIBRARY_IMPORT("library_import")
+    EXPERIMENTS("workshop_experiments"),LIBRARY_SEARCH("library_search"),LIBRARY_IMPORT("library_import"),
+    EXPLORE_WORKSHOP("workshop_explore"),STEP_HELP("workshop_step_help"),SAFETY("workshop_safety")
 }
 data class AssistantMessage(val id:String,val context:String,val text:String,val label:String,val action:AssistantAction,val requiresLiveData:Boolean)
 data class AssistantFacts(val hasInventory:Boolean=false,val hasRecentWork:Boolean=false,val hasShopping:Boolean=false,val hasDocuments:Boolean=false,val hasCurrentProject:Boolean=false,val hasProjects:Boolean=false)

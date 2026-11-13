@@ -22,14 +22,15 @@ import androidx.compose.ui.unit.dp
 
 /** Numbered navigation is independent from each step's explicit completion checkbox. */
 @Composable
-internal fun GuidedStepSelector(count:Int,current:Int,visit:(Int)->Unit){
+internal fun GuidedStepSelector(count:Int,current:Int,visit:(Int)->Unit,enabled:Boolean=true){
     if(count<=0)return
     val state=rememberLazyListState()
-    LaunchedEffect(current,count){if(current in 0 until count)state.animateScrollToItem(current)}
+    val motionEnabled=workshopMotionEnabled()
+    LaunchedEffect(current,count,motionEnabled){if(current in 0 until count){if(motionEnabled)state.animateScrollToItem(current)else state.scrollToItem(current)}}
     LazyRow(Modifier.fillMaxWidth(),state=state,horizontalArrangement=Arrangement.Center){
         items((0 until count).toList(),key={it}){index->
             Row(verticalAlignment=Alignment.CenterVertically){
-                OutlinedButton(onClick={visit(index)},modifier=Modifier.size(48.dp).testTag("workshop-visit-step-$index").semantics {contentDescription="Ir al paso ${index+1} de $count";selected=index==current},
+                OutlinedButton(onClick={visit(index)},enabled=enabled,modifier=Modifier.size(48.dp).testTag("workshop-visit-step-$index").semantics {contentDescription="Ir al paso ${index+1} de $count";selected=index==current},
                     shape=CircleShape,contentPadding=PaddingValues(0.dp),border=BorderStroke(2.dp,WorkshopColors.Green),
                     colors=ButtonDefaults.outlinedButtonColors(containerColor=if(index==current)WorkshopColors.Green else WorkshopColors.Paper,contentColor=if(index==current)Color.White else WorkshopColors.Deep)){
                     Text("${index+1}",style=MaterialTheme.typography.titleMedium)
@@ -41,16 +42,16 @@ internal fun GuidedStepSelector(count:Int,current:Int,visit:(Int)->Unit){
 }
 
 @Composable
-internal fun GuidedStepNavigation(current:Int,last:Int,previous:()->Unit,next:()->Unit){
+internal fun GuidedStepNavigation(current:Int,last:Int,previous:()->Unit,next:()->Unit,enabled:Boolean=true){
     val nextLabel=if(current<last)"Siguiente"else "Ver resultados y reflexión"
     BoxWithConstraints {
         val stack=maxWidth<300.dp || LocalDensity.current.fontScale>=1.4f
         if(stack)Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
-            FlowAction("Anterior","workshop-step-previous",previous,false,enabled=current>0)
-            FlowAction(nextLabel,"workshop-step-next",next)
+            FlowAction("Anterior","workshop-step-previous",previous,false,enabled=current>0 && enabled)
+            FlowAction(nextLabel,"workshop-step-next",next,enabled=enabled)
         }else Row(horizontalArrangement=Arrangement.spacedBy(10.dp)){
-            Box(Modifier.weight(1f)){FlowAction("Anterior","workshop-step-previous",previous,false,enabled=current>0)}
-            Box(Modifier.weight(1f)){FlowAction(nextLabel,"workshop-step-next",next)}
+            Box(Modifier.weight(1f)){FlowAction("Anterior","workshop-step-previous",previous,false,enabled=current>0 && enabled)}
+            Box(Modifier.weight(1f)){FlowAction(nextLabel,"workshop-step-next",next,enabled=enabled)}
         }
     }
 }

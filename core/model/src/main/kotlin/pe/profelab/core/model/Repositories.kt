@@ -27,6 +27,7 @@ interface PreferencesRepository {
     suspend fun setMascotPreferences(visible:Boolean,reduceMotion:Boolean,personalizedGreeting:Boolean)
     suspend fun completeWelcomeRegistration(name:String,role:LocalRole)
     suspend fun markWelcomeIntroSeen()
+    suspend fun markTallerWelcomeSeen()
 }
 interface EducationalSourceRepository { suspend fun sources(): List<SourceReference> }
 

@@ -13,7 +13,7 @@ import pe.profelab.core.content.*
 import pe.profelab.core.model.*
 
 @Composable
-internal fun TeacherClassroomPanel(record:WorkRecord,view:ActivityViewState,vm:WorkshopViewModel,back:()->Unit,actions:ActivityActions){
+internal fun TeacherClassroomPanel(record:WorkRecord,view:ActivityViewState,vm:WorkshopViewModel,back:()->Unit,actions:ActivityActions,observe:()->Unit={}){
     val guide=TeacherGuides.resolve(record);val flow=JSONObject(record.json).optJSONObject("workshopFlow") ?: JSONObject()
     val observed=WorkshopCodec.strings(flow.opt("observedCriterionIds")).toSet()
     var section by rememberSaveable(record.id){mutableStateOf("Presentación")}
@@ -26,7 +26,7 @@ internal fun TeacherClassroomPanel(record:WorkRecord,view:ActivityViewState,vm:W
         }
         if(section=="Evaluación"){
         item("formative"){FlowCard("Evaluación formativa simple",WorkshopColors.Peach,Icons.Outlined.FactCheck){
-            Text("Observación de la actividad, sin notas automáticas ni evaluación individual del alumnado.",style=MaterialTheme.typography.bodySmall)
+            Text("Estos checks describen la actividad y no generan notas. Las observaciones individuales se guardan en el panel privado de alumnos.",style=MaterialTheme.typography.bodySmall)
             view.criteria.forEach {criterion->Row {Checkbox(criterion.id in observed,{value->vm.patch(record){j->
                 val current=j.optJSONObject("workshopFlow") ?: JSONObject();val old=WorkshopCodec.strings(current.opt("observedCriterionIds")).toSet()
                 current.put("version",1).put("observedCriterionIds",JSONArray((if(value)old+criterion.id else old-criterion.id).toList()))
@@ -40,8 +40,8 @@ internal fun TeacherClassroomPanel(record:WorkRecord,view:ActivityViewState,vm:W
         if(section=="Adaptación"){
         item("adaptations"){FlowCard("Adaptaciones y seguridad",WorkshopColors.Yellow,Icons.Outlined.Shield){BriefText(guide.optString("inclusion"));BriefText(guide.optString("safety"));val j=JSONObject(record.json);WorkshopCodec.strings(j.optJSONObject("safety")?.opt("childrenForbiddenActions")).forEach {Text("Solo adulto: $it")};TextButton(onClick=actions.completeGuide){Text("Ver guía completa, variantes y fuentes")}}}
         }
-        item("future"){FlowCard("Próximamente Mis alumnos",WorkshopColors.Mint,Icons.Outlined.EventNote){Text("En una futura integración podrás relacionar esta actividad con tu aula y recoger evidencias individuales. Actualmente no se guardan estudiantes ni calificaciones.");OutlinedButton(onClick={},enabled=false,modifier=Modifier.fillMaxWidth()){Text("Próxima integración")}}}
+        item("classroom-followup"){FlowCard("Seguimiento privado",WorkshopColors.Mint,Icons.Outlined.EventNote){Text("Puedes observar alumnos o equipos sin notas automáticas. Registrar alumnos es opcional y no bloquea el procedimiento.");if(view.personal)TextButton(onClick=observe){Text("Observar alumnos / revisar registros")}else Text("Comienza una copia para vincular una ejecución privada; las aulas se administran desde Cuaderno → Mis alumnos.")}}
         if(view.personal)item("export"){FlowAction("Vista previa / exportar PDF","workshop-classroom-export",actions.export,false)}
-        item("finish"){FlowAction("Volver a la ficha","workshop-classroom-finish",{actions.navigate(WorkshopWindow.DETAIL)});FlowAction("Ver resultados y reflexión","workshop-classroom-results",{actions.navigate(WorkshopWindow.RESULTS)},false);FlowAction("Revisar materiales y uso real","workshop-classroom-materials",{actions.navigate(WorkshopWindow.MATERIALS)},false);FlowAction("Perspectivas y fundamentos","workshop-classroom-purpose",{actions.navigate(WorkshopWindow.PURPOSE)},false)}
+        item("finish"){FlowAction("Comenzar procedimiento","workshop-classroom-procedure",{actions.navigate(WorkshopWindow.STEPS)});FlowAction("Volver a la ficha","workshop-classroom-finish",{actions.navigate(WorkshopWindow.DETAIL)},false);FlowAction("Ver resultados y reflexión","workshop-classroom-results",{actions.navigate(WorkshopWindow.RESULTS)},false);FlowAction("Revisar materiales y uso real","workshop-classroom-materials",{actions.navigate(WorkshopWindow.MATERIALS)},false);FlowAction("Perspectivas y fundamentos","workshop-classroom-purpose",{actions.navigate(WorkshopWindow.PURPOSE)},false)}
     }
 }

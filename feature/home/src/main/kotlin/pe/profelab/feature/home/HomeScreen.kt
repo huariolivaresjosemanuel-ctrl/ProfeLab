@@ -17,7 +17,7 @@ import pe.profelab.core.ui.*
 fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (TaskFilter) -> Unit,
     openTask: (String) -> Unit, openActivity: () -> Unit, openProfile: () -> Unit,
     complete: (Task,Boolean) -> Unit, retry: () -> Unit, openResource: (EntityRef)->Unit,
-    preferences:UserPreferences=UserPreferences(),openAssistant:(()->Unit)?=null) {
+    preferences:UserPreferences=UserPreferences(),openAssistant:(()->Unit)?=null,showInlineAssistant:Boolean=true) {
     Page {
         if (state.loading) { CircularProgressIndicator(); return@Page }
         if (state.error != null) { ErrorNotice(state.error,retry); return@Page }
@@ -77,7 +77,7 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
                 TodayCard(todayTasks,Modifier,complete,openTask) { openTasks(TaskFilter.TODAY) }
             }
         }
-        if(preferences.mascotVisible)Card(colors=CardDefaults.cardColors(containerColor=ProfeColors.Mint)){
+        if(preferences.mascotVisible && showInlineAssistant)Card(colors=CardDefaults.cardColors(containerColor=ProfeColors.Mint)){
             BoxWithConstraints(Modifier.padding(16.dp)){
                 val text:@Composable ()->Unit={Column(verticalArrangement=Arrangement.spacedBy(8.dp)){
                     Text("Tu compañera de ProfeLab",style=MaterialTheme.typography.titleMedium)

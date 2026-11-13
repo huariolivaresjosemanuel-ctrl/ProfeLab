@@ -45,7 +45,7 @@ internal object ContentPackValidator {
                 require(decoded!=null){"Recurso gráfico ilegible"};decoded.recycle()
                 resources+=PackResource(id,bytes,bytes.contentSha(),source,license,alt,caption);continue
             }
-            require(bytes.size<=2*1024*1024);val data=json(bytes);val rights=data.optJSONObject("contentRights")
+            require(bytes.size<=2*1024*1024);val data=PublicWorkshopPrivacy.sanitize(json(bytes));val rights=data.optJSONObject("contentRights")
             val origin=data.optString("contentOrigin",rights?.optString("origin").orEmpty())
             require(origin in setOf("EDITORIAL_PROFELAB","USER_AUTHORED") && data.optBoolean("distributionApproved",rights?.optBoolean("approvedForDistribution")==true))
             val id=data.getString("id");require(validContentId(id))

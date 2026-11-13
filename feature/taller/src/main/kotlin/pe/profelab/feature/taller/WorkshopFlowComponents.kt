@@ -37,9 +37,10 @@ internal fun FlowCard(title:String="",color:Color=WorkshopColors.Mint,icon:Image
 }
 @Composable
 internal fun FlowAction(text:String,tag:String,onClick:()->Unit,primary:Boolean=true,enabled:Boolean=true){
-    if(primary)Button(onClick,Modifier.fillMaxWidth().heightIn(min=52.dp).testTag(tag),enabled=enabled,shape=RoundedCornerShape(28.dp),contentPadding=PaddingValues(16.dp)){
+    val active=enabled && !LocalWorkshopTransitionBusy.current
+    if(primary)Button(onClick,Modifier.fillMaxWidth().heightIn(min=52.dp).testTag(tag),enabled=active,shape=RoundedCornerShape(28.dp),contentPadding=PaddingValues(16.dp)){
         Text(text,Modifier.weight(1f),fontWeight=FontWeight.SemiBold);Icon(Icons.AutoMirrored.Outlined.ArrowForward,null)
-    }else OutlinedButton(onClick,Modifier.fillMaxWidth().heightIn(min=52.dp).testTag(tag),enabled=enabled,shape=RoundedCornerShape(28.dp),contentPadding=PaddingValues(16.dp)){Text(text,fontWeight=FontWeight.SemiBold)}
+    }else OutlinedButton(onClick,Modifier.fillMaxWidth().heightIn(min=52.dp).testTag(tag),enabled=active,shape=RoundedCornerShape(28.dp),contentPadding=PaddingValues(16.dp)){Text(text,fontWeight=FontWeight.SemiBold)}
 }
 @Composable
 internal fun PerspectiveBar(selected:WorkshopPerspective,onSelect:(WorkshopPerspective)->Unit){
@@ -61,7 +62,7 @@ internal fun ActivitySummary(record:WorkRecord,view:ActivityViewState,open:(()->
             Column(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(6.dp)){
                 Text(record.title.ifBlank {"Mi proyecto"},style=MaterialTheme.typography.titleMedium,fontWeight=FontWeight.Bold)
                 ProjectMetadata(JSONObject(record.json))
-                if(view.personal){LinearProgressIndicator(progress={view.progress},modifier=Modifier.fillMaxWidth());Text("${view.completedSteps}/${view.steps.size} pasos completados",style=MaterialTheme.typography.bodySmall)}
+                if(view.personal){WorkshopProgressIndicator(view.progress,Modifier.fillMaxWidth());Text("${view.completedSteps}/${view.steps.size} pasos completados",style=MaterialTheme.typography.bodySmall)}
             }
         }
         open?.let {TextButton(onClick=it){Text("Ver ficha del proyecto")}}

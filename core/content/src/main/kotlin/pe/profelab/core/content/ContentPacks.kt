@@ -62,7 +62,7 @@ class ContentPacks(private val context:Context,private val store:WorkspaceStore)
                     val roles=requireNotNull(mediaProofs[record.id]);val installedRefs=JSONArray();val ids=mutableSetOf<String>()
                     for(i in 0 until roles.length()){
                         val ref=JSONObject(roles.getJSONObject(i).toString());val mediaId=ref.getString("mediaId");val fileId=requireNotNull(refs[mediaId]);ids+=fileId
-                        installedRefs.put(ref.put("fileId",fileId).also {it.remove("assetFilename")})
+                        installedRefs.put(ref.put("fileId",fileId).also {it.remove("assetFilename");it.remove("assetPath");it.remove("legacyAssetFilename")})
                     }
                     j.put("editorialMediaBindings",installedRefs).put("resourceFileIds",JSONArray(ids.toList()))
                 }

@@ -93,9 +93,11 @@ object WorkshopMediaBindings {
                         val step=WorkshopFlowAdapter.read(record).steps.firstOrNull {it.id==stepId} ?: continue
                         if(r.optString("stepFingerprint")!=stepFingerprint(step))continue
                     }
-                    val asset=r.optString("assetFilename");val file=r.optString("fileId")
+                    val path=r.optString("assetPath");val legacy=r.optString("assetFilename")
+                    if(path.isNotBlank() && legacy.isNotBlank())continue
+                    val asset=path.ifBlank {legacy};val file=r.optString("fileId")
                     if(asset.isNotBlank() && file.isNotBlank())continue
-                    if(asset.isNotBlank() && !asset.matches(Regex("[a-zA-Z0-9_-]+\\.(?:png|jpg|jpeg|webp)")))continue
+                    if(asset.isNotBlank() && !(WorkshopAssetPaths.validModular(asset) || WorkshopAssetPaths.legacyName(asset)))continue
                     if(asset.isBlank() && !file.matches(Regex("[a-zA-Z0-9-]+")))continue
                     candidates+=WorkshopBoundMedia(r.getString("mediaId"),asset.ifBlank {file},asset.isNotBlank(),r.getString("altText"),r.optString("caption"),r.getString("sha256").lowercase(),r.optInt("mediaRevision",1),role)
                 }

@@ -30,7 +30,7 @@ object WorkVisualAdapter {
             val target="images/visual-$i.$ext";entries[target]=bytes
             items.put(JSONObject().put("path",target).put("type","image").put("id",r.getString("mediaId")).put("sha256",bytes.contentSha()).put("source",r.getString("sourceType")).put("license",r.getString("licenseOrRights")).put("alt",r.getString("altText")).put("caption",r.optString("caption")).put("distributionApproved",true))
             // No fileId from an external ZIP may impersonate a file already in private storage.
-            r.remove("fileId");r.remove("assetFilename")
+            r.remove("fileId");r.remove("assetFilename");r.remove("assetPath");r.remove("legacyAssetFilename")
             groups.getOrPut(id){JSONArray()}.put(r)
         }
         require(files.keys==paths){"El mapa de archivos de medios contiene entradas no declaradas"}

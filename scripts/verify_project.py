@@ -58,9 +58,10 @@ class DeliveryChecks(unittest.TestCase):
             if 'build' not in build.relative_to(ROOT).parts:
                 self.assertNotIn('abortOnError = false',build.read_text(encoding='utf-8'))
 
-    def test_sixteen_modules_and_acyclic_dependency_graph(self):
+    def test_seventeen_modules_and_acyclic_dependency_graph(self):
         modules=re.findall(r'include\("(:[^\"]+)"\)',read('settings.gradle.kts'))
-        self.assertEqual(16,len(modules))
+        self.assertEqual(17,len(modules))
+        self.assertIn(':feature:students',modules)
         graph={}
         for module in modules:
             folder=module[1:].replace(':','/')

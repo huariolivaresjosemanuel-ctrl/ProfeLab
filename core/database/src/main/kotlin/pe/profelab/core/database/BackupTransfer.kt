@@ -39,6 +39,7 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
             };snapshot.put(table,rows)}
         }
         snapshot.put("preferences",preferences.exportSnapshot())
+        EducationBackup.validate(snapshot)
         val referenced=BackupReferences.ids(snapshot);val batchReferences=BackupReferences.batchNames(snapshot)
         val data=snapshot.toString().toByteArray(Charsets.UTF_8)
         require(data.size<=20*1024*1024){"Los datos superan el límite de restauración de 20 MiB"}
@@ -74,6 +75,7 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
             val dataText=File(dir,"data.json").readText();JsonLimits.requireBounded(dataText,maxCharacters=20*1024*1024)
             val data=JSONObject(dataText);require(data.getInt("schema")==manifest.getInt("schema"));backupTables(data).forEach {data.getJSONArray(it)}
             InventoryBackup.validate(data)
+            EducationBackup.validate(data)
             if(data.has("preferences"))preferences.validateSnapshot(data.getJSONObject("preferences"))
             BackupReferences.ids(data);BackupReferences.batchNames(data)
             dir to data
@@ -82,7 +84,7 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
     override suspend fun previewBackup(sourceUri:String):String {
         val (dir,data)=stage(sourceUri)
         try{previewHash=hash(File(dir,"manifest.json").readBytes())
-            db.withTransaction {InventoryBackup.checkConflicts(data,db)}
+            db.withTransaction {InventoryBackup.checkConflicts(data,db);EducationBackup.checkConflicts(data,db)}
             val referenced=BackupReferences.ids(data).map {"documents/$it"}.toSet()+BackupReferences.batchNames(data).map {"ocr-drafts/$it"}
             val supplied=listOf("documents","ocr-drafts").flatMap {folder->File(dir,folder).listFiles()?.map {"$folder/${it.name}"}.orEmpty()}.toSet()
             val omitted=referenced-supplied
@@ -95,13 +97,13 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
         val (dir,data)=stage(sourceUri);val copied=mutableListOf<File>();var committed=false
         try {
             require(previewHash!=null && hash(File(dir,"manifest.json").readBytes())==previewHash){"El contenido cambió; vuelve a previsualizar"}
-            db.withTransaction {InventoryBackup.checkConflicts(data,db)}
+            db.withTransaction {InventoryBackup.checkConflicts(data,db);EducationBackup.checkConflicts(data,db)}
             listOf("documents","ocr-drafts").flatMap {folder->File(dir,folder).listFiles().orEmpty().toList()}.forEach {f->
                 val destination=File(context.filesDir,f.parentFile!!.name).apply {mkdirs()};val target=File(destination,f.name)
                 if(target.exists())require(hashFile(target)==hashFile(f)){"Conflicto de archivo; no se sustituye"}
                 else {try{f.copyTo(target,overwrite=false);copied+=target}catch(e:Exception){target.delete();throw e}}
             }
-            db.withTransaction {InventoryBackup.checkConflicts(data,db);backupTables(data).forEach {table->
+            db.withTransaction {InventoryBackup.checkConflicts(data,db);EducationBackup.checkConflicts(data,db);backupTables(data).forEach {table->
                 val allowed=db.openHelper.writableDatabase.query("SELECT * FROM $table LIMIT 0").use {it.columnNames.toSet()}
                 val rows=data.getJSONArray(table)
                 for(i in 0 until rows.length()){val row=rows.getJSONObject(i);val columns=row.keys().asSequence().toList();require(columns.toSet()==allowed)

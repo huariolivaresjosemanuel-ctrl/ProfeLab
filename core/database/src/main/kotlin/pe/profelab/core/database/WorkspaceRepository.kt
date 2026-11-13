@@ -41,7 +41,14 @@ class WorkspaceRepository(private val db: ProfeDatabase): WorkspaceStore, Invent
         db.withTransaction {
             val current=dao.all().map {it.domain()};val next=change(current)
             require(next.map {it.id}.distinct().size==next.size)
-            inventoryJournal.journalLegacy(newId(),current,next).forEach {row->require(row.id.isNotBlank() && row.json.length<=2_000_000);val old=dao.find(row.id);dao.put(row.entity().copy(revision=(old?.revision ?: 0)+1))}
+            inventoryJournal.journalLegacy(newId(),current,next).forEach {row->
+                require(row.id.isNotBlank() && row.json.length<=2_000_000);val old=dao.find(row.id);dao.put(row.entity().copy(revision=(old?.revision ?: 0)+1))
+                if(row.kind in setOf("project","session","note","experiment","observation","document")){
+                    val kind=when(row.kind){"session"->EntityKind.SESSION;"note"->EntityKind.NOTE;"document"->EntityKind.DOCUMENT;else->EntityKind.PROJECT}
+                    val eventId=java.util.UUID.nameUUIDFromBytes(("workspace:"+row.id).toByteArray(Charsets.UTF_8)).toString()
+                    db.dao().putActivity(ActivityEntity(eventId,kind.name,row.id,"Guardado: ${row.title.ifBlank {"Borrador sin título"}}",row.updatedAt))
+                }
+            }
         }
     }
 }

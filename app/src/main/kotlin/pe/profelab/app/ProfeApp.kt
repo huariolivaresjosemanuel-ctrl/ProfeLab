@@ -6,7 +6,6 @@ import androidx.core.net.toUri
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsNone
-import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.material3.*
@@ -49,6 +48,7 @@ import pe.profelab.core.ui.*
 import pe.profelab.feature.home.*
 import pe.profelab.feature.library.*
 import pe.profelab.feature.profile.*
+import pe.profelab.feature.students.*
 
 @Composable
 fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences()) {
@@ -74,7 +74,10 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
     val records by workspace.records.collectAsStateWithLifecycle()
     val incoming by graph.incomingPdf.collectAsStateWithLifecycle()
     val assistantRegistry=remember {AssistantRegistry()}
+    val mascotController=rememberAssistantMascotController()
     var assistantOpen by remember {mutableStateOf(false)}
+    var tallerGreetingOpen by rememberSaveable {mutableStateOf(false)}
+    var tallerGreetingDismissed by rememberSaveable {mutableStateOf(false)}
     var assistantBusy by remember {mutableStateOf(false)}
     var assistantError by remember {mutableStateOf<String?>(null)}
     var assistantCatalog by remember {mutableStateOf<List<AssistantMessage>>(emptyList())}
@@ -184,11 +187,29 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
         AssistantAction.NOTEBOOK to {top("notebook")},AssistantAction.LIBRARY to {top("library")},AssistantAction.PROFILE to {nav.navigate("profile")},
         AssistantAction.TASKS_TODAY to {tasks(TaskFilter.TODAY)},
         AssistantAction.INVENTORY to {workshopAction(AssistantAction.INVENTORY)},AssistantAction.SHOPPING to {workshopAction(AssistantAction.SHOPPING)},
-        AssistantAction.RECOMMENDATIONS to {workshopAction(AssistantAction.RECOMMENDATIONS)},AssistantAction.EXPERIMENTS to {workshopAction(AssistantAction.EXPERIMENTS)}
+        AssistantAction.RECOMMENDATIONS to {workshopAction(AssistantAction.RECOMMENDATIONS)},AssistantAction.EXPERIMENTS to {workshopAction(AssistantAction.EXPERIMENTS)},
+        AssistantAction.EXPLORE_WORKSHOP to {workshopAction(AssistantAction.EXPLORE_WORKSHOP)}
     ).toMutableMap()
     AssistantRecords.pendingWork(records)?.let {recent->assistantRootHandlers[AssistantAction.RECENT_WORK]={nav.navigate("record/${Uri.encode(recent.id)}")}}
     val assistantAvailable=assistantRootHandlers.keys+assistantRegistry.actions(assistantContext.orEmpty())
-    val assistantAdvice=AssistantPolicy.advice(assistantCatalog,assistantContext.orEmpty(),AssistantRecords.facts(records,AssistantAction.TEACHER in assistantAvailable),assistantAvailable)
+    val assistantAdvice=AssistantExperience.advice(AssistantPolicy.advice(assistantCatalog,assistantContext.orEmpty(),AssistantRecords.facts(records,AssistantAction.TEACHER in assistantAvailable),assistantAvailable),assistantContext.orEmpty(),assistantAvailable)
+    val assistantUsable=assistantContext!=null && !keyboardVisible && prefs.mascotVisible && !assistantRegistry.occluded && workspaceError==null && seedError==null && pendingPdf==null && preferencesError==null
+    LaunchedEffect(assistantUsable,assistantContext,prefs.tallerWelcomeSeen,prefs.personalizedGreetings,tallerGreetingDismissed){
+        if(assistantUsable && AssistantExperience.showTallerWelcome(assistantContext,prefs) && !tallerGreetingDismissed){tallerGreetingOpen=true;mascotController.greet()}
+        else tallerGreetingOpen=false
+        if(!assistantUsable)assistantOpen=false
+    }
+    LaunchedEffect(assistantOpen,tallerGreetingOpen){when {assistantOpen->mascotController.explain();tallerGreetingOpen->mascotController.greet();else->mascotController.rest()}}
+    fun invokeAssistant(action:AssistantAction){
+        assistantOpen=false;mascotController.rest()
+        if(!assistantRegistry.invoke(assistantContext.orEmpty(),action))assistantRootHandlers[action]?.invoke()
+    }
+    fun dismissTallerGreeting(action:AssistantAction?=null){
+        if(!tallerGreetingOpen)return
+        tallerGreetingOpen=false;tallerGreetingDismissed=true;mascotController.rest()
+        scope.launch {try {graph.preferences.markTallerWelcomeSeen()}catch(e:CancellationException){throw e}catch(_:Exception){snackbar.showSnackbar("No se pudo guardar la preferencia de bienvenida. Puedes continuar y revisar Perfil.")}}
+        action?.let(::invokeAssistant)
+    }
     CompositionLocalProvider(LocalAssistantRegistry provides assistantRegistry,LocalOpenResource provides {id->val r=records.find {it.id==id};if(r?.kind=="document")openPdf(r)else nav.navigate("record/${Uri.encode(id)}")},LocalOpenDocumentPage provides {id,index->val r=records.find {it.id==id};if(r?.kind=="document")openPdfAt(r,index)else scope.launch {snackbar.showSnackbar("El documento de la cita no está disponible.")}}) {
     Scaffold(
         snackbarHost={SnackbarHost(snackbar)},
@@ -196,7 +217,6 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
             Surface {
                 Row(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal=16.dp,vertical=4.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(8.dp)) {
                     BookMark(Modifier.size(32.dp)); Text("ProfeLab",style=MaterialTheme.typography.titleLarge,color=ProfeColors.Green,modifier=Modifier.weight(1f))
-                    if(assistantContext!=null && prefs.mascotVisible && !keyboardVisible)IconButton(onClick={assistantOpen=true},modifier=Modifier.testTag("assistant-open")){Icon(Icons.Outlined.HelpOutline,"Ayuda de ProfeLab")}
                     IconButton(onClick={tasks(TaskFilter.REMINDERS)}) { Icon(Icons.Outlined.NotificationsNone,"Avisos locales") }
                     TextButton(onClick={nav.navigate("profile") { launchSingleTop=true }}) { Text(homeState.profile?.name?.trim()?.take(1)?.uppercase()?.takeIf { it.isNotBlank() } ?: "Perfil") }
                 }
@@ -205,12 +225,14 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
         bottomBar={if(route in topDestinations.map { it.route } || route=="practices") ProfeNavigationBar(route,::top)},
     ) { padding ->
         Box(Modifier.padding(padding).consumeWindowInsets(padding).imePadding()) {
+            Box(Modifier.fillMaxSize().padding(bottom=if(assistantUsable)72.dp else 0.dp)){
             NavHost(navController=nav,startDestination="home") {
-                composable("home") { HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord,prefs,{assistantOpen=true}) }
-                composable("taller") { WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture) }
+                composable("home") { HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord,prefs,{assistantOpen=true},showInlineAssistant=false) }
+                composable("taller") { WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture,
+                    participationContent={r->EducationParticipationPanel(r,records,graph.workspace)},observationContent={r,step,close->EducationObservationPanel(r,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion) }
                 composable("sessions") { SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
-                composable("notebook") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
-                composable("practices") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,initialSection="Prácticas") }
+                composable("notebook") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,studentsContent={close->StudentsWorkspace(records,graph.workspace,close)}) }
+                composable("practices") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,initialSection="Prácticas",studentsContent={close->StudentsWorkspace(records,graph.workspace,close)}) }
                 composable("library") {
                     LibraryWorkspace(sources,records,workspace::save,workspace::archive,::requestImport,::openPdf,{ url ->
                         try {
@@ -244,9 +266,10 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
                 composable("record/{id}",arguments=listOf(navArgument("id"){type=NavType.StringType})){e->
                     val id=e.arguments?.getString("id");val r=records.find {it.id==id}
                     when(r?.kind){
-                        "project","experiment"->WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture,id,::back)
+                        "project","experiment"->WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture,id,::back,
+                            participationContent={record->EducationParticipationPanel(record,records,graph.workspace)},observationContent={record,step,close->EducationObservationPanel(record,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion)
                         "session"->SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id)
-                        "note"->NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id)
+                        "note"->NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id,studentsContent={close->StudentsWorkspace(records,graph.workspace,close)})
                         "document"->LaunchedEffect(id){nav.popBackStack();openPdf(r)}
                         else->Page {PageTitle("Recurso",back=::back);InfoCard("Origen no disponible","El trabajo pudo archivarse o aún no terminó de cargar.")}
                     }
@@ -289,10 +312,12 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
                     },::back)
                 }
             }
-            if(assistantOpen && assistantContext!=null && !keyboardVisible && prefs.mascotVisible)AssistantPanel(assistantAdvice,assistantError,assistantBusy,{action->
-                assistantOpen=false
-                if(!assistantRegistry.invoke(assistantContext,action))assistantRootHandlers[action]?.invoke()
-            },{assistantBusy=true;scope.launch {try {graph.preferences.setMascotPreferences(false,prefs.reduceMotion,prefs.personalizedGreetings);assistantOpen=false}catch(e:CancellationException){throw e}catch(_:Exception){assistantError="No se pudo ocultar la asistente. Reintenta desde Perfil."}finally{assistantBusy=false}}},{assistantOpen=false})
+            }
+            FloatingAssistant(assistantUsable && !assistantOpen && !tallerGreetingOpen,mascotController,prefs.reduceMotion,{assistantOpen=true},Modifier.align(Alignment.BottomEnd).padding(end=12.dp,bottom=4.dp))
+            if(assistantOpen && assistantUsable)AssistantPanel(assistantAdvice,assistantError,assistantBusy,::invokeAssistant,
+                {assistantBusy=true;scope.launch {try {graph.preferences.setMascotPreferences(false,prefs.reduceMotion,prefs.personalizedGreetings);assistantOpen=false}catch(e:CancellationException){throw e}catch(_:Exception){assistantError="No se pudo ocultar la asistente. Reintenta desde Perfil."}finally{assistantBusy=false}}},{assistantOpen=false},context=assistantContext.orEmpty(),reduceMotion=prefs.reduceMotion)
+            if(tallerGreetingOpen && assistantUsable)TallerWelcomeDialog(AssistantExperience.tallerGreeting(java.time.LocalTime.now().hour),
+                AssistantExperience.primary(assistantAdvice.copy(messages=assistantAdvice.messages.filter {it.action in setOf(AssistantAction.EXPLORE_WORKSHOP,AssistantAction.INVENTORY,AssistantAction.RECENT_WORK)}),"taller"),prefs.reduceMotion,{dismissTallerGreeting(it)},{dismissTallerGreeting()})
             (workspaceError ?: seedError)?.let {message->AlertDialog(onDismissRequest={},title={Text("Problema de datos locales")},text={Text(message)},confirmButton={TextButton(onClick={seedError=null;workspace.dismissError()}){Text("Entendido; revisaré el guardado")}})}
         }
     }

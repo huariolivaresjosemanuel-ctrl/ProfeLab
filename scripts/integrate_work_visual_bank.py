@@ -77,7 +77,9 @@ def integrate(bank,project,approval_order):
             note='Original review manifests remain unchanged. Explicit user approval authorizes these editorial images; this does not certify real materials, science outcomes or physical activity safety.',
             activities=20,steps=80,materialIdentities=45,materialBindings=69,bindings=len(runtime),uniqueWebpFiles=len(files),webpBytes=sum(map(len,files.values())),resources=mapping)
         (docs/'BANCO_VISUAL_INTEGRADO.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
-        return {k:v for k,v in receipt.items() if k!='resources'}
+        from modularize_work_media import modularize
+        layout=modularize(project)
+        return {**{k:v for k,v in receipt.items() if k!='resources'},'modularLayout':layout}
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--bank',type=Path,required=True);p.add_argument('--project',type=Path,required=True)

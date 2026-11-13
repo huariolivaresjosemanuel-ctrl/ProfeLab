@@ -27,11 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalDensity
 
 @Composable
-fun NotebookWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(String)->Unit,export:(WorkRecord)->Unit,capture:(String)->Unit,initialId:String?=null,initialSection:String="Apuntes") {
+fun NotebookWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(String)->Unit,export:(WorkRecord)->Unit,capture:(String)->Unit,initialId:String?=null,initialSection:String="Apuntes",studentsContent:@Composable (()->Unit)->Unit={}) {
     var section by rememberSaveable {mutableStateOf(initialSection)};var selected by rememberSaveable(initialId){mutableStateOf(initialId)}
     var query by rememberSaveable {mutableStateOf("")};var portfolio by rememberSaveable {mutableStateOf(false)}
     var newestFirst by rememberSaveable {mutableStateOf(true)}
     var remove by remember {mutableStateOf<WorkRecord?>(null)}
+    var students by rememberSaveable {mutableStateOf(false)}
     val current=all.find {it.id==selected};val context=LocalContext.current
     var recorder by remember {mutableStateOf<MediaRecorder?>(null)};var audioId by remember {mutableStateOf<String?>(null)}
     var audioError by remember {mutableStateOf<String?>(null)}
@@ -56,7 +57,8 @@ fun NotebookWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(Stri
     val latestStop by rememberUpdatedState(::stopAudio)
     DisposableEffect(owner){val observer=LifecycleEventObserver {_,event->if(event==Lifecycle.Event.ON_STOP)latestStop()};owner.lifecycle.addObserver(observer)
         onDispose {owner.lifecycle.removeObserver(observer);recorder?.let {runCatching {it.stop()};runCatching {it.release()}};audioId?.let {File(context.filesDir,"documents/$it").delete()}}}
-    if(current!=null) RecordEditor(current,listOf(Field("body","Texto / listas / reflexión",6),Field("tags","Etiquetas separadas por comas"),Field("date","Fecha"),Field("school","Institución de práctica (opcional)"),Field("schoolGrade","Grado escolar de práctica (1 a 6, independiente del ciclo)"),Field("observation","Observación anónima"),Field("reflection","Reflexión"),Field("nextSteps","Próximos pasos")),all,save,{selected=null},export,capture){data,change->
+    if(students)studentsContent{students=false}
+    else if(current!=null) RecordEditor(current,listOf(Field("body","Texto / listas / reflexión",6),Field("tags","Etiquetas separadas por comas"),Field("date","Fecha"),Field("school","Institución de práctica (opcional)"),Field("schoolGrade","Grado escolar de práctica (1 a 6, independiente del ciclo)"),Field("observation","Observación anónima"),Field("reflection","Reflexión"),Field("nextSteps","Próximos pasos")),all,save,{selected=null},export,capture){data,change->
         ChoiceRow(listOf("Apuntes","Prácticas","Ideas"),data.optString("noteType","Apuntes")){change(JSONObject(data.toString()).put("noteType",it))}
         TextButton(onClick={val n=current.copy(id=newId(),title=current.title+" (copia)");save(n);selected=n.id}){Text("Duplicar nota")}
         TextButton(onClick={remove=current}){Text("Archivar nota")}
@@ -72,6 +74,7 @@ fun NotebookWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(Stri
         }
     } else Page {
         SectionHeading("Cuaderno","Notas, prácticas y reflexiones",Icons.Outlined.NoteAdd)
+        TextButton(onClick={students=true}){Text("Mis alumnos · aulas, equipos y seguimiento")}
         BoxWithConstraints {
             val voice:()->Unit={if(recorder!=null)stopAudio()else if(ContextCompat.checkSelfPermission(context,Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)startAudio()else permission.launch(Manifest.permission.RECORD_AUDIO)}
             if(maxWidth>=300.dp && LocalDensity.current.fontScale<1.4f)Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){

@@ -15,7 +15,7 @@ import pe.profelab.core.model.*
 
 /** W05 shares the same fields, dated observations and private attachments as the existing editor. */
 @Composable
-internal fun ActivityResultsScreen(record:WorkRecord,view:ActivityViewState,vm:WorkshopViewModel,back:()->Unit,actions:ActivityActions,capture:(String)->Unit){
+internal fun ActivityResultsScreen(record:WorkRecord,view:ActivityViewState,vm:WorkshopViewModel,back:()->Unit,actions:ActivityActions,capture:(String)->Unit,observe:()->Unit={}){
     val data=JSONObject(record.json)
     var section by rememberSaveable(record.id){mutableStateOf("Registro")}
     val experimental=view.experiment
@@ -25,6 +25,8 @@ internal fun ActivityResultsScreen(record:WorkRecord,view:ActivityViewState,vm:W
     WorkshopPage(title,if(experimental)"Registra, compara y analiza tus observaciones"else "Conserva lo realizado, los ajustes y lo aprendido",back,screenTag="workshop-results"){
         item("summary"){ActivitySummary(record,view,{actions.navigate(WorkshopWindow.DETAIL)})}
         item("results-sections"){WorkshopChoices(listOf("Registro","Evidencias","Conclusión"),section){section=it}}
+        if(view.personal)item("observe"){TextButton(onClick=observe){Text("Observar alumnos / retroalimentación")}}
+        if(view.personal && pe.profelab.core.content.EducationProgress.hasSelection(record))item("scope"){Text("Los campos siguientes son el registro general de la preparación. El progreso y las observaciones por aula se conservan en cada ejecución privada; consulta Observar alumnos.",style=MaterialTheme.typography.bodySmall)}
         if(!view.personal && section!="Registro")item("readonly"){PublicResultsNotice(actions)}
         if(section=="Registro"){
             item("outcome-reference"){FlowCard("Referencia ilustrativa de la actividad",WorkshopColors.Mint){WorkshopMediaSlot(record,"outcome_reference",modifier=Modifier.fillMaxWidth());Text("Imagen editorial generada por IA. No representa tus observaciones ni resultados medidos.",style=MaterialTheme.typography.bodySmall)}}
