@@ -5,12 +5,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.json.JSONObject
 import pe.profelab.core.content.*
 import pe.profelab.core.model.*
 
 @Composable
 internal fun ActivityPreparationPanel(record:WorkRecord,personal:Boolean,catalog:List<MaterialDefinition>,vm:WorkshopViewModel,begin:()->Unit,participants:@Composable (WorkRecord)->Unit){
+    val state by vm.state.collectAsStateWithLifecycle()
     val prep=JSONObject(record.json).optJSONObject("teacherPreparation") ?: JSONObject()
     var mode by rememberSaveable(record.id){mutableStateOf(prep.optString("participation","INDIVIDUAL"))}
     var count by rememberSaveable(record.id){mutableStateOf(prep.optInt("participantCount",1).toString())}
@@ -34,7 +36,7 @@ internal fun ActivityPreparationPanel(record:WorkRecord,personal:Boolean,catalog
                 }catch(_:IllegalArgumentException){error="Revisa participantes y equipos: entre 1 y 100, sin más equipos que participantes."}
             }){Text("Guardar participación")}
             if(mode=="STUDENTS"){
-                if(vm.state.value.pending==0 && vm.state.value.error==null)participants(record)else Text("Espera a que termine el guardado antes de seleccionar un aula.")
+                if(state.pending==0 && state.error==null)participants(record)else Text("Espera a que termine el guardado antes de seleccionar un aula.")
             }
             error?.let {Text(it,color=MaterialTheme.colorScheme.error)}
             val savedRules=prep.optJSONObject("materialRules")

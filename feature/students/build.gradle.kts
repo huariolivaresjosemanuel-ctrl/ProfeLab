@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:content"))
     implementation(project(":core:ui"))
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core)
     implementation(libs.coroutines.android)
     implementation(platform(libs.compose.bom))
