@@ -14,6 +14,7 @@ class AssistantNavigationTest {
         compose.onNodeWithTag("nav_taller").performClick()
         compose.waitUntil(15000){compose.onAllNodesWithTag("workshop-catalog").fetchSemanticsNodes().isNotEmpty()}
         compose.onNodeWithTag("assistant-open").performClick()
+        compose.waitForIdle()
         captureQaWindow("10_ASISTENTE_TALLER")
         val action=if(compose.onAllNodesWithTag("assistant.taller.inventory").fetchSemanticsNodes().isNotEmpty())"assistant.taller.inventory"else "assistant.global.no_inventory"
         compose.onNodeWithTag(action).performScrollTo().performClick()

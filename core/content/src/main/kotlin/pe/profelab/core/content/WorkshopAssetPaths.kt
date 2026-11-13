@@ -3,6 +3,7 @@ package pe.profelab.core.content
 import android.content.Context
 import org.json.JSONObject
 import java.io.InputStream
+import java.io.FileNotFoundException
 
 /** APK-only paths. Offline pack UUIDs and private photographs never pass through this API. */
 object WorkshopAssetPaths {
@@ -42,6 +43,13 @@ object WorkshopAssetPaths {
         require(validModular(reference) && reference in index(context).paths){"Ruta de recurso APK no autorizada"}
         return reference
     }
-    fun open(context:Context,reference:String):InputStream=context.assets.open(canonical(context,reference))
+    fun open(context:Context,reference:String):InputStream {
+        val path=canonical(context,reference)
+        return try{context.assets.open(path)}catch(missing:FileNotFoundException){
+            // Transitional APK compatibility only: never substitute another activity's photo.
+            val old=index(context).aliases.entries.firstOrNull {it.value==path}?.key ?: throw missing
+            context.assets.open("workshop/images/$old")
+        }
+    }
     fun reference(row:JSONObject):String=row.optString("assetPath").ifBlank {row.optString("assetFilename")}
 }

@@ -106,7 +106,8 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
         assistantHandlers[AssistantAction.SAFETY]={help="safety"}
     }
     if(current!=null && destination in setOf("detail","materials","purpose","steps","results","classroom","guide"))assistantHandlers[AssistantAction.TEACHER]={scope.launch {if(vm.flush()){perspective(WorkshopPerspective.TEACHER);window(WorkshopWindow.CLASSROOM)}else backError=true}}
-    BindAssistant("taller",assistantHandlers)
+    // Publish navigation only after the entry/back transition accepts input. Pending shortcuts wait.
+    BindAssistant("taller",if(routeBusy || backInFlight)emptyMap()else assistantHandlers)
     BackHandler(enabled=destination!="hub"){back()}
     MaterialTheme(colorScheme=MaterialTheme.colorScheme.copy(primary=WorkshopColors.Green,secondary=WorkshopColors.Green,primaryContainer=WorkshopColors.Mint,secondaryContainer=WorkshopColors.Mint,background=WorkshopColors.Cream,surface=WorkshopColors.Cream)){
         CompositionLocalProvider(LocalWorkshopMediaRecords provides mediaRecords,LocalWorkshopMotionEnabled provides motionEnabled,LocalWorkshopTransitionBusy provides routeBusy){Column(Modifier.fillMaxSize()){

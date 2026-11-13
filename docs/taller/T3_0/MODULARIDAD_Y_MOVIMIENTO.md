@@ -14,7 +14,7 @@ WorkshopAssetPaths valida segmentos y raíces, rechaza rutas absolutas, URI, tra
 
 Las rutas de APK nunca se confunden con UUID privados. WorkVisualAdapter y ContentPacks retiran assetPath/assetFilename/legacyAssetFilename externos al instalar medios como archivos privados. No se modifican permisos, el almacén privado, los contratos del importador ni la validación de firma. Una foto privada elegida como portada conserva prioridad.
 
-Después de copiar código, índice y recursos, deben retirarse SOLO los180WebP planos que existían en main. El ZIP incremental proporciona mapa, lista y herramienta manual de retirada: comprueba todos los destinos y hashes antes de retirar duplicados. Los otros19no existían remotamente. Mantener ambos juegos no rompe la compatibilidad, pero duplica innecesariamente recursos de la APK y deja el inventario de archivos desajustado.
+Actualización de integración final del13 de noviembre de2026: conservar los180WebP planos que existían en main hasta validar carga, alias y actualización en Android. No ejecutar todavía las instrucciones anteriores de retirada. El parche final incluye conservación/restauración por copia desde los destinos modulares de hash idéntico y un inventario que admite ambos juegos. El generador tampoco elimina archivos antiguos. La limpieza será una operación posterior tras revisar las pruebas reales; los otros19no existían remotamente.
 
 ## Carga solicitada y caché
 

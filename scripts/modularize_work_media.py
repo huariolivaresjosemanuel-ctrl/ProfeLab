@@ -79,12 +79,12 @@ def modularize(project):
             old=row.get('legacyAssetFilename') or row.get('assetFilename')
             if old in aliases:row['legacyAssetFilename']=old;row['assetPath']=aliases[old];row.pop('assetFilename',None)
         write_json(receipt_path,receipt)
+    # Keep legacy files until real Android loading/update tests have been accepted.
     for row in migration:
         old=project/row['oldPath']
         if old.is_file():
             assert old.resolve().parent==(workshop/'images').resolve()
             assert sha(old.read_bytes())==row['sha256']==sha((project/row['newPath']).read_bytes())
-            old.unlink()  # Only the staged APK duplicate, never the user's repository or documents.
     return dict(unique_files=len(physical),bindings=len(rows),aliases=len(aliases),bytes=sum(len(b) for b in binaries.values()))
 
 if __name__=='__main__':

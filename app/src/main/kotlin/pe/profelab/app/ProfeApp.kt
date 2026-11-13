@@ -91,7 +91,9 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
     LaunchedEffect(assistantContext,keyboardVisible,prefs.mascotVisible){if(assistantContext==null || keyboardVisible || !prefs.mascotVisible)assistantOpen=false}
     LaunchedEffect(route,assistantRegistry.actions("taller"),pendingWorkshopAction){
         val action=AssistantAction.entries.firstOrNull {it.name==pendingWorkshopAction}
-        if(incoming==null && route=="taller" && action in assistantRegistry.actions("taller")){pendingWorkshopAction=null;assistantRegistry.invoke("taller",requireNotNull(action))}
+        if(incoming==null && route=="taller" && action in assistantRegistry.actions("taller")){
+            if(assistantRegistry.invoke("taller",requireNotNull(action)))pendingWorkshopAction=null
+        }
         if(route in setOf("capture","ocr","pdf-ocr") || route?.startsWith("pdf/")==true)pendingWorkshopAction=null
     }
     val workspaceError by workspace.error.collectAsStateWithLifecycle()
@@ -181,7 +183,11 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
     }
     LaunchedEffect(message) { message?.let { snackbar.showSnackbar(it); home.dismissMessage() } }
     LaunchedEffect(preferencesError) { preferencesError?.let { snackbar.showSnackbar(it) } }
-    fun workshopAction(action:AssistantAction){pendingWorkshopAction=action.name;top("taller")}
+    fun workshopAction(action:AssistantAction){
+        // A deliberate shortcut must not be interrupted by the first-visit greeting.
+        tallerGreetingOpen=false;tallerGreetingDismissed=true
+        pendingWorkshopAction=action.name;top("taller")
+    }
     val assistantRootHandlers=mapOf<AssistantAction,()->Unit>(
         AssistantAction.HOME to {top("home")},AssistantAction.TALLER to {top("taller")},AssistantAction.SESSIONS to {top("sessions")},
         AssistantAction.NOTEBOOK to {top("notebook")},AssistantAction.LIBRARY to {top("library")},AssistantAction.PROFILE to {nav.navigate("profile")},

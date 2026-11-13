@@ -82,15 +82,17 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
         }catch(error:Exception){dir.deleteRecursively();throw error}
     }
     override suspend fun previewBackup(sourceUri:String):String {
+        previewHash=null
         val (dir,data)=stage(sourceUri)
-        try{previewHash=hash(File(dir,"manifest.json").readBytes())
+        try{val approvedHash=hash(File(dir,"manifest.json").readBytes())
             db.withTransaction {InventoryBackup.checkConflicts(data,db);EducationBackup.checkConflicts(data,db)}
             val referenced=BackupReferences.ids(data).map {"documents/$it"}.toSet()+BackupReferences.batchNames(data).map {"ocr-drafts/$it"}
             val supplied=listOf("documents","ocr-drafts").flatMap {folder->File(dir,folder).listFiles()?.map {"$folder/${it.name}"}.orEmpty()}.toSet()
             val omitted=referenced-supplied
             val missing=referenced.filter {it !in supplied && !File(context.filesDir,it).isFile}
+            previewHash=approvedHash
             return backupTables(data).joinToString("\n"){"$it: ${data.getJSONArray(it).length()}"}+"\nArchivos: ${supplied.size}\nPreferencias: ${if(data.has("preferences"))"incluidas; se conservan las existentes"else "no incluidas (respaldo anterior)"}\nReferencias no incluidas en el ZIP: ${omitted.size}\nReferencias sin archivo en respaldo ni dispositivo: ${missing.size}${if(omitted.isNotEmpty())"\nEste respaldo no incluye todos los medios. Que existan en este dispositivo no permite recuperarlos después de desinstalar: exporta otro respaldo completo antes de una transición."else ""}${if(BackupReferences.unretainedOcrDrafts(data)>0)"\nBorrador OCR sin imagen privada: termina y guarda su revisión antes de cambiar de instalación. El texto se incluye; la foto temporal no está garantizada."else ""}\nLa fusión conserva las filas existentes con el mismo ID; no las reemplaza. Los conflictos entre stock y ledger se rechazan sin mezclar mitades."
-        }finally{dir.deleteRecursively()}
+        }catch(error:Exception){previewHash=null;throw error}finally{dir.deleteRecursively()}
     }
     override suspend fun restoreBackup(sourceUri:String)=withContext(Dispatchers.IO){
         recoverPendingPreferences()

@@ -33,7 +33,8 @@ fun EducationObservationPanel(record:WorkRecord,all:List<WorkRecord>,store:Works
 @Composable
 internal fun EducationRunReview(run:EduRun,all:List<WorkRecord>,store:WorkspaceStore,stepId:String?){
     var visibleLimit by rememberSaveable(run.id){mutableIntStateOf(30)}
-    var newObservation by rememberSaveable(run.id){mutableStateOf(false)};var editId by rememberSaveable(run.id){mutableStateOf<String?>(null)};var feedbackTarget by remember {mutableStateOf<EduTarget?>(null)};var archiveId by remember {mutableStateOf<String?>(null)}
+    var newObservation by rememberSaveable(run.id){mutableStateOf(false)};var editId by rememberSaveable(run.id){mutableStateOf<String?>(null)}
+    var feedbackSelection by rememberSaveable(run.id){mutableStateOf("")};var archiveId by remember {mutableStateOf<String?>(null)}
     val actions=rememberEducationActions();val repo=remember(store){EducationRepository(store)}
     val classroom=EducationData.classrooms(all).find {it.id==run.classroomId};val observations=EducationData.observations(all).filter {it.runId==run.id && !it.archived}.sortedByDescending {it.at}
     Column(verticalArrangement=Arrangement.spacedBy(10.dp)){
@@ -54,12 +55,14 @@ internal fun EducationRunReview(run:EduRun,all:List<WorkRecord>,store:WorkspaceS
         if(observations.size>visibleLimit)TextButton(onClick={visibleLimit+=30}){Text("Mostrar más registros (${visibleLimit} de ${observations.size})")}
         if(observations.isNotEmpty()){
             Text("Retroalimentación a partir de registros guardados",style=MaterialTheme.typography.titleSmall)
-            observations.map {it.target}.distinct().forEach {target->TextButton(onClick={feedbackTarget=target}){Text("Revisar resumen · ${targetLabel(run,target)}")}}
+            observations.map {it.target}.distinct().forEach {target->TextButton(onClick={feedbackSelection=JSONObject().put("kind",target.kind.name).put("id",target.id ?: "").toString()}){Text("Revisar resumen · ${targetLabel(run,target)}")}}
         }
     }
     if(newObservation)ObservationEditor(run,all,store,stepId?.takeIf {it in run.stepIds},null){newObservation=false}
     editId?.let {id->observations.find {it.id==id}?.let {row->ObservationEditor(run,all,store,row.stepId,row){editId=null}}}
-    feedbackTarget?.let {target->EducationFeedbackDialog(EducationFeedback.summary(run,target,observations)){feedbackTarget=null}}
+    if(feedbackSelection.isNotBlank())runCatching {
+        val value=JSONObject(feedbackSelection);EduTarget(EduTargetKind.valueOf(value.getString("kind")),value.optString("id").takeIf {it.isNotBlank()})
+    }.getOrNull()?.let {target->EducationFeedbackDialog(EducationFeedback.summary(run,target,observations)){feedbackSelection=""}}
     archiveId?.let {id->AlertDialog(onDismissRequest={archiveId=null},title={Text("¿Archivar esta observación?")},text={Text("Dejará de formar parte del resumen activo; el registro privado permanece en el respaldo.")},confirmButton={TextButton(onClick={actions.perform {repo.archive(id);archiveId=null}},enabled=!actions.busy){Text("Archivar")}},dismissButton={TextButton(onClick={archiveId=null}){Text("Cancelar")}})}
 }
 
@@ -99,7 +102,7 @@ private fun ObservationEditor(run:EduRun,all:List<WorkRecord>,store:WorkspaceSto
         if(evidence.isNotEmpty())Text("Evidencias privadas ya adjuntadas a esta copia · opcional")
         evidence.forEachIndexed {i,id->Row {Checkbox(id in selected,{checked->selectedEvidence=JSONArray((if(checked)selected+id else selected-id).toList()).toString()});Text("Fotografía privada ${i+1}"+if(id !in currentEvidence)" · vínculo histórico"else "",Modifier.weight(1f))}}
         Button(onClick={actions.perform {
-            val criterion=picked ?: EduCriterion(existing?.criterion?.id ?: customId,customCriterion)
+            val criterion=picked ?: EduCriterion(customId,customCriterion)
             val target=existing?.target ?: EduTarget(EduTargetKind.valueOf(kind),targetId.takeIf {it.isNotBlank() && kind!=EduTargetKind.ACTIVITY.name})
             repo.saveObservation(run.id,target,criterion,EduStatus.valueOf(status),note,stepId,existing?.id ?: newId(),EducationData.strings(JSONArray(selectedEvidence)));dismiss()
         }},enabled=!actions.busy && (picked!=null || customCriterion.isNotBlank()),modifier=Modifier.fillMaxWidth()){Text("Guardar observación")}

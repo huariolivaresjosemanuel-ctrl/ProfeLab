@@ -14,7 +14,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 internal class EducationActions(private val scope:CoroutineScope) {
-    var busy by mutableStateOf(false);private set
+    var busy by mutableStateOf(false)
+        private set
     var error by mutableStateOf<String?>(null)
     fun perform(block:suspend ()->Unit){
         if(busy)return;busy=true;error=null

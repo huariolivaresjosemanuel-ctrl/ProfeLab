@@ -22,9 +22,9 @@ object EducationData {
     fun observations(all:List<WorkRecord>)=rows(all,"edu_observation"){r,j->EduObservation(r.id,j.optString("classroomId").takeIf {it.isNotBlank()},j.getString("runId"),EduTarget(EduTargetKind.valueOf(j.getString("targetKind")),j.optString("targetId").takeIf {it.isNotBlank()}),EduCriterion(j.getString("criterionId"),j.getString("criterionLabel")),EduStatus.valueOf(j.getString("status")),j.getString("note"),j.optString("stepId").takeIf {it.isNotBlank()},j.getLong("at"),strings(j.optJSONArray("evidenceIds")),r.archived,j.optString("evidenceOwnerProjectId"))}
     fun phrases(all:List<WorkRecord>)=rows(all,"edu_phrase"){r,j->EduPhrase(r.id,j.getString("text"),r.archived)}
     fun selectedRun(record:WorkRecord,all:List<WorkRecord>):EduRun? {
-        if(record.kind !in setOf("project","experiment"))return null
+        if(record.archived || record.kind !in setOf("project","experiment"))return null
         val preparation=runCatching {JSONObject(record.json).optJSONObject("teacherPreparation")}.getOrNull()
-        if(preparation?.optString("participation")=="INDIVIDUAL")return null
+        if(preparation?.optString("participation")!="STUDENTS")return null
         val selected=preparation?.optString("educationRunId")
         return runs(all).singleOrNull {it.id==selected && it.personalProjectId==record.id && !it.archived}
     }

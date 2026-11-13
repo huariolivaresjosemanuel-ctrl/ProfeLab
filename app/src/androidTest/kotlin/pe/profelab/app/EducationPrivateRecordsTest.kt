@@ -122,6 +122,12 @@ class EducationPrivateRecordsTest {
             EducationProgress.change(store,f.work.id,"step-0",done=true,note="Nota solamente de A",visit=true,expectedRunId=f.runA)
             repo.selectRun(f.work.id,f.runB)
             val rows=store.observeRecords().first();val work=requireNotNull(store.record(f.work.id))
+            assertEquals(f.runB,EducationData.selectedRun(work,rows)?.id)
+            assertNull(EducationData.selectedRun(work.copy(archived=true),rows))
+            val noMode=JSONObject(work.json).also {it.getJSONObject("teacherPreparation").remove("participation")}
+            assertNull(EducationData.selectedRun(work.copy(json=noMode.toString()),rows))
+            noMode.getJSONObject("teacherPreparation").put("participation","UNKNOWN")
+            assertNull(EducationData.selectedRun(work.copy(json=noMode.toString()),rows))
             val viewB=EducationProgress.view(work,rows)
             assertFalse(viewB.steps.first().done);assertEquals("",viewB.steps.first().notes)
             val before=rows.associate {it.id to it.json}
@@ -144,7 +150,9 @@ class EducationPrivateRecordsTest {
                 val row=rows.getJSONObject(i);if(row.getString("kind")=="edu_observation")row.put("json",JSONObject(row.getString("json")).put("targetId",f.studentB).toString())
             }}
             assertTrue(file.delete());val transfer=BackupTransfer(context,target,b.local)
+            transfer.previewBackup(Uri.fromFile(archive).toString())
             assertTrue(runCatching {transfer.previewBackup(Uri.fromFile(altered).toString())}.isFailure)
+            assertTrue("A failed preview must invalidate the previous approval",runCatching {transfer.restoreBackup(Uri.fromFile(archive).toString())}.isFailure)
             assertTrue(WorkspaceRepository(target).observeRecords().first().isEmpty());assertFalse(file.exists())
             corrupt(archive,altered){data->val rows=data.getJSONArray("workspace_records");for(i in 0 until rows.length()){
                 val row=rows.getJSONObject(i);if(row.getString("id")==f.runA)row.put("json",JSONObject(row.getString("json")).put("stepProgress",JSONObject().put("foreign-step",JSONObject().put("done",true))).toString())
