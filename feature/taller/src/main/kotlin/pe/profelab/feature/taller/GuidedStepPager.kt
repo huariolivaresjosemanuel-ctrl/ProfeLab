@@ -29,8 +29,9 @@ internal fun GuidedStepPager(record:WorkRecord,view:ActivityViewState,vm:Worksho
     fun visit(i:Int){if(stepBusy)return;view.steps.getOrNull(i)?.takeIf {it.id!=view.steps.getOrNull(index)?.id}?.let {stepBusy=motionEnabled;selectedId=it.id;if(view.personal)vm.visitStep(record,it.id)}}
     LaunchedEffect(record.id){if(view.personal && view.steps.isNotEmpty() && view.lastVisitedStepId!=view.steps[index].id)vm.visitStep(record,view.steps[index].id)}
     WorkshopPage("Procedimiento guiado",if(view.experiment)"Sigue la investigación paso a paso"else "Realiza tu actividad paso a paso",back,screenTag="workshop-steps"){
+        item("journey"){WorkshopJourney(1)}
         item("summary"){ActivitySummary(record,view,{actions.navigate(WorkshopWindow.DETAIL)})}
-        item("teaching-help"){Row {TextButton(onClick={actions.navigate(WorkshopWindow.CLASSROOM)}){Text("Guía docente")};if(view.personal)TextButton(onClick={observe(view.steps.getOrNull(index)?.id)}){Text("Observar alumnos")}}}
+        item("teaching-help"){Column {TextButton(onClick={actions.navigate(WorkshopWindow.CLASSROOM)}){Text("Guía docente")};if(view.personal)TextButton(onClick={observe(view.steps.getOrNull(index)?.id)}){Text("Observar y evaluar")}}}
         item("step-selector"){GuidedStepSelector(view.steps.size,index,::visit,enabled=!stepBusy)}
         if(list){
             item("list-heading"){Text("Todos los pasos",style=MaterialTheme.typography.titleLarge)}
@@ -68,7 +69,7 @@ internal fun GuidedStepPager(record:WorkRecord,view:ActivityViewState,vm:Worksho
         }
         if(!view.personal)item("begin"){FlowAction("Comenzar mi proyecto para guardar avances","workshop-steps-begin",actions.begin,false)}
         if(view.personal && view.completedSteps==view.steps.size && view.steps.isNotEmpty())item("consumption"){FlowCard("Pasos completados",WorkshopColors.Mint){Text("El inventario sigue intacto. Si utilizaste consumibles, revisa y confirma las cantidades reales.");FlowAction("Revisar uso real de materiales","workshop-review-actual-use",{actions.navigate(WorkshopWindow.MATERIALS)},false)}}
-        item("results-shortcut"){FlowAction("Abrir resultados y evidencias","workshop-steps-results",{actions.navigate(WorkshopWindow.RESULTS)},false)}
+        item("results-shortcut"){if(view.personal)FlowAction("Observar y evaluar","workshop-steps-observe",{observe(view.steps.getOrNull(index)?.id)},false);FlowAction("Abrir resultados y evidencias","workshop-steps-results",{actions.navigate(WorkshopWindow.RESULTS)},false)}
     }
 }
 @Composable

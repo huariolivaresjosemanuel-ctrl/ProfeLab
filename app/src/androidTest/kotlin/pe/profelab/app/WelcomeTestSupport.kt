@@ -25,12 +25,15 @@ internal fun ComposeTestRule.dismissWelcomeIfPresent(){
     waitUntil(15_000){onAllNodesWithTag("welcome-screen").fetchSemanticsNodes().isEmpty() && onAllNodesWithTag("nav_home").fetchSemanticsNodes().isNotEmpty()}
     onNodeWithTag("nav_taller").performClick()
     waitUntil(15000){onAllNodesWithTag("workshop-catalog").fetchSemanticsNodes().isNotEmpty()}
-    val preferences=ApplicationProvider.getApplicationContext<ProfeApplication>().graph.preferences
+    val graph=ApplicationProvider.getApplicationContext<ProfeApplication>().graph
+    val preferences=graph.preferences
     val current=runBlocking {preferences.preferences.first()}
     if(current.mascotVisible && current.personalizedGreetings && !current.tallerWelcomeSeen){
-        waitUntil(15000){onAllNodesWithTag("taller-welcome-skip").fetchSemanticsNodes().isNotEmpty() || runBlocking {preferences.preferences.first().tallerWelcomeSeen}}
+        waitUntil(15000){onAllNodesWithTag("taller-welcome-skip").fetchSemanticsNodes().isNotEmpty() || graph.assistantSession.providedByWelcome || runBlocking {preferences.preferences.first().tallerWelcomeSeen}}
         if(onAllNodesWithTag("taller-welcome-skip").fetchSemanticsNodes().isNotEmpty())onNodeWithTag("taller-welcome-skip").performClick()
-        waitUntil(15000){runBlocking {preferences.preferences.first().tallerWelcomeSeen}}
+        // Root welcome may have consumed this session's only greeting. Do not fabricate
+        // a preference write for a dialog that was intentionally never opened.
+        waitUntil(15000){graph.assistantSession.providedByWelcome || runBlocking {preferences.preferences.first().tallerWelcomeSeen}}
     }
     waitForIdle()
     onAllNodesWithTag("taller-welcome").assertCountEquals(0)

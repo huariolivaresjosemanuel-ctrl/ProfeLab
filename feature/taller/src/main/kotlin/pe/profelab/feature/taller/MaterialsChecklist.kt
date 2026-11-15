@@ -39,9 +39,9 @@ internal fun MaterialsChecklist(record:WorkRecord,all:List<WorkRecord>,catalog:L
     val prepared=WorkshopCodec.strings(data.optJSONObject("workshopFlow")?.opt("preparedMaterialIds")).toSet()
     val stocks=WorkshopCodec.inventory(all,catalog);val otherStocks=WorkshopCodec.inventory(all,catalog,setOf(record.id))
     val text=WorkshopFlowAdapter.shoppingText(record,assessment)
-    WorkshopPage("Materiales e inventario","Revisa lo que necesitas y qué tienes",back,screenTag="workshop-materials"){
+    WorkshopPage("Preparación rápida","Materiales, seguridad y opciones para tu aula",back,screenTag="workshop-materials"){
+        item("journey"){WorkshopJourney(0)}
         item("summary"){ActivitySummary(record,view,{actions.navigate(WorkshopWindow.DETAIL)})}
-        item("prepare"){ActivityPreparationPanel(record,view.personal,catalog,vm,actions.begin,participants)}
         item("heading"){WorkshopChoices(listOf("Lista de materiales","Inventario"),"Lista de materiales"){if(it=="Inventario")actions.inventory()};Text("Materiales y herramientas",style=MaterialTheme.typography.titleMedium)}
         assessment.coverage.forEach {coverage->val need=coverage.requirement;val key="${need.materialId}:${InventoryRules.unit(need.unit)}:${need.tool}:${need.reusable}"
             val registered=all.any {r->if(r.kind!="inventory" || r.archived)false else {val j=JSONObject(r.json);j.optString("materialId").ifBlank {WorkshopCodec.resolve(r.title,catalog)?.id ?: legacyMaterialId(r.title)}==need.materialId}}
@@ -74,11 +74,23 @@ internal fun MaterialsChecklist(record:WorkRecord,all:List<WorkRecord>,catalog:L
             }
         }
         if(assessment.coverage.isEmpty())item("empty"){Text("No se han definido materiales. Usa el editor en tu copia personal.")}
+        item("safety"){FlowCard("Antes de comenzar",WorkshopColors.Yellow,Icons.Outlined.Shield){
+            FlowMetadata(data)
+            WorkshopCodec.strings(data.optJSONObject("safety")?.opt("warnings")).forEach {Text(it)}
+            WorkshopCodec.strings(data.optJSONObject("safety")?.opt("childrenForbiddenActions")).forEach {Text("Solo adulto: $it")}
+        }}
+        item("prepare"){OptionalWorkshopSection("workshop-optional-participants","Aula y participantes · opcional","Puedes continuar sin registrar alumnos ni equipos."){
+            ActivityPreparationPanel(record,view.personal,catalog,vm,actions.begin,participants)
+        }}
         item("notice"){FlowCard(color=WorkshopColors.Mint,icon=Icons.Outlined.Info,title="Tu inventario se conserva"){Text("Los consumibles solo se descuentan después de confirmar su uso real. Avanzar, completar pasos o marcar preparación no cambia existencias.",style=MaterialTheme.typography.bodyMedium)}}
-        item("inventory"){FlowCard("Estado de inventario",WorkshopColors.Paper,Icons.Outlined.Inventory2){Text("${assessment.covered} de ${assessment.coverage.size} requisitos cubiertos");FlowAction("Registrar o revisar mis existencias","workshop-to-inventory",actions.inventory,false)}}
-        item("buy"){FlowAction("Generar lista de compras","workshop-generate-shopping",{vm.addShopping(record,catalog);actions.shopping()},false)}
-        item("share"){FlowCard("Lista de compras",WorkshopColors.Paper,Icons.Outlined.ShoppingCart){androidx.compose.foundation.text.selection.SelectionContainer {Text(text)};ShoppingShareButtons(text)}}
-        if(view.personal)item("operations"){InventoryOperationPanel(record,all,vm)}else item("copy"){Text("Comienza una copia para guardar preparación, reservas y consumos.");FlowAction("Comenzar mi proyecto","workshop-materials-begin",actions.begin,false)}
+        item("inventory"){OptionalWorkshopSection("workshop-optional-inventory","Inventario, compras y uso real · opcional"){
+            Text("${assessment.covered} de ${assessment.coverage.size} requisitos cubiertos")
+            FlowAction("Registrar o revisar mis existencias","workshop-to-inventory",actions.inventory,false)
+            FlowAction("Generar lista de compras","workshop-generate-shopping",{vm.addShopping(record,catalog);actions.shopping()},false)
+            androidx.compose.foundation.text.selection.SelectionContainer {Text(text)};ShoppingShareButtons(text)
+            if(view.personal)InventoryOperationPanel(record,all,vm)
+        }}
+        if(!view.personal)item("copy"){Text("Comienza una copia para guardar preparación, reservas y consumos.");FlowAction("Comenzar mi proyecto","workshop-materials-begin",actions.begin,false)}
         item("next"){FlowAction("Continuar a la guía docente","workshop-materials-to-guide",{actions.navigate(WorkshopWindow.CLASSROOM)});TextButton(onClick={actions.navigate(WorkshopWindow.STEPS)},modifier=Modifier.testTag("workshop-materials-next")){Text("Consultar directamente el procedimiento")};TextButton(onClick={actions.navigate(WorkshopWindow.PURPOSE)}){Text("Más información pedagógica")}}
     }
 }

@@ -21,7 +21,9 @@ object WorkshopMediaBindings {
         return j.optString("forkedFromTemplateId").ifBlank {j.optString("activityId").ifBlank {record.id}}
     }
     fun version(record:WorkRecord):String {val j=JSONObject(record.json);return j.optString("contentVersion").ifBlank {j.optString("packVersion","legacy")}}
-    fun stepFingerprint(step:ActivityStepView):String=MessageDigest.getInstance("SHA-256").digest(JSONArray(listOf(step.title,step.instruction)).toString().toByteArray(Charsets.UTF_8)).joinToString(""){"%02x".format(it)}
+    // Android JSONStringer escapes '/', unlike the authoring tools. Hash canonical text,
+    // independent of that serializer detail; keep rejecting genuinely changed procedures.
+    fun stepFingerprint(step:ActivityStepView):String=MessageDigest.getInstance("SHA-256").digest(JSONArray(listOf(step.title,step.instruction)).toString().replace("\\/","/").toByteArray(Charsets.UTF_8)).joinToString(""){"%02x".format(it)}
     fun preferredPrivateCover(record:WorkRecord):String? {
         if(record.kind !in setOf("project","experiment"))return null
         val j=JSONObject(record.json);val selected=j.optJSONObject("workshopFlow")?.optString("preferredCoverFileId").orEmpty()

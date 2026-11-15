@@ -201,11 +201,13 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
     val assistantAdvice=AssistantExperience.advice(AssistantPolicy.advice(assistantCatalog,assistantContext.orEmpty(),AssistantRecords.facts(records,AssistantAction.TEACHER in assistantAvailable),assistantAvailable),assistantContext.orEmpty(),assistantAvailable)
     val assistantUsable=assistantContext!=null && !keyboardVisible && prefs.mascotVisible && !assistantRegistry.occluded && workspaceError==null && seedError==null && pendingPdf==null && preferencesError==null
     LaunchedEffect(assistantUsable,assistantContext,prefs.tallerWelcomeSeen,prefs.personalizedGreetings,tallerGreetingDismissed){
-        if(assistantUsable && AssistantExperience.showTallerWelcome(assistantContext,prefs) && !tallerGreetingDismissed){tallerGreetingOpen=true;mascotController.greet()}
-        else tallerGreetingOpen=false
+        if(!assistantUsable || assistantContext!="taller")tallerGreetingOpen=false
+        else if(AssistantExperience.showTallerWelcome(assistantContext,prefs) && !tallerGreetingDismissed && !tallerGreetingOpen && graph.assistantSession.claim("greeting")){tallerGreetingOpen=true;mascotController.greet()}
         if(!assistantUsable)assistantOpen=false
     }
     LaunchedEffect(assistantOpen,tallerGreetingOpen){when {assistantOpen->mascotController.explain();tallerGreetingOpen->mascotController.greet();else->mascotController.rest()}}
+    LaunchedEffect(mascotController.state){if(mascotController.state==MascotGesture.CELEBRATE){kotlinx.coroutines.delay(1440);mascotController.rest()}}
+    fun workshopSaved(operation:String){if(graph.assistantSession.saved(operation,true))mascotController.celebrate()}
     fun invokeAssistant(action:AssistantAction){
         assistantOpen=false;mascotController.rest()
         if(!assistantRegistry.invoke(assistantContext.orEmpty(),action))assistantRootHandlers[action]?.invoke()
@@ -233,9 +235,9 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
         Box(Modifier.padding(padding).consumeWindowInsets(padding).imePadding()) {
             Box(Modifier.fillMaxSize().padding(bottom=if(assistantUsable)72.dp else 0.dp)){
             NavHost(navController=nav,startDestination="home") {
-                composable("home") { HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord,prefs,{assistantOpen=true},showInlineAssistant=false) }
+                composable("home") { val recent=AssistantRecords.pendingWork(records);HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord,prefs,{assistantOpen=true},showInlineAssistant=false,recentWork=recent,continueWork=recent?.let {r->{nav.navigate("record/${Uri.encode(r.id)}")}}) }
                 composable("taller") { WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture,
-                    participationContent={r->EducationParticipationPanel(r,records,graph.workspace)},observationContent={r,step,close->EducationObservationPanel(r,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion) }
+                    participationContent={r->EducationParticipationPanel(r,records,graph.workspace)},observationContent={r,step,close->EducationObservationPanel(r,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion,saved=::workshopSaved) }
                 composable("sessions") { SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
                 composable("notebook") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,studentsContent={close->StudentsWorkspace(records,graph.workspace,close)}) }
                 composable("practices") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,initialSection="Prácticas",studentsContent={close->StudentsWorkspace(records,graph.workspace,close)}) }
@@ -273,7 +275,7 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
                     val id=e.arguments?.getString("id");val r=records.find {it.id==id}
                     when(r?.kind){
                         "project","experiment"->WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture,id,::back,
-                            participationContent={record->EducationParticipationPanel(record,records,graph.workspace)},observationContent={record,step,close->EducationObservationPanel(record,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion)
+                            participationContent={record->EducationParticipationPanel(record,records,graph.workspace)},observationContent={record,step,close->EducationObservationPanel(record,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion,saved=::workshopSaved)
                         "session"->SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id)
                         "note"->NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id,studentsContent={close->StudentsWorkspace(records,graph.workspace,close)})
                         "document"->LaunchedEffect(id){nav.popBackStack();openPdf(r)}

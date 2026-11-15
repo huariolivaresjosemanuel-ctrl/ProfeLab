@@ -33,6 +33,7 @@ class WorkshopUiTest {
     @Test fun catalogGuideHasStructuredMaterialsAndThreeModes(){
         guide()
         compose.workshopAction("workshop-to-materials")
+        compose.onNodeWithTag("workshop-page").performScrollToNode(hasText("Materiales y herramientas"))
         compose.onNodeWithText("Materiales y herramientas").assertIsDisplayed()
         compose.onAllNodes(hasText("|",substring=true)).assertCountEquals(0)
         compose.activityRule.scenario.onActivity {it.onBackPressedDispatcher.onBackPressed()}

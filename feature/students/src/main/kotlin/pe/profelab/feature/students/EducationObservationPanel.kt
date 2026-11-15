@@ -20,7 +20,9 @@ import pe.profelab.core.model.newId
 fun EducationObservationPanel(record:WorkRecord,all:List<WorkRecord>,store:WorkspaceStore,stepId:String?,dismiss:()->Unit){
     val run=EducationData.selectedRun(record,all)
     Column(Modifier.fillMaxWidth().heightIn(max=520.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(10.dp)){
-    if(run==null){
+    if(run==null && !EducationProgress.hasSelection(record)){
+        GeneralActivityReview(record,store,dismiss)
+    }else if(run==null){
         Text("No hay una ejecución docente seleccionada para esta copia. Puedes prepararla opcionalmente en Materiales → Aula y participantes. Registrar alumnos no es obligatorio.")
         TextButton(onClick=dismiss){Text("Volver a la actividad")}
     }else {

@@ -34,10 +34,11 @@ internal fun SectorCatalog(sector:String,all:List<WorkRecord>,definitions:List<W
                 OutlinedTextField(query,{query=it.take(160)},label={Text("Buscar actividad…")},leadingIcon={Icon(Icons.Outlined.Search,null)},modifier=Modifier.weight(1f),singleLine=true)
                 IconButton(onClick={filters=!filters},modifier=Modifier.heightIn(min=56.dp)){Icon(Icons.Outlined.Tune,"Mostrar filtros")}
             }}
-            item("difficulty"){WorkshopChoices(listOf("Todos")+source.map {JSONObject(it.json).optString("difficulty")}.filter {it.isNotBlank()}.distinct(),difficulty){difficulty=it}}
             if(filters)item("filters"){FlowCard("Filtrar actividades",WorkshopColors.Paper){
+                WorkshopChoices(listOf("Todos")+source.map {JSONObject(it.json).optString("difficulty")}.filter {it.isNotBlank()}.distinct(),difficulty){difficulty=it}
                 WorkshopChoices(listOf("Todas")+source.map {JSONObject(it.json).optString("area")}.filter {it.isNotBlank()}.distinct(),area){area=it}
                 Row {Checkbox(favoritesOnly,{favoritesOnly=it});Text("Solo favoritos")}
+                TextButton(onClick={query="";difficulty="Todos";area="Todas";favoritesOnly=false}){Text("Restablecer búsqueda y filtros")}
                 TextButton(onClick=advanced){Text("Recomendaciones y filtros avanzados")}
             }}
             item("count"){Text("${shown.size} actividades",Modifier.testTag(if(source.isNotEmpty())"workshop-catalog-ready"else "workshop-catalog-empty"),style=MaterialTheme.typography.bodySmall)}

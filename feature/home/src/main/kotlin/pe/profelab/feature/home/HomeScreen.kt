@@ -17,7 +17,8 @@ import pe.profelab.core.ui.*
 fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (TaskFilter) -> Unit,
     openTask: (String) -> Unit, openActivity: () -> Unit, openProfile: () -> Unit,
     complete: (Task,Boolean) -> Unit, retry: () -> Unit, openResource: (EntityRef)->Unit,
-    preferences:UserPreferences=UserPreferences(),openAssistant:(()->Unit)?=null,showInlineAssistant:Boolean=true) {
+    preferences:UserPreferences=UserPreferences(),openAssistant:(()->Unit)?=null,showInlineAssistant:Boolean=true,
+    recentWork:WorkRecord?=null,continueWork:(()->Unit)?=null) {
     Page {
         if (state.loading) { CircularProgressIndicator(); return@Page }
         if (state.error != null) { ErrorNotice(state.error,retry); return@Page }
@@ -29,6 +30,13 @@ fun HomeScreen(state: HomeState, openSection: (String) -> Unit, openTasks: (Task
             }
         }
         if (state.profile == null) TextButton(onClick=openProfile) { Text("Configurar mi perfil académico") }
+        if(recentWork!=null && continueWork!=null)Card(onClick=continueWork,colors=CardDefaults.cardColors(containerColor=ProfeColors.Mint)){
+            Column(Modifier.fillMaxWidth().padding(16.dp),verticalArrangement=Arrangement.spacedBy(6.dp)){
+                Text("Continuar mi actividad",style=MaterialTheme.typography.titleMedium)
+                Text(recentWork.title.ifBlank {"Borrador personal"})
+                Text("Retoma el último avance guardado.",style=MaterialTheme.typography.bodySmall)
+            }
+        }
         val progress = HomeRules.progress(state.tasks,state.now.toLocalDate(),state.now.zone)
         Card(onClick={openTasks(TaskFilter.WEEK)},colors=CardDefaults.cardColors(containerColor=ProfeColors.Mint)) {
             Row(Modifier.padding(16.dp),horizontalArrangement=Arrangement.spacedBy(14.dp)) {

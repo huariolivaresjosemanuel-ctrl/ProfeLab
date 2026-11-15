@@ -11,6 +11,7 @@ import pe.profelab.core.database.*
 class AppGraph(context: Context) {
     // Random process-local token, only for saved Activity state; never a device ID or exported data.
     val welcomeSessionToken=java.util.UUID.randomUUID().toString()
+    val assistantSession=pe.profelab.core.model.AssistantSessionGate()
     val database=ProfeDatabase.create(context)
     val repository=LocalRepository(database)
     val ocrDrafts=RetainedOcrDrafts(context,repository)

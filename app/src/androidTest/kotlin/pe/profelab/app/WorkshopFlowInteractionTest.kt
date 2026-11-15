@@ -18,7 +18,7 @@ class WorkshopFlowInteractionTest {
     @Test fun realCopyButtonWritesClipboardWithoutCreatingStock(){
         val store=ApplicationProvider.getApplicationContext<ProfeApplication>().graph.workspace
         val before=runBlocking {store.observeRecords().first().associate {it.id to it.json}}
-        compose.openWorkshopDefinition("mat-003");compose.workshopAction("workshop-to-materials");compose.workshopAction("workshop-copy-shopping")
+        compose.openWorkshopDefinition("mat-003");compose.workshopAction("workshop-to-materials");compose.workshopAction("workshop-optional-inventory");compose.workshopAction("workshop-copy-shopping")
         val clipboard=compose.activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         Assert.assertTrue(clipboard.primaryClip?.getItemAt(0)?.text.toString().contains("Materiales faltantes para:"))
         Assert.assertEquals(before,runBlocking {store.observeRecords().first().associate {it.id to it.json}})

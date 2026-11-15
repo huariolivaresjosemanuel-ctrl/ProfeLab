@@ -32,6 +32,9 @@ internal fun ProfeRoot(graph:AppGraph,welcome:WelcomeFlowModel){
         Surface(Modifier.fillMaxSize(),color=ProfeColors.Cream){Box(Modifier.safeDrawingPadding(),contentAlignment=Alignment.Center){CircularProgressIndicator()}}
         return
     }
+    // The existing independent welcome already greets this cold session. Do not
+    // open a second automatic Taller greeting after it; its local preferences stay intact.
+    SideEffect {if(state.mode!=WelcomeMode.NONE && incoming==null)graph.assistantSession.welcome()}
     Box(Modifier.fillMaxSize()){
         // Stable call site: closing welcome does not replace or reset the NavHost/ViewModels.
         val modal=state.startupError || state.mode!=WelcomeMode.NONE && incoming==null

@@ -23,8 +23,14 @@ import org.json.JSONObject
 class WorkshopFlowCaptureTest {
     @get:Rule val compose=createAndroidComposeRule<MainActivity>()
     @Before fun enter(){compose.dismissWelcomeIfPresent()}
-    private fun capture(name:String,photo:WorkshopBoundMedia?=null){
-        compose.onNodeWithTag("workshop-page").performScrollToIndex(0)
+    private fun capture(name:String,photo:WorkshopBoundMedia?=null,slot:String?=null){
+        // LazyColumn does not compose offscreen media. Bring the stable slot into view
+        // before waiting for decode; a longer timeout cannot make an offscreen item load.
+        if(slot==null)compose.onNodeWithTag("workshop-page").performScrollToIndex(0)
+        else {
+            compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag(slot))
+            compose.onNodeWithTag(slot).performScrollTo().assertIsDisplayed()
+        }
         photo?.let {expected->
             // Image semantics only appear after bytes decode; do not capture a loading spinner.
             compose.waitUntil(30000){compose.onAllNodesWithContentDescription(expected.alt,substring=true,useUnmergedTree=true).fetchSemanticsNodes().isNotEmpty()}
@@ -45,21 +51,21 @@ class WorkshopFlowCaptureTest {
         capture("w00_mi_taller")
         compose.workshopAction("workshop-sector:experiments")
         compose.waitUntil(15000){compose.onAllNodesWithTag("workshop-catalog-ready").fetchSemanticsNodes().isNotEmpty()}
-        capture("w01_catalogo",requireNotNull(WorkshopMediaBindings.resolve(definition,"catalog_cover")))
+        capture("w01_catalogo",requireNotNull(WorkshopMediaBindings.resolve(definition,"catalog_cover")),"workshop-media:catalog_cover:exp-001::")
         compose.workshopAction("workshop-open:exp-001")
         compose.waitUntil(15000){compose.onAllNodesWithTag("workshop-guide:exp-001").fetchSemanticsNodes().isNotEmpty()}
-        capture("w02_ficha",requireNotNull(WorkshopMediaBindings.resolve(definition,"detail_hero")))
+        capture("w02_ficha",requireNotNull(WorkshopMediaBindings.resolve(definition,"detail_hero")),"workshop-media:detail_hero:exp-001::")
         compose.workshopAction("workshop-to-materials");compose.onNodeWithTag("workshop-materials").assertExists()
-        capture("w03_materiales",requireNotNull(WorkshopMediaBindings.resolve(definition,"material_icon",materialId=firstMaterial.materialId)))
+        capture("w03_materiales",requireNotNull(WorkshopMediaBindings.resolve(definition,"material_icon",materialId=firstMaterial.materialId)),"workshop-media:material_icon:exp-001::${firstMaterial.materialId}")
         compose.workshopAction("workshop-materials-next");compose.onNodeWithTag("workshop-steps").assertExists()
-        capture("w04_procedimiento",requireNotNull(WorkshopMediaBindings.resolve(definition,"step_photo",stepId=steps.first().id)))
+        capture("w04_procedimiento",requireNotNull(WorkshopMediaBindings.resolve(definition,"step_photo",stepId=steps.first().id)),"workshop-media:step_photo:exp-001:${steps.first().id}:")
         val count=steps.size
         Assert.assertTrue("Fixture must have actual steps",count>0)
         repeat(count){compose.workshopAction("workshop-step-next")}
         compose.onNodeWithTag("workshop-results").assertExists()
-        capture("w05_resultados",requireNotNull(WorkshopMediaBindings.resolve(definition,"outcome_reference")))
+        capture("w05_resultados",requireNotNull(WorkshopMediaBindings.resolve(definition,"outcome_reference")),"workshop-media:outcome_reference:exp-001::")
         compose.workshopAction("workshop-results-next");compose.onNodeWithTag("workshop-classroom").assertExists()
-        capture("w06_guia_docente",requireNotNull(WorkshopMediaBindings.resolve(definition,"teacher_reference")))
+        capture("w06_guia_docente",requireNotNull(WorkshopMediaBindings.resolve(definition,"teacher_reference")),"workshop-media:teacher_reference:exp-001::")
         compose.onAllNodesWithText("Ana",useUnmergedTree=true).assertCountEquals(0)
         Assert.assertEquals(before,runBlocking {store.observeRecords().first().associate {it.id to it.json}})
         val files=qaCaptureDirectory("taller-3-0").listFiles().orEmpty().filter {it.extension=="png"}

@@ -24,7 +24,7 @@ import pe.profelab.core.ui.BindAssistantOcclusion
 
 @Composable
 fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:WorkspaceStore,export:(WorkRecord)->Unit,capture:(String)->Unit,initialId:String?=null,exit:()->Unit={},
-    participationContent:@Composable (WorkRecord)->Unit={},observationContent:@Composable (WorkRecord,String?,()->Unit)->Unit={_,_,_->},reduceMotion:Boolean=false){
+    participationContent:@Composable (WorkRecord)->Unit={},observationContent:@Composable (WorkRecord,String?,()->Unit)->Unit={_,_,_->},reduceMotion:Boolean=false,saved:(String)->Unit={}){
     val vm:WorkshopViewModel=viewModel(factory=modelFactory {WorkshopViewModel(store)})
     val state by vm.state.collectAsStateWithLifecycle();val context=LocalContext.current;val scope=rememberCoroutineScope()
     var base by remember {mutableStateOf<List<MaterialDefinition>>(emptyList())};var loadError by remember {mutableStateOf<String?>(null)}
@@ -130,7 +130,7 @@ fun WorkshopScreen(all:List<WorkRecord>,templates:List<WorkRecord>,store:Workspa
                         "materials"->MaterialsChecklist(current,all,catalog,view,vm,::back,actions,participationContent)
                         "purpose"->PurposePanel(current,view,mode,::back,actions)
                         "steps"->GuidedStepPager(current,view,vm,::back,actions,::observe,{assistantStep=it})
-                        "results"->ActivityResultsScreen(current,view,vm,::back,actions,capture,{observe(null)})
+                        "results"->ActivityResultsScreen(current,view,vm,::back,actions,capture,{observe(null)},saved)
                         "classroom"->TeacherClassroomPanel(current,view,vm,::back,actions,{observe(null)})
                         "guide"->WorkshopGuide(current,all,catalog,vm,::back,actions.begin,actions.edit,export,capture,actions.inventory,actions.shopping,actions.favorite,actions.editTeacher,requestedMode=requestedGuideMode,modeConsumed={requestedGuideMode=null})
                         else->ActivityDetail(current,all,catalog,view,mode,::back,actions)

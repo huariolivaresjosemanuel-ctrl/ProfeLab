@@ -55,6 +55,25 @@ class WorkshopViewModel(private val store:WorkspaceStore):ViewModel(){
         val done=CompletableDeferred<Boolean>();_state.value=_state.value.copy(pending=_state.value.pending+1);queue.send("Cambios procesados" to {done.complete(_state.value.error==null && uncommitted.isEmpty())})
         return done.await()
     }
+    suspend fun finish(record:WorkRecord,operationId:String):Boolean {
+        if(!flush())return false
+        val expectedRun=if(EducationProgress.hasSelection(record))EducationProgress.selectedId(record)else ""
+        val result=CompletableDeferred<Boolean>()
+        action("Cierre guardado en este dispositivo"){
+            try {
+                store.editRecords {rows->
+                    val latest=requireNotNull(rows.singleOrNull {it.id==record.id}) {"La actividad ya no está disponible"}
+                    val actualRun=if(EducationProgress.hasSelection(latest))EducationProgress.selectedId(latest)else ""
+                    require(expectedRun==actualRun) {"Cambió la ejecución; revisa el aula antes de finalizar"}
+                    if(actualRun.isNotBlank())require(pe.profelab.core.content.EducationData.selectedRun(latest,rows)!=null) {"La ejecución ya no está activa"}
+                    val next=pe.profelab.core.content.WorkshopClosure.finish(latest,operationId,System.currentTimeMillis())
+                    if(next==latest)emptyList()else listOf(next)
+                }
+                result.complete(true)
+            }catch(e:Exception){result.complete(false);throw e}
+        }
+        return result.await()
+    }
     val inventoryOperations get()=store as? InventoryOperationStore
     fun editResult(record:WorkRecord,field:String,value:String){val latest=current(record);save(latest.copy(json=ActivityResultsData.update(latest,field,value).toString()))}
     fun visitStep(record:WorkRecord,id:String){val latest=current(record);if(EducationProgress.hasSelection(latest)){val runId=EducationProgress.selectedId(latest);action("Ubicación guardada en esta ejecución"){EducationProgress.change(store,record.id,id,visit=true,expectedRunId=runId)};return};save(latest.copy(json=WorkshopFlowAdapter.visit(latest,id).toString()))}
