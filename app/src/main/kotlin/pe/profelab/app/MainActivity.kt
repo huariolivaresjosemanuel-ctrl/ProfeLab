@@ -23,6 +23,8 @@ class MainActivity : ComponentActivity() {
         val sameProcess=savedInstanceState?.getString("profelab.welcome.process")==graph.welcomeSessionToken
         val accessibility=getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         welcome=ViewModelProvider(this,modelFactory {WelcomeFlowModel(graph.preferences,graph.repository,{
+            graph.workspace.protectEducationRecords()
+            graph.transfers.cleanupAbandonedStaging()
             graph.transfers.recoverPendingPreferences()
             graph.preferences.migrateLegacyProfile(graph.repository.observeProfile().first())
         },sameProcess && savedInstanceState?.getBoolean("profelab.welcome.session.handled")==true,external,!accessibility.isTouchExplorationEnabled)})[WelcomeFlowModel::class.java]

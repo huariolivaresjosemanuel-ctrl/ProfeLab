@@ -28,6 +28,18 @@ import java.util.zip.ZipOutputStream
 @RunWith(AndroidJUnit4::class)
 class EducationPrivateRecordsTest {
     private val context=ApplicationProvider.getApplicationContext<Context>()
+    private fun backupPassword()="Synthetic backup QA secret 32".toCharArray()
+    // Test-only decoding constructs adversarial legacy fixtures with valid checksums.
+    // Production exports with educational rows are always encrypted.
+    private fun decodedFixture(source:File):java.io.InputStream {
+        val input=java.io.PushbackInputStream(source.inputStream(),8);val magic=ByteArray(8);val size=input.read(magic)
+        if(size!=8 || magic.toString(Charsets.US_ASCII)!="PFLB32E1"){input.unread(magic,0,maxOf(size,0));return input}
+        val salt=ByteArray(16);java.io.DataInputStream(input).readFully(salt);val iv=ByteArray(12);java.io.DataInputStream(input).readFully(iv)
+        val spec=javax.crypto.spec.PBEKeySpec(backupPassword(),salt,210_000,256)
+        val key=try {javax.crypto.SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256").generateSecret(spec).encoded}finally {spec.clearPassword()}
+        val cipher=javax.crypto.Cipher.getInstance("AES/GCM/NoPadding").apply {init(javax.crypto.Cipher.DECRYPT_MODE,javax.crypto.spec.SecretKeySpec(key,"AES"),javax.crypto.spec.GCMParameterSpec(128,iv));updateAAD(magic+salt+iv)}
+        key.fill(0);return javax.crypto.CipherInputStream(input,cipher)
+    }
     private fun db()=Room.inMemoryDatabaseBuilder(context,ProfeDatabase::class.java).build()
     private class Prefs(context:Context){
         val file=File(context.cacheDir,"edu-${newId()}.preferences_pb");val job=SupervisorJob()
@@ -54,7 +66,7 @@ class EducationPrivateRecordsTest {
     private fun hash(bytes:ByteArray)=MessageDigest.getInstance("SHA-256").digest(bytes).joinToString(""){"%02x".format(it)}
     private fun corrupt(source:File,destination:File,change:(JSONObject)->Unit){
         val entries=linkedMapOf<String,ByteArray>()
-        ZipInputStream(source.inputStream()).use {zip->while(true){val entry=zip.nextEntry ?: break;entries[entry.name]=zip.readBytes()}}
+        ZipInputStream(decodedFixture(source)).use {zip->while(true){val entry=zip.nextEntry ?: break;entries[entry.name]=zip.readBytes()}}
         val data=JSONObject(requireNotNull(entries["data.json"]).toString(Charsets.UTF_8));change(data)
         entries["data.json"]=data.toString().toByteArray(Charsets.UTF_8)
         val manifest=JSONObject(requireNotNull(entries["manifest.json"]).toString(Charsets.UTF_8));manifest.getJSONObject("sha256").put("data.json",hash(requireNotNull(entries["data.json"])))
@@ -100,11 +112,11 @@ class EducationPrivateRecordsTest {
             b.local.setPersonalization("Docente destino QA",LocalRole.TEACHER)
             val before=store.observeRecords().first().associate {it.id to Triple(it.kind,it.json,it.archived)};val photoHash=hash(file.readBytes())
             val exporter=BackupTransfer(context,source,a.local)
-            exporter.exportBackup(Uri.fromFile(metadataOnly).toString(),false)
-            exporter.exportBackup(Uri.fromFile(archive).toString(),true);assertTrue(file.delete())
+            exporter.exportEncryptedBackup(Uri.fromFile(metadataOnly).toString(),false,backupPassword())
+            exporter.exportEncryptedBackup(Uri.fromFile(archive).toString(),true,backupPassword());assertTrue(file.delete())
             val transfer=BackupTransfer(context,target,b.local);val uri=Uri.fromFile(archive).toString()
-            assertTrue(transfer.previewBackup(Uri.fromFile(metadataOnly).toString()).contains("Referencias sin archivo en respaldo ni dispositivo: 1"))
-            repeat(2){transfer.previewBackup(uri);transfer.restoreBackup(uri)}
+            assertTrue(transfer.previewEncryptedBackup(Uri.fromFile(metadataOnly).toString(),backupPassword()).contains("Referencias sin archivo en respaldo ni dispositivo: 1"))
+            repeat(2){transfer.previewEncryptedBackup(uri,backupPassword());transfer.restoreEncryptedBackup(uri,backupPassword())}
             val restored=WorkspaceRepository(target).observeRecords().first()
             assertEquals(before,restored.associate {it.id to Triple(it.kind,it.json,it.archived)})
             assertEquals(photoHash,hash(file.readBytes()));assertEquals(2,EducationData.runs(restored).size)
@@ -145,24 +157,24 @@ class EducationPrivateRecordsTest {
         try {
             val store=WorkspaceRepository(source);val f=graph(store,file.name)
             EducationRepository(store).saveObservation(f.runA,EduTarget(EduTargetKind.STUDENT,f.studentA),EduCriterion("qa:observe","Describe lo que hizo"),EduStatus.NOT_OBSERVED,"",evidenceIds=setOf(file.name))
-            BackupTransfer(context,source,a.local).exportBackup(Uri.fromFile(archive).toString(),true)
+            BackupTransfer(context,source,a.local).exportEncryptedBackup(Uri.fromFile(archive).toString(),true,backupPassword())
             corrupt(archive,altered){data->val rows=data.getJSONArray("workspace_records");for(i in 0 until rows.length()){
                 val row=rows.getJSONObject(i);if(row.getString("kind")=="edu_observation")row.put("json",JSONObject(row.getString("json")).put("targetId",f.studentB).toString())
             }}
             assertTrue(file.delete());val transfer=BackupTransfer(context,target,b.local)
-            transfer.previewBackup(Uri.fromFile(archive).toString())
-            assertTrue(runCatching {transfer.previewBackup(Uri.fromFile(altered).toString())}.isFailure)
-            assertTrue("A failed preview must invalidate the previous approval",runCatching {transfer.restoreBackup(Uri.fromFile(archive).toString())}.isFailure)
+            transfer.previewEncryptedBackup(Uri.fromFile(archive).toString(),backupPassword())
+            assertTrue(runCatching {transfer.previewEncryptedBackup(Uri.fromFile(altered).toString(),backupPassword())}.isFailure)
+            assertTrue("A failed preview must invalidate the previous approval",runCatching {transfer.restoreEncryptedBackup(Uri.fromFile(archive).toString(),backupPassword())}.isFailure)
             assertTrue(WorkspaceRepository(target).observeRecords().first().isEmpty());assertFalse(file.exists())
             corrupt(archive,altered){data->val rows=data.getJSONArray("workspace_records");for(i in 0 until rows.length()){
                 val row=rows.getJSONObject(i);if(row.getString("id")==f.runA)row.put("json",JSONObject(row.getString("json")).put("stepProgress",JSONObject().put("foreign-step",JSONObject().put("done",true))).toString())
             }}
-            assertTrue(runCatching {transfer.previewBackup(Uri.fromFile(altered).toString())}.isFailure)
+            assertTrue(runCatching {transfer.previewEncryptedBackup(Uri.fromFile(altered).toString(),backupPassword())}.isFailure)
             assertTrue(WorkspaceRepository(target).observeRecords().first().isEmpty());assertFalse(file.exists())
             corrupt(archive,altered){data->val rows=data.getJSONArray("workspace_records");for(i in 0 until rows.length()){
                 val row=rows.getJSONObject(i);if(row.getString("kind")=="edu_observation")row.put("json",JSONObject(row.getString("json")).put("evidenceOwnerProjectId",newId()).toString())
             }}
-            assertTrue(runCatching {transfer.previewBackup(Uri.fromFile(altered).toString())}.isFailure)
+            assertTrue(runCatching {transfer.previewEncryptedBackup(Uri.fromFile(altered).toString(),backupPassword())}.isFailure)
             assertTrue(WorkspaceRepository(target).observeRecords().first().isEmpty());assertFalse(file.exists())
         }finally{source.close();target.close();a.close();b.close();archive.delete();altered.delete();file.delete()}
     }
@@ -171,14 +183,45 @@ class EducationPrivateRecordsTest {
         val source=db();val target=db();val a=Prefs(context);val b=Prefs(context);val archive=File(context.cacheDir,"edu-${newId()}.zip")
         try {
             val sourceStore=WorkspaceRepository(source);val f=graph(sourceStore)
-            BackupTransfer(context,source,a.local).exportBackup(Uri.fromFile(archive).toString(),false)
-            val transfer=BackupTransfer(context,target,b.local);val uri=Uri.fromFile(archive).toString();transfer.previewBackup(uri)
+            BackupTransfer(context,source,a.local).exportEncryptedBackup(Uri.fromFile(archive).toString(),false,backupPassword())
+            val transfer=BackupTransfer(context,target,b.local);val uri=Uri.fromFile(archive).toString();transfer.previewEncryptedBackup(uri,backupPassword())
             val targetStore=WorkspaceRepository(target)
             val student=requireNotNull(sourceStore.record(f.studentA));val conflicting=student.copy(json=JSONObject(student.json).put("classroomId",f.classroomB).toString())
             targetStore.saveBatch(listOf(requireNotNull(sourceStore.record(f.classroomA)),requireNotNull(sourceStore.record(f.classroomB)),conflicting))
             val before=targetStore.observeRecords().first().associate {it.id to it.json}
-            assertTrue(runCatching {transfer.restoreBackup(uri)}.isFailure)
+            assertTrue(runCatching {transfer.restoreEncryptedBackup(uri,backupPassword())}.isFailure)
             assertEquals(before,targetStore.observeRecords().first().associate {it.id to it.json});assertNull(targetStore.record(f.work.id))
         }finally{source.close();target.close();a.close();b.close();archive.delete()}
+    }
+    @Test fun encryptedOrphanEducationalHistoryStaysPrivateAfterPortableRestore():Unit=runBlocking {
+        val source=db();val target=db();val a=Prefs(context);val b=Prefs(context);val archive=File(context.cacheDir,"edu-history-${newId()}.pflb")
+        try {
+            val store=WorkspaceRepository(source);val parent=newId()
+            val original=WorkRecord(parent,"edu_phrase","Synthetic private source","{\"schemaVersion\":1,\"text\":\"Synthetic source\"}",1)
+            val history=WorkRecord("history:$parent:20","revision","Synthetic private orphan history","{\"schemaVersion\":1,\"text\":\"Synthetic historic note\"}",1,20,true)
+            store.saveBatch(listOf(original,history))
+            source.openHelper.writableDatabase.execSQL("DELETE FROM workspace_records WHERE id=?",arrayOf(parent))
+            val exporter=BackupTransfer(context,source,a.local);val uri=Uri.fromFile(archive).toString()
+            assertTrue(runCatching {exporter.exportBackup(uri,false)}.isFailure)
+            exporter.exportEncryptedBackup(uri,false,backupPassword())
+            val restorer=BackupTransfer(context,target,b.local);restorer.previewEncryptedBackup(uri,backupPassword());restorer.restoreEncryptedBackup(uri,backupPassword())
+            val raw=requireNotNull(target.workspace().find(history.id));assertTrue(JSONObject(raw.json).has("encryptedEducation"));assertFalse(raw.json.contains("Synthetic historic note"))
+            assertEquals(history.json,WorkspaceRepository(target).record(history.id)?.json)
+        }finally {source.close();target.close();a.close();b.close();archive.delete()}
+    }
+    @Test fun privateHistoryMetadataCannotPointToAnotherRecordKind():Unit=runBlocking {
+        val source=db();val target=db();val a=Prefs(context);val b=Prefs(context);val archive=File(context.cacheDir,"edu-${newId()}.pflb");val altered=File(context.cacheDir,"edu-bad-history-${newId()}.zip")
+        try {
+            val store=WorkspaceRepository(source);val f=graph(store)
+            BackupTransfer(context,source,a.local).exportEncryptedBackup(Uri.fromFile(archive).toString(),false,backupPassword())
+            corrupt(archive,altered){data->
+                val invalid="history:${f.studentA}:20"
+                data.getJSONArray("workspace_records").put(JSONObject().put("id",invalid).put("kind","note").put("title","Synthetic ordinary note").put("json","{}").put("updatedAt",1).put("revision",1).put("archived",0))
+                data.put("privateEducationRevisionIds",JSONArray().put(invalid))
+            }
+            val transfer=BackupTransfer(context,target,b.local)
+            assertTrue(runCatching {transfer.previewEncryptedBackup(Uri.fromFile(altered).toString(),backupPassword())}.isFailure)
+            assertTrue(WorkspaceRepository(target).observeRecords().first().isEmpty())
+        }finally {source.close();target.close();a.close();b.close();archive.delete();altered.delete()}
     }
 }

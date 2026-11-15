@@ -17,10 +17,40 @@ import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
 class BackupTransfer(private val context:Context,private val db:ProfeDatabase,private val preferences:LocalPreferences=LocalPreferences(context)):LocalTransfer {
+    private companion object {val activeStages=java.util.concurrent.ConcurrentHashMap.newKeySet<String>()}
     private val tables=listOf("tasks","profiles","drafts","activity","workspace_records")
     private fun backupTables(data:JSONObject)=tables+if(data.getInt("schema")==3)InventoryBackup.tables else emptyList()
     private var previewHash:String?=null
+    private fun privateParentIds(data:JSONObject):Set<String> {
+        val rows=data.getJSONArray("workspace_records")
+        return (0 until rows.length()).map {rows.getJSONObject(it)}.filter {it.getString("kind").startsWith("edu_")}.map {it.getString("id")}.toSet()
+    }
+    /** Optional metadata preserves encrypted orphan history without changing a SQL row's columns. */
+    private fun privateRevisionIds(data:JSONObject):Set<String> {
+        val rows=data.getJSONArray("workspace_records");val byId=(0 until rows.length()).map {rows.getJSONObject(it)}.associateBy {it.getString("id")}
+        val parents=privateParentIds(data)
+        val inferred=byId.values.filter {it.getString("kind")=="revision" && EducationEncryption.privateParentId(it.getString("id")) in parents}.map {it.getString("id")}.toSet()
+        val metadata=data.optJSONArray("privateEducationRevisionIds") ?: return inferred
+        require(metadata.length()<=byId.size)
+        val declared=(0 until metadata.length()).map {index->
+            require(metadata.get(index) is String);val id=metadata.getString(index)
+            val parent=requireNotNull(EducationEncryption.privateParentId(id)){"Identificador de revisión privada inválido"}
+            require(runCatching {java.util.UUID.fromString(parent).toString()==parent}.getOrDefault(false))
+            require(byId[id]?.getString("kind")=="revision"){"La protección histórica sólo puede referenciar revisiones"};id
+        }
+        require(declared.distinct().size==declared.size)
+        return inferred+declared
+    }
     private val preferencesJournal="restore:preferences:v1"
+    /** Only app-created restore staging; never documents, user URIs or an active operation. */
+    suspend fun cleanupAbandonedStaging()=withContext(Dispatchers.IO){
+        val root=context.cacheDir.canonicalFile
+        synchronized(activeStages){root.listFiles().orEmpty().filter {it.isDirectory && it.name.matches(Regex("restore-[0-9a-f-]{36}"))}.forEach {dir->
+            if(dir.canonicalFile.parentFile==root && dir.canonicalPath !in activeStages)dir.deleteRecursively()
+        }
+        }
+    }
+    private fun releaseStage(dir:File){try {dir.deleteRecursively()}finally {activeStages.remove(dir.canonicalPath)}}
     /** Room and DataStore are separate stores. This durable journal makes a partial restore retryable. */
     suspend fun recoverPendingPreferences(){
         val pending=db.dao().draft(preferencesJournal) ?: return
@@ -28,17 +58,29 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
     }
     private fun hash(data:ByteArray)=MessageDigest.getInstance("SHA-256").digest(data).joinToString(""){"%02x".format(it)}
     private fun hashFile(file:File)=file.inputStream().use {input->val digest=MessageDigest.getInstance("SHA-256");val buffer=ByteArray(65536);while(true){val n=input.read(buffer);if(n<0)break;digest.update(buffer,0,n)};digest.digest().joinToString(""){"%02x".format(it)}}
-    override suspend fun exportBackup(destinationUri:String,includeFiles:Boolean)=withContext(Dispatchers.IO){
+    override suspend fun exportBackup(destinationUri:String,includeFiles:Boolean)=exportInternal(destinationUri,includeFiles,null)
+    suspend fun exportEncryptedBackup(destinationUri:String,includeFiles:Boolean,passphrase:CharArray){
+        BackupEncryption.requirePassphrase(passphrase);exportInternal(destinationUri,includeFiles,passphrase)
+    }
+    private suspend fun exportInternal(destinationUri:String,includeFiles:Boolean,passphrase:CharArray?)=withContext(Dispatchers.IO){
         recoverPendingPreferences()
         val snapshot=JSONObject().put("schema",3)
+        val encryptedRevisions=linkedSetOf<String>()
         db.withTransaction {
             backupTables(snapshot).forEach {table->val rows=JSONArray();db.openHelper.writableDatabase.query("SELECT * FROM $table").use {cursor->
                 while(cursor.moveToNext()){val row=JSONObject();cursor.columnNames.forEachIndexed {i,name->
                     row.put(name,if(cursor.isNull(i))JSONObject.NULL else when(cursor.getType(i)){android.database.Cursor.FIELD_TYPE_INTEGER->cursor.getLong(i);android.database.Cursor.FIELD_TYPE_FLOAT->cursor.getDouble(i);else->cursor.getString(i)})
+                };if(table=="workspace_records"){
+                    if(row.getString("kind")=="revision" && EducationEncryption.encrypted(row.getString("json")))encryptedRevisions+=row.getString("id")
+                    EducationEncryption.decodeBackupRow(row)
                 };rows.put(row)}
             };snapshot.put(table,rows)}
         }
         snapshot.put("preferences",preferences.exportSnapshot())
+        val privateRows=snapshot.getJSONArray("workspace_records")
+        snapshot.put("privateEducationRevisionIds",JSONArray(encryptedRevisions.sorted()))
+        val protectedRevisions=privateRevisionIds(snapshot)
+        require(passphrase!=null || (protectedRevisions.isEmpty() && (0 until privateRows.length()).none {privateRows.getJSONObject(it).getString("kind").startsWith("edu_")})){"Los datos educativos requieren un respaldo cifrado con contraseña"}
         EducationBackup.validate(snapshot)
         val referenced=BackupReferences.ids(snapshot);val batchReferences=BackupReferences.batchNames(snapshot)
         val data=snapshot.toString().toByteArray(Charsets.UTF_8)
@@ -49,17 +91,21 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
         fun archiveName(f:File)="${f.parentFile!!.name}/${f.name}"
         var total=data.size.toLong();files.forEach {f->require(f.length()<=100L*1024*1024);total+=f.length();require(total<=512L*1024*1024){"Respaldo demasiado grande para este flujo"};hashes.put(archiveName(f),f.inputStream().use {input->val digest=MessageDigest.getInstance("SHA-256");val buffer=ByteArray(65536);while(true){val n=input.read(buffer);if(n<0)break;digest.update(buffer,0,n)};digest.digest().joinToString(""){"%02x".format(it)}})}
         manifest.put("sha256",hashes).put("missingFileIds",JSONArray(referenced-files.filter {it.parentFile!!.name=="documents"}.map {it.name}.toSet())).put("missingOcrDraftFiles",JSONArray(batchReferences-files.filter {it.parentFile!!.name=="ocr-drafts"}.map {it.name}.toSet()))
-        context.contentResolver.openOutputStream(Uri.parse(destinationUri),"wt")!!.use {output->ZipOutputStream(output).use {zip->
+        context.contentResolver.openOutputStream(Uri.parse(destinationUri),"wt")!!.use {output->ZipOutputStream(if(passphrase==null)output else BackupEncryption.output(output,passphrase)).use {zip->
             fun entry(name:String,bytes:ByteArray){zip.putNextEntry(ZipEntry(name));zip.write(bytes);zip.closeEntry()}
             entry("manifest.json",manifest.toString().toByteArray());entry("data.json",data)
             files.forEach {f->zip.putNextEntry(ZipEntry(archiveName(f)));f.inputStream().use {it.copyTo(zip)};zip.closeEntry()}
         }}
     }
-    private suspend fun stage(source:String):Pair<File,JSONObject> = withContext(Dispatchers.IO){
-        val dir=File(context.cacheDir,"restore-${newId()}").apply {mkdirs()};var total=0L
+    private suspend fun stage(source:String,passphrase:CharArray?=null):Pair<File,JSONObject> = withContext(Dispatchers.IO){
+        val dir=synchronized(activeStages){File(context.cacheDir,"restore-${newId()}").apply {mkdirs();activeStages.add(canonicalPath)}};var total=0L
         try {
             val seen=mutableSetOf<String>()
-            context.contentResolver.openInputStream(Uri.parse(source))!!.use {input->ZipInputStream(input).use {zip->
+            context.contentResolver.openInputStream(Uri.parse(source))!!.use {raw->BackupEncryption.input(raw,passphrase).use {input->
+                // ZipInputStream can stop before the authenticated envelope reaches EOF.
+                // Keep its close local, then drain the cipher so a wrong key/tag is rejected.
+                val nonClosing=object:java.io.FilterInputStream(input){override fun close(){}}
+                ZipInputStream(nonClosing).use {zip->
                 while(true){val entry=zip.nextEntry ?: break;val name=entry.name
                     val validPath=name in listOf("manifest.json","data.json") || name.matches(Regex("documents/[a-zA-Z0-9-]+")) || name.matches(Regex("ocr-drafts/[a-zA-Z0-9-]+\\.png"))
                     require(seen.add(name) && !entry.isDirectory && validPath){"Entrada de respaldo no válida"}
@@ -67,6 +113,9 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
                     target.outputStream().use {out->val buffer=ByteArray(65536);var entryBytes=0L;while(true){val n=zip.read(buffer);if(n<0)break;total+=n;entryBytes+=n;require(total<=512L*1024*1024 && entryBytes<=if(name=="manifest.json")2L*1024*1024 else if(name=="data.json")20L*1024*1024 else 100L*1024*1024);out.write(buffer,0,n)}}
                     zip.closeEntry()
                 }
+                }
+                val trailing=ByteArray(65536)
+                while(true){val n=input.read(trailing);if(n<0)break;total+=n;require(total<=512L*1024*1024){"Respaldo demasiado grande"}}
             }}
             val manifestText=File(dir,"manifest.json").readText();JsonLimits.requireBounded(manifestText)
             val manifest=JSONObject(manifestText);require(manifest.getString("format")=="profelab-backup" && manifest.getInt("schema") in 2..3)
@@ -74,16 +123,19 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
             expected.keys().forEach {name->val f=File(dir,name);val digest=f.inputStream().use {stream->val md=MessageDigest.getInstance("SHA-256");val buffer=ByteArray(65536);while(true){val n=stream.read(buffer);if(n<0)break;md.update(buffer,0,n)};md.digest().joinToString(""){"%02x".format(it)}};require(digest==expected.getString(name)){"Checksum incorrecto"}}
             val dataText=File(dir,"data.json").readText();JsonLimits.requireBounded(dataText,maxCharacters=20*1024*1024)
             val data=JSONObject(dataText);require(data.getInt("schema")==manifest.getInt("schema"));backupTables(data).forEach {data.getJSONArray(it)}
+            privateRevisionIds(data)
             InventoryBackup.validate(data)
             EducationBackup.validate(data)
             if(data.has("preferences"))preferences.validateSnapshot(data.getJSONObject("preferences"))
             BackupReferences.ids(data);BackupReferences.batchNames(data)
             dir to data
-        }catch(error:Exception){dir.deleteRecursively();throw error}
+        }catch(error:Exception){releaseStage(dir);throw error}
     }
-    override suspend fun previewBackup(sourceUri:String):String {
+    override suspend fun previewBackup(sourceUri:String):String=previewInternal(sourceUri,null)
+    suspend fun previewEncryptedBackup(sourceUri:String,passphrase:CharArray):String=previewInternal(sourceUri,passphrase)
+    private suspend fun previewInternal(sourceUri:String,passphrase:CharArray?):String {
         previewHash=null
-        val (dir,data)=stage(sourceUri)
+        val (dir,data)=stage(sourceUri,passphrase)
         try{val approvedHash=hash(File(dir,"manifest.json").readBytes())
             db.withTransaction {InventoryBackup.checkConflicts(data,db);EducationBackup.checkConflicts(data,db)}
             val referenced=BackupReferences.ids(data).map {"documents/$it"}.toSet()+BackupReferences.batchNames(data).map {"ocr-drafts/$it"}
@@ -92,11 +144,14 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
             val missing=referenced.filter {it !in supplied && !File(context.filesDir,it).isFile}
             previewHash=approvedHash
             return backupTables(data).joinToString("\n"){"$it: ${data.getJSONArray(it).length()}"}+"\nArchivos: ${supplied.size}\nPreferencias: ${if(data.has("preferences"))"incluidas; se conservan las existentes"else "no incluidas (respaldo anterior)"}\nReferencias no incluidas en el ZIP: ${omitted.size}\nReferencias sin archivo en respaldo ni dispositivo: ${missing.size}${if(omitted.isNotEmpty())"\nEste respaldo no incluye todos los medios. Que existan en este dispositivo no permite recuperarlos después de desinstalar: exporta otro respaldo completo antes de una transición."else ""}${if(BackupReferences.unretainedOcrDrafts(data)>0)"\nBorrador OCR sin imagen privada: termina y guarda su revisión antes de cambiar de instalación. El texto se incluye; la foto temporal no está garantizada."else ""}\nLa fusión conserva las filas existentes con el mismo ID; no las reemplaza. Los conflictos entre stock y ledger se rechazan sin mezclar mitades."
-        }catch(error:Exception){previewHash=null;throw error}finally{dir.deleteRecursively()}
+        }catch(error:Exception){previewHash=null;throw error}finally{releaseStage(dir)}
     }
-    override suspend fun restoreBackup(sourceUri:String)=withContext(Dispatchers.IO){
+    override suspend fun restoreBackup(sourceUri:String)=restoreInternal(sourceUri,null)
+    suspend fun restoreEncryptedBackup(sourceUri:String,passphrase:CharArray)=restoreInternal(sourceUri,passphrase)
+    private suspend fun restoreInternal(sourceUri:String,passphrase:CharArray?)=withContext(Dispatchers.IO){
         recoverPendingPreferences()
-        val (dir,data)=stage(sourceUri);val copied=mutableListOf<File>();var committed=false
+        val (dir,data)=stage(sourceUri,passphrase);val copied=mutableListOf<File>();var committed=false
+        val privateParents=privateParentIds(data);val privateRevisions=privateRevisionIds(data)
         try {
             require(previewHash!=null && hash(File(dir,"manifest.json").readBytes())==previewHash){"El contenido cambió; vuelve a previsualizar"}
             db.withTransaction {InventoryBackup.checkConflicts(data,db);EducationBackup.checkConflicts(data,db)}
@@ -127,6 +182,7 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
                         for(n in 0 until pages.length())pages.optJSONObject(n)?.let {page->BackupReferences.batchName(page.optString("file"))?.let {name->page.put("file",File(context.filesDir,"ocr-drafts/$name").absolutePath)}}
                         row.put("payload",pages.toString())
                     }
+                    if(table=="workspace_records")EducationEncryption.encodeBackupRow(row,privateParents,privateRevisions)
                     val bindings=columns.map {c->row.get(c).let {if(it==JSONObject.NULL)null else it}}.toTypedArray()
                     val quoted=columns.joinToString(","){"`$it`"};val marks=columns.joinToString(","){"?"}
                     db.openHelper.writableDatabase.execSQL("INSERT OR IGNORE INTO $table ($quoted) VALUES ($marks)",bindings)
@@ -135,6 +191,6 @@ class BackupTransfer(private val context:Context,private val db:ProfeDatabase,pr
                 data.optJSONObject("preferences")?.let {db.dao().putDraft(DraftEntity(preferencesJournal,it.toString(),System.currentTimeMillis()))}
             };committed=true
             recoverPendingPreferences();previewHash=null
-        }catch(e:Exception){if(!committed)copied.forEach {it.delete()};throw e}finally{dir.deleteRecursively()}
+        }catch(e:Exception){if(!committed)copied.forEach {it.delete()};throw e}finally{releaseStage(dir)}
     }
 }

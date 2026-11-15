@@ -3,16 +3,18 @@ package pe.profelab.core.database
 import org.json.JSONArray
 import org.json.JSONObject
 import pe.profelab.core.model.JsonLimits
+import pe.profelab.core.model.WorkRecord
+import pe.profelab.core.content.Education32Data
 import java.util.UUID
 
 /** Private aggregate validation before file copies and again inside the restore transaction. */
 internal object EducationBackup {
-    private val kinds=setOf("edu_classroom","edu_student","edu_team","edu_run","edu_observation","edu_phrase")
-    private data class Row(val id:String,val kind:String,val body:JSONObject)
+    private val kinds=setOf("edu_classroom","edu_student","edu_team","edu_run","edu_observation","edu_phrase")+Education32Data.kinds
+    private data class Row(val id:String,val kind:String,val body:JSONObject,val archived:Boolean=false)
     private fun rows(data:JSONObject):List<Row> {
         val array=data.getJSONArray("workspace_records")
         return (0 until array.length()).map {i->val row=array.getJSONObject(i);val body=row.getString("json")
-            JsonLimits.requireBounded(body);Row(row.getString("id"),row.getString("kind"),JSONObject(body))}
+            JsonLimits.requireBounded(body);Row(row.getString("id"),row.getString("kind"),JSONObject(body),row.optInt("archived",0)!=0)}
     }
     private fun uuid(value:String):String=value.also {require(runCatching {UUID.fromString(it).toString()==it}.getOrDefault(false)){"Identificador educativo privado inválido"}}
     private fun text(j:JSONObject,key:String,max:Int,blank:Boolean=false):String {
@@ -38,7 +40,10 @@ internal object EducationBackup {
         require(rows.map {it.id}.distinct().size==rows.size){"Identificadores repetidos en el respaldo"}
         val all=rows.associateBy {it.id};val privateRows=rows.filter {it.kind.startsWith("edu_")}
         fun parent(id:String,kind:String):Row=requireNotNull(all[id]).also {require(it.kind==kind){"Relación educativa de otro tipo"}}
-        fun student(id:String,classroomId:String){require(parent(id,"edu_student").body.getString("classroomId")==classroomId){"Un estudiante pertenece a otra aula"}}
+        fun student(id:String,classroomId:String){
+            val identity=parent(id,"edu_student").body
+            require(identity.getString("classroomId")==classroomId || rows.any {it.kind=="edu_enrollment" && it.body.optString("studentId")==id && it.body.optString("classroomId")==classroomId}){"Un estudiante pertenece a otra aula"}
+        }
         privateRows.forEach {row->
             require(row.kind in kinds){"Tipo educativo no compatible con esta versión"};uuid(row.id);number(row.body,"schemaVersion",1,1)
             val j=row.body
@@ -102,12 +107,14 @@ internal object EducationBackup {
             val selected=project.body.optJSONObject("teacherPreparation")?.optString("educationRunId").orEmpty()
             if(selected.isNotBlank())require(parent(selected,"edu_run").body.getString("personalProjectId")==project.id){"La preparación apunta a otra ejecución"}
         }
+        Education32Data.validateGraph(rows.map {WorkRecord(it.id,it.kind,"",it.body.toString(),0,archived=it.archived)})
     }
 
     fun checkConflicts(data:JSONObject,db:ProfeDatabase){
         val incoming=rows(data);val current=mutableListOf<Row>()
-        db.openHelper.writableDatabase.query("SELECT id,kind,json FROM workspace_records").use {c->while(c.moveToNext()){
-            val body=c.getString(2);JsonLimits.requireBounded(body);current+=Row(c.getString(0),c.getString(1),JSONObject(body))
+        db.openHelper.writableDatabase.query("SELECT * FROM workspace_records").use {c->while(c.moveToNext()){
+            val entity=WorkspaceEntity(c.getString(c.getColumnIndexOrThrow("id")),c.getString(c.getColumnIndexOrThrow("kind")),c.getString(c.getColumnIndexOrThrow("title")),c.getString(c.getColumnIndexOrThrow("json")),c.getLong(c.getColumnIndexOrThrow("updatedAt")),c.getInt(c.getColumnIndexOrThrow("revision")),c.getInt(c.getColumnIndexOrThrow("archived"))!=0)
+            val record=entity.domain();JsonLimits.requireBounded(record.json);current+=Row(record.id,record.kind,JSONObject(record.json),record.archived)
         }}
         val byId=current.associateBy {it.id}
         incoming.forEach {row->byId[row.id]?.let {old->

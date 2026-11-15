@@ -23,6 +23,7 @@ fun EducationParticipationPanel(record:WorkRecord,all:List<WorkRecord>,store:Wor
         Text(selected?.let {"Ejecución preparada: ${it.participantCount} participantes · ${it.teams.size} equipos"} ?: "Puedes continuar con una cantidad de participantes, sin nombres ni registro de alumnos.")
         TextButton(onClick={expanded=!expanded}){Text(if(expanded)"Ocultar selección"else "Preparar o cambiar ejecución docente")}
         if(expanded){
+            PrivateEducationSurface()
             EducationState(actions)
             if(runs.isNotEmpty()){
                 Text("Retomar una ejecución de esta misma copia")
@@ -37,7 +38,7 @@ fun EducationParticipationPanel(record:WorkRecord,all:List<WorkRecord>,store:Wor
             if(classroomId.isNotBlank()){
                 val selectedPeople=EducationData.strings(JSONArray(people));val selectedTeams=EducationData.strings(JSONArray(teams))
                 Text("Estudiantes de esta aula")
-                EducationData.students(all).filter {it.classroomId==classroomId && !it.archived}.forEach {student->Row {
+                Education32Data.studentsInClassroom(all,classroomId).filter {!it.archived}.forEach {student->Row {
                     Checkbox(student.id in selectedPeople,{checked->people=JSONArray((if(checked)selectedPeople+student.id else selectedPeople-student.id).toList()).toString()})
                     Text(student.displayName,Modifier.weight(1f))
                 }}

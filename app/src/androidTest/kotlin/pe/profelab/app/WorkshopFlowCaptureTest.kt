@@ -28,8 +28,11 @@ class WorkshopFlowCaptureTest {
         // before waiting for decode; a longer timeout cannot make an offscreen item load.
         if(slot==null)compose.onNodeWithTag("workshop-page").performScrollToIndex(0)
         else {
-            compose.onNodeWithTag("workshop-page").performScrollToNode(hasTestTag(slot))
-            compose.onNodeWithTag(slot).performScrollTo().assertIsDisplayed()
+            // Clickable catalog cards merge descendant semantics for TalkBack. Inspect
+            // the real media child in the unmerged tree; the decoded image assertion
+            // below still verifies the expected reference rather than just a tag.
+            compose.onNodeWithTag("workshop-page",useUnmergedTree=true).performScrollToNode(hasTestTag(slot))
+            compose.onNodeWithTag(slot,useUnmergedTree=true).performScrollTo().assertIsDisplayed()
         }
         photo?.let {expected->
             // Image semantics only appear after bytes decode; do not capture a loading spinner.

@@ -14,10 +14,12 @@ import pe.profelab.core.content.*
 import pe.profelab.core.model.WorkRecord
 import pe.profelab.core.model.WorkspaceStore
 import pe.profelab.core.model.newId
+import pe.profelab.core.ui.LocalReviewPrivateEvidence
 
 /** Content for the app-owned contextual Dialog. Closing never completes a step or changes stock. */
 @Composable
 fun EducationObservationPanel(record:WorkRecord,all:List<WorkRecord>,store:WorkspaceStore,stepId:String?,dismiss:()->Unit){
+    PrivateEducationSurface()
     val run=EducationData.selectedRun(record,all)
     Column(Modifier.fillMaxWidth().heightIn(max=520.dp).verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(10.dp)){
     if(run==null && !EducationProgress.hasSelection(record)){
@@ -34,6 +36,7 @@ fun EducationObservationPanel(record:WorkRecord,all:List<WorkRecord>,store:Works
 
 @Composable
 internal fun EducationRunReview(run:EduRun,all:List<WorkRecord>,store:WorkspaceStore,stepId:String?){
+    val reviewEvidence=LocalReviewPrivateEvidence.current
     var visibleLimit by rememberSaveable(run.id){mutableIntStateOf(30)}
     var newObservation by rememberSaveable(run.id){mutableStateOf(false)};var editId by rememberSaveable(run.id){mutableStateOf<String?>(null)}
     var feedbackSelection by rememberSaveable(run.id){mutableStateOf("")};var archiveId by remember {mutableStateOf<String?>(null)}
@@ -51,6 +54,7 @@ internal fun EducationRunReview(run:EduRun,all:List<WorkRecord>,store:WorkspaceS
             Text(observation.criterion.label);Text(observation.status.label)
             observation.stepId?.let {Text("Paso: $it",style=MaterialTheme.typography.bodySmall)}
             if(observation.note.isNotBlank())Text(observation.note)
+            observation.evidenceIds.sorted().forEachIndexed {index,evidenceId->TextButton(onClick={reviewEvidence?.invoke(evidenceId)},enabled=reviewEvidence!=null){Text("Revisar evidencia privada ${index+1}")}}
             Text(java.time.Instant.ofEpochMilli(observation.at).atZone(java.time.ZoneId.systemDefault()).toLocalDate().toString(),style=MaterialTheme.typography.bodySmall)
             if(!run.archived){TextButton(onClick={editId=observation.id}){Text("Editar registro")};TextButton(onClick={archiveId=observation.id}){Text("Archivar observación")}}
         }}
@@ -79,8 +83,8 @@ private fun ObservationEditor(run:EduRun,all:List<WorkRecord>,store:WorkspaceSto
     val source=all.find {it.id==run.personalProjectId};val criteria=(listOfNotNull(existing?.criterion)+source?.let {WorkshopFlowAdapter.read(it).criteria.map {c->EduCriterion(c.id,c.label)}}.orEmpty()).distinctBy {it.id}
     var kind by rememberSaveable(run.id,existing?.id){mutableStateOf((existing?.target?.kind ?: if(run.participants.isNotEmpty())EduTargetKind.STUDENT else EduTargetKind.ACTIVITY).name)}
     var targetId by rememberSaveable(run.id,existing?.id,kind){mutableStateOf(existing?.target?.id ?: when(EduTargetKind.valueOf(kind)){EduTargetKind.STUDENT->run.participants.firstOrNull()?.studentId;EduTargetKind.TEAM->run.teams.firstOrNull()?.teamId;else->null}.orEmpty())}
-    var criterionId by rememberSaveable(run.id,existing?.id){mutableStateOf(existing?.criterion?.id ?: criteria.firstOrNull()?.id.orEmpty())};var customCriterion by rememberSaveable(run.id,existing?.id){mutableStateOf(existing?.criterion?.label.orEmpty())};val customId=rememberSaveable(run.id,existing?.id){newId()}
-    var status by rememberSaveable(run.id,existing?.id){mutableStateOf((existing?.status ?: EduStatus.NOT_OBSERVED).name)};var note by rememberSaveable(run.id,existing?.id){mutableStateOf(existing?.note.orEmpty())}
+    var criterionId by rememberSaveable(run.id,existing?.id){mutableStateOf(existing?.criterion?.id ?: criteria.firstOrNull()?.id.orEmpty())};var customCriterion by remember(run.id,existing?.id){mutableStateOf(existing?.criterion?.label.orEmpty())};val customId=rememberSaveable(run.id,existing?.id){newId()}
+    var status by rememberSaveable(run.id,existing?.id){mutableStateOf((existing?.status ?: EduStatus.NOT_OBSERVED).name)};var note by remember(run.id,existing?.id){mutableStateOf(existing?.note.orEmpty())}
     var selectedEvidence by rememberSaveable(run.id,existing?.id){mutableStateOf(JSONArray(existing?.evidenceIds.orEmpty().toList()).toString())}
     val actions=rememberEducationActions();val repo=remember(store){EducationRepository(store)}
     EducationDialog("Observación formativa",{if(!actions.busy)dismiss()}){

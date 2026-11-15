@@ -219,8 +219,9 @@ class InventoryOperationRepository(private val db:ProfeDatabase):InventoryOperat
     }
     override suspend fun mutateInventory(operationId:String,change:(List<WorkRecord>)->List<WorkRecord>)=db.withTransaction {
         key(operationId);dao.operation(operationId)?.let {require(it.status=="COMMITTED");return@withTransaction}
-        val rows=db.workspace().all().map {WorkRecord(it.id,it.kind,it.title,it.json,it.updatedAt,it.revision,it.archived)}
+        val raw=db.workspace().all();val rows=raw.map {it.domain()}
         val proposed=journalLegacy(operationId,rows,change(rows),force=true)
-        proposed.forEach {r->require(r.id.isNotBlank() && r.json.length<=2_000_000);val old=db.workspace().find(r.id);db.workspace().put(WorkspaceEntity(r.id,r.kind,r.title,r.json,r.updatedAt,(old?.revision ?: 0)+1,r.archived))}
+        val parents=EducationEncryption.parentIds(rows+proposed);val privateRevisions=EducationEncryption.preservedRevisionIds(raw)
+        proposed.forEach {r->require(r.id.isNotBlank() && r.json.length<=2_000_000);val old=db.workspace().find(r.id);db.workspace().put(r.entity(parents,privateRevisions).copy(revision=(old?.revision ?: 0)+1))}
     }
 }

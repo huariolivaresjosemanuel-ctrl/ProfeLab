@@ -21,7 +21,7 @@ internal fun TeacherClassroomPanel(record:WorkRecord,view:ActivityViewState,vm:W
         item("journey"){WorkshopJourney(if(section=="Evaluación")2 else 0)}
         item("sections"){WorkshopChoices(listOf("Presentación","Evaluación","Adaptación"),section){section=it}}
         if(section=="Presentación"){
-        item("script"){FlowCard("Presentación breve",WorkshopColors.Mint,Icons.Outlined.MenuBook){BriefText(guide.optString("introShort").ifBlank {"Guion vacío por elección del usuario. Puedes editarlo en tu copia."})}}
+        item("script"){FlowCard("Guion breve",WorkshopColors.Mint,Icons.Outlined.MenuBook){BriefText(guide.optString("introShort").ifBlank {"Guion vacío por elección del usuario. Puedes editarlo en tu copia."})}}
         item("questions"){FlowCard("Preguntas para el aula",WorkshopColors.Blue,Icons.Outlined.QuestionAnswer){(WorkshopCodec.strings(guide.opt("priorKnowledgeQuestions"))+WorkshopCodec.strings(guide.opt("reflectiveQuestions"))).distinct().take(3).forEachIndexed {i,q->Text("${i+1}. $q")}}}
         item("observe-hint"){FlowCard("Qué observar",WorkshopColors.Paper){view.criteria.take(3).forEach {Text("• ${it.label}")};Text("Observa hechos; no se generan calificaciones automáticas.",style=MaterialTheme.typography.bodySmall)}}
         item("sequence"){TeacherPresentationCard(record,guide)}

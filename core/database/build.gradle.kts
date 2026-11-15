@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.coroutines.android)
     implementation(project(":core:model"))
+    implementation(project(":core:content"))
     api(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)

@@ -14,7 +14,7 @@ import pe.profelab.core.model.*
 import pe.profelab.core.ui.*
 
 @Composable
-fun SessionWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(String)->Unit,export:(WorkRecord)->Unit,capture:(String)->Unit,initialId:String?=null) {
+fun SessionWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(String)->Unit,export:(WorkRecord)->Unit,capture:(String)->Unit,initialId:String?=null,openStudents:(()->Unit)?=null) {
     var selected by rememberSaveable(initialId){mutableStateOf(initialId)}
     var query by rememberSaveable {mutableStateOf("")};var grade by rememberSaveable {mutableStateOf("Todos")}
     var area by rememberSaveable {mutableStateOf("")};var state by rememberSaveable {mutableStateOf("Todos")}
@@ -23,6 +23,7 @@ fun SessionWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(Strin
     val current=all.find {it.id==selected}
     if(current!=null) {
         RecordEditor(current,listOf(Field("date","Fecha de la sesión"),Field("purpose","Propósito"),Field("evidence","Evidencia de aprendizaje"),Field("criteria","Criterios"),Field("instrument","Instrumento de evaluación / rúbrica"),Field("competencyManual","Competencia: entrada del usuario"),Field("capacityManual","Capacidades: entrada del usuario"),Field("performanceManual","Desempeños: entrada del usuario"),Field("curriculumSource","Referencia, edición y página curricular para cotejo docente"),Field("start","Inicio: actividades"),Field("development","Desarrollo: actividades"),Field("close","Cierre: reflexión y consolidación"),Field("materials","Materiales y recursos"),Field("adaptations","Adecuaciones e inclusión"),Field("reflection","Observación posterior")),all,save,{selected=null},export,capture){data,change->
+            openStudents?.let {open->OutlinedButton(onClick=open){Text("Mis alumnos · consultar seguimiento")}}
             Text("Grado escolar de Primaria",style=MaterialTheme.typography.titleMedium)
             ChoiceRow((1..6).map {it.toString()},data.optString("grade","1")){change(JSONObject(data.toString()).put("grade",it))}
             ChoiceRow(listOf("Matemática","Comunicación","Ciencia y Tecnología","Personal Social","Arte","Tutoría"),data.optString("area","Matemática")){change(JSONObject(data.toString()).put("area",it))}
@@ -41,6 +42,7 @@ fun SessionWorkspace(all:List<WorkRecord>,save:(WorkRecord)->Unit,archive:(Strin
         }
     }else Page {
         SectionHeading("Sesiones","Planifica tu clase",Icons.Outlined.Groups)
+        openStudents?.let {open->OutlinedButton(onClick=open){Text("Mis alumnos · consultar seguimiento")}}
         Text("Plantilla estructural offline · duración en minutos",style=MaterialTheme.typography.bodySmall)
         ChoiceRow(listOf("45","60","90"),templateMinutes){templateMinutes=it}
         Button(onClick={val total=templateMinutes.toInt();val r=WorkRecord(newId(),"session","",JSONObject().put("grade","1").put("area","Matemática").put("status","BORRADOR").put("totalMinutes",templateMinutes).put("startMinutes","10").put("developmentMinutes",(total-20).toString()).put("closeMinutes","10").toString(),System.currentTimeMillis());save(r);selected=r.id}){Text("Nueva sesión")}

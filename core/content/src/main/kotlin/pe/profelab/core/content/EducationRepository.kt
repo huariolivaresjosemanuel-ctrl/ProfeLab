@@ -21,23 +21,25 @@ class EducationRepository(private val store:WorkspaceStore) {
     suspend fun saveClassroom(name:String,grade:Int,section:String,schoolYear:Int,id:String=newId()):String {
         validId(id);val label=text(name,100);val group=text(section,30);require(grade in 1..6 && schoolYear in 2000..2200)
         store.editRecords {all->val old=existing(all,id,"edu_classroom")
+            if(old!=null){val prior=EducationData.classrooms(listOf(old)).single();val hasHistory=EducationData.students(all).any {it.classroomId==id} || EducationData.runs(all).any {it.classroomId==id} || Education32Data.enrollments(all).any {it.classroomId==id} || Education32Data.offerings(all).any {it.classroomId==id};if(hasHistory)require(prior.grade==grade && prior.schoolYear==schoolYear){"Conserva el año y grado del aula con historial; crea otra aula y registra la matrícula"}}
             require(EducationData.classrooms(all).none {it.id!=id && !it.archived && it.grade==grade && it.schoolYear==schoolYear && it.section.equals(group,true) && it.name.equals(label,true)}){"Esta aula ya existe"}
             listOf(row(id,"edu_classroom",label,JSONObject().put("name",label).put("grade",grade).put("section",group).put("schoolYear",schoolYear),old))
         };return id
     }
     suspend fun saveStudent(classroomId:String,name:String,id:String=newId()):String {
         validId(id);val label=text(name,100)
-        store.editRecords {all->classroom(all,classroomId);val old=existing(all,id,"edu_student")
-            if(old!=null)require(JSONObject(old.json).getString("classroomId")==classroomId){"No se traslada un estudiante reescribiendo su historial"}
-            require(EducationData.students(all).none {it.id!=id && !it.archived && it.classroomId==classroomId && it.displayName.equals(label,true)}){"Ese nombre ya está registrado en el aula; reutiliza el registro existente"}
-            listOf(row(id,"edu_student",label,JSONObject().put("classroomId",classroomId).put("displayName",label),old))
+        store.editRecords {all->val old=existing(all,id,"edu_student");if(old==null)classroom(all,classroomId)
+            if(old!=null)require(JSONObject(old.json).getString("classroomId")==classroomId || Education32Data.belongsToClassroom(all,id,classroomId)){"No se traslada un estudiante reescribiendo su historial; registra una matrícula"}
+            require(Education32Data.studentsInClassroom(all,classroomId).none {it.id!=id && it.displayName.equals(label,true)}){"Ese nombre ya está registrado en el aula; reutiliza el registro existente"}
+            val originClassroom=old?.let {JSONObject(it.json).getString("classroomId")} ?: classroomId
+            listOf(row(id,"edu_student",label,JSONObject().put("classroomId",originClassroom).put("displayName",label),old))
         };return id
     }
     suspend fun saveTeam(classroomId:String,name:String,studentIds:Set<String>,id:String=newId()):String {
         validId(id);val label=text(name,100);require(studentIds.isNotEmpty() && studentIds.size<=100)
         store.editRecords {all->classroom(all,classroomId);val old=existing(all,id,"edu_team")
             if(old!=null)require(JSONObject(old.json).getString("classroomId")==classroomId)
-            require(studentIds.all {studentId->EducationData.students(all).any {it.id==studentId && it.classroomId==classroomId && !it.archived}}){"Los integrantes deben pertenecer al aula activa"}
+            require(studentIds.all {studentId->EducationData.students(all).any {it.id==studentId && !it.archived} && Education32Data.belongsToClassroom(all,studentId,classroomId)}){"Los integrantes deben pertenecer al aula activa"}
             listOf(row(id,"edu_team",label,JSONObject().put("classroomId",classroomId).put("name",label).put("studentIds",JSONArray(studentIds.sorted())),old))
         };return id
     }
@@ -49,7 +51,7 @@ class EducationRepository(private val store:WorkspaceStore) {
             if(classroomId==null)require(participantIds.isEmpty() && teamIds.isEmpty())
             val teams=EducationData.teams(all).filter {it.id in teamIds};require(teams.size==teamIds.size && teams.all {!it.archived && it.classroomId==classroomId}){"Equipo de otra aula o archivado"}
             val ids=participantIds+teams.flatMap {it.studentIds};val students=EducationData.students(all).filter {it.id in ids}
-            require(students.size==ids.size && students.all {!it.archived && it.classroomId==classroomId}){"Hay participantes ajenos al aula o archivados"}
+            require(students.size==ids.size && students.all {!it.archived && classroomId!=null && Education32Data.belongsToClassroom(all,it.id,classroomId)}){"Hay participantes ajenos al aula o archivados"}
             require(participantCount>=ids.size){"La cantidad no puede ser menor que los participantes seleccionados"}
             val view=WorkshopFlowAdapter.read(personal);val old=existing(all,id,"edu_run")
             if(old!=null){val previous=EducationData.runs(listOf(old)).single();require(previous.personalProjectId==personal.id && previous.classroomId==classroomId && previous.participantIds==ids && previous.participantCount==participantCount && previous.teams.map {it.teamId}.toSet()==teamIds){"La ejecución existente no se reemplaza con otros participantes"}}
@@ -86,5 +88,5 @@ class EducationRepository(private val store:WorkspaceStore) {
         };return id
     }
     suspend fun savePhrase(value:String,id:String=newId()):String {validId(id);val phrase=text(value,1000);store.editRecords {all->val old=existing(all,id,"edu_phrase");listOf(row(id,"edu_phrase","Frase docente",JSONObject().put("text",phrase),old))};return id}
-    suspend fun archive(id:String){store.editRecords {all->val old=all.single {it.id==id};require(old.kind in EducationData.kinds);listOf(old.copy(archived=true,updatedAt=System.currentTimeMillis()))}}
+    suspend fun archive(id:String){store.editRecords {all->val old=all.single {it.id==id};require(old.kind in EducationData.kinds && old.kind!="edu_enrollment"){"Las matrículas históricas se conservan"};listOf(old.copy(archived=true,updatedAt=System.currentTimeMillis()))}}
 }

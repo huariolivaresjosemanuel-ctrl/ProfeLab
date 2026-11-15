@@ -24,6 +24,8 @@ dependencies {
     implementation(project(":core:model"))
     testImplementation(libs.junit)
     testImplementation(libs.coroutines.test)
+    // JSONObject is real in JVM tests, rather than Android's throwing unit-test stub.
+    testImplementation("org.json:json:20240303")
     androidTestImplementation(libs.test.runner)
     androidTestImplementation(libs.test.junit)
 }

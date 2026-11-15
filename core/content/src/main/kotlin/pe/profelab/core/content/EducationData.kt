@@ -6,7 +6,7 @@ import pe.profelab.core.model.WorkRecord
 
 /** Bounded projections skip malformed unrelated rows; mutations always validate the current transaction. */
 object EducationData {
-    val kinds=setOf("edu_classroom","edu_student","edu_team","edu_run","edu_observation","edu_phrase")
+    val kinds=setOf("edu_classroom","edu_student","edu_team","edu_run","edu_observation","edu_phrase")+Education32Data.kinds
     val suggestedPhrases=listOf("Participa activamente.","Requiere apoyo para comprender instrucciones.","Organiza los materiales.","Colabora con sus compañeros.","Necesita practicar la explicación del procedimiento.","Muestra autonomía.","Necesita practicar el respeto de turnos.")
     fun strings(array:JSONArray?):Set<String> = if(array==null)emptySet()else (0 until array.length()).map {array.getString(it)}.toSet()
     private fun <T> rows(all:List<WorkRecord>,kind:String,decode:(WorkRecord,JSONObject)->T):List<T> = all.filter {it.kind==kind}.mapNotNull {r->runCatching {val j=JSONObject(r.json);require(j.getInt("schemaVersion")==1);decode(r,j)}.getOrNull()}

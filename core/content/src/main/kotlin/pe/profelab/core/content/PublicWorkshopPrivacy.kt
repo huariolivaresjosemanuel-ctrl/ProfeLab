@@ -7,7 +7,7 @@ import org.json.JSONObject
 object PublicWorkshopPrivacy {
     private val fields=setOf("teacherPreparation","educationRunId","classroomAssociation","classroomId","classroomIds","studentId","studentIds",
         "studentNames","students","classrooms","teamId","teamIds","teams","participantIds","participants","evaluations","educationObservations",
-        "displayName","classroomLabel","evidenceOwnerProjectId")
+        "displayName","classroomLabel","evidenceOwnerProjectId","enrollmentId","enrollments","subjectId","guardianId","guardians","guardianContacts","familyDrafts","observationIds","observationSnapshots","judgments","academicAssessments","evidenceSummary","authorization","authorized","validFrom","validUntil","revokedAt","phone","email")
     fun sanitize(value:JSONObject):JSONObject {
         fun clean(raw:Any?,depth:Int):Any? {
             require(depth<=40){"Contenido anidado demasiado profundo"}

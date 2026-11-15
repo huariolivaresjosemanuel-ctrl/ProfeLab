@@ -49,9 +49,16 @@ import pe.profelab.feature.home.*
 import pe.profelab.feature.library.*
 import pe.profelab.feature.profile.*
 import pe.profelab.feature.students.*
+import pe.profelab.core.content.EducationData
+import pe.profelab.core.content.Education32Data
 
 @Composable
 fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences()) {
+    EducationStorageGate(graph) { ProfeWorkspaceApp(graph,initialPreferences) }
+}
+
+@Composable
+private fun ProfeWorkspaceApp(graph: AppGraph,initialPreferences:UserPreferences) {
     val context=LocalContext.current
     val nav=rememberNavController()
     val entry by nav.currentBackStackEntryAsState()
@@ -104,6 +111,8 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
     var pendingSource by rememberSaveable {mutableStateOf<String?>(null)}
     var temporaryPdf by remember {mutableStateOf<WorkRecord?>(null)}
     var exportFile by remember {mutableStateOf<File?>(null)}
+    var privateEvidenceId by remember {mutableStateOf<String?>(null)}
+    LaunchedEffect(route){privateEvidenceId=null}
     var ocrUri by rememberSaveable {mutableStateOf<String?>(null)}
     var ocrDestination by rememberSaveable {mutableStateOf<String?>(null)}
     var ocrDocumentId by rememberSaveable {mutableStateOf<String?>(null)};var ocrPageIndex by rememberSaveable {mutableIntStateOf(0)}
@@ -175,6 +184,9 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
     fun tasks(filter: TaskFilter) { nav.navigate("tasks/${filter.name}") { launchSingleTop=true } }
     fun edit(id: String) { nav.navigate("task/${Uri.encode(id)}") }
     fun back() { nav.popBackStack() }
+    fun openStudents(origin:String,classroomId:String?=null) {
+        nav.navigate("students/${Uri.encode(origin)}?classroom=${Uri.encode(classroomId.orEmpty())}") { launchSingleTop=true }
+    }
     fun complete(task: Task, value: Boolean) {
         scope.launch {
             if (!home.complete(task,value)) return@launch
@@ -218,7 +230,7 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
         scope.launch {try {graph.preferences.markTallerWelcomeSeen()}catch(e:CancellationException){throw e}catch(_:Exception){snackbar.showSnackbar("No se pudo guardar la preferencia de bienvenida. Puedes continuar y revisar Perfil.")}}
         action?.let(::invokeAssistant)
     }
-    CompositionLocalProvider(LocalAssistantRegistry provides assistantRegistry,LocalOpenResource provides {id->val r=records.find {it.id==id};if(r?.kind=="document")openPdf(r)else nav.navigate("record/${Uri.encode(id)}")},LocalOpenDocumentPage provides {id,index->val r=records.find {it.id==id};if(r?.kind=="document")openPdfAt(r,index)else scope.launch {snackbar.showSnackbar("El documento de la cita no está disponible.")}}) {
+    CompositionLocalProvider(LocalReviewPrivateEvidence provides {id->if(EducationData.observations(records).any {id in it.evidenceIds} || Education32Data.judgments(records).any {id in it.evidenceIds})privateEvidenceId=id},LocalAssistantRegistry provides assistantRegistry,LocalOpenResource provides {id->val r=records.find {it.id==id};if(r?.kind=="document")openPdf(r)else nav.navigate("record/${Uri.encode(id)}")},LocalOpenDocumentPage provides {id,index->val r=records.find {it.id==id};if(r?.kind=="document")openPdfAt(r,index)else scope.launch {snackbar.showSnackbar("El documento de la cita no está disponible.")}}) {
     Scaffold(
         snackbarHost={SnackbarHost(snackbar)},
         topBar={
@@ -230,15 +242,18 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
                 }
             }
         },
-        bottomBar={if(route in topDestinations.map { it.route } || route=="practices") ProfeNavigationBar(route,::top)},
+        bottomBar={if(route in topDestinations.map { it.route } || route=="practices" || route?.startsWith("students/")==true) ProfeNavigationBar(if(route?.startsWith("students/")==true)"notebook"else route,::top)},
     ) { padding ->
         Box(Modifier.padding(padding).consumeWindowInsets(padding).imePadding()) {
             Box(Modifier.fillMaxSize().padding(bottom=if(assistantUsable)72.dp else 0.dp)){
             NavHost(navController=nav,startDestination="home") {
                 composable("home") { val recent=AssistantRecords.pendingWork(records);HomeScreen(homeState,::top,::tasks,::edit,{nav.navigate("activity")},{nav.navigate("profile")},::complete,home::retry,::openRecord,prefs,{assistantOpen=true},showInlineAssistant=false,recentWork=recent,continueWork=recent?.let {r->{nav.navigate("record/${Uri.encode(r.id)}")}}) }
                 composable("taller") { WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture,
-                    participationContent={r->EducationParticipationPanel(r,records,graph.workspace)},observationContent={r,step,close->EducationObservationPanel(r,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion,saved=::workshopSaved) }
-                composable("sessions") { SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture) }
+                    participationContent={r->EducationParticipationPanel(r,records,graph.workspace);OutlinedButton(onClick={openStudents("taller",EducationData.selectedRun(r,records)?.classroomId)}){Text("Mis alumnos · aula e historial")}},observationContent={r,step,close->EducationObservationPanel(r,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion,saved=::workshopSaved) }
+                composable("sessions") { SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,openStudents={openStudents("sessions")}) }
+                composable("students/{origin}?classroom={classroom}",arguments=listOf(navArgument("origin"){type=NavType.StringType},navArgument("classroom"){type=NavType.StringType;defaultValue=""})){e->
+                    StudentsWorkspace(records,graph.workspace,::back,initialClassroomId=e.arguments?.getString("classroom")?.takeIf {it.isNotBlank()},backLabel=if(e.arguments?.getString("origin")=="sessions")"Volver a Sesiones"else "Volver a Taller")
+                }
                 composable("notebook") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,studentsContent={close->StudentsWorkspace(records,graph.workspace,close)}) }
                 composable("practices") { NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,initialSection="Prácticas",studentsContent={close->StudentsWorkspace(records,graph.workspace,close)}) }
                 composable("library") {
@@ -275,8 +290,8 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
                     val id=e.arguments?.getString("id");val r=records.find {it.id==id}
                     when(r?.kind){
                         "project","experiment"->WorkshopScreen(records,templates,graph.workspace,::renderWork,::capture,id,::back,
-                            participationContent={record->EducationParticipationPanel(record,records,graph.workspace)},observationContent={record,step,close->EducationObservationPanel(record,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion,saved=::workshopSaved)
-                        "session"->SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id)
+                            participationContent={record->EducationParticipationPanel(record,records,graph.workspace);OutlinedButton(onClick={openStudents("taller",EducationData.selectedRun(record,records)?.classroomId)}){Text("Mis alumnos · aula e historial")}},observationContent={record,step,close->EducationObservationPanel(record,records,graph.workspace,step,close)},reduceMotion=prefs.reduceMotion,saved=::workshopSaved)
+                        "session"->SessionWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id,openStudents={openStudents("sessions")})
                         "note"->NotebookWorkspace(records,workspace::save,workspace::archive,::renderWork,::capture,id,studentsContent={close->StudentsWorkspace(records,graph.workspace,close)})
                         "document"->LaunchedEffect(id){nav.popBackStack();openPdf(r)}
                         else->Page {PageTitle("Recurso",back=::back);InfoCard("Origen no disponible","El trabajo pudo archivarse o aún no terminó de cargar.")}
@@ -330,5 +345,6 @@ fun ProfeApp(graph: AppGraph,initialPreferences:UserPreferences=UserPreferences(
         }
     }
     }
+    privateEvidenceId?.let {id->PrivateEvidenceDialog(graph,id){privateEvidenceId=null}}
     pendingPdf?.let {uri->AlertDialog(onDismissRequest={pendingPdf=null},title={Text("Abrir PDF")},text={Text("Leer ahora usa acceso temporal. Guardar copia el archivo a tu Biblioteca privada. No se envía a internet.")},confirmButton={TextButton(onClick={pendingPdf=null;saveDocument(uri)}){Text("Guardar en mi Biblioteca")}},dismissButton={TextButton(onClick={pendingPdf=null;openPdf(WorkRecord(newId(),"document_temp","PDF temporal",JSONObject().put("uri",uri).toString(),System.currentTimeMillis()))}){Text("Leer ahora")}})}
 }
