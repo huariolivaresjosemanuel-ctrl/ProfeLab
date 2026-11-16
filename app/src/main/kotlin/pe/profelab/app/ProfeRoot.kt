@@ -18,6 +18,11 @@ import pe.profelab.feature.profile.WelcomeScreen
 
 @Composable
 internal fun ProfeRoot(graph:AppGraph,welcome:WelcomeFlowModel){
+    EducationStorageGate(graph) {ProfeRootContent(graph,welcome)}
+}
+
+@Composable
+private fun ProfeRootContent(graph:AppGraph,welcome:WelcomeFlowModel){
     val state by welcome.state.collectAsStateWithLifecycle()
     val context=LocalContext.current
     DisposableEffect(context,welcome){

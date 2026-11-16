@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.*
 import pe.profelab.app.reminders.LocalReminders
 import pe.profelab.core.content.BundledSourceCatalog
 import pe.profelab.core.database.*
+import pe.profelab.core.model.education.EducationProtectionCoordinator
+import pe.profelab.core.model.education.EducationProtectionStatus
 
 /** Constructor injection at the composition root; features see only core contracts. */
 class AppGraph(context: Context) {
@@ -25,6 +27,20 @@ class AppGraph(context: Context) {
     val catalog=BundledSourceCatalog(context)
     private val reminders=LocalReminders(context)
     private val scope=CoroutineScope(SupervisorJob()+Dispatchers.IO)
+    /** One process-owned attempt shared by welcome, the workspace gate and Activity recreation. */
+    val educationProtection=EducationProtectionCoordinator(scope,
+        verifyStorage={progress->workspace.protectEducationRecords(progress)},
+        cleanup={transfers.cleanupAbandonedStaging()})
+    init {
+        scope.launch {
+            educationProtection.state.collect {state->
+                if(state.status in setOf(EducationProtectionStatus.RETRYABLE_ERROR,EducationProtectionStatus.UNRECOVERABLE_PROTECTED_ERROR)) {
+                    // Codes/classes only: never attach a Throwable, SQL rows, key material or payload.
+                    android.util.Log.e("ProfeLabStorage","stage=${state.stage.name};code=${state.failureCode?.name};type=${state.exceptionType.orEmpty()}")
+                }
+            }
+        }
+    }
     private val _reminderWarning=MutableStateFlow<String?>(null)
     val reminderWarning=_reminderWarning.asStateFlow()
     fun startReminderSync() {

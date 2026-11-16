@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.flow.first
 import pe.profelab.core.ui.*
 import pe.profelab.feature.profile.WelcomeFlowModel
+import pe.profelab.core.model.education.EducationProtectionStatus
 
 class MainActivity : ComponentActivity() {
     private lateinit var welcome:WelcomeFlowModel
@@ -23,8 +24,9 @@ class MainActivity : ComponentActivity() {
         val sameProcess=savedInstanceState?.getString("profelab.welcome.process")==graph.welcomeSessionToken
         val accessibility=getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         welcome=ViewModelProvider(this,modelFactory {WelcomeFlowModel(graph.preferences,graph.repository,{
-            graph.workspace.protectEducationRecords()
-            graph.transfers.cleanupAbandonedStaging()
+            graph.educationProtection.ensureReady()
+            // A recoverable failure stays at the protected gate; explicit retry can resume welcome.
+            graph.educationProtection.state.first {it.status==EducationProtectionStatus.READY}
             graph.transfers.recoverPendingPreferences()
             graph.preferences.migrateLegacyProfile(graph.repository.observeProfile().first())
         },sameProcess && savedInstanceState?.getBoolean("profelab.welcome.session.handled")==true,external,!accessibility.isTouchExplorationEnabled)})[WelcomeFlowModel::class.java]
